@@ -3,21 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreRequest;
-use App\Service\StoreService;
 use App\Service\MediaService;
-use Auth;
 
-class StoreController extends Controller
+class MediaStoreController extends Controller
 {
-
-    protected $storeService;
     protected $mediaService;
 
-    public function __construct(StoreService $storeService, MediaService $mediaService)
+    public function __construct( MediaService $mediaService )
     {
         $this->middleware('auth');
-        $this->storeService = $storeService;
         $this->mediaService = $mediaService;
     }
     /**
@@ -27,9 +21,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $stores = $this->storeService->getAllStore();
 
-        return view('admin.stores.list', compact('stores'));
     }
 
     /**
@@ -39,7 +31,7 @@ class StoreController extends Controller
      */
     public function create()
     {
-        return view('admin.stores.create');
+
     }
 
     /**
@@ -50,16 +42,9 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $storeId = $this->storeService->createStore($request);
-        $listImage = $request->list_image;
-        $listImage = explode(',', $listImage);
+        $listImage = $this->mediaService->createStoreMedia($request, null);
 
-        foreach ($listImage as $position => $id) {
-            $this->mediaService->updateStoreImage($id, $storeId, $position);
-        }
-
-        return redirect()->route('stores.index');
-
+        return response()->json(['data' => $listImage]);
     }
 
     /**
@@ -81,7 +66,7 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.stores.edit');
+
     }
 
     /**
@@ -93,7 +78,9 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $path = $this->mediaService->updateStoreMedia($id, $request);
+
+        return response()->json([ 'data' => $path ]);
     }
 
     /**
@@ -104,6 +91,6 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->mediaService->deleteStoreMedia($id);
     }
 }

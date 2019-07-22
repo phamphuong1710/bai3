@@ -100,11 +100,24 @@
     font-size: 32px;
 }
 
-.input-file {
+.input-file,
+.btn-video {
     position: relative;
     height: 40px;
     width: 100px;
     margin-right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0c513b;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.input-file label {
+    margin-bottom: 0;
+    color: #fff;
+    cursor: pointer;
 }
 
 .custom-file-input {
@@ -112,4 +125,10 @@
     top: 0;
     left: 0;
     bottom: 0;
+    cursor: pointer;
+}
+
+.btn-video {
+    color: #fff;
+    border: none;
 }
