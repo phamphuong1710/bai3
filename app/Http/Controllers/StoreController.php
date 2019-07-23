@@ -81,7 +81,11 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.stores.edit');
+        $store = $this->storeService->getStoreById($id);
+        $image = $this->mediaService->getImageByStoreId($id);
+        $store->media = $image;
+
+        return view('admin.stores.edit', compact('store'));
     }
 
     /**
@@ -93,7 +97,15 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->storeService->updateStore($request, $id);
+        $listImage = $request->list_image;
+        $listImage = explode(',', $listImage);
+
+        foreach ($listImage as $position => $idImage) {
+            $this->mediaService->updateStoreImage($idImage, $id, $position);
+        }
+
+        return redirect()->route('stores.index');
     }
 
     /**
@@ -104,6 +116,13 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $storeId = $id;
+        $this->storeService->deleteStore($id);
+        $images = $this->mediaService->getImageByStoreId($id);
+        foreach ($images as $image) {
+            $this->mediaService->deleteMedia($image->id);
+        }
+
+        return redirect()->route('stores.index');
     }
 }

@@ -37,12 +37,13 @@
             </tr>
 
             @foreach( $stores as $store )
-              <tr>
+                <tr>
+                    <td></td>
+                    <td><a href="/stores/{{ $store->id }}">{{ $store->name }}</a></td>
+                    <td>{{ $store->phone }}</td>
+                    <td></td>
 
-                 <td><a href="/stores/{{ $store->id }}">{{ $store->name }}</a></td>
-                 <td>{{ $store->Phone }}</td>
-
-                 <td>
+                    <td>
                      <a href="/stores/{{ $store->id }}/edit" class="btn-action btn-edit">Edit</a>
                      <form action="/stores/{{ $store->id }}" method="POST" class="form-delete">
                             @method('delete')
@@ -50,8 +51,8 @@
                          <button type="submit" class="btn-action btn-delete">Delete</button>
                      </form>
 
-                 </td>
-              </tr>
+                    </td>
+                </tr>
             @endforeach
 
 

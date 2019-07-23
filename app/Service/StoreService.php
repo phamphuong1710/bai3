@@ -26,5 +26,29 @@ class StoreService implements StoreInterface
 
         return $store->id;
     }
+
+    public function getStoreById($id)
+    {
+        $store = Store::findOrFail($id);
+
+        return $store;
+    }
+
+    public function updateStore($request, $id)
+    {
+        $store = Store::findOrFail($id);
+        $store->name = $request->name;
+        $store->slug = str_slug( $request->name, '-' );
+        $store->phone = $request->phone;
+        $store->description = $request->description;
+        $store->user_id = $request->user_id;
+        $store->save();
+    }
+
+    public function deleteStore($id)
+    {
+        Store::destroy($id);
+
+    }
 }
 

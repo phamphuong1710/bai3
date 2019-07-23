@@ -5,6 +5,7 @@ use App\InterfaceService\MediaInterface;
 use App\Media; // model
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
+use File;
 
 class MediaService implements MediaInterface
 {
@@ -21,7 +22,7 @@ class MediaService implements MediaInterface
                 $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
                 $link = public_path().'/files'.date("/Y/m/d/").$name;
                 $img = Image::make($link);
-                $img->resize(600, 600)->save($link);
+                $img->resize(300, 300)->save($link);
                 $path = '/files'.date("/Y/m/d/").$name;
                 $image = new Media();
                 $image->image_path = $path;
@@ -32,34 +33,6 @@ class MediaService implements MediaInterface
         }
 
         return $listImage;
-    }
-
-    public function updateStoreMedia($id, $request)
-    {
-        $images = Media::findOrFail($id);
-        if($request->hasfile('image')) {
-            $file = $request->image ;
-            $name = Carbon::now()->timestamp.$file->getClientOriginalName();
-            $extension = pathinfo( $name, PATHINFO_EXTENSION );
-            $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
-            $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
-            $link = public_path().'/files'.date("/Y/m/d/").$name;
-            $img = Image::make($link);
-            $img->resize(600, 600)->save($link);
-            $path = '/files'.date("/Y/m/d/").$name;
-            $images->image_path = $path;
-            $images->save();
-        }
-
-        return $images->image_path;
-    }
-
-    public function deleteStoreMedia($id)
-    {
-        $image = Media::findOrFail($id);
-        $path = public_path().$image->image_path;
-        Media::destroy($id);
-        unlink($path);
     }
 
     public function getImageByStoreId($storeId)
@@ -77,5 +50,56 @@ class MediaService implements MediaInterface
         $image->save();
     }
 
+    public function updateMedia($id, $request)
+    {
+        $images = Media::findOrFail($id);
+        if($request->hasfile('image')) {
+            $file = $request->image ;
+            $name = Carbon::now()->timestamp.$file->getClientOriginalName();
+            $extension = pathinfo( $name, PATHINFO_EXTENSION );
+            $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
+            $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
+            $link = public_path().'/files'.date("/Y/m/d/").$name;
+            $img = Image::make($link);
+            $img->resize(300, 300)->save($link);
+            $path = '/files'.date("/Y/m/d/").$name;
+            $images->image_path = $path;
+            $images->save();
+        }
+
+        return $images->image_path;
+    }
+
+    public function deleteMedia($id)
+    {
+        $image = Media::findOrFail($id);
+        $path = public_path().$image->image_path;
+        Media::destroy($id);
+        unlink($path);
+    }
+
+    public function createVideoImage($request)
+    {
+        $url = $request->image_path;
+        $info = pathinfo($url);
+        $extension = pathinfo( $url, PATHINFO_EXTENSION );
+        $contents = file_get_contents($url);
+        $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
+        $directory = public_path().'/files'.date("/Y/m/d/");
+        if ( ! File::isDirectory($directory) ) {
+            File::makeDirectory($directory);
+        }
+        $file = public_path().'/files'.date("/Y/m/d/").$name;
+        file_put_contents($file, $contents);
+        $img = Image::make($file);
+        $img->resize(300, 300)->save($file);
+        $path = '/files'.date("/Y/m/d/").$name;
+        $image = new Media();
+        $image->image_path = $path;
+        $image->video_path = $request->video_path;
+        $image->save();
+
+        return $image;
+    }
 }
 

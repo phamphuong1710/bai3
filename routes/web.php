@@ -26,3 +26,5 @@ Route::resource('categories', 'CategoryController');
 Route::resource('stores', 'StoreController');
 
 Route::resource('media-store', 'MediaStoreController');
+
+Route::resource('video-store', 'VideoStoreController');

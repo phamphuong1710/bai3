@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\MediaService;
 
-class MediaStoreController extends Controller
+class VideoStoreController extends Controller
 {
     protected $mediaService;
 
@@ -21,7 +21,7 @@ class MediaStoreController extends Controller
      */
     public function index()
     {
-
+        //
     }
 
     /**
@@ -31,7 +31,7 @@ class MediaStoreController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -42,9 +42,9 @@ class MediaStoreController extends Controller
      */
     public function store(Request $request)
     {
-        $listImage = $this->mediaService->createStoreMedia($request, null);
+        $uploadFile = $this->mediaService->createVideoImage($request);
 
-        return response()->json(['data' => $listImage]);
+        return response()->json($uploadFile);
     }
 
     /**
@@ -66,7 +66,7 @@ class MediaStoreController extends Controller
      */
     public function edit($id)
     {
-
+        //
     }
 
     /**
@@ -78,9 +78,7 @@ class MediaStoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $path = $this->mediaService->updateMedia($id, $request);
-
-        return response()->json([ 'data' => $path ]);
+        //
     }
 
     /**
@@ -91,6 +89,6 @@ class MediaStoreController extends Controller
      */
     public function destroy($id)
     {
-        $this->mediaService->deleteMedia($id);
+        //
     }
 }
