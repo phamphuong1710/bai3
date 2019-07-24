@@ -27,33 +27,14 @@
                 <div class="card-header">{{ __('Create Store') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="/stores/{{ $store->id }}">
+                    <form method="POST" action="{{ url('/stores') }}">
                         @csrf
-                        @method('PUT')
-                        <div class="logo-content">
-                            <div class="logo-wrapper d-flex justify-content-center">
-                                <img src="{{ $store->logo }}" alt="Logo Placeholder" data-id="{{ $store->logo_id }}">
-
-                            </div>
-                            <div class="form-group">
-
-                                <div class="custom d-flex justify-content-center">
-                                    <div class="input-file">
-                                        <label for="logo">Change</label>
-                                        <input type="file" class="custom-file-input" id="logo" lang="in" name='logo'>
-                                        <input type="hidden" name="id_logo" class="id-logo" value="{{ $store->logo_id }}">
-                                    </div>
-                                  <button type="button" class="btn-delete-logo">Delete</button>
-
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="form-group">
                             <label for="name" class="">{{ __('Name') }}</label>
 
                             <div class="">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus value="{{ $store->name }}">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -68,7 +49,7 @@
                             <label for="phone" class=" col-form-label text-md-right">{{ __('Phone') }}</label>
 
                             <div class="">
-                                <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" required autocomplete="phone" autofocus value="{{ $store->phone }}">
+                                <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" required autocomplete="phone" autofocus>
 
                                 @error('phone')
                                     <span class="invalid-feedback" role="alert">
@@ -83,7 +64,7 @@
                             <label for="address" class=" col-form-label text-md-right">{{ __('Address') }}</label>
 
                             <div class="">
-                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" autofocus value="address">
+                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" autofocus>
 
                                 @error('address')
                                     <span class="invalid-feedback" role="alert">
@@ -97,7 +78,7 @@
                             <label for="description" class=" col-form-label text-md-right">{{ __('Description') }}</label>
 
                             <div class="">
-                                <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" required autocomplete="description" autofocus value="{{ $store->description }}">
+                                <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" required autocomplete="description" autofocus>
 
                                 @error('description')
                                     <span class="invalid-feedback" role="alert">
@@ -109,33 +90,7 @@
 
                         <div id="preview-mode">
                             <ul id="image-preview" class="gallery-image-list">
-                            @foreach( $store->media as $key => $image )
 
-                                    <li data-item="{{ $image->id }}" class="image-item">
-                                      <div class="image-wrapper">
-                                        <div class="preview-action">
-
-                                            <span val="{{ $key + 1 }}" class="image-position" >{{ $key + 1 }}</span>
-                                            <a href="#" class="action-delete-image fa fa-times" data-id="{{ $image->id }}"></a>
-
-                                            <span class="action-update-image  fa fa-undo" >
-                                              <input type="file" class="input-update" name="image" data-id="{{ $image->id }}">
-                                            </span>
-
-                                        </div>
-                                        @if( $image->video_path === NULL )
-                                            <div class="image">
-                                              <img src="{{ url('/').$image->image_path }}">
-                                            </div>
-                                        @endif
-                                        @if( $image->video_path !== NULL )
-                                            <div class="image image-video">
-                                              <img src="{{ url('/').$image->image_path }}">
-                                            </div>
-                                        @endif
-                                      </div>
-                                    </li>
-                            @endforeach
                             </ul>
                         </div>
 
@@ -178,63 +133,6 @@
 
 <script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
 <script>
-    $( '#logo' ).change( function () {
-        var fileData = $(this);
-        console.log(fileData[0].files[0]);
-        var formData = new FormData();
-        formData.append("logo", fileData[0].files[0]);
-        formData.append('_token', '{{csrf_token()}}');
-        formData.append('_method', 'PUT');
-        formData.append('type','post');
-        var id = $('.logo-wrapper img').attr('data-id');
-        $.ajax({
-            url: "/logo/"+id,
-            data: formData,
-            type: 'POST',
-            contentType: false,
-            processData: false,
-
-            success: function (data) {
-
-                $('.logo-wrapper img').attr('src',data);
-
-                $('.id-logo').attr('value', data.id );
-
-            },
-            error: function (xhr, status, error) {
-                alert(xhr.responseText);
-            }
-        });
-
-    });
-
-
-    $(".btn-delete-logo").on( 'click', function(e){
-        e.preventDefault();
-
-        var $delete = confirm( 'Delete Post' );
-        if ( $delete === true ) {
-            var id = $('.logo-wrapper img').attr('data-id');
-            var token = $("meta[name='csrf-token']").attr("content");
-            var btn = $(this);
-
-            $.ajax(
-            {
-                url: "/logo/"+id,
-                type: 'POST',
-                data: {
-                    "_method": 'delete',
-                    "_token": token,
-                    "id": id,
-                },
-                success: function ($data){
-
-                    $('.logo-wrapper').html('<img src="/images/logo-placeholder.png" alt="Logo Placeholder">');
-                }
-            });
-        }
-
-    });
 
     Array.prototype.remove = function() {
       var what, a = arguments, L = a.length, ax;

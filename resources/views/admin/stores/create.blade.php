@@ -29,6 +29,24 @@
                 <div class="card-body">
                     <form method="POST" action="{{ url('/stores') }}">
                         @csrf
+                        <div class="logo-content">
+                            <div class="logo-wrapper d-flex justify-content-center">
+                                <img src="{{asset('images/logo-placeholder.png')}}" alt="Logo Placeholder">
+
+                            </div>
+                            <div class="form-group">
+
+                                <div class="custom d-flex justify-content-center">
+                                    <div class="input-file">
+                                        <label for="logo">Logo</label>
+                                        <input type="file" class="custom-file-input" id="logo" lang="in" name='logo'>
+                                        <input type="hidden" name="id_logo" class="id-logo">
+                                    </div>
+                                  <button type="button" class="btn-delete-logo">Delete</button>
+
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label for="name" class="">{{ __('Name') }}</label>
@@ -106,9 +124,6 @@
                               <button type="button" class="btn-video">Video</button>
 
                             </div>
-
-
-
                         </div>
 
                         <input type="hidden" name="user_id" value="{{ Auth::id() }}">
@@ -134,6 +149,63 @@
 <script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
 <script>
 
+    $( '#logo' ).change( function () {
+        var fileData = $(this);
+        console.log(fileData[0].files[0]);
+        var formData = new FormData();
+        formData.append("logo", fileData[0].files[0]);
+        formData.append('_token', '{{csrf_token()}}');
+        $.ajax({
+            url: "/logo",
+            data: formData,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+
+            success: function (data) {
+
+                $('.logo-wrapper').html(
+                    '<img src={{ url("/")}}'+ data.image_path +' data-id="'+ data.id +'">'
+                );
+
+                $('.id-logo').attr('value', data.id );
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+
+    });
+
+
+    $(".btn-delete-logo").on( 'click', function(e){
+        e.preventDefault();
+
+        var $delete = confirm( 'Delete Post' );
+        if ( $delete === true ) {
+            var id = $('.logo-wrapper img').attr('data-id');
+            var token = $("meta[name='csrf-token']").attr("content");
+            var btn = $(this);
+
+            $.ajax(
+            {
+                url: "/logo/"+id,
+                type: 'POST',
+                data: {
+                    "_method": 'delete',
+                    "_token": token,
+                    "id": id,
+                },
+                success: function ($data){
+
+                    $('.logo-wrapper').html('<img src="/images/logo-placeholder.png" alt="Logo Placeholder">');
+                }
+            });
+        }
+
+    });
+
     Array.prototype.remove = function() {
       var what, a = arguments, L = a.length, ax;
       while (L && this.length) {
@@ -145,70 +217,70 @@
       return this;
     };
     $( '#postImage' ).change( function () {
-    var val = $('#listImage').val();
-    var arrayImage = [];
-    var position = 0;
-    if ( val !== '' ) {
-      arrayImage = val.split(',');
-       position = arrayImage.length;
-       $.each(arrayImage, function(index, value) {
-          $('.image-item').each(function(){
-              if ( $(this).attr('data-item') == value ) {
-                $(this).find('.image-position').attr('val', index + 1);
-                $(this).find('.image-position').html(index + 1);
-              }
-          });
-       })
-    }
+        var val = $('#listImage').val();
+        var arrayImage = [];
+        var position = 0;
+        if ( val !== '' ) {
+          arrayImage = val.split(',');
+           position = arrayImage.length;
+           $.each(arrayImage, function(index, value) {
+              $('.image-item').each(function(){
+                  if ( $(this).attr('data-item') == value ) {
+                    $(this).find('.image-position').attr('val', index + 1);
+                    $(this).find('.image-position').html(index + 1);
+                  }
+              });
+           })
+        }
 
-    var fileData = $(this).prop("files");
-    var formData = new FormData();
-      for (var x = 0; x < fileData.length; x++) {
-          formData.append("image[]", fileData[x]);
-      }
-    formData.append('_token', '{{csrf_token()}}');
-    $.ajax({
-        url: "/media-store",
-        data: formData,
-        type: 'POST',
-        contentType: false,
-        processData: false,
+        var fileData = $(this).prop("files");
+        var formData = new FormData();
+          for (var x = 0; x < fileData.length; x++) {
+              formData.append("image[]", fileData[x]);
+          }
+        formData.append('_token', '{{csrf_token()}}');
+        $.ajax({
+            url: "/media-store",
+            data: formData,
+            type: 'POST',
+            contentType: false,
+            processData: false,
 
-        success: function (data) {
+            success: function (data) {
 
-            $.each(data.data, function(index, value) {
+                $.each(data.data, function(index, value) {
 
-                arrayImage.push(value.id);
+                    arrayImage.push(value.id);
 
-                position = position + 1;
+                    position = position + 1;
 
-                $('#image-preview').append(
-                    '<li data-item="' + value.id + '" class="image-item ui-sortable-handle">'
-                        + '<div class="image-wrapper">'
-                            + '<div class="preview-action">'
-                                +'<span val="' + position + '" class="image-position">' + position
-                                + '</span>'
-                                + '<a href="#" class="action-delete-image fa fa-times" data-id="'+ value.id + '">'
-                                + '</a>'
-                                + '<span class="action-update-image  fa fa-undo"><input type="file" class="input-update" name="image" data-id="' + value.id + '">'
-                                + '</span>'
+                    $('#image-preview').append(
+                        '<li data-item="' + value.id + '" class="image-item ui-sortable-handle">'
+                            + '<div class="image-wrapper">'
+                                + '<div class="preview-action">'
+                                    +'<span val="' + position + '" class="image-position">' + position
+                                    + '</span>'
+                                    + '<a href="#" class="action-delete-image fa fa-times" data-id="'+ value.id + '">'
+                                    + '</a>'
+                                    + '<span class="action-update-image  fa fa-undo"><input type="file" class="input-update" name="image" data-id="' + value.id + '">'
+                                    + '</span>'
+                                + '</div>'
+                                + '<div class="image">'
+                                    + '<img src={{ url("/")}}'+value.image_path+'>'
+                                + '</div>'
                             + '</div>'
-                            + '<div class="image">'
-                                + '<img src={{ url("/")}}'+value.image_path+'>'
-                            + '</div>'
-                        + '</div>'
-                    + '</li>'
-                    );
+                        + '</li>'
+                        );
 
+                });
+
+                  $('#listImage').val(arrayImage);
+
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
             });
-
-              $('#listImage').val(arrayImage);
-
-            },
-            error: function (xhr, status, error) {
-                alert(xhr.responseText);
-            }
-        });
 
     });
 

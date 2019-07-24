@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Service\ProductService;
 use App\Service\MediaService;
 
-class ProductController extends Controller
+class MediaProductController extends Controller
 {
-    protected $productService;
     protected $mediaService;
 
-    public function __construct(ProductService $productService, MediaService $mediaService)
+    public function __construct(MediaService $mediaService)
     {
         $this->middleware('auth');
-        $this->productService = $productService;
         $this->mediaService = $mediaService;
     }
     /**

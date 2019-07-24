@@ -52,8 +52,9 @@ class StoreController extends Controller
     {
         $storeId = $this->storeService->createStore($request);
         $listImage = $request->list_image;
+        $logo = $request->id_logo;
+        $this->mediaService->updateStoreImage($logo, $storeId, null);
         $listImage = explode(',', $listImage);
-
         foreach ($listImage as $position => $id) {
             $this->mediaService->updateStoreImage($id, $storeId, $position);
         }
@@ -83,7 +84,10 @@ class StoreController extends Controller
     {
         $store = $this->storeService->getStoreById($id);
         $image = $this->mediaService->getImageByStoreId($id);
+        $logo = $this->mediaService->getLogoByStoreId($id);
         $store->media = $image;
+        $store->logo = $logo->image_path;
+        $store->logo_id = $logo->id;
 
         return view('admin.stores.edit', compact('store'));
     }

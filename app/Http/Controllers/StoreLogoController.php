@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Service\ProductService;
 use App\Service\MediaService;
 
-class ProductController extends Controller
+class StoreLogoController extends Controller
 {
-    protected $productService;
     protected $mediaService;
 
-    public function __construct(ProductService $productService, MediaService $mediaService)
+    public function __construct( MediaService $mediaService )
     {
         $this->middleware('auth');
-        $this->productService = $productService;
         $this->mediaService = $mediaService;
     }
     /**
@@ -45,7 +42,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $logo = $this->mediaService->createStoreLogo($request, null);
+
+        return response()->json($logo);
     }
 
     /**
@@ -79,7 +78,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $path = $this->mediaService->updateLogoStore($id, $request);
+
+        return response()->json($path);
     }
 
     /**
@@ -90,6 +91,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->mediaService->deleteMedia($id);
     }
 }

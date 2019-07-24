@@ -28,3 +28,14 @@ Route::resource('stores', 'StoreController');
 Route::resource('media-store', 'MediaStoreController');
 
 Route::resource('video-store', 'VideoStoreController');
+
+Route::resource('products', 'ProductController');
+
+Route::resource('media-product', 'MediaProductController');
+
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale', $locale);
+    return redirect()->back();
+});
+
+Route::resource('logo', 'StoreLogoController');

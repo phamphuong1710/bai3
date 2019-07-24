@@ -30,24 +30,6 @@
                     <form method="POST" action="/stores/{{ $store->id }}">
                         @csrf
                         @method('PUT')
-                        <div class="logo-content">
-                            <div class="logo-wrapper d-flex justify-content-center">
-                                <img src="{{ $store->logo }}" alt="Logo Placeholder" data-id="{{ $store->logo_id }}">
-
-                            </div>
-                            <div class="form-group">
-
-                                <div class="custom d-flex justify-content-center">
-                                    <div class="input-file">
-                                        <label for="logo">Change</label>
-                                        <input type="file" class="custom-file-input" id="logo" lang="in" name='logo'>
-                                        <input type="hidden" name="id_logo" class="id-logo" value="{{ $store->logo_id }}">
-                                    </div>
-                                  <button type="button" class="btn-delete-logo">Delete</button>
-
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="form-group">
                             <label for="name" class="">{{ __('Name') }}</label>
@@ -178,63 +160,6 @@
 
 <script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
 <script>
-    $( '#logo' ).change( function () {
-        var fileData = $(this);
-        console.log(fileData[0].files[0]);
-        var formData = new FormData();
-        formData.append("logo", fileData[0].files[0]);
-        formData.append('_token', '{{csrf_token()}}');
-        formData.append('_method', 'PUT');
-        formData.append('type','post');
-        var id = $('.logo-wrapper img').attr('data-id');
-        $.ajax({
-            url: "/logo/"+id,
-            data: formData,
-            type: 'POST',
-            contentType: false,
-            processData: false,
-
-            success: function (data) {
-
-                $('.logo-wrapper img').attr('src',data);
-
-                $('.id-logo').attr('value', data.id );
-
-            },
-            error: function (xhr, status, error) {
-                alert(xhr.responseText);
-            }
-        });
-
-    });
-
-
-    $(".btn-delete-logo").on( 'click', function(e){
-        e.preventDefault();
-
-        var $delete = confirm( 'Delete Post' );
-        if ( $delete === true ) {
-            var id = $('.logo-wrapper img').attr('data-id');
-            var token = $("meta[name='csrf-token']").attr("content");
-            var btn = $(this);
-
-            $.ajax(
-            {
-                url: "/logo/"+id,
-                type: 'POST',
-                data: {
-                    "_method": 'delete',
-                    "_token": token,
-                    "id": id,
-                },
-                success: function ($data){
-
-                    $('.logo-wrapper').html('<img src="/images/logo-placeholder.png" alt="Logo Placeholder">');
-                }
-            });
-        }
-
-    });
 
     Array.prototype.remove = function() {
       var what, a = arguments, L = a.length, ax;

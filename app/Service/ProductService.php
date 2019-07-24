@@ -1,22 +1,20 @@
 <?php
 namespace App\Service;
 
-use App\InterfaceService\StoreInterface;
-use App\Store; // model
+use App\InterfaceService\ProductInterface;
+use App\Product; // model
 
-class StoreService implements StoreInterface
+class ProductService implements ProductInterface
 {
 
-    public function getAllStore()
+    public function getAllProductStore($storeID)
     {
-        $stores = Store::all();
 
-        return $stores;
     }
 
-    public function createStore($request)
+    public function createProduct($request)
     {
-        $store = new Store();
+        $store = new Product();
         $store->name = $request->name;
         $store->slug = str_slug($request->name, '-');
         $store->phone = $request->phone;
@@ -27,16 +25,16 @@ class StoreService implements StoreInterface
         return $store->id;
     }
 
-    public function getStoreById($id)
+    public function getProductId($id)
     {
-        $store = Store::findOrFail($id);
+        $store = Product::findOrFail($id);
 
         return $store;
     }
 
-    public function updateStore($request, $id)
+    public function updateProduct($request, $id)
     {
-        $store = Store::findOrFail($id);
+        $store = Product::findOrFail($id);
         $store->name = $request->name;
         $store->slug = str_slug($request->name, '-');
         $store->phone = $request->phone;
@@ -45,16 +43,10 @@ class StoreService implements StoreInterface
         $store->save();
     }
 
-    public function deleteStore($id)
+    public function deleteProduct($id)
     {
-        Store::destroy($id);
-    }
+        Product::destroy($id);
 
-    public function getStoreByUser($userId)
-    {
-        $stores = Store::all();
-
-        return $stores;
     }
 }
 

@@ -37,7 +37,10 @@ class MediaService implements MediaInterface
 
     public function getImageByStoreId($storeId)
     {
-        $images = Media::where('store_id', $storeId)->orderBy('position','asc')->get();
+        $images = Media::where('store_id', $storeId)
+            ->where('active', 0)
+            ->orderBy('position','asc')
+            ->get();
 
         return $images;
     }
@@ -100,6 +103,60 @@ class MediaService implements MediaInterface
         $image->save();
 
         return $image;
+    }
+
+    public function createStoreLogo($request, $storeId = null)
+    {
+        if($request->hasfile('logo')) {
+            $file = $request->file('logo');
+            $name = Carbon::now()->timestamp.$file->getClientOriginalName();
+            $extension = pathinfo( $name, PATHINFO_EXTENSION );
+            $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
+            $file->move(public_path().'/files/'.date("/Y/m/d/"), $name);
+            $link = public_path().'/files'.date("/Y/m/d/").$name;
+            $img = Image::make($link);
+            $img->resize(300, 300)->save($link);
+            $path = '/files'.date("/Y/m/d/").$name;
+            $image = new Media();
+            $image->image_path = $path;
+            $image->store_id = $storeId;
+            $image->active = 1;
+            $image->save();
+        }
+
+        return $image;
+    }
+
+    public function getLogoByStoreId($storeId)
+    {
+        $logo = Media::where('store_id', $storeId)->where('active', 1)->first();
+        if (! $logo) {
+            abort('404');
+        }
+
+        return $logo;
+    }
+
+    public function updateLogoStore($id, $request)
+    {
+        $image = Media::findOrFail($id);
+        $oldPath = $image->image_path;
+        if($request->hasfile('logo')) {
+            $file = $request->file('logo') ;
+            $name = Carbon::now()->timestamp.$file->getClientOriginalName();
+            $extension = pathinfo( $name, PATHINFO_EXTENSION );
+            $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
+            $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
+            $link = public_path().'/files'.date("/Y/m/d/").$name;
+            $img = Image::make($link);
+            $img->resize(300, 300)->save($link);
+            $path = '/files'.date("/Y/m/d/").$name;
+            $images->image_path = $path;
+            $images->save();
+            unlink( $oldPath );
+        }
+
+        return $images->image_path;
     }
 }
 
