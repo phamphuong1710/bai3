@@ -7,9 +7,9 @@
 
 <div class="user-section">
 
-<a href="/users/{{ $user->id }}/edit" class="btn-action btn-edit">{{ __('messages.edit') }}</a>
-
-<h1 class="user-name">{{ $user->name }}</h1>
-<span>{{ $user->email }}</span>
+  <div class="shop-detail">
+    <h1 class="page-title header">{{ $store->name }}</h1>
+    <a href="/products/create" class="create">{{ __('messages.createproduct') }}</a>
+  </div>
 </div>
 @endsection

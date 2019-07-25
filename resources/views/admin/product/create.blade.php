@@ -2,36 +2,20 @@
 @section('style')
   <link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
 @endsection
-@section('sidebar')
-    <li class="header">Dashboard</li>
-    <!-- Optionally, you can add icons to the links -->
-    <li><a href="/posts"><i class="fa fa-link"></i> <span>Post</span></a></li>
-    <li class="active"><a href="{{ url('/users') }}"><i class="fa fa-user"></i><span>User</span></a></li>
-    <li class="treeview">
-      <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-        <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-      </a>
-      <ul class="treeview-menu">
-        <li><a href="#">Link in level 2</a></li>
-        <li><a href="#">Link in level 2</a></li>
-      </ul>
-    </li>
-@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Create Store') }}</div>
+                <div class="card-header">{{ __('messages.createproduct') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ url('/stores') }}">
                         @csrf
 
                         <div class="form-group">
-                            <label for="name" class="">{{ __('Name') }}</label>
+                            <label for="name" class="">{{ __('messages.name') }}</label>
 
                             <div class="">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus>
@@ -46,12 +30,12 @@
 
 
                         <div class="form-group">
-                            <label for="phone" class=" col-form-label text-md-right">{{ __('Phone') }}</label>
+                            <label for="category" class=" col-form-label text-md-right">{{ __('messages.category') }}</label>
 
                             <div class="">
-                                <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" required autocomplete="phone" autofocus>
+                                <input id="category" type="category" class="form-control @error('category') is-invalid @enderror" name="category" required autocomplete="category" autofocus>
 
-                                @error('phone')
+                                @error('category')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -61,12 +45,27 @@
 
 
                         <div class="form-group">
-                            <label for="address" class=" col-form-label text-md-right">{{ __('Address') }}</label>
+                            <label for="price" class=" col-form-label text-md-right">{{ __('messages.price') }}</label>
 
                             <div class="">
-                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" autofocus>
+                                <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price" autofocus>
 
-                                @error('address')
+                                @error('price')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="price_sale" class=" col-form-label text-md-right">{{ __('messages.price_sale') }}</label>
+
+                            <div class="">
+                                <input id="price_sale" type="number" class="form-control @error('price_sale') is-invalid @enderror" name="price_sale" required autocomplete="price_sale" autofocus>
+
+                                @error('price_sale')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -75,7 +74,21 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="description" class=" col-form-label text-md-right">{{ __('Description') }}</label>
+                            <label for="quantity" class=" col-form-label text-md-right">{{ __('messages.quantity') }}</label>
+
+                            <div class="">
+                                <input id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror" name="quantity" required autocomplete="quantity" autofocus>
+
+                                @error('quantity')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class=" col-form-label text-md-right">{{ __('messages.description') }}</label>
 
                             <div class="">
                                 <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" required autocomplete="description" autofocus>
@@ -99,24 +112,23 @@
 
                             <div class="custom d-flex">
                                 <div class="input-file">
-                                    <label for="postImage">Image</label>
+                                    <label for="postImage">{{ __('messages.image') }}</label>
                                     <input type="file" class="custom-file-input" id="postImage" lang="in" multiple="multiple" name='image[]'>
                                     <input type="hidden" name="list_image" value="" id="listImage">
                                 </div>
-                              <button type="button" class="btn-video">Video</button>
+                              <button type="button" class="btn-video">{{ __('Video') }}</button>
 
                             </div>
-
-
 
                         </div>
 
                         <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                        <input type="hidden" name="store_id" value="{{ $store->id }}">
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Create') }}
+                                    {{ __('messages.create') }}
                                 </button>
                             </div>
                         </div>

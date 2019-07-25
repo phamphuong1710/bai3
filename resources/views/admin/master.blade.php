@@ -3,7 +3,7 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,6 +48,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </a>
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
+        <ul class="lang">
+            <li><a href="{{ url('locale/en') }}">EN</a></li>
+
+            <li><a href="{{ url('locale/vi') }}" >VI</a></li>
+        </ul>
         <ul class="nav navbar-nav">
 
           <!-- User Account Menu -->
@@ -106,7 +111,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <section class="sidebar">
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        @yield('sidebar')
+        <li class="header">Dashboard</li>
+        <!-- Optionally, you can add icons to the links -->
+        <li><a href="/posts"><i class="fa fa-link"></i> <span>Post</span></a></li>
+        <li class="active"><a href="{{ url('/users') }}"><i class="fa fa-user"></i><span>User</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Link in level 2</a></li>
+            <li><a href="#">Link in level 2</a></li>
+          </ul>
+        </li>
 
       </ul>
       <!-- /.sidebar-menu -->
@@ -232,6 +251,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('js/admin/adminlte.min.js') }}"></script>
 
 <script src="{{ asset('js/app.js') }}"></script>
+
 @yield('js')
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

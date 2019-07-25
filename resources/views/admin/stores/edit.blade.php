@@ -2,29 +2,13 @@
 @section('style')
   <link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
 @endsection
-@section('sidebar')
-    <li class="header">Dashboard</li>
-    <!-- Optionally, you can add icons to the links -->
-    <li><a href="/posts"><i class="fa fa-link"></i> <span>Post</span></a></li>
-    <li class="active"><a href="{{ url('/users') }}"><i class="fa fa-user"></i><span>User</span></a></li>
-    <li class="treeview">
-      <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-        <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-      </a>
-      <ul class="treeview-menu">
-        <li><a href="#">Link in level 2</a></li>
-        <li><a href="#">Link in level 2</a></li>
-      </ul>
-    </li>
-@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Create Store') }}</div>
+                <div class="card-header">{{ __('messages.create_store') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="/stores/{{ $store->id }}">
@@ -39,18 +23,18 @@
 
                                 <div class="custom d-flex justify-content-center">
                                     <div class="input-file">
-                                        <label for="logo">Change</label>
+                                        <label for="logo">{{ __('messages.change') }}</label>
                                         <input type="file" class="custom-file-input" id="logo" lang="in" name='logo'>
                                         <input type="hidden" name="id_logo" class="id-logo" value="{{ $store->logo_id }}">
                                     </div>
-                                  <button type="button" class="btn-delete-logo">Delete</button>
+                                  <button type="button" class="btn-delete-logo">{{ __('messages.delete') }}</button>
 
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="name" class="">{{ __('Name') }}</label>
+                            <label for="name" class="">{{ __('messages.name') }}</label>
 
                             <div class="">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus value="{{ $store->name }}">
@@ -65,7 +49,7 @@
 
 
                         <div class="form-group">
-                            <label for="phone" class=" col-form-label text-md-right">{{ __('Phone') }}</label>
+                            <label for="phone" class=" col-form-label text-md-right">{{ __('messages.phone') }}</label>
 
                             <div class="">
                                 <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" required autocomplete="phone" autofocus value="{{ $store->phone }}">
@@ -80,7 +64,7 @@
 
 
                         <div class="form-group">
-                            <label for="address" class=" col-form-label text-md-right">{{ __('Address') }}</label>
+                            <label for="address" class=" col-form-label text-md-right">{{ __('messages.address') }}</label>
 
                             <div class="">
                                 <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" autofocus value="address">
@@ -94,7 +78,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="description" class=" col-form-label text-md-right">{{ __('Description') }}</label>
+                            <label for="description" class=" col-form-label text-md-right">{{ __('messages.description') }}</label>
 
                             <div class="">
                                 <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" required autocomplete="description" autofocus value="{{ $store->description }}">
@@ -144,7 +128,7 @@
 
                             <div class="custom d-flex">
                                 <div class="input-file">
-                                    <label for="postImage">Image</label>
+                                    <label for="postImage">{{ __('messages.image') }}</label>
                                     <input type="file" class="custom-file-input" id="postImage" lang="in" multiple="multiple" name='image[]'>
                                     <input type="hidden" name="list_image" value="" id="listImage">
                                 </div>
@@ -161,7 +145,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Create') }}
+                                    {{ __('messages.create') }}
                                 </button>
                             </div>
                         </div>
@@ -188,7 +172,7 @@
         formData.append('type','post');
         var id = $('.logo-wrapper img').attr('data-id');
         $.ajax({
-            url: "/logo/"+id,
+            url: "/logo/",
             data: formData,
             type: 'POST',
             contentType: false,

@@ -2,23 +2,7 @@
 @section('style')
   <link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
 @endsection
-@section('sidebar')
-    <li class="header">Dashboard</li>
-    <!-- Optionally, you can add icons to the links -->
-    <li><a href="/posts"><i class="fa fa-link"></i> <span>Post</span></a></li>
-    <li class="active"><a href="{{ url('/users') }}"><i class="fa fa-user"></i><span>User</span></a></li>
-    <li class="treeview">
-      <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-        <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-      </a>
-      <ul class="treeview-menu">
-        <li><a href="#">Link in level 2</a></li>
-        <li><a href="#">Link in level 2</a></li>
-      </ul>
-    </li>
-@endsection
+
 @section('content')
 
 <div class="user-section">
@@ -30,10 +14,10 @@
     <a href="/users/create" class="create">Create User</a>
        <table cellspacing="0">
             <tr>
-                <th>Name</th>
-                <th>Phone</th>
+                <th>{{ __('messages.name') }}</th>
+                <th>{{ __('messages.phone') }}</th>
                 <th>Email</th>
-                <th>Action</th>
+                <th>{{ __('messages.action') }}</th>
             </tr>
 
             @foreach( $users as $user )
@@ -43,11 +27,11 @@
                  <td>{{ $user->phone }}</td>
                  <td>{{ $user->email }}</td>
                  <td>
-                     <a href="/users/{{ $user->id }}/edit" class="btn-action btn-edit">Edit</a>
+                     <a href="/users/{{ $user->id }}/edit" class="btn-action btn-edit">{{ __('messages.edit') }}</a>
                      <form action="/users/{{ $user->id }}" method="POST" class="form-delete">
                             @method('delete')
                             {{ csrf_field() }}
-                         <button type="submit" class="btn-action btn-delete">Delete</button>
+                         <button type="submit" class="btn-action btn-delete">{{ __('messages.delete') }}</button>
                      </form>
 
                  </td>

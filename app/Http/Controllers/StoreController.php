@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreRequest;
 use App\Service\StoreService;
 use App\Service\MediaService;
+use App\Service\ProductService;
 use Auth;
 
 class StoreController extends Controller
@@ -13,12 +14,18 @@ class StoreController extends Controller
 
     protected $storeService;
     protected $mediaService;
+    protected $productService;
 
-    public function __construct(StoreService $storeService, MediaService $mediaService)
+    public function __construct(
+        StoreService $storeService,
+        MediaService $mediaService,
+        ProductService $productService
+    )
     {
         $this->middleware('auth');
         $this->storeService = $storeService;
         $this->mediaService = $mediaService;
+        $this->productService = $productService;
     }
     /**
      * Display a listing of the resource.
@@ -71,7 +78,11 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        //
+        $store = $this->storeService->getStoreById($id);
+        $products = $this->productService->getAllProductStore($id);
+        $store->products = $products;
+
+        return view('admin.stores.info', compact('store'));
     }
 
     /**
@@ -103,10 +114,15 @@ class StoreController extends Controller
     {
         $this->storeService->updateStore($request, $id);
         $listImage = $request->list_image;
-        $listImage = explode(',', $listImage);
-
-        foreach ($listImage as $position => $idImage) {
-            $this->mediaService->updateStoreImage($idImage, $id, $position);
+        $logo = $request->logo_id;
+        if ( ! empty($logo) ) {
+            $this->mediaService->updateStoreImage($logo, $storeId, null);
+        }
+        if ( ! empty( $listImage ) ) {
+            $listImage = explode(',', $listImage);
+            foreach ($listImage as $position => $idImage) {
+                $this->mediaService->updateStoreImage($idImage, $id, $position);
+            }
         }
 
         return redirect()->route('stores.index');

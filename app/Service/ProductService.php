@@ -7,9 +7,11 @@ use App\Product; // model
 class ProductService implements ProductInterface
 {
 
-    public function getAllProductStore($storeID)
+    public function getAllProductStore($storeId)
     {
+        $products = Product::where('store_id', $storeId)->get();
 
+        return $products;
     }
 
     public function createProduct($request)

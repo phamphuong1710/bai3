@@ -152,3 +152,30 @@
 #preview-mode {
     margin-bottom: 30px;
 }
+
+.navbar-custom-menu {
+    display: flex;
+    align-items: center;
+}
+
+.lang {
+    list-style: none;
+    margin-right: 20px;
+    padding: 0;
+}
+
+.lang li {
+    display: inline-block;
+
+}
+
+.lang li:not(:last-child) {
+    margin-right: 15px;
+}
+.lang li a {
+    color: #fff;
+}
+
+.lang li .active {
+    color: #f11010;
+}

@@ -5,17 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\ProductService;
 use App\Service\MediaService;
+use App\Service\CategoryService;
 
 class ProductController extends Controller
 {
     protected $productService;
     protected $mediaService;
+    protected $categoryService;
 
-    public function __construct(ProductService $productService, MediaService $mediaService)
+    public function __construct(
+        ProductService $productService,
+        MediaService $mediaService,
+        CategoryService $categoryService
+    )
     {
         $this->middleware('auth');
         $this->productService = $productService;
         $this->mediaService = $mediaService;
+        $this->categoryService = $categoryService;
     }
     /**
      * Display a listing of the resource.
@@ -34,7 +41,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = $this->categoryService->allCategory();
+        return view('admin.product.create', compact('categories'));
     }
 
     /**
