@@ -42,7 +42,7 @@ class MediaStoreController extends Controller
      */
     public function store(Request $request)
     {
-        $listImage = $this->mediaService->createStoreMedia($request, null);
+        $listImage = $this->mediaService->createMedia($request, null, null);
 
         return response()->json(['data' => $listImage]);
     }

@@ -35,17 +35,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $categories = $this->categoryService->allCategory();
-        return view('admin.product.create', compact('categories'));
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -53,7 +42,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $productId = $this->productService->createProduct($request);
+        $listImage = $request->list_image;
+        $listImage = explode(',', $listImage);
+        foreach ($listImage as $position => $id) {
+            $this->mediaService->updateProductImage($id, $productId, $position);
+        }
+
+        return redirect()
+            ->route('stores.show', [ 'id' => $request->store_id ] )
+            ->with('success', 'Success');
     }
 
     /**
@@ -99,5 +97,18 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function createProduct($storeId)
+    {
+        $categories = $this->categoryService->allCategory();
+
+        return view(
+            'admin.product.create',
+            [
+                'categories' => $categories,
+                'store_id' => $storeId
+            ]
+        );
     }
 }

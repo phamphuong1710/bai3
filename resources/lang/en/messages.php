@@ -1,6 +1,6 @@
 <?php
 return [
-    'welcome'       => 'Welcome to our application',
+    'welcome' => 'Welcome to our application',
     'createproduct' => 'Create Product',
     'name' => 'Name',
     'category' => 'Category',

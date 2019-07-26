@@ -10,7 +10,7 @@ use File;
 class MediaService implements MediaInterface
 {
     //store
-    public function createStoreMedia($request, $storeId = null)
+    public function createMedia($request, $storeId = null, $productId = null)
     {
         if($request->hasfile('image')) {
             $listImage = [];
@@ -157,6 +157,14 @@ class MediaService implements MediaInterface
         }
 
         return $images->image_path;
+    }
+
+    public function updateProductImage($id, $productId, $position)
+    {
+        $image = Media::findOrFail($id);
+        $image->product_id = $productId;
+        $image->position = $position;
+        $image->save();
     }
 }
 

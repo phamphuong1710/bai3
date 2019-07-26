@@ -22,3 +22,21 @@ if ( ! function_exists( 'getStoreLogoPath' ) ) {
         return $logo->image_path;
     }
 }
+
+if ( ! function_exists( 'getListImageStore' ) ) {
+    function getListImageStore($storeId)
+    {
+        $images = Media::where('store_id', $storeId)
+            ->where('active', 0)
+            ->orderBy('position','asc')
+            ->get();
+        $listImage = [];
+        foreach ($images as $image) {
+            array_push($listImage, $image->id);
+        }
+
+        $listImage = implode(',', $listImage);
+
+        return $listImage;
+    }
+}

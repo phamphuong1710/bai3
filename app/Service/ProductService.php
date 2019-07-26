@@ -3,6 +3,7 @@ namespace App\Service;
 
 use App\InterfaceService\ProductInterface;
 use App\Product; // model
+use Carbon\Carbon;
 
 class ProductService implements ProductInterface
 {
@@ -16,33 +17,38 @@ class ProductService implements ProductInterface
 
     public function createProduct($request)
     {
-        $store = new Product();
-        $store->name = $request->name;
-        $store->slug = str_slug($request->name, '-');
-        $store->phone = $request->phone;
-        $store->description = $request->description;
-        $store->user_id = $request->user_id;
-        $store->save();
+        $product = new Product();
+        $time = Carbon::now()->timestamp;
+        $product->name = $request->name;
+        $product->slug = str_slug($request->name, '-').'-'.$request->store_id.$time;
+        $product->category_id = $request->category_id;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->sale_price = $request->sale_price;
+        $product->user_id = $request->user_id;
+        $product->store_id = $request->store_id;
+        $product->quantity_stock = $request->quantity;
+        $product->save();
 
-        return $store->id;
+        return $product->id;
     }
 
     public function getProductId($id)
     {
-        $store = Product::findOrFail($id);
+        $product = Product::findOrFail($id);
 
-        return $store;
+        return $product;
     }
 
     public function updateProduct($request, $id)
     {
-        $store = Product::findOrFail($id);
-        $store->name = $request->name;
-        $store->slug = str_slug($request->name, '-');
-        $store->phone = $request->phone;
-        $store->description = $request->description;
-        $store->user_id = $request->user_id;
-        $store->save();
+        $product = Product::findOrFail($id);
+        $product->name = $request->name;
+        $product->slug = str_slug($request->name, '-');
+        $product->phone = $request->phone;
+        $product->description = $request->description;
+        $product->user_id = $request->user_id;
+        $product->save();
     }
 
     public function deleteProduct($id)

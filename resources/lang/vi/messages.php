@@ -1,6 +1,6 @@
 <?php
 return [
-    'welcome'       => 'Chào mừng bạn đến ứng dụng của chúng tôi',
+    'welcome' => 'Chào mừng bạn đến ứng dụng của chúng tôi',
     'createproduct' => 'Tạo Sản Phẩm Mới',
     'name' => 'Tên',
     'category' => 'Danh Mục',

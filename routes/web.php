@@ -29,6 +29,8 @@ Route::resource('media-store', 'MediaStoreController');
 
 Route::resource('video-store', 'VideoStoreController');
 
+Route::get('shop/{storeID}/create-product', 'ProductController@createProduct')->name('createProduct');
+
 Route::resource('products', 'ProductController');
 
 Route::resource('media-product', 'MediaProductController');
@@ -39,3 +41,5 @@ Route::get('locale/{locale}', function ($locale){
 });
 
 Route::resource('logo', 'StoreLogoController');
+
+
