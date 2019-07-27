@@ -24,15 +24,6 @@ class ProductController extends Controller
         $this->mediaService = $mediaService;
         $this->categoryService = $categoryService;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -42,11 +33,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $productId = $this->productService->createProduct($request);
+        $product = $this->productService->createProduct($request);
+        $logo = $request->id_logo;
+        $this->mediaService->updateProductImage($logo, $product->id, null);
         $listImage = $request->list_image;
         $listImage = explode(',', $listImage);
         foreach ($listImage as $position => $id) {
-            $this->mediaService->updateProductImage($id, $productId, $position);
+            $this->mediaService->updateProductImage($id, $product->id, $position);
         }
 
         return redirect()
@@ -73,7 +66,16 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = $this->productService->getProductId($id);
+        $categories = $this->categoryService->allCategory();
+        $images = $this->mediaService->getImageByProductId($id);
+        $logo = $this->mediaService->getLogoByProductId($id);
+        $product->categories = $categories;
+        $product->images = $images;
+        $product->logo = $logo->image_path;
+        $product->logo_id = $logo->id;
+
+        return view('admin.product.edit', compact('product'));
     }
 
     /**
@@ -85,7 +87,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = $this->productService->updateProduct($request, $id);
+
+        return redirect()
+            ->route('stores.show', [ 'id' => $request->store_id ] )
+            ->with('success_update', 'Success');
     }
 
     /**

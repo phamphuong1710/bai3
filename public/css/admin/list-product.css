@@ -1,0 +1,44 @@
+.list-product-wrapper {
+    display: flex;
+    flex-wrap: 1;
+    margin: 0 -15px;
+}
+
+.product-admin {
+    padding: 0 15px;
+    width: 33.33%;
+}
+
+.image-product-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #1f3d70;
+    border-radius: 0
+}
+
+.product-admin .product-info {
+    padding: 0 15px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.import-price,
+.sale-price {
+    font-size: 18px;
+    display: block;
+}
+
+.product-content {
+    border: 1px solid #1f3d70;
+    border-radius: 3px;
+}
+
+.product-action {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}

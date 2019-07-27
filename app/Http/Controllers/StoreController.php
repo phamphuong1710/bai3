@@ -57,13 +57,13 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $storeId = $this->storeService->createStore($request);
+        $store = $this->storeService->createStore($request);
         $listImage = $request->list_image;
         $logo = $request->id_logo;
-        $this->mediaService->updateStoreImage($logo, $storeId, null);
+        $this->mediaService->updateStoreImage($logo, $store->id, null);
         $listImage = explode(',', $listImage);
         foreach ($listImage as $position => $id) {
-            $this->mediaService->updateStoreImage($id, $storeId, $position);
+            $this->mediaService->updateStoreImage($id, $store->id, $position);
         }
 
         return redirect()->route('stores.index');

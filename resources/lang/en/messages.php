@@ -29,4 +29,6 @@ return [
     'price' => 'Price',
     'price_sale' => 'Price Sale',
     'quantity' => 'Quantity',
+    'import_price' => 'Import Price',
+    'feature_image' => 'Feature Image',
 ];

@@ -51,6 +51,8 @@ class MediaService implements MediaInterface
         $image->store_id = $storeId;
         $image->position = $position;
         $image->save();
+
+        return $image;
     }
 
     public function updateMedia($id, $request)
@@ -79,6 +81,8 @@ class MediaService implements MediaInterface
         $path = public_path().$image->image_path;
         Media::destroy($id);
         unlink($path);
+
+        return true;
     }
 
     public function createVideoImage($request)
@@ -105,7 +109,7 @@ class MediaService implements MediaInterface
         return $image;
     }
 
-    public function createStoreLogo($request, $storeId = null)
+    public function createLogo($request, $storeId = null, $productId = null)
     {
         if($request->hasfile('logo')) {
             $file = $request->file('logo');
@@ -165,6 +169,30 @@ class MediaService implements MediaInterface
         $image->product_id = $productId;
         $image->position = $position;
         $image->save();
+
+        return $image;
+    }
+
+    public function getImageByProductId($productId)
+    {
+        $images = Media::where('product_id', $productId)
+            ->where('active', 0)
+            ->orderBy('position','asc')
+            ->get();
+
+        return $images;
+    }
+
+    public function getLogoByProductId($productId)
+    {
+        $logo = Media::where('product_id', $productId)
+            ->where('active', 1)
+            ->first();
+        if (! $logo) {
+            abort('404');
+        }
+
+        return $logo;
     }
 }
 

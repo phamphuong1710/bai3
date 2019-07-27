@@ -30,7 +30,7 @@ class ProductService implements ProductInterface
         $product->quantity_stock = $request->quantity;
         $product->save();
 
-        return $product->id;
+        return $product;
     }
 
     public function getProductId($id)
@@ -43,18 +43,25 @@ class ProductService implements ProductInterface
     public function updateProduct($request, $id)
     {
         $product = Product::findOrFail($id);
+        $time = Carbon::now()->timestamp;
         $product->name = $request->name;
-        $product->slug = str_slug($request->name, '-');
-        $product->phone = $request->phone;
+        $product->slug = str_slug($request->name, '-').'-'.$request->store_id.$time;
+        $product->category_id = $request->category_id;
         $product->description = $request->description;
+        $product->price = $request->price;
+        $product->sale_price = $request->sale_price;
         $product->user_id = $request->user_id;
+        $product->quantity_stock = $request->quantity;
         $product->save();
+
+        return $product;
     }
 
     public function deleteProduct($id)
     {
         Product::destroy($id);
 
+        return true;
     }
 }
 

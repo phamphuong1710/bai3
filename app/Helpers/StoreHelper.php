@@ -40,3 +40,16 @@ if ( ! function_exists( 'getListImageStore' ) ) {
         return $listImage;
     }
 }
+
+
+if ( ! function_exists( 'getProductLogo' ) ) {
+    function getProductLogo($productId)
+    {
+        $logo = Media::where('product_id', $productId)->where('active', 1)->first();
+        if (! $logo) {
+            abort('404');
+        }
+
+        return $logo;
+    }
+}

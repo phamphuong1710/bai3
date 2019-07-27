@@ -42,7 +42,7 @@ class StoreLogoController extends Controller
      */
     public function store(Request $request)
     {
-        $logo = $this->mediaService->createStoreLogo($request, null);
+        $logo = $this->mediaService->createLogo($request, null, null);
 
         return response()->json($logo);
     }

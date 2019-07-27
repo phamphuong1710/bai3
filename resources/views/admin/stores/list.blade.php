@@ -4,11 +4,7 @@
 @endsection
 @section('content')
 <div class="user-section">
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+
     <div class="table-users">
         <h1 class="page-title header">{{ __('messages.store') }}</h1>
         <a href="/stores/create" class="create">{{ __('messages.create_store') }}</a>

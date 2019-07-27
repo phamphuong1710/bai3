@@ -11,6 +11,21 @@
                 <div class="card-body">
                     <form method="POST" action="{{ url('/products') }}">
                         @csrf
+                        <div class="logo-content">
+                            <div class="logo-wrapper d-flex justify-content-center">
+                                <img src="{{asset('images/logo-placeholder.png')}}" alt="Logo Placeholder">
+                            </div>
+                            <div class="form-group">
+                                <div class="custom d-flex justify-content-center">
+                                    <div class="input-file">
+                                        <label for="logo">{{ __('messages.feature_image') }}</label>
+                                        <input type="file" class="custom-file-input" id="logo" lang="in" name='logo'>
+                                        <input type="hidden" name="id_logo" class="id-logo">
+                                    </div>
+                                    <button type="button" class="btn-delete-logo">{{ __('messages.delete') }}</button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="name" class="">{{ __('messages.name') }}</label>
                             <div class="">
@@ -85,6 +100,7 @@
                         </div>
                         <div id="preview-mode">
                             <ul id="image-preview" class="gallery-image-list">
+
                             </ul>
                         </div>
                         <div class="form-group">
@@ -116,6 +132,8 @@
 @section('js')
 <script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('js/admin/remove.js') }}"></script>
+<script src="{{ asset('js/admin/create-logo.js') }}"></script>
+<script src="{{ asset('js/admin/delete-logo.js') }}"></script>
 <script src="{{ asset('js/admin/create-images.js') }}"></script>
 <script src="{{ asset('js/admin/delete-image.js') }}"></script>
 <script src="{{ asset('js/admin/edit-image.js') }}"></script>

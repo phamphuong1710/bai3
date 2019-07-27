@@ -13,6 +13,8 @@ class CategoryService implements CategoryInterface
         $category->slug = str_slug( $request->name, '-' );
 
         $category->save();
+
+        return $category;
     }
 
     public function getCategoryById($id)
@@ -29,13 +31,16 @@ class CategoryService implements CategoryInterface
         if(!$category) abort('404');
         $category->name = $request->name;
         $category->slug = str_slug( $request->name, '-' );
-
         $category->save();
+
+        return $category;
     }
 
     public function deleteCategory($id)
     {
         Category::where('id', $id)->delete();
+
+        return true;
     }
 
     public function allCategory()

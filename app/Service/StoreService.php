@@ -24,7 +24,7 @@ class StoreService implements StoreInterface
         $store->user_id = $request->user_id;
         $store->save();
 
-        return $store->id;
+        return $store;
     }
 
     public function getStoreById($id)
@@ -43,11 +43,15 @@ class StoreService implements StoreInterface
         $store->description = $request->description;
         $store->user_id = $request->user_id;
         $store->save();
+
+        return $store;
     }
 
     public function deleteStore($id)
     {
         Store::destroy($id);
+
+        return true;
     }
 
     public function getStoreByUser($userId)

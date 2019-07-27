@@ -29,4 +29,6 @@ return [
     'price' => 'Giá',
     'price_sale' => 'Giá Bán',
     'quantity' => 'Số Lượng',
+    'import_price' => 'Giá Nhập',
+    'feature_image' => 'Ảnh Đặc Trưng'
 ];
