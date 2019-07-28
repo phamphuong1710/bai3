@@ -1,25 +1,54 @@
 @extends('admin.master')
 @section('style')
-<link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
 <link href="{{ asset('css/admin/list-product.css') }}" rel="stylesheet">
 @endsection
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-<div class="user-section">
+@if (session('success_delete'))
+<div class="alert alert-success">
+    {{ session('success_delete') }}
+</div>
+@endif
+@if (session('success_update_product'))
+<div class="alert alert-success">
+    {{ session('success_update_product') }}
+</div>
+@endif
+@if (session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
+<div class="shop-item-section">
     <div class="shop-detail">
         <h1 class="page-title header">{{ $store->name }}</h1>
-        <a href="/shop/{{ $store->id }}/create-product" class="create">
-            {{ __('messages.createproduct') }}
-        </a>
     </div>
+    <div class="store-info">
+        <div class="store-info-wrapper">
+            <p class="store-address">
+                <span class="label">{{ __('messages.address') }}: </span>
+                {{ $store->address }}
+            </p>
+            <p class="store-phone">
+                <span class="label">{{ __('messages.phone') }}: </span>
+                {{ $store->phone }}
+            </p>
+            <p class="store-description">
+                <span class="label">{{ __('messages.description') }}: </span>
+                {{ $store->description }}
+            </p>
+        </div>
+    </div>
+    <div class="all-product">
+        <div class="list-product">
+            <div class="list-title">
+                <h2>{{ __('messages.list_product') }}</h2>
+                <a href="/shop/{{ $store->id }}/create-product" class="create">
+                    {{ __('messages.createproduct') }}
+                </a>
+            </div>
 
-    <div class="list-product">
-        <div class="list-product-wrapper">
-            @foreach( $store->products as $product )
+            <div class="list-product-wrapper">
+                @foreach( $store->products as $product )
                 <div id="product-{{ $product->id }}" class="product product-admin">
                     <div class="product-content">
                         <div class="image-product-wrapper">
@@ -40,7 +69,6 @@
                                 </span>
                             </div>
                         </div>
-
                         <div class="product-action">
                             <a href="/products/{{ $product->id }}/edit" class="btn-action btn-edit">{{ __('messages.edit') }}</a>
                             <form action="/products/{{ $product->id }}" method="POST" class="form-delete">
@@ -51,7 +79,12 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+                @endforeach
+
+                <div class="pagination">
+                    {{ $store->products->links() }}
+                </div>
+            </div>
         </div>
     </div>
 </div>

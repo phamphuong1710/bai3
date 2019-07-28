@@ -7,6 +7,7 @@ use App\Http\Requests\StoreRequest;
 use App\Service\StoreService;
 use App\Service\MediaService;
 use App\Service\ProductService;
+use App\Service\AddressService;
 use Auth;
 
 class StoreController extends Controller
@@ -15,17 +16,20 @@ class StoreController extends Controller
     protected $storeService;
     protected $mediaService;
     protected $productService;
+    protected $addressService;
 
     public function __construct(
         StoreService $storeService,
         MediaService $mediaService,
-        ProductService $productService
+        ProductService $productService,
+        AddressService $addressService
     )
     {
         $this->middleware('auth');
         $this->storeService = $storeService;
         $this->mediaService = $mediaService;
         $this->productService = $productService;
+        $this->addressService = $addressService;
     }
     /**
      * Display a listing of the resource.
@@ -59,12 +63,13 @@ class StoreController extends Controller
     {
         $store = $this->storeService->createStore($request);
         $listImage = $request->list_image;
-        $logo = $request->id_logo;
+        $logo = $request->logo_id;
         $this->mediaService->updateStoreImage($logo, $store->id, null);
         $listImage = explode(',', $listImage);
         foreach ($listImage as $position => $id) {
             $this->mediaService->updateStoreImage($id, $store->id, $position);
         }
+        $this->addressService->createStoreAddress($store->id, $request);
 
         return redirect()->route('stores.index');
 
@@ -81,6 +86,8 @@ class StoreController extends Controller
         $store = $this->storeService->getStoreById($id);
         $products = $this->productService->getAllProductStore($id);
         $store->products = $products;
+        $address = $this->addressService->getAddressByStoreID($id);
+        $store->address = $address;
 
         return view('admin.stores.info', compact('store'));
     }
@@ -96,6 +103,8 @@ class StoreController extends Controller
         $store = $this->storeService->getStoreById($id);
         $image = $this->mediaService->getImageByStoreId($id);
         $logo = $this->mediaService->getLogoByStoreId($id);
+        $address = $this->addressService->getAddressByStoreID($id);
+        $store->address = $address;
         $store->media = $image;
         $store->logo = $logo->image_path;
         $store->logo_id = $logo->id;
@@ -116,7 +125,8 @@ class StoreController extends Controller
         $listImage = $request->list_image;
         $logo = $request->logo_id;
         if ( ! empty($logo) ) {
-            $this->mediaService->updateStoreImage($logo, $storeId, null);
+            $this->mediaService->updateStoreImage($logo, $id, null);
+            $this->mediaService->deleteOldStoreLogo($id, $logo);
         }
         if ( ! empty( $listImage ) ) {
             $listImage = explode(',', $listImage);
@@ -124,6 +134,7 @@ class StoreController extends Controller
                 $this->mediaService->updateStoreImage($idImage, $id, $position);
             }
         }
+        $this->addressService->updateStoreAddress($id, $request);
 
         return redirect()->route('stores.index');
     }

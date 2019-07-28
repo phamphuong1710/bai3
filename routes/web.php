@@ -38,6 +38,6 @@ Route::get('locale/{locale}', function ($locale){
     return redirect()->back();
 });
 
-Route::resource('logo', 'StoreLogoController')->middleware(['auth']);
+Route::resource('logo', 'LogoController')->middleware(['auth']);
 
 

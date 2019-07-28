@@ -7,7 +7,7 @@ if ( ! function_exists( 'getStoreLogo' ) ) {
     {
         $logo = Media::where('store_id', $storeId)->where('active', 1)->first();
         if (! $logo) {
-            abort('404');
+            return;
         }
 
         return $logo;

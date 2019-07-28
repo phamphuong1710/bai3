@@ -10,7 +10,7 @@ class ProductService implements ProductInterface
 
     public function getAllProductStore($storeId)
     {
-        $products = Product::where('store_id', $storeId)->get();
+        $products = Product::where('store_id', $storeId)->paginate(15);
 
         return $products;
     }
@@ -59,9 +59,10 @@ class ProductService implements ProductInterface
 
     public function deleteProduct($id)
     {
+        $product = Product::findOrFail($id);
         Product::destroy($id);
 
-        return true;
+        return $product;
     }
 }
 

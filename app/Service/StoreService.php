@@ -9,7 +9,7 @@ class StoreService implements StoreInterface
 
     public function getAllStore()
     {
-        $stores = Store::all();
+        $stores = Store::paginate(15);
 
         return $stores;
     }

@@ -52,6 +52,20 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('messages.address') }}</label>
+                            <div class="col-md-6">
+                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="address">
+                                @error('address')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                                <div id="map"></div>
+                                <input type="hidden" name="lat" id="lat">
+                                <input type="hidden" name="lng" id="lng">
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
@@ -88,4 +102,10 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&libraries=places&anguage=vi&region=VI" async defer></script>
+<script src="{{ asset('js/admin/google-map.js') }}"></script>
 @endsection

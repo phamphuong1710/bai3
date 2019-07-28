@@ -179,3 +179,11 @@
 .lang li .active {
     color: #f11010;
 }
+
+.main-content {
+    padding-bottom: 50px;
+}
+
+#map {
+    height: 250px;
+}

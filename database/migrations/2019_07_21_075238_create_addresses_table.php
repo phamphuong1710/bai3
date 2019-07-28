@@ -15,10 +15,11 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('address');
             $table->integer('user_id')->nullable();
             $table->integer('store_id')->nullable();
-            $table->float('lat');
-            $table->float('lng');
+            $table->string('lat');
+            $table->string('lng');
             $table->integer('active')->default(0);
             $table->timestamp('deleted_at');
             $table->timestamps();

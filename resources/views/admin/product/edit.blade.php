@@ -21,7 +21,7 @@
                                     <div class="input-file">
                                         <label for="logo">{{ __('messages.change') }}</label>
                                         <input type="file" class="custom-file-input" id="logo" lang="in" name='logo'>
-                                        <input type="hidden" name="id_logo" class="id-logo" value="{{ $product->logo_id }}">
+                                        <input type="hidden" name="logo_id" class="id-logo" value="{{ $product->logo_id }}">
                                     </div>
                                     <button type="button" class="btn-delete-logo">{{ __('messages.delete') }}</button>
                                 </div>

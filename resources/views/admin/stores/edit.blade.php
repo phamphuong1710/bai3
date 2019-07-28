@@ -21,7 +21,7 @@
                                     <div class="input-file">
                                         <label for="logo">{{ __('messages.change') }}</label>
                                         <input type="file" class="custom-file-input" id="logo" lang="in" name='logo'>
-                                        <input type="hidden" name="id_logo" class="id-logo" value="{{ $store->logo_id }}">
+                                        <input type="hidden" name="logo_id" class="id-logo" value="{{ $store->logo_id }}">
                                     </div>
                                     <button type="button" class="btn-delete-logo">{{ __('messages.delete') }}</button>
                                 </div>
@@ -52,12 +52,15 @@
                         <div class="form-group">
                             <label for="address" class=" col-form-label text-md-right">{{ __('messages.address') }}</label>
                             <div class="">
-                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" autofocus value="address">
+                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" autofocus value="{{ $store->address->address }}">
                                 @error('address')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
+                                <div id="map"></div>
+                                <input type="hidden" name="lat" id="lat" value="{{ $store->address->lat }}">
+                                <input type="hidden" name="lng" id="lng" value="{{ $store->address->lng }}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -125,6 +128,8 @@
 @endsection
 @section('js')
 <script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&libraries=places&anguage=vi&region=VI" async defer></script>
+<script src="{{ asset('js/admin/update-address.js') }}"></script>
 <script src="{{ asset('js/admin/remove.js') }}"></script>
 <script src="{{ asset('js/admin/create-images.js') }}"></script>
 <script src="{{ asset('js/admin/create-logo.js') }}"></script>

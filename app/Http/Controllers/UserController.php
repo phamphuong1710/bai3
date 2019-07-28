@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Service\UserService;
+use App\Service\AddressService;
 
 class UserController extends Controller
 {
     protected $userService;
+    protected $addressService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, AddressService $addressService)
     {
         $this->middleware('auth');
         $this->userService = $userService;
+        $this->addressService = $addressService;
     }
 
     /**
@@ -47,8 +50,9 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $this->userService->createUser($request);
+        $user = $this->userService->createUser($request);
         $users = $this->userService->getAllUser();
+        $this->addressService->createUserAddress($user->id, $request);
 
         return redirect()->route('users.index', [ 'users' => $users ]);
     }
@@ -75,6 +79,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = $this->userService->getUserByID($id);
+        $address = $this->addressService->getAddressByUserID($id);
+        $user->address = $address;
 
         return view( 'admin.user.edit', compact('user') );
     }
@@ -89,6 +95,7 @@ class UserController extends Controller
     public function update(UserEditRequest $request, $id)
     {
         $this->userService->updateUser($request,$id);
+        $this->addressService->updateUserAddress($user->id, $request);
 
         return redirect()->route('users.index');
     }

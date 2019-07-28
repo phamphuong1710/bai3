@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\MediaService;
 
-class StoreLogoController extends Controller
+class LogoController extends Controller
 {
     protected $mediaService;
 
@@ -78,9 +78,7 @@ class StoreLogoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $path = $this->mediaService->updateLogoStore($id, $request);
 
-        return response()->json($path);
     }
 
     /**

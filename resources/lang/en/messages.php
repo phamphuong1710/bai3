@@ -31,4 +31,5 @@ return [
     'quantity' => 'Quantity',
     'import_price' => 'Import Price',
     'feature_image' => 'Feature Image',
+    'list_product' => 'List Product',
 ];

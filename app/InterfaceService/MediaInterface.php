@@ -12,8 +12,9 @@ interface MediaInterface {
     public function createVideoImage($request);
     public function createLogo($request, $storeId = null, $productId = null);
     public function getLogoByStoreId($storeId);
-    public function updateLogoStore($id, $request);
     public function updateProductImage($id, $productId, $position);
     public function getImageByProductId($productId);
     public function getLogoByProductId($productId);
+    public function deleteOldStoreLogo($storeId, $id);
+    public function deleteOldProductLogo($productId, $id);
 }

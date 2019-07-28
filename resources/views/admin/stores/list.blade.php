@@ -4,7 +4,6 @@
 @endsection
 @section('content')
 <div class="user-section">
-
     <div class="table-users">
         <h1 class="page-title header">{{ __('messages.store') }}</h1>
         <a href="/stores/create" class="create">{{ __('messages.create_store') }}</a>
@@ -33,6 +32,10 @@
             </tr>
             @endforeach
         </table>
+
+        <div class="pagination">
+            {{ $stores->links() }}
+        </div>
     </div>
 </div>
 @endsection

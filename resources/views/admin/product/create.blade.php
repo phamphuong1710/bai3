@@ -19,8 +19,13 @@
                                 <div class="custom d-flex justify-content-center">
                                     <div class="input-file">
                                         <label for="logo">{{ __('messages.feature_image') }}</label>
-                                        <input type="file" class="custom-file-input" id="logo" lang="in" name='logo'>
-                                        <input type="hidden" name="id_logo" class="id-logo">
+                                        <input type="file" class="custom-file-input form-control @error('logo_id') is-invalid @enderror" id="logo" lang="in" name='logo'>
+                                        @error('logo_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                        <input type="hidden" name="logo_id" class="id-logo form-control">
                                     </div>
                                     <button type="button" class="btn-delete-logo">{{ __('messages.delete') }}</button>
                                 </div>
@@ -42,12 +47,10 @@
                             <div class="">
                                 <select class="form-control" id="category" name="category_id">
                                     @foreach( $categories as $category )
-
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
-
-                                @error('category')
+                                @error('category_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -69,7 +72,7 @@
                             <label for="price_sale" class=" col-form-label text-md-right">{{ __('messages.price_sale') }}</label>
                             <div class="">
                                 <input id="price_sale" type="number" class="form-control @error('price_sale') is-invalid @enderror" name="sale_price" required autocomplete="price_sale" autofocus>
-                                @error('price_sale')
+                                @error('sale_price')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -90,7 +93,7 @@
                         <div class="form-group">
                             <label for="description" class=" col-form-label text-md-right">{{ __('messages.description') }}</label>
                             <div class="">
-                                <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" required autocomplete="description" autofocus>
+                                <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" autocomplete="description" autofocus>
                                 @error('description')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -100,7 +103,6 @@
                         </div>
                         <div id="preview-mode">
                             <ul id="image-preview" class="gallery-image-list">
-
                             </ul>
                         </div>
                         <div class="form-group">
@@ -112,6 +114,11 @@
                                 </div>
                                 <button type="button" class="btn-video">{{ __('Video') }}</button>
                             </div>
+                            @error('list_image')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                         <input type="hidden" name="user_id" value="{{ Auth::id() }}">
                         <input type="hidden" name="store_id" value="{{ $store_id }}">

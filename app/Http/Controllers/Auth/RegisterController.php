@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Address;
 
 class RegisterController extends Controller
 {
@@ -28,13 +29,14 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/stores';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+
     public function __construct()
     {
         $this->middleware('guest');
@@ -63,11 +65,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
+        $address = new Address();
+        $address->address = $data['address'];
+        $address->lat = $data['lat'];
+        $address->lng = $data['lng'];
+        $address->user_id = $user->id;
+        $address->active = 1;
+        $address->save();
+
+        return $user;
     }
 }

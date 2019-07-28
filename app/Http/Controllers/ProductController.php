@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Service\ProductService;
 use App\Service\MediaService;
 use App\Service\CategoryService;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -31,10 +32,10 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $product = $this->productService->createProduct($request);
-        $logo = $request->id_logo;
+        $logo = $request->logo_id;
         $this->mediaService->updateProductImage($logo, $product->id, null);
         $listImage = $request->list_image;
         $listImage = explode(',', $listImage);
@@ -43,7 +44,7 @@ class ProductController extends Controller
         }
 
         return redirect()
-            ->route('stores.show', [ 'id' => $request->store_id ] )
+            ->route('stores.show', [ 'id' => $product->store_id ] )
             ->with('success', 'Success');
     }
 
@@ -88,10 +89,22 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = $this->productService->updateProduct($request, $id);
+        $listImage = $request->list_image;
+        $logo = $request->logo_id;
+        if ( ! empty($logo) ) {
+            $this->mediaService->updateProductImage($logo, $id, null);
+            $this->mediaService->deleteOldProductLogo($id, $logo);
+        }
+        if ( ! empty( $listImage ) ) {
+            $listImage = explode(',', $listImage);
+            foreach ($listImage as $position => $idImage) {
+                $this->mediaService->updateProductImage($idImage, $id, $position);
+            }
+        }
 
         return redirect()
-            ->route('stores.show', [ 'id' => $request->store_id ] )
-            ->with('success_update', 'Success');
+            ->route('stores.show', [ 'id' => $product->store_id ] )
+            ->with('success_update_product', 'Success');
     }
 
     /**
@@ -102,9 +115,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = $this->productService->deleteProduct($id);
+
+        return redirect()
+            ->route('stores.show', [ 'id' => $product->store_id ] )
+            ->with('success_delete', 'Success');
     }
 
+    /**
+     * Create Product In Store
+     */
     public function createProduct($storeId)
     {
         $categories = $this->categoryService->allCategory();

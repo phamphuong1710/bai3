@@ -20,7 +20,7 @@
                                     <div class="input-file">
                                         <label for="logo">{{ __('Logo') }}</label>
                                         <input type="file" class="custom-file-input" id="logo" lang="in" name='logo'>
-                                        <input type="hidden" name="id_logo" class="id-logo">
+                                        <input type="hidden" name="logo_id" class="id-logo">
                                     </div>
                                     <button type="button" class="btn-delete-logo">{{ __('messages.delete') }}</button>
                                 </div>
@@ -57,6 +57,9 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
+                                <div id="map"></div>
+                                <input type="hidden" name="lat" id="lat">
+                                <input type="hidden" name="lng" id="lng">
                             </div>
                         </div>
                         <div class="form-group">
@@ -100,7 +103,9 @@
 </div>
 @endsection
 @section('js')
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&libraries=places&anguage=vi&region=VI" async defer></script>
 <script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/admin/google-map.js') }}"></script>
 <script src="{{ asset('js/admin/remove.js') }}"></script>
 <script src="{{ asset('js/admin/create-images.js') }}"></script>
 <script src="{{ asset('js/admin/create-logo.js') }}"></script>
