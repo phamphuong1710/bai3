@@ -103,7 +103,7 @@
 </div>
 @endsection
 @section('js')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOrpaa9ECnY2JUib0NWv3QXH21JMvc-p4&libraries=places&anguage=vi&region=VI" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&libraries=places&anguage=vi&region=VI" async defer></script>
 <script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('js/admin/google-map.js') }}"></script>
 <script src="{{ asset('js/admin/remove.js') }}"></script>

@@ -106,6 +106,6 @@
 
 @section('js')
 <script src="{{ asset('js/jquery.min.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOrpaa9ECnY2JUib0NWv3QXH21JMvc-p4&libraries=places&anguage=vi&region=VI" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AAPI_KEY&libraries=places&anguage=vi&region=VI" async defer></script>
 <script src="{{ asset('js/admin/google-map.js') }}"></script>
 @endsection
