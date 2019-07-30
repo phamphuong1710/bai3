@@ -18,6 +18,7 @@
     {{ session('success') }}
 </div>
 @endif
+
 <div class="shop-item-section">
     <div class="shop-detail">
         <h1 class="page-title header">{{ $store->name }}</h1>

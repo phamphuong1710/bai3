@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name') }}</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
@@ -52,36 +52,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <!-- The user image in the menu -->
                                     <li class="user-header">
                                         <img src="" class="img-circle" alt="User Image">
-                                        <p>
-                                            Alexander Pierce - Web Developer
-                                            <small>Member since Nov. 2012</small>
-                                        </p>
+
                                     </li>
                                     <!-- Menu Body -->
-                                    <li class="user-body">
-                                        <div class="row">
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Followers</a>
-                                            </div>
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Sales</a>
-                                            </div>
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Friends</a>
-                                            </div>
-                                        </div>
-                                        <!-- /.row -->
-                                    </li>
+
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                            <a href="#" class="btn btn-default btn-flat">{{ __('messages.profile') }}</a>
                                         </div>
                                         <div class="pull-right">
 
                                             <form action="{{ route('logout') }}" method="POST">
                                                 @csrf
-                                                <button type="submit">Sign out</button>
+                                                <button type="submit">{{ __('messages.sing_out') }}</button>
                                             </form>
                                         </div>
                                     </li>
@@ -97,20 +81,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <section class="sidebar">
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
-                        <li class="header">Dashboard</li>
+                        <li class="header">{{ __('messages.dashboard') }}</li>
                         <!-- Optionally, you can add icons to the links -->
-                        <li><a href="/posts"><i class="fa fa-link"></i> <span>Post</span></a></li>
-                        <li class="active"><a href="{{ url('/users') }}"><i class="fa fa-user"></i><span>User</span></a></li>
-                        <li class="treeview">
-                            <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#">Link in level 2</a></li>
-                            <li><a href="#">Link in level 2</a></li>
-                        </ul>
+                        <li>
+                            <a href="/stores">
+                                <i class="fa fa-link"></i>
+                                <span>{{ __('messages.stores') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{ url('/users') }}">
+                                <i class="fa fa-user"></i>
+                                <span>{{ __('messages.user') }}</span>
+                            </a>
+                        </li>
                     </li>
                 </ul>
                 <!-- /.sidebar-menu -->

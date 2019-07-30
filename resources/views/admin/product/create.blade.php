@@ -71,7 +71,7 @@
                         <div class="form-group">
                             <label for="price_sale" class=" col-form-label text-md-right">{{ __('messages.price_sale') }}</label>
                             <div class="">
-                                <input id="price_sale" type="number" class="form-control @error('price_sale') is-invalid @enderror" name="sale_price" required autocomplete="price_sale" autofocus>
+                                <input id="price_sale" type="number" class="form-control @error('sale_price') is-invalid @enderror" name="sale_price" required autocomplete="price_sale" autofocus>
                                 @error('sale_price')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

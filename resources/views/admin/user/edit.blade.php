@@ -75,6 +75,6 @@
 </div>
 @endsection
 @section('js')
-<script src="https://maps.googleapis.com/maps/api/js?key=AAPI_KEY&libraries=places&anguage=vi&region=VI" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('map.google_key') }}&libraries=places&anguage=vi&region=VI" async defer></script>
 <script src="{{ asset('js/admin/update-address.js') }}"></script>
 @endsection

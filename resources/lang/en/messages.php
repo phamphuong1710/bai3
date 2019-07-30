@@ -32,4 +32,9 @@ return [
     'import_price' => 'Import Price',
     'feature_image' => 'Feature Image',
     'list_product' => 'List Product',
+    'stores' => 'Stores',
+    'dashboard' => 'Dashboard',
+    'sing_out' => 'Sing Out',
+    'sing_in' => 'Sing In',
+    'profile' => 'Profile',
 ];

@@ -149,7 +149,7 @@ class MediaService implements MediaInterface
             ->where('active', 1)
             ->whereNotIn('id', [$id])
             ->get();
-        if ( ! empty($logos) ) {
+        if (!empty($logos)) {
             foreach ($logos as $logo) {
                 $this->deleteMedia($logo->id);
             }

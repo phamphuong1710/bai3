@@ -91,7 +91,7 @@ class ProductController extends Controller
         $product = $this->productService->updateProduct($request, $id);
         $listImage = $request->list_image;
         $logo = $request->logo_id;
-        if ( ! empty($logo) ) {
+        if (!empty($logo)) {
             $this->mediaService->updateProductImage($logo, $id, null);
             $this->mediaService->deleteOldProductLogo($id, $logo);
         }

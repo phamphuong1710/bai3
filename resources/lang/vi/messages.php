@@ -32,4 +32,9 @@ return [
     'import_price' => 'Giá Nhập',
     'feature_image' => 'Ảnh Đặc Trưng',
     'list_product' => 'Danh Sách Sản Phẩm',
+    'stores' => 'Danh sách cửa hàng',
+    'dashboard' => 'Bảng điều kiển',
+    'sing_out' => 'Đăng Xuất',
+    'sing_in' => 'Đăng Nhập',
+    'profile' => 'Hồ Sơ'
 ];

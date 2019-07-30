@@ -95,7 +95,7 @@ class UserController extends Controller
     public function update(UserEditRequest $request, $id)
     {
         $this->userService->updateUser($request,$id);
-        $this->addressService->updateUserAddress($user->id, $request);
+        $this->addressService->updateUserAddress($id, $request);
 
         return redirect()->route('users.index');
     }

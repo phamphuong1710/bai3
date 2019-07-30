@@ -13,7 +13,7 @@ class StoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        require_once app_path() . '/Helpers/StoreHelper.php'
+        require_once app_path() . '/Helpers/StoreHelper.php';
     }
 
     /**

@@ -38,20 +38,4 @@ class ProductRequest extends FormRequest
          ];
     }
 
-    public function messages()
-    {
-        return [
-            'logo_id.required' => 'Logo is required',
-            'category_id.required' => 'Category is required',
-            'name.required' => 'Name isrequired',
-            'price.required' => 'Price is required',
-            'sale_price.required' => 'Sale price is required',
-            'quantity.required' => 'Quantity is required',
-            'description.required' => 'Description required',
-            'price.required' => 'Price is required',
-            'list_image.required' => 'Image is required',
-            'user_id.required' => 'required',
-            'store_id.required' => 'required'
-        ];
-    }
 }
