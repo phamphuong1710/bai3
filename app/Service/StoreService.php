@@ -49,9 +49,10 @@ class StoreService implements StoreInterface
 
     public function deleteStore($id)
     {
+        $store = Store::findOrFail($id);
         Store::destroy($id);
 
-        return true;
+        return $store;
     }
 
     public function getStoreByUser($userId)

@@ -99,9 +99,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->categoryService->deleteCategory($id);
+        $product = $this->categoryService->deleteCategory($id);
         $categories = $this->categoryService->allCategory();
 
-        return redirect()->route('categories.index', compact('categories'));
+        return response()->json($product);
+
     }
 }

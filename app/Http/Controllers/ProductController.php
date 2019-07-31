@@ -56,7 +56,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('admin.product.detail');
     }
 
     /**
@@ -117,9 +117,7 @@ class ProductController extends Controller
     {
         $product = $this->productService->deleteProduct($id);
 
-        return redirect()
-            ->route('stores.show', [ 'id' => $product->store_id ] )
-            ->with('success_delete', 'Success');
+        return response()->json($product);
     }
 
     /**

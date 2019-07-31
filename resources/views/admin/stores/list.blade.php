@@ -26,7 +26,7 @@
                     <form action="/stores/{{ $store->id }}" method="POST" class="form-delete">
                         @method('delete')
                         {{ csrf_field() }}
-                        <button type="submit" class="btn-action btn-delete">{{ __('messages.delete') }}</button>
+                        <button type="submit" class="btn-action btn-delete btn-delete-store" data-id="{{ $store->id }}">{{ __('messages.delete') }}</button>
                     </form>
                 </td>
             </tr>
@@ -38,4 +38,7 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script src="{{ asset('js/admin/delete-store.js') }}"></script>
 @endsection

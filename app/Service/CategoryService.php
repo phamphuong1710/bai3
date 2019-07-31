@@ -11,7 +11,6 @@ class CategoryService implements CategoryInterface
         $category = new Category();
         $category->name = $request->name;
         $category->slug = str_slug( $request->name, '-' );
-
         $category->save();
 
         return $category;
@@ -38,9 +37,10 @@ class CategoryService implements CategoryInterface
 
     public function deleteCategory($id)
     {
+        $category = Category::findOrFail($id);
         Category::where('id', $id)->delete();
 
-        return true;
+        return $category;
     }
 
     public function allCategory()

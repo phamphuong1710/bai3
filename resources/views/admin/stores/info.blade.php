@@ -75,7 +75,7 @@
                             <form action="/products/{{ $product->id }}" method="POST" class="form-delete">
                                 @method('delete')
                                 {{ csrf_field() }}
-                                <button type="submit" class="btn-action btn-delete">{{ __('messages.delete') }}</button>
+                                <button type="submit" class="btn-action btn-delete btn-delete-product" data-id="{{ $product->id }}">{{ __('messages.delete') }}</button>
                             </form>
                         </div>
                     </div>
@@ -89,4 +89,7 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script src="{{ asset('js/admin/delete-product.js') }}"></script>
 @endsection

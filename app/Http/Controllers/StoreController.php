@@ -148,12 +148,12 @@ class StoreController extends Controller
     public function destroy($id)
     {
         $storeId = $id;
-        $this->storeService->deleteStore($id);
+        $store = $this->storeService->deleteStore($id);
         $images = $this->mediaService->getImageByStoreId($id);
         foreach ($images as $image) {
             $this->mediaService->deleteMedia($image->id);
         }
 
-        return redirect()->route('stores.index');
+        return response()->json($store);
     }
 }
