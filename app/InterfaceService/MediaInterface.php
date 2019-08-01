@@ -17,4 +17,5 @@ interface MediaInterface {
     public function getLogoByProductId($productId);
     public function deleteOldStoreLogo($storeId, $id);
     public function deleteOldProductLogo($productId, $id);
+    public function getImageByUserId($userId);
 }

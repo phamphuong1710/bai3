@@ -6,6 +6,7 @@ use App\Media; // model
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
 use File;
+use Auth;
 
 class MediaService implements MediaInterface
 {
@@ -27,6 +28,7 @@ class MediaService implements MediaInterface
                 $image = new Media();
                 $image->image_path = $path;
                 $image->store_id = $storeId;
+                $image->user_id = Auth::id();
                 $image->save();
                 array_push($listImage, $image);
             }
@@ -49,6 +51,7 @@ class MediaService implements MediaInterface
             $img->resize(480, 360)->save($link);
             $path = '/files'.date("/Y/m/d/").$name;
             $images->image_path = $path;
+            $image->user_id = Auth::id();
             $images->save();
         }
 
@@ -58,11 +61,11 @@ class MediaService implements MediaInterface
     public function deleteMedia($id)
     {
         $image = Media::findOrFail($id);
-        $path = public_path().$image->image_path;
-        Media::destroy($id);
-        unlink($path);
+        $image->product_id = null;
+        $image->store_id = null;
+        $image->save();
 
-        return true;
+        return $image;
     }
 
     public function createLogo($request, $storeId = null, $productId = null)
@@ -81,6 +84,7 @@ class MediaService implements MediaInterface
             $image->image_path = $path;
             $image->store_id = $storeId;
             $image->product_id = $productId;
+            $image->user_id = Auth::id();
             $image->active = 1;
             $image->save();
         }
@@ -127,7 +131,8 @@ class MediaService implements MediaInterface
         $path = '/files'.date("/Y/m/d/").$name;
         $image = new Media();
         $image->image_path = $path;
-        $image->video_path = $request->video_path;
+        $image->image_path = $path;
+        $image->user_id = Auth::id();
         $image->save();
 
         return $image;
@@ -151,7 +156,8 @@ class MediaService implements MediaInterface
             ->get();
         if (!empty($logos)) {
             foreach ($logos as $logo) {
-                $this->deleteMedia($logo->id);
+                $logo->active = 0;
+                $logo->save();
             }
         }
 
@@ -200,11 +206,21 @@ class MediaService implements MediaInterface
             ->get();
         if ( ! empty($logos) ) {
             foreach ($logos as $logo) {
-                $this->deleteMedia($logo->id);
+                $logo->active = 0;
+                $logo->save();
             }
         }
 
         return true;
+    }
+
+    public function getImageByUserId($userId)
+    {
+        $images = Media::where('user_id', $userId)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return $images;
     }
 }
 

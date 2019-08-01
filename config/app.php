@@ -177,6 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\StoreServiceProvider::class,
+        App\Providers\ImageLibraryProvider::class,
 
     ],
 

@@ -40,4 +40,4 @@ Route::get('locale/{locale}', function ($locale){
 
 Route::resource('logo', 'LogoController')->middleware(['auth']);
 
-
+Route::resource('library', 'ImageLibraryController')->middleware(['auth']);

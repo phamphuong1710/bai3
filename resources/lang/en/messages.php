@@ -37,4 +37,7 @@ return [
     'sing_out' => 'Sing Out',
     'sing_in' => 'Sing In',
     'profile' => 'Profile',
+    'library_image' => 'Image Library',
+    'close' => 'Close',
+    'insert' => 'Insert',
 ];

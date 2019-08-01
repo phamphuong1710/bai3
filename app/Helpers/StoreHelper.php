@@ -54,28 +54,3 @@ if ( !function_exists( 'getProductLogo' ) ) {
     }
 }
 
-if (!function_exists('changeCurrency')) {
-    function changeCurrency($price)
-    {
-        // set API Endpoint, access key, required parameters
-        $endpoint = 'convert';
-        $access_key = '8a113ba385e29c7124ed35fec13d790c';
-
-        $from = 'VND';
-        $to = 'USD';
-
-        // initialize CURL:
-        $ch = curl_init('http://apilayer.net/api/'.$endpoint.'?access_key='.$access_key.'&from='.$from.'&to='.$to.'&amount='.$price.'');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // get the (still encoded) JSON data:
-        $json = curl_exec($ch);
-        curl_close($ch);
-
-        // Decode JSON response:
-        $conversionResult = json_decode($json, true);
-
-        // access the conversion result
-        return $conversionResult['result'];
-    }
-}

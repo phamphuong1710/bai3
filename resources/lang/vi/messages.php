@@ -36,5 +36,8 @@ return [
     'dashboard' => 'Bảng điều kiển',
     'sing_out' => 'Đăng Xuất',
     'sing_in' => 'Đăng Nhập',
-    'profile' => 'Hồ Sơ'
+    'profile' => 'Hồ Sơ',
+    'library_image' => 'Thư viện ảnh',
+    'close' => 'Đóng',
+    'insert' => 'Chèn',
 ];
