@@ -26,15 +26,15 @@
 .image-item {
     width: 25%;
     display: inline-block;
-    min-height: 180px;
-
-    padding: 0 15px;
+    padding: 0 15px 30px;
+    background-color: #fff;
 
 }
 
 .image-wrapper {
     border: 1px solid #eeeeee;
     height: 100%;
+
 }
 
 .preview-action {
@@ -59,7 +59,7 @@
 }
 
 .image-wrapper .image {
-    height: calc( 100% - 30px );
+
     display: flex;
     justify-content: center;
     align-items: center;

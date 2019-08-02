@@ -20,6 +20,13 @@
     height: 100%;
 }
 
+.btn-image-library {
+    background-color: #0c513b;
+    color: #fff;
+    margin-right: 25px;
+
+}
+
 /*.icon-close {
     position: absolute;
     top: 0px;
@@ -34,7 +41,16 @@
 }
 */
 #image-library {
-    min-height: calc( 100% - 60px );
+    height: calc( 100% - 60px );
+    overflow-y: scroll;
+    padding: 50px 20px;
+    margin-bottom: 0;
+    border-bottom: 1px solid;
+
+}
+
+#image-library .image-checkbox {
+    background: transparent;
 }
 
 .library-action {

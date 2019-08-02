@@ -50,15 +50,28 @@ $(document).ready(function(){
           images[i] = $(this).val();
         });
 
-        arrayImage = arrayImage.concat(images); //gộp 2 mảng
-        $('#listImage').attr('value',arrayImage );
+        var token = $("meta[name='csrf-token']").attr("content"),
+            formData = new FormData();
+            formData.append('list_path', images);
+            formData.append('_token', token);
+        $.ajax(
+        {
+            url: "/library/",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend : function ( xhr ) {
 
-        $.each(images, function (index, value) {
-            $('#image-library .image-checkbox ').each(function (index) {
-                if ( $(this).attr('data-id') == value ) {
-                    var imagepath = $(this).find('img').attr('src');
+            },
+            success: function ($data){
+                console.log($data);
+                var listId = [];
+                $.each( $data, function (index, value) {
+                    arrayImage.push(value.id);
+                    position = position + 1;
                     $('#image-preview').append(
-                        '<li data-item="' + value + '" class="image-item ui-sortable-handle">'
+                        '<li data-item="' + value.id + '" class="image-item ui-sortable-handle">'
                             + '<div class="image-wrapper">'
                                 + '<div class="preview-action">'
                                     +'<span val="' + position + '" class="image-position">' + position
@@ -69,14 +82,17 @@ $(document).ready(function(){
                                 + '</span>'
                             + '</div>'
                             + '<div class="image">'
-                                + '<img src="' + url + imagepath+'">'
+                                + '<img src="' + url +value.image_path+'">'
                             + '</div>'
                         + '</div>'
                         + '</li>'
                     );
-
-                }
-            })
+                } );
+                $('#listImage').attr('value',arrayImage );
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
         });
 
     });

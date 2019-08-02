@@ -222,5 +222,20 @@ class MediaService implements MediaInterface
 
         return $images;
     }
+
+    public function insertImageInLibrary($request)
+    {
+        $images = [];
+        $listPath = explode(',', $request->list_path);
+        foreach ($listPath as $path) {
+            $image = new Media();
+            $image->image_path = $path;
+            $image->user_id = Auth::id();
+            $image->save();
+            array_push($images, $image);
+        }
+
+        return $images;
+    }
 }
 
