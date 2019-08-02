@@ -1,6 +1,5 @@
 @extends('admin.master')
 @section('style')
-<link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
 <link href="{{ asset('css/admin/library-image.css') }}" rel="stylesheet">
 @endsection
 @section('content')

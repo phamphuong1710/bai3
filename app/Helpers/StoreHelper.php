@@ -1,6 +1,7 @@
 <?php
 
 use App\Media;
+use App\Address;
 
 if ( !function_exists( 'getStoreLogo' ) ) {
     function getStoreLogo($storeId)
@@ -54,3 +55,11 @@ if ( !function_exists( 'getProductLogo' ) ) {
     }
 }
 
+if (!function_exists('getStoreAddress')) {
+    function getStoreAddress($storeId)
+    {
+        $address = Address::where('store_id', $storeId)->first();
+
+        return $address;
+    }
+}

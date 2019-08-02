@@ -1,6 +1,6 @@
 @extends('admin.master')
 @section('style')
-<link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/library-image.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="container">
@@ -108,6 +108,7 @@
                                     <input type="file" class="custom-file-input" id="postImage" lang="in" multiple="multiple" name='image[]'>
                                     <input type="hidden" name="list_image" value="{{ getListImageStore($store->id) }}" id="listImage">
                                 </div>
+                                <button class="btn btn-image-library">{{ __('messages.library_image') }}</button>
                                 <button type="button" class="btn-video">Video</button>
                             </div>
                         </div>
@@ -122,6 +123,19 @@
                     </form>
                 </div>
             </div>
+            <div class="library-image-wrapper">
+                <div class="library-image-content">
+                    <ul id="image-library" class="list-old-image imageby-user">
+
+                    </ul>
+                    <div class="library-action">
+                        <div class="library-action-wrapper">
+                            <button class="btn btn-close">{{ __('messages.close') }}</button>
+                            <button class="btn btn-images-choose">{{ __('messages.insert') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -129,7 +143,7 @@
 @section('js')
 <script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key={{ config('map.google_key') }}&libraries=places&anguage=vi&region=VI" async defer></script> -->
-<script src="{{ asset('js/admin/update-address.js') }}"></script>
+<!-- <script src="{{ asset('js/admin/update-address.js') }}"></script> -->
 <script src="{{ asset('js/admin/remove.js') }}"></script>
 <script src="{{ asset('js/admin/create-images.js') }}"></script>
 <script src="{{ asset('js/admin/create-logo.js') }}"></script>
@@ -138,4 +152,5 @@
 <script src="{{ asset('js/admin/edit-image.js') }}"></script>
 <script src="{{ asset('js/admin/ui-sortable.js') }}"></script>
 <script src="{{ asset('js/admin/video.js') }}"></script>
+<script src="{{ asset('js/admin/image-library.js') }}"></script>
 @endsection

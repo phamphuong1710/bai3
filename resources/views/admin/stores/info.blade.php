@@ -40,6 +40,29 @@
         </div>
     </div>
     <div class="all-product">
+        <div class="store-action">
+            <div class="action-top d-flex justify-content-between align-items-center">
+                <a href="/stores/create" class="create create-store">
+                    {{ __('messages.create_store') }}
+                </a>
+                <div class="form-search search-store">
+                    <input type="search" name="store" id="input-store">
+                    <button type="submit" class="fa fa-search btn-search"></button>
+                </div>
+            </div>
+            <div class="action-bottom">
+                <span class="count-store"></span>
+                <div class="form-filter">
+                    <div class="form-group">
+
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option value="0">{{ __('messages.category') }}</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="list-product">
             <div class="list-title">
                 <h2>{{ __('messages.list_product') }}</h2>

@@ -128,7 +128,7 @@ class StoreController extends Controller
             $this->mediaService->updateStoreImage($logo, $id, null);
             $this->mediaService->deleteOldStoreLogo($id, $logo);
         }
-        if ( ! empty( $listImage ) ) {
+        if ( !empty($listImage) ) {
             $listImage = explode(',', $listImage);
             foreach ($listImage as $position => $idImage) {
                 $this->mediaService->updateStoreImage($idImage, $id, $position);

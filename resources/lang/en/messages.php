@@ -40,4 +40,5 @@ return [
     'library_image' => 'Image Library',
     'close' => 'Close',
     'insert' => 'Insert',
+    'view' => 'View',
 ];

@@ -15,7 +15,7 @@ return [
     'edit_product' => 'Sửa Sản Phẩm',
     'edit_store' => 'Sửa Cửa Hàng',
     'edit_category' => 'Sửa Danh Mục',
-    'description' => 'Miêu Tả',
+    'description' => 'Mô Tả',
     'create' => 'Tạo Mới',
     'edit' => 'Sửa',
     'update' => 'Cập Nhật',
@@ -40,4 +40,5 @@ return [
     'library_image' => 'Thư viện ảnh',
     'close' => 'Đóng',
     'insert' => 'Chèn',
+    'view' => 'Xem'
 ];

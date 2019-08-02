@@ -89,6 +89,7 @@ $(document).ready(function(){
                     );
                 } );
                 $('#listImage').attr('value',arrayImage );
+                $('.library-image-wrapper').removeClass('active');
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);

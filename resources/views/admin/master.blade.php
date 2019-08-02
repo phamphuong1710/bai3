@@ -46,29 +46,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <!-- The user image in the navbar-->
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                    <span class="hidden-xs">Alexander Pierce</span>
+                                    <span class="hidden-xs">{{ Auth::user()->name }}</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <!-- The user image in the menu -->
-                                    <li class="user-header">
-                                        <img src="" class="img-circle" alt="User Image">
-
-                                    </li>
-                                    <!-- Menu Body -->
 
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">{{ __('messages.profile') }}</a>
+                                            <a href="#" class="btn-user btn-default btn-flat">{{ __('messages.profile') }}</a>
                                         </div>
-                                        <div class="pull-right">
+                                    </li>
 
+                                    <li class="user-footer">
+                                        <div class="pull-left">
                                             <form action="{{ route('logout') }}" method="POST">
                                                 @csrf
-                                                <button type="submit">{{ __('messages.sing_out') }}</button>
+                                                <button type="submit" class="btn-user btn-default">{{ __('messages.sing_out') }}</button>
                                             </form>
                                         </div>
                                     </li>
+
                                 </ul>
                             </li>
                         </ul>

@@ -162,6 +162,7 @@
     list-style: none;
     margin-right: 20px;
     padding: 0;
+    margin-bottom: 0;
 }
 
 .lang li {
@@ -186,4 +187,73 @@
 
 #map {
     height: 250px;
+}
+
+.dropdown-menu {
+    padding: 15px;
+}
+
+.user-footer {
+    border-bottom: 1px solid #eee;
+}
+
+.btn-user {
+    background: none;
+    border: none;
+    padding: 0;
+}
+.btn-user:hover {
+    background: none;
+}
+
+.btn-action {
+   height: 23px;
+   min-width: 50px;
+   display: inline-flex;
+   justify-content: center;
+   align-items: center;
+   color: #fff;
+   font-size: 13px;
+   border-radius: 3px;
+   cursor: pointer;
+   transition: all 0.2s;
+}
+
+.btn-action:hover {
+
+   transform: scale(1.05);
+   color: #fff;
+   box-shadow: 3px 3px 8px rgba( 0, 0, 0 , 0.2 );
+   transition: all 0.2s;
+}
+
+.btn-action:not(:last-child){
+   margin-right: 15px;
+}
+
+.btn-edit,
+.btn-view {
+   background-color: #1f3d70;
+}
+
+.btn-edit:hover {
+   background-color: #1f3d70;
+}
+
+.btn-delete {
+   background-color: #d6252d;
+   border: none;
+}
+
+.form-delete {
+    display: inline-block;
+}
+
+.page-title {
+    min-height: 80px;
+    background-color: #1f3d70;
+    color: #fff;
+    padding: 20px 15px;
+    text-align: center;
+    margin-bottom: 0
 }
