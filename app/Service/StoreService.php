@@ -61,5 +61,13 @@ class StoreService implements StoreInterface
 
         return $stores;
     }
+
+    //Seach Store
+    public function searchStore($request)
+    {
+        $stores = Store::where('name', 'like', '%'.$request->store.'%')->get();
+
+        return $stores;
+    }
 }
 

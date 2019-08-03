@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::resource('admin', 'HomeController')->middleware(['auth']);
+
 Route::resource('users', 'UserController')->middleware(['auth']);
 
 Route::resource('categories', 'CategoryController')->middleware(['auth']);
@@ -28,6 +30,8 @@ Route::resource('media-store', 'MediaStoreController')->middleware(['auth']);
 Route::resource('video-store', 'VideoStoreController')->middleware(['auth']);
 
 Route::get('shop/{storeID}/create-product', 'ProductController@createProduct')->name('createProduct')->middleware(['auth']);
+
+Route::get('product', 'ProductController@getAllProductByUser')->name('listProduct')->middleware(['auth']);
 
 Route::resource('products', 'ProductController')->middleware(['auth']);
 
@@ -41,3 +45,11 @@ Route::get('locale/{locale}', function ($locale){
 Route::resource('logo', 'LogoController')->middleware(['auth']);
 
 Route::resource('library', 'ImageLibraryController')->middleware(['auth']);
+
+Route::post('/search-store', 'SearchController@searchStore')->middleware(['auth']);
+
+Route::post('/search-product', 'SearchController@searchProduct')->middleware(['auth']);
+
+Route::post( '/search-category', 'SearchController@filterByCategory')->middleware(['auth']);
+
+Route::post( '/search-product-user', 'SearchController@searchProductByUser')->middleware(['auth']);

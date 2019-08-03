@@ -59,3 +59,20 @@
     text-align: center;
     margin: 50px 0;
 }
+
+.logo-store {
+    margin-bottom: 30px;
+}
+
+.all-product {
+    margin-top: 30px;
+    border-top: 2px solid #222d32;
+}
+
+.action-top {
+    margin-bottom: 20px;
+}
+
+.store-action {
+    margin-bottom: 30px;
+}

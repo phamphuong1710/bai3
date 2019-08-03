@@ -18,11 +18,15 @@ $(document).ready(function(){
         };
         var fileData = $(this).prop("files");
         var token = $( 'input[name=_token]' ).val();
+
         var formData = new FormData();
         for (var x = 0; x < fileData.length; x++) {
             formData.append("image[]", fileData[x]);
         }
         formData.append('_token', token);
+        if ( fileData.length == 0 ) {
+            return;
+        }
         $.ajax({
             url: "/media-store",
             data: formData,
@@ -54,7 +58,7 @@ $(document).ready(function(){
                 $('#listImage').val(arrayImage);
             },
             error: function (xhr, status, error) {
-                alert(xhr.responseText);
+                alert('Something wrong! Please try again later!');
             }
         });
     });

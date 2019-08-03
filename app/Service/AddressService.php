@@ -24,7 +24,7 @@ class AddressService implements AddressInterface
     {
         $address = Address::where('store_id', $storeId)
             ->where('active', 1)
-            ->first();
+            ->firstOrFail();
 
         return $address;
     }
@@ -33,7 +33,7 @@ class AddressService implements AddressInterface
     {
         $address = Address::where('store_id', $storeId)
             ->where('active', 1)
-            ->first();
+            ->firstOrFail();
         $address->address = $request->address;
         $address->lat = $request->lat;
         $address->lng = $request->lng;
@@ -59,7 +59,7 @@ class AddressService implements AddressInterface
     {
         $address = Address::where('user_id', $userId)
             ->where('active', 1)
-            ->first();
+            ->firstOrFail();
         $address->address = $request->address;
         $address->lat = $request->lat;
         $address->lng = $request->lng;
@@ -73,7 +73,7 @@ class AddressService implements AddressInterface
     {
         $address = Address::where('user_id', $userId)
             ->where('active', 1)
-            ->first();
+            ->firstOrFail();
 
         return $address;
     }

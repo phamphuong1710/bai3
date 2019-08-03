@@ -4,6 +4,7 @@ namespace App\Service;
 use App\InterfaceService\ProductInterface;
 use App\Product; // model
 use Carbon\Carbon;
+use Auth;
 
 class ProductService implements ProductInterface
 {
@@ -11,6 +12,13 @@ class ProductService implements ProductInterface
     public function getAllProductStore($storeId)
     {
         $products = Product::where('store_id', $storeId)->paginate(15);
+
+        return $products;
+    }
+
+    public function getAllProductInStore($storeId)
+    {
+        $products = Product::where('store_id', $storeId)->get();
 
         return $products;
     }
@@ -61,6 +69,70 @@ class ProductService implements ProductInterface
     {
         $product = Product::findOrFail($id);
         Product::destroy($id);
+
+        return $product;
+    }
+
+    //Seach Product In Store
+    public function searchProduct($request)
+    {
+        $storeId = (int)$request->store;
+        $product = Product::where('store_id', $storeId)->where('name', 'like', '%'.$request->product.'%')->get();
+
+        return $product;
+    }
+
+    // Filter Product By Category In Store
+    public function filterProductByCategory($request)
+    {
+        $cat = (int)$request->category;
+        $storeId = (int)$request->store;
+        if ( $cat == 0 ) {
+            $product = Product::where('store_id', $storeId)
+            ->get();
+        }
+        else {
+            $product = Product::where('category_id', $cat)
+            ->where('store_id', $storeId)
+            ->get();
+        }
+
+        return $product;
+    }
+
+    public function getProductByUser()
+    {
+        $userId = Auth::id();
+        $products = Product::where('user_id', $userId)->get();
+
+        return $products;
+    }
+
+    //Search Product By User
+    public function searchProductByUser($request)
+    {
+        $userId = Auth::id();
+        $product = Product::where('user_id', $userId)
+            ->where('name', 'like', '%'.$request->product.'%')
+            ->get();
+
+        return $product;
+    }
+
+    // Filter Product By Category By User
+    public function filterProductByUserCategory($request)
+    {
+        $cat = (int)$request->category;
+        $storeId = (int)$request->store;
+        if ( $cat == 0 ) {
+            $product = Product::where('store_id', $storeId)
+            ->get();
+        }
+        else {
+            $product = Product::where('category_id', $cat)
+            ->where('store_id', $storeId)
+            ->get();
+        }
 
         return $product;
     }

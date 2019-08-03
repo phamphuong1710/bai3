@@ -97,7 +97,7 @@ class MediaService implements MediaInterface
     {
         $images = Media::where('store_id', $storeId)
             ->where('active', 0)
-            ->orderBy('position','asc')
+            ->orderBy('position','desc')
             ->get();
 
         return $images;
@@ -140,7 +140,7 @@ class MediaService implements MediaInterface
 
     public function getLogoByStoreId($storeId)
     {
-        $logo = Media::where('store_id', $storeId)->where('active', 1)->first();
+        $logo = Media::where('store_id', $storeId)->where('active', 1)->firstOrFail();
         if (! $logo) {
             abort('404');
         }
@@ -180,7 +180,7 @@ class MediaService implements MediaInterface
     {
         $images = Media::where('product_id', $productId)
             ->where('active', 0)
-            ->orderBy('position','asc')
+            ->orderBy('position','desc')
             ->get();
 
         return $images;
@@ -190,7 +190,7 @@ class MediaService implements MediaInterface
     {
         $logo = Media::where('product_id', $productId)
             ->where('active', 1)
-            ->first();
+            ->firstOrFail();
         if (! $logo) {
             abort('404');
         }

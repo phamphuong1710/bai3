@@ -1,80 +1,46 @@
 @extends('admin.master')
 @section('style')
 <link href="{{ asset('css/admin/list-product.css') }}" rel="stylesheet">
+
 @endsection
 @section('content')
-@if (session('success_delete'))
-<div class="alert alert-success">
-    {{ session('success_delete') }}
-</div>
-@endif
-@if (session('success_update_product'))
-<div class="alert alert-success">
-    {{ session('success_update_product') }}
-</div>
-@endif
-@if (session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
-<div class="shop-item-section">
-    <div class="shop-detail">
-        <h1 class="page-title header">{{ $store->name }}</h1>
-    </div>
-    <div class="store-info">
-        <div class="store-info-wrapper">
-            <div class="logo-store d-flex justify-content-center">
-                <img src="{{ getStoreLogoPath($store->id) }}" alt="{{ 'Logo '.$store->name }}">
-            </div>
-            <p class="store-address">
-                <span class="label">{{ __('messages.address') }}: </span>
-                {{ $store->address->address }}
-            </p>
-            <p class="store-phone">
-                <span class="label">{{ __('messages.phone') }}: </span>
-                {{ $store->phone }}
-            </p>
-            <p class="store-description">
-                <span class="label">{{ __('messages.description') }}: </span>
-                {{ $store->description }}
-            </p>
-        </div>
-    </div>
-    <div class="all-product">
+
+
+
+    <div class="product-grid">
         <div class="list-title">
             <h2>{{ __('messages.list_product') }}</h2>
         </div>
         <div class="store-action">
             <div class="action-top d-flex justify-content-between align-items-center">
-                <a href="/shop/{{ $store->id }}/create-product" class="create create-store">
+                <a href="/shop//create-product" class="create create-store">
                     {{ __('messages.createproduct') }}
                 </a>
                 <div class="form-search search-product">
                     <input type="search" name="product" id="input-product">
                     <button type="submit" class="fa fa-search btn-search btn-search-product"></button>
-                    <input type="hidden" value="{{ $store->id }}" name="store" id="store-id">
+
                 </div>
             </div>
             <div class="action-bottom d-flex justify-content-between align-items-center">
                 <span class="count-store">
-                    {{ count($store->products).' '.__('messages.product') }}
+                    {{ count($products).' '.__('messages.product') }}
                 </span>
                 <div class="form-filter">
                     <div class="form-group">
+
                         <select class="form-control" id="product-category" name="category">
                             <option value="0">{{ __('messages.filter_category') }}</option>
-                            @foreach( getAllCategoryByStore($store->id) as $category )
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
+
                         </select>
                     </div>
                 </div>
             </div>
         </div>
         <div class="list-product">
+
             <div class="list-product-wrapper ajax-search-html">
-                @foreach( $store->products as $product )
+                @foreach( $products as $product )
                 <div id="product-{{ $product->id }}" class="product product-admin">
                     <div class="product-content">
                         <div class="image-product-wrapper">
@@ -110,8 +76,9 @@
                     </div>
                 </div>
                 @endforeach
+
                 <div class="pagination">
-                    {{ $store->products->links() }}
+
                 </div>
             </div>
         </div>
@@ -120,7 +87,7 @@
 @endsection
 @section('js')
 <script src="{{ asset('js/admin/delete-product.js') }}"></script>
-<script src="{{ asset('js/admin/search-product-in-store.js') }}"></script>
+<script src="{{ asset('js/admin/search-product-by-user.js') }}"></script>
 @if( app()->getLocale() == 'en' )
 <script src="{{ asset('js/admin/currency.js') }}"></script>
 @endif

@@ -1,7 +1,5 @@
 $(document).ready(function(){
     const now = new Date();
-
-    function getCurrency() {
         $.ajax(
         {
 
@@ -24,9 +22,6 @@ $(document).ready(function(){
                 })
             }
         });
-    }
-
-    setInterval( getCurrency, 2000 );
 
 
 });

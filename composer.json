@@ -39,7 +39,8 @@
         },
         "files": [
             "app/Helpers/StoreHelper.php",
-            "app/Helpers/ImageLibraryHelper.php"
+            "app/Helpers/ImageLibraryHelper.php",
+            "app/Helpers/ProductHelper.php"
         ],
         "classmap": [
             "database/seeds",

@@ -23,7 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Main Header -->
             <header class="main-header">
                 <!-- Logo -->
-                <a href="index2.html" class="logo">
+                <a href="/admin" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -91,6 +91,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="{{ url('/users') }}">
                                 <i class="fa fa-user"></i>
                                 <span>{{ __('messages.user') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{ url('/categories') }}">
+                                <i class="fa fa-user"></i>
+                                <span>{{ __('messages.category') }}</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="{{ url('/product') }}">
+                                <i class="fa fa-user"></i>
+                                <span>{{ __('messages.product') }}</span>
                             </a>
                         </li>
                     </li>

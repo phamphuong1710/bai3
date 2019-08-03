@@ -178,6 +178,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\StoreServiceProvider::class,
         App\Providers\ImageLibraryProvider::class,
+        App\Providers\ProductProvider::class,
 
     ],
 

@@ -40,5 +40,9 @@ return [
     'library_image' => 'Thư viện ảnh',
     'close' => 'Đóng',
     'insert' => 'Chèn',
-    'view' => 'Xem'
+    'view' => 'Xem',
+    'parent_category' => 'Parent Category',
+    'select_parent_category' => 'Select Parent Category',
+    'curentcy' => 'VND',
+    'filter_category' => 'Lọc Theo Danh Mục',
 ];

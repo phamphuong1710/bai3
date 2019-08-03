@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $(".btn-delete-store").on( 'click', function(e){
+    $(".list-store").on( 'click', '.btn-delete-store', function(e){
         e.preventDefault();
         var $delete = confirm( 'Delete Store' );
         if ( $delete === true ) {

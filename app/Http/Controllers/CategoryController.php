@@ -35,7 +35,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        $categories = $this->categoryService->allCategory();
+
+        return view('admin.categories.create', compact('categories'));
     }
 
     /**
@@ -72,8 +74,15 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = $this->categoryService->getCategoryById($id);
+        $categories = $this->categoryService->allCategory();
 
-        return view('admin.categories.edit', compact('category'));
+        return view(
+            'admin.categories.edit',
+            [
+                'categories' => $categories,
+                'category' =>$category,
+            ]
+        );
     }
 
     /**
@@ -83,7 +92,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $this->categoryService->updateCategory($id, $request);
         $categories = $this->categoryService->allCategory();

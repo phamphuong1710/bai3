@@ -16,7 +16,7 @@ class UserService implements UserInterface
 
     public function getUserById($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         if(!$user) abort('404');
 
         return $user;
@@ -43,7 +43,7 @@ class UserService implements UserInterface
 
     public function updateUser($request, $id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         if(!$user) abort('404');
         $user->name = $request->name;
         $user->email = $request->email;

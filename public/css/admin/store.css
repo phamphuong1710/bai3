@@ -19,26 +19,4 @@
     padding: 15px;
 }
 
-.create {
-    font-size: 16px;
-    color: #1f3d70;
-    font-weight: 500;
-}
 
-.form-search {
-    min-width: 200px;
-    display: flex;
-    border: 1px solid #ddd;
-}
-
-#input-store {
-    border: none;
-    width: calc( 100% - 30px );
-}
-
-.btn-search {
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-left: 1px solid #ddd;
-}

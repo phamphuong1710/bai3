@@ -257,3 +257,33 @@
     text-align: center;
     margin-bottom: 0
 }
+
+.action-column {
+    width: 140px;
+}
+
+#input-store,
+#input-product {
+    border: none;
+    width: calc( 100% - 30px );
+}
+
+
+.form-search {
+    min-width: 200px;
+    display: flex;
+    border: 1px solid #ddd;
+}
+
+.btn-search {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-left: 1px solid #ddd;
+}
+
+.create {
+    font-size: 16px;
+    color: #1f3d70;
+    font-weight: 500;
+}

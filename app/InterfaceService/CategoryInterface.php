@@ -7,4 +7,6 @@ interface CategoryInterface {
     public function getCategoryById($id);
     public function updateCategory($id, $request);
     public function deleteCategory($id);
+    public function getCategoryStore($listCategory);
+    public function getChildCategory($parentId);
 }

@@ -41,4 +41,8 @@ return [
     'close' => 'Close',
     'insert' => 'Insert',
     'view' => 'View',
+    'parent_category' => 'Danh mục cha',
+    'select_parent_category' => 'Chọn danh mục Cha',
+    'curentcy' => 'USD',
+    'filter_category' => 'Filter by category',
 ];

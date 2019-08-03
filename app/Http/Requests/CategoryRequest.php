@@ -24,15 +24,9 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'slug' => 'unquie'
+            'name' => 'required|unique:categories',
+            'parent_id' => 'required'
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'slug.unquie' => 'This category already exists'
-        ];
-    }
 }

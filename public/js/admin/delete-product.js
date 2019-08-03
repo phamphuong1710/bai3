@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $(".btn-delete-product").on( 'click', function(e){
+    $(".list-product").on( 'click', '.btn-delete-product', function(e){
         e.preventDefault();
         var $delete = confirm( 'Delete Product' );
         if ( $delete === true ) {

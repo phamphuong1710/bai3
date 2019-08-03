@@ -17,10 +17,9 @@
                 </div>
             </div>
         </div>
-
-        <div class="album py-5 bg-light">
+        <div class="album py-5 bg-light list-store">
             <div class="container">
-                <div class="row">
+                <div class="row ajax-search-html">
                     @foreach( $stores as $store )
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
@@ -63,4 +62,5 @@
 @endsection
 @section('js')
 <script src="{{ asset('js/admin/delete-store.js') }}"></script>
+<script src="{{ asset('js/admin/search-store.js') }}"></script>
 @endsection

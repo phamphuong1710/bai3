@@ -27,6 +27,16 @@ class ProductController extends Controller
     }
 
     /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('admin.index');
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -134,5 +144,12 @@ class ProductController extends Controller
                 'store_id' => $storeId
             ]
         );
+    }
+
+    public function getAllProductByUser()
+    {
+        $products = $this->productService->getProductByUser();
+
+        return view('admin.product.list', compact('products'));
     }
 }
