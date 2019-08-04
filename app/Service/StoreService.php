@@ -3,6 +3,7 @@ namespace App\Service;
 
 use App\InterfaceService\StoreInterface;
 use App\Store; // model
+use Auth;
 
 class StoreService implements StoreInterface
 {
@@ -65,7 +66,21 @@ class StoreService implements StoreInterface
     //Seach Store
     public function searchStore($request)
     {
-        $stores = Store::where('name', 'like', '%'.$request->store.'%')->get();
+        $user = Auth::id();
+        $stores = Store::where('name', 'like', '%'.$request->store.'%')
+            ->where('user_id', $user)
+            ->get();
+
+        return $stores;
+    }
+
+    // Filter Store
+    public function filterStore($request)
+    {
+        $user = Auth::id();
+        $stores = Store::where('user_id', $user)
+            ->orderBy($request->order, $request->orderby)
+            ->get();
 
         return $stores;
     }

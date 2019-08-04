@@ -1,6 +1,7 @@
 <?php
 
 use App\Service\CategoryService;
+use App\Service\AddressService;
 
 if (!function_exists('getProductHtml')) {
     function getProductHtml($products)
@@ -58,5 +59,33 @@ if (!function_exists('getChildCategory')) {
         }
 
         return $listCategory;
+    }
+}
+
+if (!function_exists('getUserHtml')) {
+    function getUserHtml($users)
+    {
+        $address = new AddressService();
+        $html = '';
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                $html .= '<tr>
+                            <td><a href="/users/'.$user->id.'">'.$user->name.'</a></td>
+                            <td>'.$user->phone.'</td>
+                            <td>'.$user->email.'</td>
+                            <td>'.$user->email.'</td>
+                            <td>
+                                <a href="/users/'.$user->id.'/edit" class="btn-action btn-edit">'.trans('messages.edit').'</a>
+                                <form action="/users/'.$user->id.'" method="POST" class="form-delete">
+                                    <input name="_method" value="delete" type="hidden">
+                                    '.csrf_field().'
+                                    <button type="submit" class="btn-action btn-delete">'.trans('messages.delete').'</button>
+                                </form>
+                            </td>
+                        </tr>';
+            }
+        }
+
+        return $html;
     }
 }

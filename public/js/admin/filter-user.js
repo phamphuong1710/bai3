@@ -1,17 +1,17 @@
 $(document).ready(function(){
 
-    $("#input-store").on('keyup', function (e) {
-        var store = $(this).val();
+    $("#input-user").on('keyup', function (e) {
+        var user = $(this).val();
 
         var formData = new FormData();
-        formData.append("store", store);
+        formData.append("user", user);
         $.ajaxSetup({
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             }
         });
         $.ajax({
-            url: "/search-store",
+            url: "/search-user",
             data: formData,
             type: 'POST',
             contentType: false,
@@ -39,7 +39,7 @@ $(document).ready(function(){
             }
         });
         $.ajax({
-            url: "/filter-store",
+            url: "/filter-user",
             data: formData,
             type: 'POST',
             contentType: false,

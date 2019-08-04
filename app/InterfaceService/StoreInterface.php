@@ -9,4 +9,6 @@ interface StoreInterface {
     public function updateStore($request, $id);
     //Seach Store
     public function searchStore($request);
+    // Filter Store
+    public function filterStore($request);
 }

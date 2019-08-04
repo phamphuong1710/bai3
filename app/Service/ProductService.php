@@ -23,6 +23,16 @@ class ProductService implements ProductInterface
         return $products;
     }
 
+    public function getAllProductByUser($request)
+    {
+        $userId = Auth::id();
+        $products = Product::where('user_id', $userId)
+            ->orderBy($request->order, $request->orderby)
+            ->get();
+
+        return $products;
+    }
+
     public function createProduct($request)
     {
         $product = new Product();
@@ -82,20 +92,25 @@ class ProductService implements ProductInterface
         return $product;
     }
 
-    // Filter Product By Category In Store
-    public function filterProductByCategory($request)
+    // Filter All Product In Store
+    public function filterAllProductStore($request)
     {
-        $cat = (int)$request->category;
+        $storeId = (int)$request->store_id;
+        $products = Product::where('store_id', $storeId)
+            ->orderBy($request->order, $request->orderby)
+            ->get();
+
+        return $products;
+    }
+
+    // Filter Product By Category In Store
+    public function filterProductByCategory($request, $listCategory)
+    {
         $storeId = (int)$request->store;
-        if ( $cat == 0 ) {
-            $product = Product::where('store_id', $storeId)
-            ->get();
-        }
-        else {
-            $product = Product::where('category_id', $cat)
+        $product = Product::whereIn('category_id', $listCategory)
             ->where('store_id', $storeId)
+            ->orderBy($request->order, $request->orderby)
             ->get();
-        }
 
         return $product;
     }
@@ -120,21 +135,16 @@ class ProductService implements ProductInterface
     }
 
     // Filter Product By Category By User
-    public function filterProductByUserCategory($request)
+    public function filterProductByUserCategory($request, $listCategory)
     {
-        $cat = (int)$request->category;
-        $storeId = (int)$request->store;
-        if ( $cat == 0 ) {
-            $product = Product::where('store_id', $storeId)
+        $userId = Auth::id();
+        $product = Product::whereIn('category_id', $listCategory)
+            ->where('user_id', $userId)
+            ->orderBy($request->order, $request->orderby)
             ->get();
-        }
-        else {
-            $product = Product::where('category_id', $cat)
-            ->where('store_id', $storeId)
-            ->get();
-        }
 
         return $product;
     }
+
 }
 

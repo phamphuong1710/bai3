@@ -16,6 +16,35 @@
                     <button type="submit" class="fa fa-search btn-search"></button>
                 </div>
             </div>
+            <div class="action-bottom d-flex justify-content-between align-items-center">
+                <span class="count-store">
+                    {{ count($stores).' '.__('messages.store') }}
+                </span>
+                <div class="form-filter d-flex justify-content-between align-items-center">
+
+                    <div class="form-group">
+                        <select class="form-control" id="sorting" name="category">
+                            <option value="created_at-asc">
+                                {{ __('messages.sort_date_asc') }}</option>
+                            <option value="name-asc">
+                                {{ __('messages.sort_name_asc') }}
+                            </option>
+                            <option value="rating_average-asc">
+                                {{ __('messages.sort_rating_asc') }}
+                            </option>
+                            <option value="name-desc">
+                                {{ __('messages.sort_name_desc') }}
+                            </option>
+                            <option value="created_at-desc">
+                                {{ __('messages.sort_date_desc') }}
+                            </option>
+                            <option value="rating_average-desc">
+                                {{ __('messages.sort_rating_desc') }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="album py-5 bg-light list-store">
             <div class="container">

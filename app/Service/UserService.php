@@ -51,5 +51,21 @@ class UserService implements UserInterface
 
         return $user;
     }
+
+    public function searchUser($request)
+    {
+        $user = User::where('name', 'like', '%'.$request->user.'%')
+            ->get();
+
+        return $user;
+    }
+
+    public function filterUser($request)
+    {
+        $user = User::orderBy($request->order, $request->orderby)
+            ->get();
+
+        return $user;
+    }
 }
 

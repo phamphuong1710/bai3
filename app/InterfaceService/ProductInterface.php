@@ -7,6 +7,7 @@ interface ProductInterface {
     public function getAllProductStore($storeID);
     //without Pagination
     public function getAllProductInStore($storeID);
+    public function getAllProductByUser($request);
     public function createProduct($request);
     public function getProductId($id);
     public function updateProduct($request, $id);
@@ -14,7 +15,11 @@ interface ProductInterface {
     //Seach Product In Store
     public function searchProduct($request);
     // Filter Product By Category In Store
-    public function filterProductByCategory($request);
+    public function filterProductByCategory($request, $listCategory);
     //Search Product By User
     public function searchProductByUser($request);
+    // Filter Product By Category By User
+    public function filterProductByUserCategory($request, $listCategory);
+    // Filter All Product In Store
+    public function filterAllProductStore($request);
 }

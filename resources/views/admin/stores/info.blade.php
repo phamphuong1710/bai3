@@ -58,15 +58,42 @@
             </div>
             <div class="action-bottom d-flex justify-content-between align-items-center">
                 <span class="count-store">
-                    {{ count($store->products).' '.__('messages.product') }}
+                    <span class="product-number">{{ count($store->products) }}</span> {{' '.__('messages.product') }}
                 </span>
-                <div class="form-filter">
+                <div class="form-filter d-flex justify-content-between align-items-center">
                     <div class="form-group">
                         <select class="form-control" id="product-category" name="category">
                             <option value="0">{{ __('messages.filter_category') }}</option>
                             @foreach( getAllCategoryByStore($store->id) as $category )
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="sorting" name="category">
+                            <option value="created_at-asc">
+                                {{ __('messages.sort_date_asc') }}</option>
+                            <option value="name-asc">
+                                {{ __('messages.sort_name_asc') }}
+                            </option>
+                            <option value="sale_price-asc">
+                                {{ __('messages.sort_price_asc') }}
+                            </option>
+                            <option value="rating_average-asc">
+                                {{ __('messages.sort_rating_asc') }}
+                            </option>
+                            <option value="name-desc">
+                                {{ __('messages.sort_name_desc') }}
+                            </option>
+                            <option value="created_at-desc">
+                                {{ __('messages.sort_date_desc') }}
+                            </option>
+                            <option value="sale_price-desc">
+                                {{ __('messages.sort_price_desc') }}
+                            </option>
+                            <option value="rating_average-desc">
+                                {{ __('messages.sort_rating_desc') }}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -120,9 +147,8 @@
 @endsection
 @section('js')
 <script src="{{ asset('js/admin/delete-product.js') }}"></script>
-<script src="{{ asset('js/admin/search-product-in-store.js') }}"></script>
 @if( app()->getLocale() == 'en' )
 <script src="{{ asset('js/admin/currency.js') }}"></script>
 @endif
-<script src="{{ asset('js/admin/filter-category.js') }}"></script>
+<script src="{{ asset('js/admin/filter-product.js') }}"></script>
 @endsection
