@@ -65,5 +65,21 @@ class CategoryService implements CategoryInterface
 
         return $categories;
     }
+
+    public function searchCategory($request)
+    {
+        $category = Category::where('name', 'like', '%'.$request->category.'%')
+            ->get();
+
+        return $category;
+    }
+
+    public function filterCategory($request)
+    {
+        $category = Category::orderBy($request->order, $request->orderby)
+            ->get();
+
+        return $category;
+    }
 }
 

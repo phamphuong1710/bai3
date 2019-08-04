@@ -61,3 +61,7 @@ Route::post( '/filter-store', 'SearchController@filterStore')->middleware(['auth
 Route::post( '/search-user', 'SearchController@searchUser')->middleware(['auth']);
 
 Route::post( '/filter-user', 'SearchController@filterUser')->middleware(['auth']);
+
+Route::post( '/search-category', 'SearchController@searchCategory')->middleware(['auth']);
+
+Route::post( '/filter-category', 'SearchController@filterCategory')->middleware(['auth']);

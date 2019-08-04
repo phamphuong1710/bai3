@@ -62,24 +62,21 @@ if (!function_exists('getChildCategory')) {
     }
 }
 
-if (!function_exists('getUserHtml')) {
-    function getUserHtml($users)
+if (!function_exists('getCategoryHtml')) {
+    function getCategoryHtml($categories)
     {
-        $address = new AddressService();
         $html = '';
-        if (!empty($users)) {
-            foreach ($users as $user) {
-                $html .= '<tr>
-                            <td><a href="/users/'.$user->id.'">'.$user->name.'</a></td>
-                            <td>'.$user->phone.'</td>
-                            <td>'.$user->email.'</td>
-                            <td>'.$user->email.'</td>
+        if (!empty($categories)) {
+            foreach ($categories as $category) {
+                $html .= '<tr data-id="'.$category->id.'">
+                            <td><a href="/categories/'.$category->id.'">'.$category->name.'</a></td>
+                            <td>'.$category->slug.'</td>
                             <td>
-                                <a href="/users/'.$user->id.'/edit" class="btn-action btn-edit">'.trans('messages.edit').'</a>
-                                <form action="/users/'.$user->id.'" method="POST" class="form-delete">
-                                    <input name="_method" value="delete" type="hidden">
+                                <a href="/categories/'.$category->id.'/edit" class="btn-action btn-edit">'.trans('messages.edit') .'</a>
+                                <form action="/categories/'.$category->id.'" method="POST" class="form-delete">
+                                    <input type="hidden" value="delete" name="_method">
                                     '.csrf_field().'
-                                    <button type="submit" class="btn-action btn-delete">'.trans('messages.delete').'</button>
+                                    <button type="submit" class="btn-action btn-delete btn-delete-cat" data-id="{{ $category->id }}">'.trans('messages.delete').'</button>
                                 </form>
                             </td>
                         </tr>';
@@ -89,3 +86,4 @@ if (!function_exists('getUserHtml')) {
         return $html;
     }
 }
+

@@ -264,7 +264,8 @@
 
 #input-store,
 #input-product,
-#input-user {
+#input-user,
+#input-category {
     border: none;
     width: 100%;
 }

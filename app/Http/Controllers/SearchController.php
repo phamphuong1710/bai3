@@ -6,19 +6,22 @@ use Illuminate\Http\Request;
 use App\Service\ProductService;
 use App\Service\StoreService;
 use App\Service\UserService;
+use App\Service\CategoryService;
 
 class SearchController extends Controller
 {
     protected $storeService;
     protected $productService;
     protected $userService;
+    protected $categoryService;
 
-    public function __construct( StoreService $storeService, ProductService $productService, UserService $userService )
+    public function __construct( StoreService $storeService, ProductService $productService, UserService $userService, CategoryService $categoryService )
     {
         $this->middleware('auth');
         $this->storeService = $storeService;
         $this->productService = $productService;
         $this->userService = $userService;
+        $this->categoryService = $categoryService;
     }
 
     public function searchStore(Request $request)
@@ -98,6 +101,22 @@ class SearchController extends Controller
     {
         $users = $this->userService->filterUser($request);
         $html = getUserHtml($users);
+
+        return response()->json($html);
+    }
+
+    public function searchCategory(Request $request)
+    {
+        $categories = $this->categoryService->searchCategory($request);
+        $html = getCategoryHtml($categories);
+
+        return response()->json($html);
+    }
+
+    public function filterCategory(Request $request)
+    {
+        $categories = $this->categoryService->filterCategory($request);
+        $html = getCategoryHtml($categories);
 
         return response()->json($html);
     }
