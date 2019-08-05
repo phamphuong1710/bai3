@@ -42,10 +42,18 @@ class ProductService implements ProductInterface
         $product->category_id = $request->category_id;
         $product->description = $request->description;
         $product->price = $request->price;
-        $product->sale_price = $request->sale_price;
         $product->user_id = $request->user_id;
         $product->store_id = $request->store_id;
         $product->quantity_stock = $request->quantity;
+        if (app()->getLocale() == 'en') {
+            $product->usd = $request->sale_price;
+            $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
+            $product->vnd = formatNumber($price, 2);
+        } else {
+            $product->vnd = $request->sale_price;
+            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->usd = formatNumber($price, 2);
+        }
         $product->save();
 
         return $product;
@@ -145,6 +153,5 @@ class ProductService implements ProductInterface
 
         return $product;
     }
-
 }
 

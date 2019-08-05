@@ -87,3 +87,35 @@ if (!function_exists('getCategoryHtml')) {
     }
 }
 
+if (!function_exists('getUserHtml')) {
+    function getUserHtml($users)
+    {
+        $html = '';
+        foreach ($users as $user) {
+            $html .= '<tr>
+                        <td><a href="/users/' . $user->id . '">' . $user->name . '</a></td>
+                        <td> ' . $user->phone . '</td>
+                        <td> ' . $user->email . '</td>
+                        <td>
+                            <a href="/users/' . $user->id . '/edit" class="btn-action btn-edit">' . trans('messages.edit') .'</a>
+                            <form action="/users/ '. $user->id . '" method="POST" class="form-delete">
+                                <input type="hidden" name="_method" value="delete">' .
+                                csrf_field() .'
+                                <button type="submit" class="btn-action btn-delete"> ' . trans('messages.delete') . '</button>
+                            </form>
+                        </td>
+                    </tr>';
+        }
+
+        return $html;
+    }
+}
+
+if (!function_exists('formatNumber')) {
+    function formatNumber($number, $lamTronSoSauDauPhay) {
+        $number = (int)(pow(10, $lamTronSoSauDauPhay) * $number);
+        $number = $number/pow(10, $lamTronSoSauDauPhay);
+
+        return $number;
+    }
+}
