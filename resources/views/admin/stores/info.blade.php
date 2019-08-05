@@ -115,14 +115,17 @@
                             </a>
                             <div class="product-price">
                                 <span class="import-price">
-                                    {{ __('messages.import_price').': ' }}
-                                    <span class="price" price="{{ $product->price }}">{{ number_format($product->price,0,".",".") }}</span>
+                                    @if( app()->getLocale() == 'en' )
+                                    <span class="price" price="{{ $product->price }}">{{ number_format($product->usd, 2, '.', '.') }}</span>
                                     <span class="currency">{{ __('messages.curentcy') }}</span>
+                                    @endif
                                 </span>
                                 <span class="sale-price">
+                                    @if( app()->getLocale() == 'vi' )
                                     {{ __('messages.price_sale').' :' }}
-                                    <span class="price" price="{{ $product->sale_price }}">{{ number_format($product->sale_price,0,".",".") }}</span>
+                                    <span class="price" price="{{ $product->sale_price }}">{{ number_format($product->vnd,0,'.','.') }}</span>
                                     <span class="currency">{{ __('messages.curentcy') }}</span>
+                                    @endif
                                 </span>
                             </div>
                         </div>

@@ -9,4 +9,6 @@ interface CategoryInterface {
     public function deleteCategory($id);
     public function getCategoryStore($listCategory);
     public function getChildCategory($parentId);
+    public function searchCategory($request);
+    public function filterCategory($request);
 }
