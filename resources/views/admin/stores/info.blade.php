@@ -155,8 +155,10 @@
 @endif
 <script src="{{ asset('js/admin/filter-product.js') }}"></script>
 @endsection
-<<<<<<< HEAD
-fjashfjhfldsgsdg
-=======
-<!-- diasidjsad -->
->>>>>>> dasdjhsakda
+fjdkjfhsdkjfdssfsdf
+sdfd
+dsf
+dsf
+sd
+f
+dsf
