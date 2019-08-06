@@ -7,7 +7,9 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('messages.create_store') }}</div>
+                <div class="card-header">
+
+                </div>
                 <div class="card-body">
                     <form method="POST" action="/stores/{{ $store->id }}">
                         @csrf

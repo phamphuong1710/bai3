@@ -52,4 +52,43 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('.sorting').on('click', function () {
+        var btn = $(this),
+            order = btn.attr('data-sort'),
+            desc = btn.hasClass('desc'),
+            asc = btn.hasClass('asc'),
+            formData = new FormData(),
+            orderby;
+        if ( desc ) {
+            btn.removeClass('desc').addClass('asc');
+            orderby = "asc";
+        }
+
+        if ( asc ) {
+            btn.removeClass('asc').addClass('desc');
+            orderby = "desc";
+        }
+
+        formData.append('order', order);
+        formData.append('orderby', orderby);
+        $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            }
+        });
+        $.ajax({
+            url: "/filter-user",
+            data: formData,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('.ajax-search-html').html(data);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+    });
 });

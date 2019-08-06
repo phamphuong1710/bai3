@@ -1,7 +1,8 @@
 @extends('admin.master')
 @section('style')
 <link href="{{ asset('css/admin/list-product.css') }}" rel="stylesheet">
-
+<link href="{{ asset('css/admin/edit-popup.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/library-image.css') }}" rel="stylesheet">
 @endsection
 @section('content')
     <div class="product-grid">
@@ -90,7 +91,7 @@
                             </div>
                         </div>
                         <div class="product-action">
-                            <a href="/products/{{ $product->id }}/edit" class="btn-action btn-edit">{{ __('messages.edit') }}</a>
+                            <a href="/products/{{ $product->id }}/edit" class="btn-action btn-edit" data-id="{{ $product->id }}" controller="products">{{ __('messages.edit') }}</a>
                             <form action="/products/{{ $product->id }}" method="POST" class="form-delete">
                                 @method('delete')
                                 {{ csrf_field() }}
@@ -102,7 +103,12 @@
                 @endforeach
 
                 <div class="pagination">
+                    {{ $products->links() }}
+                </div>
+                <div class="edit-popup edit-product" id="edit-popup" data-edit="products">
+                    <div class="edit-popup-wrapper height">
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -115,4 +121,16 @@
 <script src="{{ asset('js/admin/currency.js') }}"></script>
 @endif
 <script src="{{ asset('js/admin/filter-product-user.js') }}"></script>
+<script src="{{ asset('js/admin/edit-popup.js') }}"></script>
+<!-- edit -->
+<script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/admin/remove.js') }}"></script>
+<script src="{{ asset('js/admin/create-logo.js') }}"></script>
+<script src="{{ asset('js/admin/delete-logo.js') }}"></script>
+<script src="{{ asset('js/admin/create-images.js') }}"></script>
+<script src="{{ asset('js/admin/delete-image.js') }}"></script>
+<script src="{{ asset('js/admin/edit-image.js') }}"></script>
+<script src="{{ asset('js/admin/ui-sortable.js') }}"></script>
+<script src="{{ asset('js/admin/video.js') }}"></script>
+<script src="{{ asset('js/admin/image-library.js') }}"></script>
 @endsection

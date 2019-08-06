@@ -9,7 +9,7 @@ class UserService implements UserInterface
 {
     public function getAllUser()
     {
-        $users = User::all();
+        $users = User::orderBy('created_at','desc')->paginate(15);
 
         return $users;
     }

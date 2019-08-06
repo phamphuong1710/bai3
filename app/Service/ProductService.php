@@ -126,7 +126,7 @@ class ProductService implements ProductInterface
     public function getProductByUser()
     {
         $userId = Auth::id();
-        $products = Product::where('user_id', $userId)->get();
+        $products = Product::where('user_id', $userId)->paginate(15);
 
         return $products;
     }
@@ -137,6 +137,7 @@ class ProductService implements ProductInterface
         $userId = Auth::id();
         $product = Product::where('user_id', $userId)
             ->where('name', 'like', '%'.$request->product.'%')
+            ->orwhere('description', 'like', '%'.$request->product.'%')
             ->get();
 
         return $product;

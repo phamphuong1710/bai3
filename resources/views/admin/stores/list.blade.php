@@ -1,6 +1,7 @@
 @extends('admin.master')
 @section('style')
 <link href="{{ asset('css/admin/store.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/edit-popup.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="store-section">
@@ -69,7 +70,7 @@
                                 </span>
                                 <div class="d-flex justify-content-between align-items-center btn-group" >
                                     <a href="/stores/{{ $store->id }}" class="btn-action btn-action btn-view">{{ __('messages.view') }}</a>
-                                    <a href="/stores/{{ $store->id }}/edit" class="btn-action btn-edit">{{ __('messages.edit') }}</a>
+                                    <a href="/stores/{{ $store->id }}/edit" class="btn-action btn-edit"  data-id="{{ $store->id }}" controller="stores">{{ __('messages.edit') }}</a>
                                     <form action="/stores/{{ $store->id }}" method="POST" class="form-delete">
                                         @method('delete')
                                         {{ csrf_field() }}
@@ -80,16 +81,23 @@
                         </div>
                     </div>
                     @endforeach
+                    <div class="pagination">
+                        {{ $stores->links() }}
+                    </div>
+                    <div class="edit-popup edit-store" id="edit-popup" data-edit="stores">
+                        <div class="edit-popup-wrapper height">
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="pagination">
-            {{ $stores->links() }}
-        </div>
+
     </div>
 </div>
 @endsection
 @section('js')
 <script src="{{ asset('js/admin/delete-store.js') }}"></script>
 <script src="{{ asset('js/admin/search-store.js') }}"></script>
+<!-- <script src="{{ asset('js/admin/edit-popup.js') }}"></script> -->
 @endsection

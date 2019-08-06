@@ -70,7 +70,7 @@ if (!function_exists('getCategoryHtml')) {
             foreach ($categories as $category) {
                 $html .= '<tr data-id="'.$category->id.'">
                             <td><a href="/categories/'.$category->id.'">'.$category->name.'</a></td>
-                            <td>'.$category->slug.'</td>
+                            <td>'.$category->created_at.'</td>
                             <td>
                                 <a href="/categories/'.$category->id.'/edit" class="btn-action btn-edit">'.trans('messages.edit') .'</a>
                                 <form action="/categories/'.$category->id.'" method="POST" class="form-delete">
@@ -96,6 +96,7 @@ if (!function_exists('getUserHtml')) {
                         <td><a href="/users/' . $user->id . '">' . $user->name . '</a></td>
                         <td> ' . $user->phone . '</td>
                         <td> ' . $user->email . '</td>
+                        <td> ' . $user->created_at . '</td>
                         <td>
                             <a href="/users/' . $user->id . '/edit" class="btn-action btn-edit">' . trans('messages.edit') .'</a>
                             <form action="/users/ '. $user->id . '" method="POST" class="form-delete">

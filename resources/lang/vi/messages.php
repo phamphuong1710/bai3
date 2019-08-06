@@ -54,4 +54,5 @@ return [
     'sort_date_desc' => 'Sắp Xếp Theo Ngày từ muộn',
     'sort_price_desc' => 'Sắp Xếp Theo Giá Từ Cao Đến Thấp',
     'sort_rating_desc' => 'Sắp Xếp Theo Rating Từ Cao Đến Thấp',
+    'created_at' => 'Thời gian tạo',
 ];

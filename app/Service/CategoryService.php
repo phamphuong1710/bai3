@@ -47,7 +47,7 @@ class CategoryService implements CategoryInterface
 
     public function allCategory()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('created_at', 'desc')->paginate(15);
 
         return $categories;
     }

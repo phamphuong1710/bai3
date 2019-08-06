@@ -54,4 +54,5 @@ return [
     'sort_date_desc' => 'Sort By Date from late to early',
     'sort_price_desc' => 'Sort By Price from high to low',
     'sort_rating_desc' => 'Sort By Rating from high to low',
+    'created_at' => 'Create At',
 ];

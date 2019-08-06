@@ -1,12 +1,13 @@
 .list-product-wrapper {
     display: flex;
-    flex-wrap: 1;
+    flex-wrap: wrap;
     margin: 0 -15px;
 }
 
 .product-admin {
     padding: 0 15px;
     width: 33.33%;
+    margin-bottom: 30px;
 }
 
 .image-product-wrapper img {

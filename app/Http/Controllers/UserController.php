@@ -52,7 +52,6 @@ class UserController extends Controller
     {
         $user = $this->userService->createUser($request);
         $users = $this->userService->getAllUser();
-        $this->addressService->createUserAddress($user->id, $request);
 
         return redirect()->route('users.index', [ 'users' => $users ]);
     }
@@ -79,8 +78,6 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = $this->userService->getUserByID($id);
-        $address = $this->addressService->getAddressByUserID($id);
-        $user->address = $address;
 
         return view( 'admin.user.edit', compact('user') );
     }

@@ -1,30 +1,15 @@
-@extends('admin.master')
-@section('style')
-<link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
-@endsection
-@section('sidebar')
-<li class="header">Dashboard</li>
-<!-- Optionally, you can add icons to the links -->
-<li><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-<li class="active"><a href="{{ url('/users') }}"><i class="fa fa-user"></i><span>User</span></a></li>
-<li class="treeview">
-    <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-    <span class="pull-right-container">
-        <i class="fa fa-angle-left pull-right"></i>
-    </span>
-</a>
-<ul class="treeview-menu">
-    <li><a href="#">Link in level 2</a></li>
-    <li><a href="#">Link in level 2</a></li>
-</ul>
-</li>
-@endsection
-@section('content')
-<div class="container">
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">{{ __('messages.edit') }}</div>
+
+<div class="row justify-content-center height">
+    <div class="col-md-12 height">
+        <div class="card height">
+            <div class="card-header">
+                <span class="header-text">
+                    {{ __('messages.edit') }}
+                </span>
+                <span class="btn-close-popup fa fa-close">
+
+                </span>
+            </div>
             <div class="card-body">
                 <form method="POST" action="/categories/{{ $category->id }}">
                     @method('PUT')
@@ -75,5 +60,4 @@
         </div>
     </div>
 </div>
-</div>
-@endsection
+

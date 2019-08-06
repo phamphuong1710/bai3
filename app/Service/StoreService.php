@@ -68,6 +68,7 @@ class StoreService implements StoreInterface
     {
         $user = Auth::id();
         $stores = Store::where('name', 'like', '%'.$request->store.'%')
+            ->orwhere('description', 'like', '%'.$request->store.'%')
             ->where('user_id', $user)
             ->get();
 
