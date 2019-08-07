@@ -2,6 +2,7 @@
 
 use App\Service\CategoryService;
 use App\Service\AddressService;
+use App\Service\MediaService;
 
 if (!function_exists('getProductHtml')) {
     function getProductHtml($products)
@@ -118,5 +119,31 @@ if (!function_exists('formatNumber')) {
         $number = $number/pow(10, $lamTronSoSauDauPhay);
 
         return $number;
+    }
+}
+
+if ( !function_exists( 'getListImageProduct' ) ) {
+    function getListImageProduct($productId)
+    {
+        $media = new MediaService();
+        $images = $media->getImageByProductId($productId);
+        $listImage = [];
+        foreach ($images as $image) {
+            array_push($listImage, $image->id);
+        }
+
+        $listImage = implode(',', $listImage);
+
+        return $listImage;
+    }
+}
+
+if ( !function_exists( 'getProducCategory' ) ) {
+    function getCategoryName($categoryId)
+    {
+        $category = new CategoryService();
+        $cat = $category->getCategoryById($categoryId);
+
+        return $cat->name;
     }
 }

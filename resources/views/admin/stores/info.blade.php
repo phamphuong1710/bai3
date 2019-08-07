@@ -155,6 +155,13 @@
 </div>
 @endsection
 @section('js')
+<script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/admin/remove.js') }}"></script>
+<script src="{{ asset('js/admin/create-logo.js') }}"></script>
+<script src="{{ asset('js/admin/delete-logo.js') }}"></script>
+<script src="{{ asset('js/admin/create-images.js') }}"></script>
+<script src="{{ asset('js/admin/delete-image.js') }}"></script>
+<script src="{{ asset('js/admin/edit-image.js') }}"></script>
 <script src="{{ asset('js/admin/delete-product.js') }}"></script>
 @if( app()->getLocale() == 'en' )
 <script src="{{ asset('js/admin/currency.js') }}"></script>

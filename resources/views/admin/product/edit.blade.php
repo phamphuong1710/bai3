@@ -44,9 +44,12 @@
                         <label for="category" class=" col-form-label text-md-right">{{ __('messages.category') }}</label>
                         <div class="">
                             <select class="form-control" id="category" name="category_id">
-                                <option value="{{ $product->category_id }}"></option>
+                                <option value="{{ $product->category_id }}">
+                                    {{ getCategoryName($product->category_id) }}
+                                </option>
 
                                 @foreach( $product->categories as $category )
+
                                     @if( $product->category_id != $category->id)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endif
@@ -136,7 +139,7 @@
                             <div class="input-file">
                                 <label for="postImage">{{ __('messages.image') }}</label>
                                 <input type="file" class="custom-file-input" id="postImage" lang="in" multiple="multiple" name='image[]'>
-                                <input type="hidden" name="list_image" value="" id="listImage">
+                                <input type="hidden" name="list_image" value="{{ getListImageProduct($product->id)}}" id="listImage">
                             </div>
                             <button class="btn btn-image-library">{{ __('messages.library_image') }}</button>
                             <button type="button" class="btn-video">{{ __('Video') }}</button>
@@ -154,19 +157,7 @@
                 </form>
             </div>
         </div>
-        <div class="library-image-wrapper">
-            <div class="library-image-content">
-                <ul id="image-library" class="list-old-image imageby-user">
 
-                </ul>
-                <div class="library-action">
-                    <div class="library-action-wrapper">
-                        <button class="btn btn-close">{{ __('messages.close') }}</button>
-                        <button class="btn btn-images-choose">{{ __('messages.insert') }}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 

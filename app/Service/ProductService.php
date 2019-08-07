@@ -41,7 +41,6 @@ class ProductService implements ProductInterface
         $product->slug = str_slug($request->name, '-').'-'.$request->store_id.$time;
         $product->category_id = $request->category_id;
         $product->description = $request->description;
-        $product->price = $request->price;
         $product->user_id = $request->user_id;
         $product->store_id = $request->store_id;
         $product->quantity_stock = $request->quantity;
@@ -49,10 +48,16 @@ class ProductService implements ProductInterface
             $product->usd = $request->sale_price;
             $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
             $product->vnd = formatNumber($price, 2);
+            $product->in_price_usd = $request->price;
+            $price = (float)$request->price * (float)$request->usd_to_vnd;
+            $product->in_price_vnd = formatNumber($price, 2);
         } else {
             $product->vnd = $request->sale_price;
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
             $product->usd = formatNumber($price, 2);
+            $product->in_price_vnd = $request->price;
+            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->in_price_usd = formatNumber($price, 2);
         }
         $product->save();
 
@@ -74,8 +79,22 @@ class ProductService implements ProductInterface
         $product->slug = str_slug($request->name, '-').'-'.$request->store_id.$time;
         $product->category_id = $request->category_id;
         $product->description = $request->description;
-        $product->price = $request->price;
-        $product->sale_price = $request->sale_price;
+
+        if (app()->getLocale() == 'en') {
+            $product->usd = $request->sale_price;
+            $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
+            $product->vnd = formatNumber($price, 2);
+            $product->in_price_usd = $request->price;
+            $price = (float)$request->price * (float)$request->usd_to_vnd;
+            $product->in_price_vnd = formatNumber($price, 2);
+        } else {
+            $product->vnd = $request->sale_price;
+            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->usd = formatNumber($price, 2);
+            $product->in_price_vnd = $request->price;
+            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->in_price_usd = formatNumber($price, 2);
+        }
         $product->user_id = $request->user_id;
         $product->quantity_stock = $request->quantity;
         $product->save();

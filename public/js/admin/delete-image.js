@@ -68,6 +68,7 @@ $(document).ready(function(){
                     });
                 });
                 alert("Image Deleted Success");
+                $('#listImage').val(arrayImage);
             }
         });
     });

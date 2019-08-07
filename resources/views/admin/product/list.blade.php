@@ -114,15 +114,23 @@
         </div>
     </div>
 </div>
+<div class="library-image-wrapper">
+    <div class="library-image-content">
+        <ul id="image-library" class="list-old-image imageby-user">
+
+        </ul>
+        <div class="library-action">
+            <div class="library-action-wrapper">
+                <button class="btn btn-close">{{ __('messages.close') }}</button>
+                <button class="btn btn-images-choose">{{ __('messages.insert') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('js')
-<script src="{{ asset('js/admin/delete-product.js') }}"></script>
-@if( app()->getLocale() == 'en' )
-<script src="{{ asset('js/admin/currency.js') }}"></script>
-@endif
-<script src="{{ asset('js/admin/filter-product-user.js') }}"></script>
-<script src="{{ asset('js/admin/edit-popup.js') }}"></script>
 <!-- edit -->
+
 <script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('js/admin/remove.js') }}"></script>
 <script src="{{ asset('js/admin/create-logo.js') }}"></script>
@@ -130,7 +138,11 @@
 <script src="{{ asset('js/admin/create-images.js') }}"></script>
 <script src="{{ asset('js/admin/delete-image.js') }}"></script>
 <script src="{{ asset('js/admin/edit-image.js') }}"></script>
-<script src="{{ asset('js/admin/ui-sortable.js') }}"></script>
-<script src="{{ asset('js/admin/video.js') }}"></script>
-<script src="{{ asset('js/admin/image-library.js') }}"></script>
+<script src="{{ asset('js/admin/delete-product.js') }}"></script>
+@if( app()->getLocale() == 'en' )
+<script src="{{ asset('js/admin/currency.js') }}"></script>
+@endif
+<script src="{{ asset('js/admin/filter-product-user.js') }}"></script>
+<script src="{{ asset('js/admin/edit-popup.js') }}"></script>
+
 @endsection

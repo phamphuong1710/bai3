@@ -97,7 +97,7 @@ class MediaService implements MediaInterface
     {
         $images = Media::where('store_id', $storeId)
             ->where('active', 0)
-            ->orderBy('position','desc')
+            ->orderBy('position','asc')
             ->get();
 
         return $images;
@@ -180,7 +180,7 @@ class MediaService implements MediaInterface
     {
         $images = Media::where('product_id', $productId)
             ->where('active', 0)
-            ->orderBy('position','desc')
+            ->orderBy('position','asc')
             ->get();
 
         return $images;

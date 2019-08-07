@@ -14,7 +14,8 @@
     height: 235px;
 }
 
-.edit-product {
+.edit-product,
+.edit-store {
     top: calc( ( 100% - 80vh )/2 );
     height: 80vh;
     overflow-y: scroll;
