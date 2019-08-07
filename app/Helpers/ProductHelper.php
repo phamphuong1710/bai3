@@ -2,6 +2,7 @@
 
 use App\Service\CategoryService;
 use App\Service\AddressService;
+use App\Service\MediaService;
 
 if (!function_exists('getProductHtml')) {
     function getProductHtml($products)
@@ -70,7 +71,7 @@ if (!function_exists('getCategoryHtml')) {
             foreach ($categories as $category) {
                 $html .= '<tr data-id="'.$category->id.'">
                             <td><a href="/categories/'.$category->id.'">'.$category->name.'</a></td>
-                            <td>'.$category->slug.'</td>
+                            <td>'.$category->created_at.'</td>
                             <td>
                                 <a href="/categories/'.$category->id.'/edit" class="btn-action btn-edit">'.trans('messages.edit') .'</a>
                                 <form action="/categories/'.$category->id.'" method="POST" class="form-delete">
@@ -96,6 +97,7 @@ if (!function_exists('getUserHtml')) {
                         <td><a href="/users/' . $user->id . '">' . $user->name . '</a></td>
                         <td> ' . $user->phone . '</td>
                         <td> ' . $user->email . '</td>
+                        <td> ' . $user->created_at . '</td>
                         <td>
                             <a href="/users/' . $user->id . '/edit" class="btn-action btn-edit">' . trans('messages.edit') .'</a>
                             <form action="/users/ '. $user->id . '" method="POST" class="form-delete">
@@ -117,5 +119,31 @@ if (!function_exists('formatNumber')) {
         $number = $number/pow(10, $lamTronSoSauDauPhay);
 
         return $number;
+    }
+}
+
+if ( !function_exists( 'getListImageProduct' ) ) {
+    function getListImageProduct($productId)
+    {
+        $media = new MediaService();
+        $images = $media->getImageByProductId($productId);
+        $listImage = [];
+        foreach ($images as $image) {
+            array_push($listImage, $image->id);
+        }
+
+        $listImage = implode(',', $listImage);
+
+        return $listImage;
+    }
+}
+
+if ( !function_exists( 'getProducCategory' ) ) {
+    function getCategoryName($categoryId)
+    {
+        $category = new CategoryService();
+        $cat = $category->getCategoryById($categoryId);
+
+        return $cat->name;
     }
 }

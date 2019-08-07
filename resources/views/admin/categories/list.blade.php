@@ -1,6 +1,7 @@
 @extends('admin.master')
 @section('style')
 <link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/edit-popup.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="categories-section">
@@ -38,8 +39,16 @@
         <table cellspacing="0">
             <thead>
                 <tr>
-                    <th>{{ __('messages.name') }}</th>
-                    <th>{{ __('Slug') }}</th>
+                    <th>
+                        {{ __('messages.name') }}
+                        <i class="fa fa-caret-down sorting desc" data-sort="name"></i>
+                    </th>
+
+
+                    <th>
+                        {{ __('messages.created_at') }}
+                        <i class="fa fa-caret-down sorting desc" data-sort="created_at"></i>
+                    </th>
                     <th class="category-action action-column">{{ __('messages.action') }}</th>
                 </tr>
             </thead>
@@ -47,9 +56,9 @@
                 @foreach( $categories as $category )
                 <tr data-id="{{ $category->id }}">
                     <td><a href="/categories/{{ $category->id }}">{{ $category->name }}</a></td>
-                    <td>{{ $category->slug }}</td>
+                    <td>{{ $category->created_at }}</td>
                     <td>
-                        <a href="/categories/{{ $category->id }}/edit" class="btn-action btn-edit">{{ __('messages.edit') }}</a>
+                        <a href="/categories/{{ $category->id }}/edit" class="btn-action btn-edit" data-id="{{$category->id}}" controller="categories">{{ __('messages.edit') }}</a>
                         <form action="/categories/{{ $category->id }}" method="POST" class="form-delete">
                             @method('delete')
                             {{ csrf_field() }}
@@ -60,10 +69,20 @@
                 @endforeach
             </tbody>
         </table>
+
+        <div class="pagination">
+            {{ $categories->links() }}
+        </div>
+        <div class="edit-popup edit-category" id="edit-popup" data-edit="categories">
+            <div class="edit-popup-wrapper height">
+
+            </div>
+        </div>
     </div>
 </div>
 @endsection
 @section('js')
 <script src="{{ asset('js/admin/delete-category.js') }}"></script>
 <script src="{{ asset('js/admin/filter-category.js') }}"></script>
+<script src="{{ asset('js/admin/edit-popup.js') }}"></script>
 @endsection

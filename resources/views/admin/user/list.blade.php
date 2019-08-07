@@ -1,6 +1,7 @@
 @extends('admin.master')
 @section('style')
 <link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/edit-popup.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="user-section">
@@ -38,10 +39,23 @@
         <table cellspacing="0">
             <thead>
                 <tr>
-                    <th>{{ __('messages.name') }}</th>
-                    <th>{{ __('messages.phone') }}</th>
-                    <th>Email</th>
-                    <th>{{ __('messages.action') }}</th>
+                    <th>
+                        {{ __('messages.name') }}
+                        <i class="fa fa-caret-down sorting desc" data-sort="name"></i>
+                    </th>
+                    <th>
+                        {{ __('messages.phone') }}
+                        <i class="fa fa-caret-down sorting desc" data-sort="phone"></i>
+                    </th>
+                    <th>
+                        Email
+                        <i class="fa fa-caret-down sorting desc" data-sort="email"></i>
+                    </th>
+                    <th>
+                        {{ __('messages.created_at') }}
+                        <i class="fa fa-caret-down sorting desc"  data-sort="created_at"></i>
+                    </th>
+                    <th>{{ __('messages.action') }} </th>
                 </tr>
             </thead>
             <tbody class="ajax-search-html">
@@ -50,8 +64,9 @@
                     <td><a href="/users/{{ $user->id }}">{{ $user->name }}</a></td>
                     <td>{{ $user->phone }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->created_at }}</td>
                     <td>
-                        <a href="/users/{{ $user->id }}/edit" class="btn-action btn-edit">{{ __('messages.edit') }}</a>
+                        <a href="/users/{{ $user->id }}/edit" class="btn-action btn-edit"  data-id="{{ $user->id }}" controller="users">{{ __('messages.edit') }}</a>
                         <form action="/users/{{ $user->id }}" method="POST" class="form-delete">
                             @method('delete')
                             {{ csrf_field() }}
@@ -62,9 +77,18 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="pagination">
+            {{ $users->links() }}
+        </div>
+        <div class="edit-popup edit-user" id="edit-popup" data-edit="users">
+            <div class="edit-popup-wrapper height">
+
+            </div>
+        </div>
     </div>
 </div>
 @endsection
 @section('js')
 <script src="{{ asset('js/admin/filter-user.js') }}"></script>
+<script src="{{ asset('js/admin/edit-popup.js') }}"></script>
 @endsection

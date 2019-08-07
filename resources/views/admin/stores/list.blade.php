@@ -1,6 +1,8 @@
 @extends('admin.master')
 @section('style')
 <link href="{{ asset('css/admin/store.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/library-image.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/edit-popup.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="store-section">
@@ -69,7 +71,7 @@
                                 </span>
                                 <div class="d-flex justify-content-between align-items-center btn-group" >
                                     <a href="/stores/{{ $store->id }}" class="btn-action btn-action btn-view">{{ __('messages.view') }}</a>
-                                    <a href="/stores/{{ $store->id }}/edit" class="btn-action btn-edit">{{ __('messages.edit') }}</a>
+                                    <a href="/stores/{{ $store->id }}/edit" class="btn-action btn-edit"  data-id="{{ $store->id }}" controller="stores">{{ __('messages.edit') }}</a>
                                     <form action="/stores/{{ $store->id }}" method="POST" class="form-delete">
                                         @method('delete')
                                         {{ csrf_field() }}
@@ -80,16 +82,44 @@
                         </div>
                     </div>
                     @endforeach
+                    <div class="pagination">
+                        {{ $stores->links() }}
+                    </div>
+                    <div class="edit-popup edit-store" id="edit-popup" data-edit="stores">
+                        <div class="edit-popup-wrapper height">
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="pagination">
-            {{ $stores->links() }}
+
+    </div>
+</div>
+<div class="library-image-wrapper">
+    <div class="library-image-content">
+        <ul id="image-library" class="list-old-image imageby-user">
+
+        </ul>
+        <div class="library-action">
+            <div class="library-action-wrapper">
+                <button class="btn btn-close">{{ __('messages.close') }}</button>
+                <button class="btn btn-images-choose">{{ __('messages.insert') }}</button>
+            </div>
         </div>
     </div>
 </div>
 @endsection
 @section('js')
+<script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/admin/remove.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('map.google_key') }}&libraries=places&anguage=vi&region=VI" async defer></script>
+<script src="{{ asset('js/admin/create-logo.js') }}"></script>
+<script src="{{ asset('js/admin/delete-logo.js') }}"></script>
+<script src="{{ asset('js/admin/create-images.js') }}"></script>
+<script src="{{ asset('js/admin/delete-image.js') }}"></script>
+<script src="{{ asset('js/admin/edit-image.js') }}"></script>
 <script src="{{ asset('js/admin/delete-store.js') }}"></script>
 <script src="{{ asset('js/admin/search-store.js') }}"></script>
+<script src="{{ asset('js/admin/edit-popup.js') }}"></script>
 @endsection

@@ -1,7 +1,8 @@
 @extends('admin.master')
 @section('style')
 <link href="{{ asset('css/admin/list-product.css') }}" rel="stylesheet">
-
+<link href="{{ asset('css/admin/edit-popup.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/library-image.css') }}" rel="stylesheet">
 @endsection
 @section('content')
     <div class="product-grid">
@@ -90,7 +91,7 @@
                             </div>
                         </div>
                         <div class="product-action">
-                            <a href="/products/{{ $product->id }}/edit" class="btn-action btn-edit">{{ __('messages.edit') }}</a>
+                            <a href="/products/{{ $product->id }}/edit" class="btn-action btn-edit" data-id="{{ $product->id }}" controller="products">{{ __('messages.edit') }}</a>
                             <form action="/products/{{ $product->id }}" method="POST" class="form-delete">
                                 @method('delete')
                                 {{ csrf_field() }}
@@ -102,17 +103,46 @@
                 @endforeach
 
                 <div class="pagination">
-
+                    {{ $products->links() }}
                 </div>
+                <div class="edit-popup edit-product" id="edit-popup" data-edit="products">
+                    <div class="edit-popup-wrapper height">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="library-image-wrapper">
+    <div class="library-image-content">
+        <ul id="image-library" class="list-old-image imageby-user">
+
+        </ul>
+        <div class="library-action">
+            <div class="library-action-wrapper">
+                <button class="btn btn-close">{{ __('messages.close') }}</button>
+                <button class="btn btn-images-choose">{{ __('messages.insert') }}</button>
             </div>
         </div>
     </div>
 </div>
 @endsection
 @section('js')
+<!-- edit -->
+
+<script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/admin/remove.js') }}"></script>
+<script src="{{ asset('js/admin/create-logo.js') }}"></script>
+<script src="{{ asset('js/admin/delete-logo.js') }}"></script>
+<script src="{{ asset('js/admin/create-images.js') }}"></script>
+<script src="{{ asset('js/admin/delete-image.js') }}"></script>
+<script src="{{ asset('js/admin/edit-image.js') }}"></script>
 <script src="{{ asset('js/admin/delete-product.js') }}"></script>
 @if( app()->getLocale() == 'en' )
 <script src="{{ asset('js/admin/currency.js') }}"></script>
 @endif
 <script src="{{ asset('js/admin/filter-product-user.js') }}"></script>
+<script src="{{ asset('js/admin/edit-popup.js') }}"></script>
+
 @endsection
