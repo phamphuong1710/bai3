@@ -80,9 +80,12 @@
         <div class="pagination">
             {{ $users->links() }}
         </div>
-        <div class="edit-popup edit-user" id="edit-popup" data-edit="users">
-            <div class="edit-popup-wrapper height">
+        <div class="edit-popup-overlay" id="edit-popup">
+            <div class="edit-popup" data-edit="users">
+                <div class="edit-popup-wrapper edit-user">
 
+                </div>
+                <span class="btn-close-popup fa fa-close"></span>
             </div>
         </div>
     </div>

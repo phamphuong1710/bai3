@@ -85,9 +85,12 @@
                     <div class="pagination">
                         {{ $stores->links() }}
                     </div>
-                    <div class="edit-popup edit-store" id="edit-popup" data-edit="stores">
-                        <div class="edit-popup-wrapper height">
+                    <div class="edit-popup-overlay" id="edit-popup">
+                        <div class="edit-popup" data-edit="stores">
+                            <div class="edit-popup-wrapper edit-store">
 
+                            </div>
+                            <span class="btn-close-popup fa fa-close"></span>
                         </div>
                     </div>
                 </div>

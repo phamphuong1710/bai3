@@ -73,9 +73,12 @@
         <div class="pagination">
             {{ $categories->links() }}
         </div>
-        <div class="edit-popup edit-category" id="edit-popup" data-edit="categories">
-            <div class="edit-popup-wrapper height">
+        <div class="edit-popup-overlay" id="edit-popup">
+            <div class="edit-popup" data-edit="categories">
+                <div class="edit-popup-wrapper edit-category">
 
+                </div>
+                <span class="btn-close-popup fa fa-close"></span>
             </div>
         </div>
     </div>

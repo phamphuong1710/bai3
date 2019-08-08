@@ -12,14 +12,8 @@ $(document).ready(function(){
 
                 data = JSON.parse($data);
                 var usd = data[0];
-                var i = parseInt(usd['buy'].replace(',', ''));
-                var prices = $('.price');
-                prices.each(function (index) {
-                    var $price = parseInt($(this).attr('price'));
-                    console.log($(this).html());
-                    var $convert = parseFloat($price/i);
-                    $(this).html($convert.toFixed(2));
-                })
+                var price = parseInt(usd['buy'].replace(',', ''));
+                $('.usd-to-vnd').val(price);
             }
         });
 

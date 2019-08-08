@@ -4,7 +4,9 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-
+                    <span class="header-text">
+                        {{ __('messages.edit') }}
+                    </span>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="/stores/{{ $store->id }}">

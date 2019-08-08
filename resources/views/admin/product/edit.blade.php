@@ -6,9 +6,6 @@
                 <span class="header-text">
                     {{ __('messages.edit') }}
                 </span>
-                <span class="btn-close-popup fa fa-close">
-
-                </span>
             </div>
             <div class="card-body">
                 <form method="POST" action="/products/{{ $product->id }}">
@@ -63,10 +60,11 @@
                             @enderror
                         </div>
                     </div>
+                    @if( app()->getLocale() == 'en' )
                     <div class="form-group">
                         <label for="price" class=" col-form-label text-md-right">{{ __('messages.price') }}</label>
                         <div class="">
-                            <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price" autofocus value="{{ $product->price }}">
+                            <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price" autofocus value="{{ $product->in_price_usd }}">
                             @error('price')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -77,7 +75,7 @@
                     <div class="form-group">
                         <label for="price_sale" class=" col-form-label text-md-right">{{ __('messages.price_sale') }}</label>
                         <div class="">
-                            <input id="price_sale" type="number" class="form-control @error('price_sale') is-invalid @enderror" name="sale_price" required autocomplete="price_sale" autofocus value="{{ $product->sale_price }}">
+                            <input id="price_sale" type="number" class="form-control @error('price_sale') is-invalid @enderror" name="sale_price" required autocomplete="price_sale" autofocus value="{{ $product->usd }}">
                             @error('price_sale')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -85,6 +83,55 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="on-sale" class=" col-form-label text-md-right">{{ __('messages.on_sale') }}</label>
+                        <div class="">
+                            <input id="on-sale" type="text" class="form-control @error('sale_price') is-invalid @enderror" name="on_sale" required autocomplete="on-sale" autofocus value="{{ $product->on_sale_usd }}">
+                        </div>
+                        @error('on_sale')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    @endif
+
+                    @if( app()->getLocale() == 'vi' )
+                    <div class="form-group">
+                        <label for="price" class=" col-form-label text-md-right">{{ __('messages.price') }}</label>
+                        <div class="">
+                            <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price" autofocus value="{{ $product->in_price_vnd }}">
+                            @error('price')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="price_sale" class=" col-form-label text-md-right">{{ __('messages.price_sale') }}</label>
+                        <div class="">
+                            <input id="price_sale" type="number" class="form-control @error('price_sale') is-invalid @enderror" name="sale_price" required autocomplete="price_sale" autofocus value="{{ $product->vnd }}">
+                            @error('price_sale')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="on-sale" class=" col-form-label text-md-right">{{ __('messages.on_sale') }}</label>
+                        <div class="">
+                            <input id="on-sale" type="text" class="form-control @error('sale_price') is-invalid @enderror" name="on_sale" required autocomplete="on-sale" autofocus value="{{ $product->on_sale_vnd }}">
+                        </div>
+                        @error('on_sale')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    @endif
+
                     <div class="form-group">
                         <label for="quantity" class=" col-form-label text-md-right">{{ __('messages.quantity') }}</label>
                         <div class="">
@@ -146,6 +193,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                    <input type="hidden" name="usd_to_vnd" value="23000" class="usd-to-vnd">
 
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">

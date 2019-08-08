@@ -28,13 +28,14 @@ class ProductRequest extends FormRequest
             'category_id' => 'required',
             'name' => 'required',
             'price' => 'required',
-            'sale_price' => 'required',
+            'sale_price' => 'required|numeric',
             'quantity' => 'required',
             'description' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'list_image' => 'required',
             'user_id' => 'required',
-            'store_id' => 'required'
+            'store_id' => 'required',
+            'on_sale' => 'numeric'
          ];
     }
 
