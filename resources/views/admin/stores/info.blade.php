@@ -115,13 +115,12 @@
                                 <h3 class="product-name">{{ $product->name }}</h3>
                             </a>
                             <div class="product-price">
-                                <span class="import-price">
+                                <span class="sale-price">
                                     @if( app()->getLocale() == 'en' )
                                     <span class="price" price="{{ $product->price }}">{{ number_format($product->usd, 2, '.', '.') }}</span>
                                     <span class="currency">{{ __('messages.curentcy') }}</span>
                                     @endif
-                                </span>
-                                <span class="sale-price">
+
                                     @if( app()->getLocale() == 'vi' )
                                     {{ __('messages.price_sale').' :' }}
                                     <span class="price" price="{{ $product->sale_price }}">{{ number_format($product->vnd,0,'.','.') }}</span>
@@ -144,9 +143,12 @@
                 <div class="pagination">
                     {{ $store->products->links() }}
                 </div>
-                <div class="edit-popup edit-product" id="edit-popup" data-edit="products">
-                    <div class="edit-popup-wrapper height">
+                <div class="edit-popup-overlay" id="edit-popup">
+                    <div class="edit-popup" data-edit="products">
+                        <div class="edit-popup-wrapper edit-product">
 
+                        </div>
+                        <span class="btn-close-popup fa fa-close"></span>
                     </div>
                 </div>
             </div>

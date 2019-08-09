@@ -1,29 +1,44 @@
-.edit-popup {
-    width: 70%;
+.edit-popup-overlay {
     position: fixed;
-    left: 15%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: -1;
     visibility: hidden;
     transform: translateY(-100px);
-    z-index: -1;
     transition: transform 0.3s linear;
-    box-shadow: 10px 10px 10px rgba( 0, 0, 0, 0.2 );
+    z-index: 99999;
+}
+.edit-popup {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 10px 10px 10px rgba( 0, 0, 0, 0.5 );
+    position: relative;
 }
 
-.edit-category {
+.edit-category,
+.edit-user {
     top: calc( ( 100% - 235px )/2 );
     height: 235px;
+    width: 85%;
 }
 
 .edit-product,
 .edit-store {
     top: calc( ( 100% - 80vh )/2 );
     height: 80vh;
+    width: 85%;
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
 
-.edit-popup.active {
+.edit-popup-overlay.active {
     visibility: visible;
     z-index: 999;
     transform: translateY(0);
@@ -43,14 +58,18 @@
     display: block;
 }
 .btn-close-popup {
-    width: 40px;
-    height: 100%;
-    border-left: 1px solid rgba(0,0,0,.125);
+    width: 60px;
+    height: 60px;
+    border: 1px solid rgba(0,0,0,0.2);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 24px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
 }
 .btn-close-popup:before {
     transform: rotate(0);

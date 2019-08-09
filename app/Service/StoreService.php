@@ -85,5 +85,13 @@ class StoreService implements StoreInterface
 
         return $stores;
     }
+
+    public function getTopDiscountStore($listStore)
+    {
+        $stores = Store::whereIn('id', $listStore)
+            ->get();
+
+        return $stores;
+    }
 }
 

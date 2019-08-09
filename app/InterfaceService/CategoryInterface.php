@@ -11,4 +11,5 @@ interface CategoryInterface {
     public function getChildCategory($parentId);
     public function searchCategory($request);
     public function filterCategory($request);
+    public function getParentCategory();
 }

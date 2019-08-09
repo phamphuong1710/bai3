@@ -19,11 +19,14 @@ $(document).ready(function(){
             success: function (data) {
                 $('#edit-popup').addClass('active');
                 $('.edit-popup-wrapper').html(data);
-                sortImage();
+
                 video();
                 chooseImages();
                 showLibraryImage();
                 closeLibraryImage();
+                if ( control == 'stores' || control == 'products' ) {
+                   sortImage();
+                }
                 if (control == 'stores') {
                     storeAddress();
                 }

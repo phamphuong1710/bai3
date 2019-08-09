@@ -55,4 +55,11 @@ return [
     'sort_price_desc' => 'Sort By Price from high to low',
     'sort_rating_desc' => 'Sort By Rating from high to low',
     'created_at' => 'Create At',
+    'on_sale' => 'On Sale',
+    'home' => 'Home',
+    'new_product' => 'New Product',
+    'bestseller' => 'BestSeller',
+    'new' => 'New',
+    'quick_view' => 'Quick View',
+    'add_to_cart' => 'Add To Cart',
 ];

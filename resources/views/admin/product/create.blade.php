@@ -80,6 +80,19 @@
                                 @enderror
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="on-sale" class=" col-form-label text-md-right">{{ __('messages.on_sale') }}</label>
+                            <div class="">
+                                <input id="on-sale" type="number" class="form-control @error('sale_price') is-invalid @enderror" name="on_sale" autocomplete="on-sale" autofocus value="0">
+                            </div>
+                                @error('on_sale')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                        </div>
+
                         <div class="form-group">
                             <label for="quantity" class=" col-form-label text-md-right">{{ __('messages.quantity') }}</label>
                             <div class="">
@@ -126,7 +139,7 @@
                         <input type="hidden" name="store_id" value="{{ $store_id }}">
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <input type="hidden" name="usd_to_vnd" value="23000">
+                                <input type="hidden" name="usd_to_vnd" value="23000" class="usd-to-vnd">
                                 <button type="submit" class="btn btn-primary">
                                 {{ __('messages.create') }}
                                 </button>
@@ -163,4 +176,5 @@
 <script src="{{ asset('js/admin/ui-sortable.js') }}"></script>
 <script src="{{ asset('js/admin/video.js') }}"></script>
 <script src="{{ asset('js/admin/image-library.js') }}"></script>
+<script src="{{ asset('js/admin/currency.js') }}"></script>
 @endsection

@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('admin', 'HomeController')->middleware(['auth']);
+Route::resource('home', 'HomeController');
 
 Route::resource('users', 'UserController')->middleware(['auth']);
 

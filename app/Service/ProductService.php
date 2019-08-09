@@ -51,6 +51,11 @@ class ProductService implements ProductInterface
             $product->in_price_usd = $request->price;
             $price = (float)$request->price * (float)$request->usd_to_vnd;
             $product->in_price_vnd = formatNumber($price, 2);
+            if ( !empty( $request->on_sale ) ) {
+                $product->on_sale_usd = $request->on_sale;
+                $price = (float)$request->on_sale * (float)$request->usd_to_vnd;
+                $product->in_price_vnd = formatNumber($price, 2);
+            }
         } else {
             $product->vnd = $request->sale_price;
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
@@ -58,6 +63,11 @@ class ProductService implements ProductInterface
             $product->in_price_vnd = $request->price;
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
             $product->in_price_usd = formatNumber($price, 2);
+            if ( !empty( $request->on_sale ) ) {
+                $product->on_sale_vnd = $request->on_sale;
+                $price = (float)$request->on_sale / (float)$request->usd_to_vnd;
+                $product->in_price_usd = formatNumber($price, 2);
+            }
         }
         $product->save();
 
@@ -87,6 +97,11 @@ class ProductService implements ProductInterface
             $product->in_price_usd = $request->price;
             $price = (float)$request->price * (float)$request->usd_to_vnd;
             $product->in_price_vnd = formatNumber($price, 2);
+            if ( !empty( $request->on_sale ) ) {
+                $product->on_sale_usd = $request->on_sale;
+                $price = (float)$request->on_sale * (float)$request->usd_to_vnd;
+                $product->in_price_vnd = formatNumber($price, 2);
+            }
         } else {
             $product->vnd = $request->sale_price;
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
@@ -94,6 +109,11 @@ class ProductService implements ProductInterface
             $product->in_price_vnd = $request->price;
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
             $product->in_price_usd = formatNumber($price, 2);
+            if ( !empty( $request->on_sale ) ) {
+                $product->on_sale_vnd = $request->on_sale;
+                $price = (float)$request->on_sale / (float)$request->usd_to_vnd;
+                $product->in_price_usd = formatNumber($price, 2);
+            }
         }
         $product->user_id = $request->user_id;
         $product->quantity_stock = $request->quantity;
@@ -170,6 +190,27 @@ class ProductService implements ProductInterface
             ->where('user_id', $userId)
             ->orderBy($request->order, $request->orderby)
             ->get();
+
+        return $product;
+    }
+
+    public function getProductBestSeller()
+    {
+        $product = Product::orderby('total_sale', 'desc')->paginate(6);
+
+        return $product;
+    }
+
+    public function getNewProduct()
+    {
+        $product = Product::orderby('created_at', 'desc')->paginate(6);
+
+        return $product;
+    }
+
+    public function getOnSaleProduct()
+    {
+        $product = Product::orderBy('on_sale', 'desc')->paginate(3);
 
         return $product;
     }

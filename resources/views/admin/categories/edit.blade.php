@@ -6,9 +6,6 @@
                 <span class="header-text">
                     {{ __('messages.edit') }}
                 </span>
-                <span class="btn-close-popup fa fa-close">
-
-                </span>
             </div>
             <div class="card-body">
                 <form method="POST" action="/categories/{{ $category->id }}">
