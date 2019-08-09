@@ -24,4 +24,9 @@ class Product extends Model
      * @var  array
      */
     protected $dates = ['deleted_at'];
+
+    public function store()
+    {
+        return $this->belongsTo('App\Store');
+    }
 }

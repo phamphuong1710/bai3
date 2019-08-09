@@ -137,3 +137,21 @@ if (!function_exists('getAllCategoryByStore')) {
         return $categories;
     }
 }
+
+if (!function_exists('getTopDiscountStore')) {
+    function getTopDiscountStore()
+    {
+        $queryProduct = new ProductService();
+        $queryStore = new StoreService();
+        $products = $queryProduct->getOnSaleProduct();
+        $listStore = [];
+        $discount = [];
+        foreach ($products as $product) {
+            array_push($listStore, $product->store_id);
+        }
+        array_unique($listStore);
+        $stores = $queryStore->getTopDiscountStore($listStore);
+
+        return $listStore;
+    }
+}

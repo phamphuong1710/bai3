@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <label for="on-sale" class=" col-form-label text-md-right">{{ __('messages.on_sale') }}</label>
                             <div class="">
-                                <input id="on-sale" type="text" class="form-control @error('sale_price') is-invalid @enderror" name="on_sale" required autocomplete="on-sale" autofocus>
+                                <input id="on-sale" type="number" class="form-control @error('sale_price') is-invalid @enderror" name="on_sale" autocomplete="on-sale" autofocus value="0">
                             </div>
                                 @error('on_sale')
                                 <span class="invalid-feedback" role="alert">

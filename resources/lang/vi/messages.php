@@ -56,4 +56,10 @@ return [
     'sort_rating_desc' => 'Sắp Xếp Theo Rating Từ Cao Đến Thấp',
     'created_at' => 'Thời gian tạo',
     'on_sale' => 'Giảm Giá',
+    'home' => 'Trang Chủ',
+    'new_product' => 'Sản Phẩm Mới',
+    'bestseller' => 'Sản Phẩm Bán Chạy',
+    'new' => 'Mới',
+    'quick_view' => 'Xem Nhanh',
+    'add_to_cart' => 'Thêm vào giỏ hàng'
 ];

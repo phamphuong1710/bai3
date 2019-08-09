@@ -83,17 +83,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="on-sale" class=" col-form-label text-md-right">{{ __('messages.on_sale') }}</label>
-                        <div class="">
-                            <input id="on-sale" type="text" class="form-control @error('sale_price') is-invalid @enderror" name="on_sale" required autocomplete="on-sale" autofocus value="{{ $product->on_sale_usd }}">
-                        </div>
-                        @error('on_sale')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
+
                     @endif
 
                     @if( app()->getLocale() == 'vi' )
@@ -119,10 +109,12 @@
                             @enderror
                         </div>
                     </div>
+
+                    @endif
                     <div class="form-group">
                         <label for="on-sale" class=" col-form-label text-md-right">{{ __('messages.on_sale') }}</label>
                         <div class="">
-                            <input id="on-sale" type="text" class="form-control @error('sale_price') is-invalid @enderror" name="on_sale" required autocomplete="on-sale" autofocus value="{{ $product->on_sale_vnd }}">
+                            <input id="on-sale" type="text" class="form-control @error('on_sale') is-invalid @enderror" name="on_sale" autocomplete="on-sale" autofocus value="{{ $product->on_sale }}">
                         </div>
                         @error('on_sale')
                         <span class="invalid-feedback" role="alert">
@@ -130,7 +122,6 @@
                         </span>
                         @enderror
                     </div>
-                    @endif
 
                     <div class="form-group">
                         <label for="quantity" class=" col-form-label text-md-right">{{ __('messages.quantity') }}</label>
