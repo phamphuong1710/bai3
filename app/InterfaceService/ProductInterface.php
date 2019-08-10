@@ -24,4 +24,5 @@ interface ProductInterface {
     public function filterAllProductStore($request);
     public function getProductBestSeller();
     public function getNewProduct();
+    public function getProductBySlug($slug);
 }

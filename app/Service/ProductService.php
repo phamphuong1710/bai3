@@ -214,5 +214,12 @@ class ProductService implements ProductInterface
 
         return $product;
     }
+
+    public function getProductBySlug($slug)
+    {
+        $product = Product::where('slug', $slug)->firstOrFail();
+
+        return $product;
+    }
 }
 

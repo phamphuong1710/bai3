@@ -268,22 +268,24 @@
                         <div class="col-md-4 product-men">
                             <div class="men-pro-item simpleCart_shelfItem">
                                 <div class="men-thumb-item">
-                                    <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Product">
+                                    <a href="/products/{{ $product->slug }}">
+                                        <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Product">
+                                    </a>
                                     <div class="men-cart-pro">
                                         <div class="inner-men-cart-pro">
-                                            <a href="single.html" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
+                                            <a href="/products/{{ $product->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
                                         </div>
                                     </div>
                                     <span class="product-new-top">{{ __('messages.new') }}</span>
                                 </div>
                                 <div class="item-info-product ">
                                     <h4>
-                                    <a href="single.html">Almonds, 100g</a>
+                                    <a href="single.html">{{ $product->name }}</a>
                                     </h4>
                                     @if( app()->getLocale() == 'en' )
                                     <div class="info-product-price">
-                                        @if( $product->on_sale_usd != 0 )
-                                        <span class="item_price">{{ $product->on_sale_usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                        @if( $product->on_sale != 0 )
+                                        <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
                                         <del>{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
                                         @else
                                         <span class="item_price">{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
@@ -292,8 +294,8 @@
                                     @endif
                                     @if( app()->getLocale() == 'vi' )
                                     <div class="info-product-price">
-                                        @if( $product->on_sale_vnd != 0 )
-                                        <span class="item_price">{{ $product->on_sale_vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                        @if( $product->on_sale != 0 )
+                                        <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
                                         <del>{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
                                         @else
                                         <span class="item_price">{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
@@ -358,7 +360,7 @@
                                     @if( app()->getLocale() == 'en' )
                                     <div class="info-product-price">
                                         @if( $product->on_sale != 0 )
-                                        <span class="item_price">{{ $product->on_sale_usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                        <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
                                         <del>{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
                                         @else
                                         <span class="item_price">{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
@@ -368,7 +370,7 @@
                                     @if( app()->getLocale() == 'vi' )
                                     <div class="info-product-price">
                                         @if( $product->on_sale != 0 )
-                                        <span class="item_price">{{ $product->on_sale_vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                        <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
                                         <del>{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
                                         @else
                                         <span class="item_price">{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>

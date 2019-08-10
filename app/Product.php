@@ -29,4 +29,14 @@ class Product extends Model
     {
         return $this->belongsTo('App\Store');
     }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
+
+    public function media()
+    {
+        return $this->hasMany('App\Media');
+    }
 }

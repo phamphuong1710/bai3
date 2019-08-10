@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::resource('home', 'HomeController');
+Route::resource('/', 'HomeController');
 
 Route::resource('users', 'UserController')->middleware(['auth']);
 
@@ -32,6 +28,8 @@ Route::resource('video-store', 'VideoStoreController')->middleware(['auth']);
 Route::get('shop/{storeID}/create-product', 'ProductController@createProduct')->name('createProduct')->middleware(['auth']);
 
 Route::get('product', 'ProductController@getAllProductByUser')->name('listProduct')->middleware(['auth']);
+
+Route::get('products/{slug}', 'SingleProductController@product')->name('product-single');
 
 Route::resource('products', 'ProductController')->middleware(['auth']);
 
@@ -65,3 +63,5 @@ Route::post( '/filter-user', 'SearchController@filterUser')->middleware(['auth']
 Route::post( '/search-category', 'SearchController@searchCategory')->middleware(['auth']);
 
 Route::post( '/filter-category', 'SearchController@filterCategory')->middleware(['auth']);
+
+
