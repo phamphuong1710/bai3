@@ -25,4 +25,6 @@ interface ProductInterface {
     public function getProductBestSeller();
     public function getNewProduct();
     public function getProductBySlug($slug);
+    public function getTheSameProductInCategory($categoryId, $productId);
+    public function getTheSameProductInStore($storeId, $productId);
 }

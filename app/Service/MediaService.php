@@ -23,7 +23,8 @@ class MediaService implements MediaInterface
                 $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
                 $link = public_path().'/files'.date("/Y/m/d/").$name;
                 $img = Image::make($link);
-                $img->resize(480, 360)->save($link);
+                $img->fit(200);
+                $img->resize(600, 600)->save($link);
                 $path = '/files'.date("/Y/m/d/").$name;
                 $image = new Media();
                 $image->image_path = $path;
@@ -47,8 +48,8 @@ class MediaService implements MediaInterface
             $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
             $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
             $link = public_path().'/files'.date("/Y/m/d/").$name;
-            $img = Image::make($link);
-            $img->resize(480, 360)->save($link);
+            $img->fit(200);
+            $img->resize(600, 600)->save($link);
             $path = '/files'.date("/Y/m/d/").$name;
             $images->image_path = $path;
             $image->user_id = Auth::id();
@@ -78,6 +79,7 @@ class MediaService implements MediaInterface
             $file->move(public_path().'/files/'.date("/Y/m/d/"), $name);
             $link = public_path().'/files'.date("/Y/m/d/").$name;
             $img = Image::make($link);
+            $img->fit(200);
             $img->resize(300, 300)->save($link);
             $path = '/files'.date("/Y/m/d/").$name;
             $image = new Media();
@@ -127,7 +129,8 @@ class MediaService implements MediaInterface
         $file = public_path().'/files'.date("/Y/m/d/").$name;
         file_put_contents($file, $contents);
         $img = Image::make($file);
-        $img->resize(480, 360)->save($file);
+        $img->fit(200);
+        $img->resize(600, 600)->save($link);
         $path = '/files'.date("/Y/m/d/").$name;
         $image = new Media();
         $image->image_path = $path;

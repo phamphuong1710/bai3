@@ -2,7 +2,7 @@ $(document).ready(function(){
     $('.slider-for').slick({
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: true,
     fade: true,
     asNavFor: '.slider-nav'
   });
@@ -11,6 +11,7 @@ $(document).ready(function(){
     slidesToScroll: 1,
     asNavFor: '.slider-for',
     dots: true,
+    arrows: false,
     centerMode: true,
     focusOnSelect: true
   });

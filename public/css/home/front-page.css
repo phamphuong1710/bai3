@@ -192,3 +192,25 @@
 .men-thumb-item {
     border: 1px solid #eee;
 }
+
+.breadcrumb-app {
+    background: #eee;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 80px;
+}
+
+.crumb a {
+    color: #d60404;
+}
+
+.breadcrumb-nav {
+    list-style: none;
+    display: flex;
+    padding: 15px 0;
+
+}
+
+.crumb:not(:last-child):after {
+    content: '/';
+    margin: 0 10px;
+}

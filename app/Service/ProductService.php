@@ -221,5 +221,21 @@ class ProductService implements ProductInterface
 
         return $product;
     }
+
+    public function getTheSameProductInCategory($categoryId, $productId)
+    {
+        $products = Product::where('category_id', $categoryId)
+                    ->whereNotIn('id', [$productId])->paginate(4);
+
+        return $products;
+    }
+
+    public function getTheSameProductInStore($storeId, $productId)
+    {
+        $products = Product::where('store_id', $storeId)
+                    ->whereNotIn('id', [$productId])->paginate(4);
+
+        return $products;
+    }
 }
 

@@ -257,3 +257,28 @@ if (!function_exists('getTopDiscountProduct')) {
         return $listProduct;
     }
 }
+
+
+if (!function_exists('sameProductInCategory')) {
+    function sameProductInCategory($id)
+    {
+        $query = new ProductService();
+        $product = $query->getProductId($id);
+        $categoryId = $product->category->id;
+        $sameProduct = $query->getTheSameProductInCategory($categoryId, $id);
+
+        return $sameProduct;
+    }
+}
+
+if (!function_exists('sameProductInStore')) {
+    function sameProductInStore($id)
+    {
+        $query = new ProductService();
+        $product = $query->getProductId($id);
+        $storeId = $product->store->id;
+        $sameProduct = $query->getTheSameProductInStore($storeId, $id);
+
+        return $sameProduct;
+    }
+}
