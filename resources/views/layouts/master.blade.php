@@ -24,7 +24,7 @@
             <!-- header-bot-->
             <div class="col-md-4 logo_agile">
                 <h1>
-                <a href="index-2.html">
+                <a href="/">
                     <span>G</span>rocery
                     <span>S</span>hoppy
                 </a>
@@ -53,26 +53,25 @@
                         </li>
                         @else
                         <li>
-                            <a href="{{ route('login') }}">Login</a>
+                            <a href="{{ route('login') }}">{{ __('messages.sing_in') }}</a>
                         </li>
 
                             @if (Route::has('register'))
                             <li>
-                                <a href="{{ route('register') }}" data-toggle="modal" data-target="#myModal1" >Register</a>
+                                <a href="{{ route('register') }}" data-toggle="modal" data-target="#myModal1" >{{ __('messages.register') }}</a>
                             </li>
                             @endif
 
                         @endauth
                     @endif
 
-
-
                 </ul>
                 <!-- //header lists -->
                 <!-- search -->
                 <div class="agileits_search">
-                    <form action="#" method="post">
-                        <input name="Search" type="search" placeholder="How can we help you today?" required="">
+                    <form action="{{ route('search') }}" method="post">
+                        @csrf
+                        <input name="search" type="search" placeholder="How can we help you today?" required>
                         <button type="submit" class="btn btn-default" aria-label="Left Align">
                         <span class="fa fa-search" aria-hidden="true"> </span>
                         </button>
@@ -131,11 +130,6 @@
     <footer>
         <div class="container">
             <!-- footer first section -->
-            <p class="footer-main">
-                <span>"Grocery Shoppy"</span> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
-                magni dolores eos qui ratione voluptatem sequi nesciunt.Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-            beatae vitae dicta sunt explicabo.</p>
             <!-- //footer first section -->
             <!-- footer second section -->
             <div class="w3l-grids-footer">
@@ -288,10 +282,10 @@
                     <div class="agileits_app-devices">
                         <h5>Download the App</h5>
                         <a href="#">
-                            <img src="images/1.png" alt="">
+                            <img src="{{ asset('images/1.png') }}" alt="">
                         </a>
                         <a href="#">
-                            <img src="images/2.png" alt="">
+                            <img src="{{ asset('images/2.png') }}" alt="">
                         </a>
                         <div class="clearfix"> </div>
                     </div>

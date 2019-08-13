@@ -11,4 +11,5 @@ interface StoreInterface {
     public function searchStore($request);
     // Filter Store
     public function filterStore($request);
+    public function getStoreBySlug($slug);
 }

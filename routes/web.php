@@ -64,4 +64,6 @@ Route::post( '/search-category', 'SearchController@searchCategory')->middleware(
 
 Route::post( '/filter-category', 'SearchController@filterCategory')->middleware(['auth']);
 
+Route::get('/archive/{slug}', 'ArchiveController@product')->name('archive');
 
+Route::post('/search', 'FilterController@search')->name('search');

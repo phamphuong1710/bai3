@@ -237,5 +237,15 @@ class ProductService implements ProductInterface
 
         return $products;
     }
+
+    // Get All Product In category
+    public function getProductInCategory($listCategory)
+    {
+        $product = Product::whereIn('category_id', $listCategory)
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        return $product;
+    }
 }
 

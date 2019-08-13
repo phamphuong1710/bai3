@@ -201,7 +201,7 @@ if (!function_exists('getMenuTeamplate')) {
         $listCategory = $categories->getParentCategory();
         $html = '<ul class="main-menu" id="primary-menu">
                     <li class="menu-item active">
-                        <a href="/home" class="nav-stylehead">'.
+                        <a href="/" class="nav-stylehead">'.
                             trans('messages.home').
                         '</a>
                     </li>';
@@ -273,6 +273,20 @@ if (!function_exists('sameProductInCategory')) {
 
 if (!function_exists('sameProductInStore')) {
     function sameProductInStore($id)
+    {
+        $query = new ProductService();
+        $product = $query->getProductId($id);
+        $storeId = $product->store->id;
+        $sameProduct = $query->getTheSameProductInStore($storeId, $id);
+
+        return $sameProduct;
+    }
+}
+
+
+
+if (!function_exists('archiveProductInCategory')) {
+    function archiveProductInCategory($id)
     {
         $query = new ProductService();
         $product = $query->getProductId($id);
