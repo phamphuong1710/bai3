@@ -4,6 +4,7 @@ use App\Service\CategoryService;
 use App\Service\AddressService;
 use App\Service\MediaService;
 use App\Service\ProductService;
+use App\Service\RatingService;
 
 if (!function_exists('getProductHtml')) {
     function getProductHtml($products)
@@ -294,5 +295,15 @@ if (!function_exists('archiveProductInCategory')) {
         $sameProduct = $query->getTheSameProductInStore($storeId, $id);
 
         return $sameProduct;
+    }
+}
+
+if (!function_exists('ratingProduct')) {
+    function ratingProduct($productId)
+    {
+        $query = new RatingService();
+        $rating = $query->getRatingProductByUser($productId);
+
+        return $rating->star;
     }
 }

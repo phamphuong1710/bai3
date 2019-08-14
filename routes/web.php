@@ -67,3 +67,9 @@ Route::post( '/filter-category', 'SearchController@filterCategory')->middleware(
 Route::get('/archive/{slug}', 'ArchiveController@product')->name('archive');
 
 Route::post('/search', 'FilterController@search')->name('search');
+
+Route::post('/rating-product', 'RatingController@product')->name('rating-product');
+
+Route::post('/rating-store', 'RatingController@store')->name('rating-store');
+
+Route::get('/store/{slug}', 'ArchiveController@store')->name('store');

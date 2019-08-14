@@ -19,7 +19,7 @@ class CreateRatingsTable extends Migration
             $table->integer('store_id')->nullable();
             $table->integer('user_id');
             $table->integer('number');
-            $table->timestamp('deleted_at');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

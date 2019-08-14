@@ -96,6 +96,5 @@ class CategoryService implements CategoryInterface
 
         return $category;
     }
-
 }
 

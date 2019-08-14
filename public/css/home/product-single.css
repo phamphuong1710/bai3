@@ -92,3 +92,59 @@
 .add-cart {
     display: flex;
 }
+
+/* Rating Star Widgets Style */
+.rating {
+  display: flex;
+  position: relative;
+  height: 50px;
+  line-height: 50px;
+  font-size: 50px;
+}
+
+.rating .item-star,
+.rating .star {
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.rating .item-star input,
+.rating .star input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+      cursor: pointer;
+}
+
+.rating .item-star .icon,
+.rating .star .icon {
+  float: left;
+}
+
+.item-star,
+.star {
+    display: inline-block;
+}
+
+.rating:not(:hover) .item-star input:checked ~ .icon,
+.rating:hover .item-star:hover input ~ .icon {
+  color: #ffc400;
+}
+
+.rating .item-star.hover,
+.rating .star.hover,
+.rating .star.selected,
+.rating .item-star.selected{
+    color: #ffc400;
+}

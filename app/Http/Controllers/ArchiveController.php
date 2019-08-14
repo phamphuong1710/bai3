@@ -12,7 +12,7 @@ class ArchiveController extends Controller
     protected $productService;
     protected $categoryService;
 
-    public function __construct( ProductService $productService, CategoryService $categoryService, StoreService $StoreService )
+    public function __construct( ProductService $productService, CategoryService $categoryService, StoreService $storeService )
     {
         $this->productService = $productService;
         $this->categoryService = $categoryService;
@@ -34,7 +34,8 @@ class ArchiveController extends Controller
     {
         $store = $this->storeService->getStoreBySlug($slug);
         $products = $this->productService->getAllProductStore($store->id);
+        $store->products = $products;
 
-        return view('layouts.store', compact('product'));
+        return view('layouts.store', compact('store'));
     }
 }

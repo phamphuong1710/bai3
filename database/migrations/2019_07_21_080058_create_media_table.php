@@ -22,7 +22,7 @@ class CreateMediaTable extends Migration
             $table->string('caption')->nullable();
             $table->integer('active')->default(0);
             $table->integer('position');
-            $table->timestamp('deleted_at');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

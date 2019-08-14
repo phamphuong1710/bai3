@@ -108,7 +108,7 @@
                             </div>
                             <div class="item-info-product ">
                                 <h4>
-                                <a href="/products/{{ $store->slug }}">{{ $store->name }}</a>
+                                <a href="/store/{{ $store->slug }}">{{ $store->name }}</a>
                                 </h4>
 
                             </div>

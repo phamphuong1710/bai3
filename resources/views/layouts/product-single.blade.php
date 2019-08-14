@@ -71,6 +71,44 @@
                                 @endif
                             </div>
                             @endif
+                            <div class="rating-star">
+                            @if( Auth::id() && !ratingProduct($product->id) )
+                                <form action="/rating-product" id="form-rating" method="POST">
+
+                                <ul id='stars' class="rating">
+                                    @for( $i=1; $i<6 ; $i++ )
+                                     <li class="item-star">
+                                        <input type="radio" value="{{ $i }}" name="star">
+                                        <span class="fa fa-star"></span>
+                                      </li>
+                                      @endfor
+                                </ul>
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                </form>
+                            @endif
+                            @if( Auth::id() && ratingProduct($product->id) )
+
+
+                                <ul id='stars' class="rating">
+                                    @for( $i=0; $i < ratingProduct($product->id) ; $i++ )
+                                     <li class="star selected">
+                                        <span class="fa fa-star"></span>
+                                      </li>
+                                    @endfor
+                                    @for( $i=0; $i < ( 5 - ratingProduct($product->id)) ; $i++ )
+                                     <li class="star">
+                                        <span class="fa fa-star"></span>
+                                      </li>
+                                      @endfor
+                                </ul>
+
+                                <span>Bạn đã đánh giá sản phẩm {{ ratingProduct($product->id) }} sao</span>
+
+                            @endif
+
+                            </div>
+
+                            <span class="rating-average">{{ $product->rating_average }}</span>
 
                             <span class="product-category">
                                 <span class="label">{{ __('messages.category').':' }}</span>
@@ -237,4 +275,5 @@
     <script src="{{ asset('js/slick.min.js') }}"></script>
     <script src="{{ asset('js/home/product-slider.js') }}"></script>
     <script src="{{ asset('js/home/quantity.js') }}"></script>
+    <script src="{{ asset('js/home/rating.js') }}"></script>
 @endsection
