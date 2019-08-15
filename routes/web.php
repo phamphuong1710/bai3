@@ -40,6 +40,8 @@ Route::get('locale/{locale}', function ($locale){
     return redirect()->back();
 });
 
+Route::post('/image-slider', 'LogoController@createImageSlider')->middleware(['auth']);
+
 Route::resource('logo', 'LogoController')->middleware(['auth']);
 
 Route::resource('library', 'ImageLibraryController')->middleware(['auth']);
@@ -73,3 +75,5 @@ Route::post('/rating-product', 'RatingController@product')->name('rating-product
 Route::post('/rating-store', 'RatingController@store')->name('rating-store');
 
 Route::get('/store/{slug}', 'ArchiveController@store')->name('store');
+
+Route::resource('slider', 'SliderController')->middleware(['auth']);

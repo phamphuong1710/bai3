@@ -14,32 +14,7 @@ class LogoController extends Controller
         $this->middleware('auth');
         $this->mediaService = $mediaService;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $logo = $this->mediaService->createLogo($request, null, null);
@@ -47,39 +22,6 @@ class LogoController extends Controller
         return response()->json($logo);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -90,5 +32,12 @@ class LogoController extends Controller
     public function destroy($id)
     {
         $this->mediaService->deleteMedia($id);
+    }
+
+    public function createImageSlider(Request $request)
+    {
+        $image = $this->mediaService->createImageSlider($request);
+
+        return response()->json($image);
     }
 }

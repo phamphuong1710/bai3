@@ -6,17 +6,24 @@
 <div class="font-page page-content">
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="..." class="d-block w-100" alt="...">
-            </div>
+
             @foreach( getTopDiscountProduct() as $product )
-            <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>{{ $product->store->name }}</h5>
-                    <p>Discount up to {{ $product->on_sale.'%' }}</p>
+                @if ($loop->first)
+                    <div class="carousel-item active">
+                        <img src="..." class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>{{ $product->store->name }}</h5>
+                            <p>Discount up to {{ $product->on_sale.'%' }}</p>
+                        </div>
+                    </div>
+                @endif
+                <div class="carousel-item">
+                    <img src="..." class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ $product->store->name }}</h5>
+                        <p>Discount up to {{ $product->on_sale.'%' }}</p>
+                    </div>
                 </div>
-            </div>
             @endforeach
         </div>
         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">

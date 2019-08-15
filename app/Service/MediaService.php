@@ -240,5 +240,37 @@ class MediaService implements MediaInterface
 
         return $images;
     }
+
+    public function createImageSlider($request, $sliderId = null)
+    {
+        if($request->hasfile('logo')) {
+            $file = $request->file('logo');
+            $name = Carbon::now()->timestamp.$file->getClientOriginalName();
+            $extension = pathinfo( $name, PATHINFO_EXTENSION );
+            $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
+            $file->move(public_path().'/files/slider'.date("/Y/m/d/"), $name);
+            $link = public_path().'/files/slider'.date("/Y/m/d/").$name;
+            $img = Image::make($link);
+            $img->fit(1920, 500);
+            $img->resize(1920, 500)->save($link);
+            $path = '/files/slider'.date("/Y/m/d/").$name;
+            $image = new Media();
+            $image->image_path = $path;
+            $image->slider_id = $sliderId;
+            $image->user_id = Auth::id();
+            $image->save();
+        }
+
+        return $image;
+    }
+
+    public function updateImageSlider($id, $sliderId)
+    {
+        $image = Media::findOrFail($id);
+        $image->slider_id = $sliderId;
+        $image->save();
+
+        return $image;
+    }
 }
 

@@ -284,8 +284,6 @@ if (!function_exists('sameProductInStore')) {
     }
 }
 
-
-
 if (!function_exists('archiveProductInCategory')) {
     function archiveProductInCategory($id)
     {
@@ -305,5 +303,15 @@ if (!function_exists('ratingProduct')) {
         $rating = $query->getRatingProductByUser($productId);
 
         return $rating->star;
+    }
+}
+
+if ( !function_exists( 'getSlider' ) ) {
+    function getSlider($storeId)
+    {
+        $media = new MediaService();
+        $logo = $media->getLogoByStoreId($storeId);
+
+        return $logo;
     }
 }

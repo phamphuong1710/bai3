@@ -106,6 +106,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <span>{{ __('messages.product') }}</span>
                             </a>
                         </li>
+                        <li class="">
+                            <a href="{{ url('/slider/create') }}">
+                                <i class="fa fa-user"></i>
+                                <span>{{ __('messages.create_slider') }}</span>
+                            </a>
+                        </li>
                     </li>
                 </ul>
                 <!-- /.sidebar-menu -->

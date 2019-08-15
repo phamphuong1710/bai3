@@ -61,5 +61,6 @@ return [
     'bestseller' => 'Sản Phẩm Bán Chạy',
     'new' => 'Mới',
     'quick_view' => 'Xem Nhanh',
-    'add_to_cart' => 'Thêm vào giỏ hàng'
+    'add_to_cart' => 'Thêm vào giỏ hàng',
+    'create_slider' => 'Tạo slide mới',
 ];

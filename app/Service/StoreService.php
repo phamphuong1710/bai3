@@ -15,6 +15,14 @@ class StoreService implements StoreInterface
         return $stores;
     }
 
+    public function getStore()
+    {
+        $stores = Store::orderBy('name', 'asc')
+            ->get();
+
+        return $stores;
+    }
+
     public function createStore($request)
     {
         $store = new Store();
