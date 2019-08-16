@@ -148,3 +148,14 @@
 .rating .item-star.selected{
     color: #ffc400;
 }
+
+.related-product {
+    margin: 100px 0 30px;
+}
+
+
+.related-product h2 {
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 30px;
+}

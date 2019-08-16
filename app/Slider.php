@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Slider extends Model
 {
-    public function image()
+    public function media()
     {
         return $this->hasOne('App\Media');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo('App\Store');
     }
 }

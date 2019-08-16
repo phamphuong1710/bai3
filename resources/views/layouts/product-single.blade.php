@@ -50,7 +50,7 @@
                     </div>
                     <div class="product-summary col-md-6">
                         <div class="summary-wrapper">
-                            <h2 class="product-name">{{ $product->name }}</h2>
+                            <h1 class="product-name">{{ $product->name }}</h1>
                             @if( app()->getLocale() == 'en' )
                             <div class="info-product-price">
                                 @if( $product->on_sale != 0 )
@@ -72,7 +72,7 @@
                             </div>
                             @endif
                             <div class="rating-star">
-                            @if( Auth::id() && !ratingProduct($product->id) )
+                            @if( Auth::id() && ratingProduct($product->id) === false )
                                 <form action="/rating-product" id="form-rating" method="POST">
 
                                 <ul id='stars' class="rating">
@@ -86,11 +86,10 @@
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 </form>
                             @endif
-                            @if( Auth::id() && ratingProduct($product->id) )
-
+                            @if( Auth::id() && ratingProduct($product->id) !== false )
 
                                 <ul id='stars' class="rating">
-                                    @for( $i=0; $i < ratingProduct($product->id) ; $i++ )
+                                    @for( $i=0; $i < ratingProduct($product->id)->star ; $i++ )
                                      <li class="star selected">
                                         <span class="fa fa-star"></span>
                                       </li>
@@ -140,71 +139,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="related-product">
-            <h2>products in the same store</h2>
-            <div class="row">
-                @foreach(sameProductInStore($product->id) as $goods)
-                <div class="col-md-3 product-men">
-                    <div class="men-pro-item simpleCart_shelfItem">
-                        <div class="men-thumb-item">
-                            <a href="/products/{{ $goods->slug }}">
-                                <img src="{{ getProductLogo($goods->id)->image_path }}" alt="Image Product">
-                            </a>
-                            <div class="men-cart-pro">
-                                <div class="inner-men-cart-pro">
-                                    <a href="/products/{{ $goods->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
-                                </div>
-                            </div>
-                            <span class="product-new-top">{{ __('messages.new') }}</span>
-                        </div>
-                        <div class="item-info-product ">
-                            <h4>
-                            <a href="/products/{{ $goods->slug }}">{{ $product->name }}</a>
-                            </h4>
-                            @if( app()->getLocale() == 'en' )
-                            <div class="info-product-price">
-                                @if( $goods->on_sale != 0 )
-                                <span class="item_price">{{ $goods->usd - ( $goods->on_sale / 100 * $goods->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                <del>{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                @else
-                                <span class="item_price">{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                @endif
-                            </div>
-                            @endif
-                            @if( app()->getLocale() == 'vi' )
-                            <div class="info-product-price">
-                                @if( $goods->on_sale != 0 )
-                                <span class="item_price">{{ $goods->vnd - ( $goods->on_sale / 100 * $goods->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                <del>{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                @else
-                                <span class="item_price">{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                @endif
-                            </div>
-                            @endif
-                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                <form action="#" method="post">
-                                    <fieldset>
-                                        <input type="hidden" name="cmd" value="_cart">
-                                        <input type="hidden" name="add" value="1">
-                                        <input type="hidden" name="business" value=" ">
-                                        <input type="hidden" name="item_name" value="Almonds, 100g">
-                                        <input type="hidden" name="amount" value="149.00">
-                                        <input type="hidden" name="discount_amount" value="1.00">
-                                        <input type="hidden" name="currency_code" value="USD">
-                                        <input type="hidden" name="return" value=" ">
-                                        <input type="hidden" name="cancel_return" value=" ">
-                                        <input type="submit" name="submit" value="Add to cart" class="button">
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-
         <div class="related-product">
             <h2>Reated product</h2>
             <div class="row">
@@ -220,7 +154,6 @@
                                     <a href="/products/{{ $goods->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
                                 </div>
                             </div>
-                            <span class="product-new-top">{{ __('messages.new') }}</span>
                         </div>
                         <div class="item-info-product ">
                             <h4>
@@ -268,6 +201,70 @@
                 @endforeach
             </div>
         </div>
+        <div class="related-product">
+            <h2>Products in the same store</h2>
+            <div class="row">
+                @foreach(sameProductInStore($product->id) as $goods)
+                <div class="col-md-3 product-men">
+                    <div class="men-pro-item simpleCart_shelfItem">
+                        <div class="men-thumb-item">
+                            <a href="/products/{{ $goods->slug }}">
+                                <img src="{{ getProductLogo($goods->id)->image_path }}" alt="Image Product">
+                            </a>
+                            <div class="men-cart-pro">
+                                <div class="inner-men-cart-pro">
+                                    <a href="/products/{{ $goods->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-info-product ">
+                            <h4>
+                            <a href="/products/{{ $goods->slug }}">{{ $product->name }}</a>
+                            </h4>
+                            @if( app()->getLocale() == 'en' )
+                            <div class="info-product-price">
+                                @if( $goods->on_sale != 0 )
+                                <span class="item_price">{{ $goods->usd - ( $goods->on_sale / 100 * $goods->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                <del>{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                @else
+                                <span class="item_price">{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                @endif
+                            </div>
+                            @endif
+                            @if( app()->getLocale() == 'vi' )
+                            <div class="info-product-price">
+                                @if( $goods->on_sale != 0 )
+                                <span class="item_price">{{ $goods->vnd - ( $goods->on_sale / 100 * $goods->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                <del>{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                @else
+                                <span class="item_price">{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                @endif
+                            </div>
+                            @endif
+                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                <form action="#" method="post">
+                                    <fieldset>
+                                        <input type="hidden" name="cmd" value="_cart">
+                                        <input type="hidden" name="add" value="1">
+                                        <input type="hidden" name="business" value=" ">
+                                        <input type="hidden" name="item_name" value="Almonds, 100g">
+                                        <input type="hidden" name="amount" value="149.00">
+                                        <input type="hidden" name="discount_amount" value="1.00">
+                                        <input type="hidden" name="currency_code" value="USD">
+                                        <input type="hidden" name="return" value=" ">
+                                        <input type="hidden" name="cancel_return" value=" ">
+                                        <input type="submit" name="submit" value="Add to cart" class="button">
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+
     </div>
 </div>
 @endsection

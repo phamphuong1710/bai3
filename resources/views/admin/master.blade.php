@@ -107,9 +107,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="">
-                            <a href="{{ url('/slider/create') }}">
+                            <a href="{{ url('/slider') }}">
                                 <i class="fa fa-user"></i>
-                                <span>{{ __('messages.create_slider') }}</span>
+                                <span>Slider</span>
                             </a>
                         </li>
                     </li>

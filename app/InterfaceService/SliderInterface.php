@@ -7,4 +7,6 @@ interface SliderInterface {
     public function updateSlider($request, $id);
     public function deleteSlider($id);
     public function getSlider();
+    public function getSliderById($id);
+    public function getAllSlider();
 }

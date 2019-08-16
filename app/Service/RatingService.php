@@ -46,7 +46,7 @@ class RatingService implements RatingInterface
     {
         $rating = Rating::where('user_id', Auth::id())
             ->where('product_id', $productId)
-            ->firstOrFail();
+            ->first();
 
         return $rating;
     }
@@ -55,7 +55,7 @@ class RatingService implements RatingInterface
     {
         $rating = Rating::where('user_id', Auth::id())
             ->where('store_id', $storeId)
-            ->firstOrFail();
+            ->first();
 
         return $rating;
     }

@@ -62,5 +62,7 @@ return [
     'new' => 'New',
     'quick_view' => 'Quick View',
     'add_to_cart' => 'Add To Cart',
-    'create_slider' => 'Create New Slide'
+    'create_slider' => 'Create New Slide',
+    'discount' => 'Discount',
+    'percent' => 'Percent',
 ];

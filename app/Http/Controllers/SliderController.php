@@ -31,7 +31,9 @@ class SliderController extends Controller
      */
     public function index()
     {
-        //
+        $slider = $this->sliderService->getAllSlider();
+
+        return view('admin.slider.list', compact('slider'));
     }
 
     /**
@@ -59,7 +61,7 @@ class SliderController extends Controller
         $this->mediaService->updateImageSlider($image, $slide->id);
 
         return redirect()
-            ->view('layout.home')
+            ->route('slider.index')
             ->with('success', 'Success');
     }
 
@@ -71,7 +73,7 @@ class SliderController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -82,7 +84,11 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $slider = $this->sliderService->getSliderById($id);
+        $stores = $this->storeService->getStore();
+        $slider->stores = $stores;
+
+        return view('admin.slider.edit', compact('slider'));
     }
 
     /**
@@ -94,7 +100,11 @@ class SliderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $slider = $this->sliderService->updateSlider($request, $id);
+
+        return redirect()
+            ->route('slider.index')
+            ->with('update_success', 'Success');
     }
 
     /**
@@ -105,6 +115,10 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $slider = $this->sliderService->deleteSlider($id);
+
+        return redirect()
+            ->route('slider.index')
+            ->with('update_success', 'Success deleted slider');
     }
 }

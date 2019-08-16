@@ -63,4 +63,6 @@ return [
     'quick_view' => 'Xem Nhanh',
     'add_to_cart' => 'Thêm vào giỏ hàng',
     'create_slider' => 'Tạo slide mới',
+    'discount' => 'Giảm Giá',
+    'percent' => 'Phầm Trăm',
 ];

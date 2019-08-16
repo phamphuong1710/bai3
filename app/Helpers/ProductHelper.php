@@ -5,6 +5,7 @@ use App\Service\AddressService;
 use App\Service\MediaService;
 use App\Service\ProductService;
 use App\Service\RatingService;
+use App\Service\SliderService;
 
 if (!function_exists('getProductHtml')) {
     function getProductHtml($products)
@@ -301,17 +302,22 @@ if (!function_exists('ratingProduct')) {
     {
         $query = new RatingService();
         $rating = $query->getRatingProductByUser($productId);
+        if (!$rating) {
+            $rating = false;
+        }
 
-        return $rating->star;
+        return $rating;
     }
 }
 
 if ( !function_exists( 'getSlider' ) ) {
-    function getSlider($storeId)
+    function getSlider()
     {
-        $media = new MediaService();
-        $logo = $media->getLogoByStoreId($storeId);
+        $sliders = new SliderService();
+        $slider = $sliders->getSlider();
 
-        return $logo;
+        return $slider;
     }
 }
+
+

@@ -24,4 +24,9 @@ class Store extends Model
      * @var  array
      */
     protected $dates = ['deleted_at'];
+
+    public function products()
+    {
+        return $this->hasMany('App\Product');
+    }
 }

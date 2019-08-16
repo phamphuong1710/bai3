@@ -101,7 +101,7 @@ if (!function_exists('listStoreHtml')) {
             }
         }
         else {
-            $html = '<h2 class="not-found">Khong tìm thấy cửa hàng</h2>';
+            $html = '<h2 class="not-found">Không tìm thấy cửa hàng</h2>';
         }
 
         return $html;
@@ -153,5 +153,16 @@ if (!function_exists('getTopDiscountStore')) {
         $stores = $queryStore->getTopDiscountStore($listStore);
 
         return $listStore;
+    }
+}
+
+if ( !function_exists( 'getMaxDiscount' ) ) {
+    function getMaxDiscount($storeId)
+    {
+        $stores = new StoreService();
+        $store = $stores->getStoreById($storeId);
+        $maxDiscount = $store->products()->max('on_sale');
+
+        return $maxDiscount;
     }
 }

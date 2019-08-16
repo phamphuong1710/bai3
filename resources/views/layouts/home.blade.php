@@ -4,33 +4,39 @@
 @endsection
 @section('content')
 <div class="font-page page-content">
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div id="sliderShop" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
 
-            @foreach( getTopDiscountProduct() as $product )
+            @foreach( getSlider() as $slider )
                 @if ($loop->first)
                     <div class="carousel-item active">
-                        <img src="..." class="d-block w-100" alt="...">
+                        <img src="{{ $slider->media->image_path }}" class="d-block w-100" alt="...">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>{{ $product->store->name }}</h5>
-                            <p>Discount up to {{ $product->on_sale.'%' }}</p>
+                            <h5>{{ $slider->store->name }}</h5>
+                            <p>{{ $slider->description }}</p>
+                            <span>{{ ' Save '. getMaxDiscount($slider->store->id).'%' }}</span>
+                            <a href="/store/{{ $slider->store->slug }}">Shop Now</a>
                         </div>
                     </div>
-                @endif
+                @else
                 <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
+                    <img src="{{ $slider->media->image_path }}" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>{{ $product->store->name }}</h5>
-                        <p>Discount up to {{ $product->on_sale.'%' }}</p>
+                        <h5>{{ $slider->store->name }}</h5>
+                        <p>{{ $slider->description }}</p>
+                        <span>{{ getMaxDiscount($slider->store->id).'%' }}</span>
+
+                        <a href="/store/{{ $slider->store->slug }}">Shop Now</a>
                     </div>
                 </div>
+                @endif
             @endforeach
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#sliderShop" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#sliderShop" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
@@ -331,22 +337,7 @@
                         @endforeach
                         <div class="clearfix"></div>
                     </div>
-                    <!-- //first section (nuts) -->
-                    <!-- second section (nuts special) -->
-                    <div class="product-sec1 product-sec2">
-                        <div class="col-xs-7 effect-bg">
-                            <h3 class="">Pure Energy</h3>
-                            <h6>Enjoy our all healthy Products</h6>
-                            <p>Get Extra 10% Off</p>
-                        </div>
-                        <h3 class="w3l-nut-middle">Nuts &amp; Dry Fruits</h3>
-                        <div class="col-xs-5 bg-right-nut">
-                            <img src="images/nut1.png" alt="">
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <!-- //second section (nuts special) -->
-                    <!-- third section (oils) -->
+
                     <div class="product-sec1">
                         <h3 class="heading-tittle">{{ __('messages.bestseller') }}</h3>
                         @foreach( productBestSeller() as $product )
