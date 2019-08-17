@@ -1,9 +1,5 @@
 @extends('layouts.master')
 @section('style')
-<link href="{{ asset('css/ionicon.css') }}" rel="stylesheet">
-<link href="{{ asset('css/home/slick.css') }}" rel="stylesheet">
-<link href="{{ asset('css/home/slick-theme.css') }}" rel="stylesheet">
-<link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/product-single.css') }}" rel="stylesheet">
 @endsection
 @section('content')
@@ -96,7 +92,4 @@
 </div>
 @endsection
 @section('js')
-    <script src="{{ asset('js/slick.min.js') }}"></script>
-    <script src="{{ asset('js/home/product-slider.js') }}"></script>
-    <script src="{{ asset('js/home/quantity.js') }}"></script>
 @endsection

@@ -65,4 +65,8 @@ return [
     'create_slider' => 'Tạo slide mới',
     'discount' => 'Giảm Giá',
     'percent' => 'Phầm Trăm',
+    'shop_now' => 'Mua Sắm Ngay',
+    'search_header' => 'Tìm kiếm, sản phẩm, cửa hàng...',
+    'welcome_text' => 'Chào mừng bạn đến với CAMP',
+    'search_product' => 'Tìm kiếm Sản Phẩm',
 ];

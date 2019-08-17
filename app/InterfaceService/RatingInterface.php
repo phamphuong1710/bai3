@@ -7,4 +7,6 @@ interface RatingInterface {
     public function ratingStore($request);
     public function getRatingProductByUser($productId);
     public function getRatingStoreByUser($storeId);
+    public function getStoreByRating($rating);
+    public function getProductByRating($rating);
 }

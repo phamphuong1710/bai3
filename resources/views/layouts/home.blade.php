@@ -1,61 +1,71 @@
 @extends('layouts.master')
 @section('style')
-<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+<link href="{{ asset('css/home/slick.css') }}" rel="stylesheet">
+<link href="{{ asset('css/home/slick-theme.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="font-page page-content">
-    <div id="sliderShop" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
 
-            @foreach( getSlider() as $slider )
-                @if ($loop->first)
-                    <div class="carousel-item active">
-                        <img src="{{ $slider->media->image_path }}" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>{{ $slider->store->name }}</h5>
-                            <p>{{ $slider->description }}</p>
-                            <span>{{ ' Save '. getMaxDiscount($slider->store->id).'%' }}</span>
-                            <a href="/store/{{ $slider->store->slug }}">Shop Now</a>
-                        </div>
-                    </div>
-                @else
-                <div class="carousel-item">
-                    <img src="{{ $slider->media->image_path }}" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>{{ $slider->store->name }}</h5>
-                        <p>{{ $slider->description }}</p>
-                        <span>{{ getMaxDiscount($slider->store->id).'%' }}</span>
+    <section class="slideshow" id="slideshow">
+        <div class="slider-content slider-hero" id="slider-hero">
+        @foreach( getSlider() as $slider )
 
-                        <a href="/store/{{ $slider->store->slug }}">Shop Now</a>
-                    </div>
+            <div class="slider-item">
+                <div class="img-slide">
+                    <img src="{{ url('/') . $slider->media->image_path }}" alt="slider1">
                 </div>
-                @endif
-            @endforeach
+                <div class="caption container">
+                    <span class="caption-title">{{ $slider->store->name }}</span>
+                    <span class="cap-text">{{ $slider->description }}</span>
+                    @if( getMaxDiscount($slider->store->id) != 0 )
+                    <h2 class="sale-up">{{ ' Save '. getMaxDiscount($slider->store->id).'%' }}</h2>
+                    @endif
+                    <a href="/store/{{ $slider->store->slug }}" class="btn-watch">
+
+                        <span class="btn-default">{{ __('messages.shop_now') }}</span>
+                        <span class="text-hover">{{ __('messages.shop_now') }}</span>
+                        <span class="btn-hover"></span>
+                    </a>
+                </div>
+            </div>
+
+        @endforeach
         </div>
-        <a class="carousel-control-prev" href="#sliderShop" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#sliderShop" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
+
+
+        <span class="btn-slide-prev">
+            <span class="default ion-ios-arrow-back"></span>
+            <span class="hover ion-ios-arrow-back"></span>
+        </span>
+        <span class="btn-slide-next">
+            <span class="default ion-ios-arrow-forward"></span>
+            <span class="hover ion-ios-arrow-forward"></span>
+        </span>
+
+    </section>
     <div class="ads-grid">
         <div class="container">
             <!-- //tittle heading -->
             <!-- product left -->
             <div class="side-bar col-md-3">
-                <div class="search-hotel">
-                    <h3 class="agileits-sear-head">Search Here..</h3>
-                    <form action="#" method="post">
-                        <input type="search" placeholder="Product name..." name="product" required>
-                        <input type="submit" class="btn btn-search-product">
+                <div class="search-product">
+                    <h3 class="widget-title">{{ __('messages.search_product') }}</h3>
+                    <form action="/search/product" method="post" class="form-search-sidebar">
+                        @csrf
+                        <input type="search" placeholder="Product name..." name="search" required class="input-search-sidebar">
+                        <button type="submit" class="btn btn-search" aria-label="Left Align">
+                            <span class="btn-main">
+                                <span class="btn-default ion-android-search"></span>
+                                <span class="text-hover ion-android-search"></span>
+                                <span class="btn-hover"></span>
+                            </span>
+                        </button>
                     </form>
                 </div>
                 <!-- price range -->
                 <div class="range">
-                    <h3 class="agileits-sear-head">Price range</h3>
+                    <h3 class="widget-title">Price range</h3>
                     <ul class="dropdown-menu6">
                         <li>
                             <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header" style="left: 0.555556%; width: 66.1111%;"></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0.555556%;"></a><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 66.6667%;"></a></div>
@@ -64,21 +74,54 @@
                     </ul>
                 </div>
                 <!-- //price range -->
-                <!-- food preference -->
-                <div class="left-side">
-                    <h3 class="agileits-sear-head">Food Preference</h3>
+                <!-- reviews -->
+                <div class="customer-rev left-side">
+                    <h3 class="agileits-sear-head">Customer Review</h3>
                     <ul>
                         <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Vegetarian</span>
+                            <a href="/store/rating/5">
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <span>5.0</span>
+                            </a>
                         </li>
                         <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Non-Vegetarian</span>
+                            <a href="/store/rating/4">
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <span>4.0</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/store/rating/3">
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <span>3.0</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="store/rating/2">
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <span>2</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
-                <!-- //food preference -->
+                <!-- //reviews -->
                 <!-- discounts -->
                 <div class="left-side">
                     <h3 class="agileits-sear-head">Discount</h3>
@@ -110,164 +153,8 @@
                     </ul>
                 </div>
                 <!-- //discounts -->
-                <!-- reviews -->
-                <div class="customer-rev left-side">
-                    <h3 class="agileits-sear-head">Customer Review</h3>
-                    <ul>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <span>5.0</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <span>4.0</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <span>3.5</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <span>3.0</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <span>2.5</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- //reviews -->
-                <!-- cuisine -->
-                <div class="left-side">
-                    <h3 class="agileits-sear-head">Cuisine</h3>
-                    <ul>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">South American</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">French</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Greek</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Chinese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Japanese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Italian</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Mexican</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Thai</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Indian</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span"> Spanish </span>
-                        </li>
-                    </ul>
-                </div>
-                <!-- //cuisine -->
-                <!-- deals -->
-                <div class="deal-leftmk left-side">
-                    <h3 class="agileits-sear-head">Special Deals</h3>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d2.jpg" alt="">
-                        </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Lay's Potato Chips</h3>
-                            <a href="single.html">$18.00</a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d1.jpg" alt="">
-                        </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Bingo Mad Angles</h3>
-                            <a href="single.html">$9.00</a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d4.jpg" alt="">
-                        </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Tata Salt</h3>
-                            <a href="single.html">$15.00</a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d5.jpg" alt="">
-                        </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Gujarat Dry Fruit</h3>
-                            <a href="single.html">$525.00</a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d3.jpg" alt="">
-                        </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Cadbury Dairy Milk</h3>
-                            <a href="single.html">$149.00</a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
+
+
                 <!-- //deals -->
             </div>
             <!-- //product left -->
@@ -423,5 +310,6 @@
 </div>
 @endsection
 @section('js')
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="{{ asset('js/slick.min.js') }}"></script>
+<script src="{{ asset('js/home/slider.js') }}"></script>
 @endsection

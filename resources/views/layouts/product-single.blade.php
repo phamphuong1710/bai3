@@ -71,8 +71,9 @@
                                 @endif
                             </div>
                             @endif
-                            <div class="rating-star">
+
                             @if( Auth::id() && ratingProduct($product->id) === false )
+                            <div class="rating-star">
                                 <form action="/rating-product" id="form-rating" method="POST">
 
                                 <ul id='stars' class="rating">
@@ -85,29 +86,42 @@
                                 </ul>
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 </form>
+                            </div>
                             @endif
                             @if( Auth::id() && ratingProduct($product->id) !== false )
-
+                            <div class="rating-star">
                                 <ul id='stars' class="rating">
                                     @for( $i=0; $i < ratingProduct($product->id)->star ; $i++ )
                                      <li class="star selected">
                                         <span class="fa fa-star"></span>
                                       </li>
                                     @endfor
-                                    @for( $i=0; $i < ( 5 - ratingProduct($product->id)) ; $i++ )
+                                    @for( $i=0; $i < ( 5 - ratingProduct($product->id)->star) ; $i++ )
                                      <li class="star">
                                         <span class="fa fa-star"></span>
                                       </li>
                                       @endfor
                                 </ul>
 
-                                <span>Bạn đã đánh giá sản phẩm {{ ratingProduct($product->id) }} sao</span>
+                                <span class="confirm-rating">Bạn đã đánh giá sản phẩm {{ ratingProduct($product->id)->star }} sao</span>
+                            </div>
 
                             @endif
 
+
+                        <div class="average-store-rating">
+                            <div class="score">
+                                <span class="rating-average">{{ $product->rating_average }}</span>
+                            </div>
+                            <div class="number-rating">
+                                @if( $product->rating->count() == 0 )
+                                <span>Chưa có đánh giá</span>
+                                @else
+                                <span>{{ $product->rating->count().' đánh giá' }}</span>
+                                @endif
                             </div>
 
-                            <span class="rating-average">{{ $product->rating_average }}</span>
+                        </div>
 
                             <span class="product-category">
                                 <span class="label">{{ __('messages.category').':' }}</span>

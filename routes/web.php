@@ -70,6 +70,14 @@ Route::get('/archive/{slug}', 'ArchiveController@product')->name('archive');
 
 Route::post('/search', 'FilterController@search')->name('search');
 
+Route::post('/search/product', 'FilterController@searchProduct')->name('search-product');
+
+Route::post('/store/search-product', 'FilterController@searchProductInStore')->name('search-product-in-store');
+
+Route::get('/store/rating/{rating}', 'FilterController@filterStoreByRating')->name('filter-rating-store');
+
+Route::get('/product/rating/{rating}', 'FilterController@filterProductByRating')->name('filter-rating-product');
+
 Route::post('/rating-product', 'RatingController@product')->name('rating-product');
 
 Route::post('/rating-store', 'RatingController@store')->name('rating-store');

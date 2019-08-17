@@ -33,8 +33,8 @@ class ArchiveController extends Controller
     public function store($slug)
     {
         $store = $this->storeService->getStoreBySlug($slug);
-        $products = $this->productService->getAllProductStore($store->id);
-        $store->products = $products;
+        // $products = $this->productService->getAllProductStore($store->id);
+        // $store->products = $products;
 
         return view('layouts.store', compact('store'));
     }

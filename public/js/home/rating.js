@@ -12,7 +12,6 @@ $(document).ready(function ($) {
                 $(this).removeClass('selected');
             }
         });
-            console.log($('#form-rating').attr('action'));
         $.ajaxSetup({
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -25,10 +24,29 @@ $(document).ready(function ($) {
             url: $('#form-rating').attr('action'),
             data: $('#form-rating').serialize(),
             success: function(data) {
-              console.log(data);
+                var star = '',
+                    no = '';
+                for (var i = 0; i < data.star; ++i) {
+                    star += '<li class="star selected">' +
+                                '<span class="ion-android-star"></span>' +
+                          ' </li>'
+                }
+                for (var i = 0; i < ( 5 - data.star ); ++i) {
+                    no += '<li class="star">' +
+                                '<span class="ion-android-star"></span>' +
+                          ' </li>'
+                }
+                alert('Ban da danh gia bai viet '+ data.star +' sao');
+                $('.rating-star').html(
+                    '<ul id="stars" class="rating">' +
+                        star +
+                        no +
 
-               console.log(data.star);
-              alert('Ban da danh gia bai viet '+data.star+' sao');
+                    '</ul>'+
+                    '<span>Bạn đã đánh giá sản phẩm ' + data.star + ' sao</span>'
+                );
+                $('.rating-average').html(numberFormat(data.rating_average, 1));
+                $('.number-rating span').html(data.number + ' đánh giá');
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
@@ -42,18 +60,27 @@ $(document).ready(function ($) {
 
         $(this).parent().children('.item-star').each(function(e){
 
-          if (e < onStar) {
-            $(this).addClass('hover');
-          }
-          else {
-            $(this).removeClass('hover');
-          }
+            if (e < onStar) {
+                $(this).addClass('hover');
+            }
+            else {
+             $(this).removeClass('hover');
+            }
         });
 
 
-      }).on('mouseout', function(){
+    }).on('mouseout', function(){
         $(this).parent().children('li.item-star').each(function(e){
           $(this).removeClass('hover');
         });
-      });
-    })
+    });
+
+    function numberFormat($number, $lenght) {
+        var ex = Math.pow(10, $lenght ) ;
+        $number = parseInt( $number * ex );
+        $number = $number / ex;
+
+        return $number;
+    }
+})
+

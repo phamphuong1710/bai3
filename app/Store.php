@@ -29,4 +29,19 @@ class Store extends Model
     {
         return $this->hasMany('App\Product');
     }
+
+    public function media()
+    {
+        return $this->hasMany('App\Media');
+    }
+
+    public function address()
+    {
+        return $this->hasOne('App\Address');
+    }
+
+    public function rating()
+    {
+        return $this->hasMany('App\Rating');
+    }
 }

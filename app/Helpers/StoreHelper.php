@@ -5,6 +5,7 @@ use App\Service\MediaService;
 use App\Service\ProductService;
 use App\Service\AddressService;
 use App\Service\CategoryService;
+use App\Service\RatingService;
 
 if ( !function_exists( 'getStoreLogo' ) ) {
     function getStoreLogo($storeId)
@@ -164,5 +165,18 @@ if ( !function_exists( 'getMaxDiscount' ) ) {
         $maxDiscount = $store->products()->max('on_sale');
 
         return $maxDiscount;
+    }
+}
+
+if (!function_exists('ratingStore')) {
+    function ratingStore($storeId)
+    {
+        $query = new RatingService();
+        $rating = $query->getRatingStoreByUser($storeId);
+        if (!$rating) {
+            $rating = false;
+        }
+
+        return $rating;
     }
 }

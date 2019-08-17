@@ -22,13 +22,16 @@ class RatingService implements RatingInterface
         $product = Product::findOrFail($productId);
         $product->rating_average = $ratingAverage;
         $product->save();
+        $number = $product->rating->count();
+        $rating->number = formatNumber($number,1);
+        $rating->rating_average = $ratingAverage;
 
         return $rating;
     }
 
     public function ratingStore($request)
     {
-        $productId = (int)$request->store_id;
+        $storeId = (int)$request->store_id;
         $rating = new Rating();
         $rating->star = $request->star;
         $rating->store_id = $storeId;
@@ -38,6 +41,9 @@ class RatingService implements RatingInterface
         $store = Store::findOrFail($storeId);
         $store->rating_average = $ratingAverage;
         $store->save();
+        $number = $store->rating->count();
+        $rating->number = formatNumber($number,1);
+        $rating->rating_average = $ratingAverage;
 
         return $rating;
     }
@@ -58,6 +64,25 @@ class RatingService implements RatingInterface
             ->first();
 
         return $rating;
+    }
+
+
+    public function getStoreByRating($rating)
+    {
+        $store = Store::where('rating_average', '>=', $rating)
+            ->where('rating_average', '<', $rating + 0.5)
+            ->paginate(16);
+
+        return $store;
+    }
+
+    public function getProductByRating($rating)
+    {
+        $product = Product::where('rating_average', '>=', $rating)
+            ->where('rating_average', '<', $rating + 0.5)
+            ->paginate(16);
+
+        return $product;
     }
 }
 

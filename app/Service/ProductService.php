@@ -134,7 +134,9 @@ class ProductService implements ProductInterface
     public function searchProduct($request)
     {
         $storeId = (int)$request->store;
-        $product = Product::where('store_id', $storeId)->where('name', 'like', '%'.$request->product.'%')->get();
+        $product = Product::where('store_id', $storeId)
+            ->where('name', 'like', '%'.$request->product.'%')
+            ->get();
 
         return $product;
     }

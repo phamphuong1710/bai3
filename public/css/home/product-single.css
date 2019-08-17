@@ -159,3 +159,25 @@
     text-align: center;
     margin-bottom: 30px;
 }
+
+.average-store-rating {
+    display: flex;
+    align-items: center;
+}
+
+.score {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background-image: url('/images/star.png');
+    -webkit-background-size: cover;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.number-rating {
+    width: calc( 100% -90px );
+}

@@ -1,35 +1,12 @@
 @extends('layouts.master')
 @section('style')
-<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="font-page page-content">
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="..." class="d-block w-100" alt="...">
-            </div>
-            @foreach( getTopDiscountProduct() as $product )
-            <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>{{ $product->store->name }}</h5>
-                    <p>Discount up to {{ $product->on_sale.'%' }}</p>
-                </div>
-            </div>
-            @endforeach
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
+
     <div class="ads-grid">
         <div class="container">
+            @if($products)
             <div class="related-product">
                 <h2>Search For Product</h2>
                 <div class="row">
@@ -94,6 +71,9 @@
                 </div>
 
             </div>
+            @endif
+
+            @if($stores)
 
             <div class="related-product">
                 <h2>Store</h2>
@@ -118,6 +98,7 @@
                 </div>
 
             </div>
+            @endif
         </div>
     </div>
     <div class="footer-top">

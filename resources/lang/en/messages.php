@@ -65,4 +65,8 @@ return [
     'create_slider' => 'Create New Slide',
     'discount' => 'Discount',
     'percent' => 'Percent',
+    'shop_now' => 'Shop Now',
+    'search_header' => 'Search product, store',
+    'welcome_text' => 'Welcome To CAMP!',
+    'search_product' => 'Search Product',
 ];

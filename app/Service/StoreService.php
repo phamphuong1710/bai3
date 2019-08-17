@@ -104,7 +104,7 @@ class StoreService implements StoreInterface
 
     public function getStoreBySlug($slug)
     {
-        $store = Store::where('slug', $slug)->firstOrFail();
+        $store = Store::where('slug', $slug)->first();
 
         return $store;
     }
