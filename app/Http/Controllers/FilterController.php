@@ -61,7 +61,7 @@ class FilterController extends Controller
     public function searchProductInStore(Request $request)
     {
         $products = $this->productService->searchProduct($request);
-        $html = getProductHtml($products);
+        $html = getProductTemplate($products);
 
         return response()->json($html);
     }

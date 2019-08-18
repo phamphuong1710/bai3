@@ -40,7 +40,8 @@
         "files": [
             "app/Helpers/StoreHelper.php",
             "app/Helpers/ImageLibraryHelper.php",
-            "app/Helpers/ProductHelper.php"
+            "app/Helpers/ProductHelper.php",
+            "app/Helpers/CommentHelper.php"
         ],
         "classmap": [
             "database/seeds",

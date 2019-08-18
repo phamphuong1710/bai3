@@ -41,7 +41,10 @@
                                         </li>
                                         @else
                                         <li>
-                                            <a href="{{ route('login') }}">{{ __('messages.sing_in') }}</a>
+                                            <a href="{{ route('login') }}">
+                                                <span class="ion-person"></span>
+                                                {{ __('messages.sing_in') }}
+                                            </a>
                                         </li>
                                             @if (Route::has('register'))
                                             <li>

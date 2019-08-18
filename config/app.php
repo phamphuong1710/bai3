@@ -179,6 +179,7 @@ return [
         App\Providers\StoreServiceProvider::class,
         App\Providers\ImageLibraryProvider::class,
         App\Providers\ProductProvider::class,
+        App\Providers\CommentServiceProvider::class,
 
     ],
 

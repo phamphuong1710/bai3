@@ -13,6 +13,52 @@ if (!function_exists('getProductHtml')) {
         $html = '';
         if (!empty($products)) {
             foreach ($products as $product) {
+                if ( app()->getLocale() == 'en' ) {
+                    if ( $product->on_sale != 0 ) {
+                        $price = '<span class="item_price">' .
+                                    $product->usd - ( $product->on_sale / 100 * $product->usd ) .
+                                        '<span class="currency">' .
+                                            trans('messages.curentcy') .
+                                        '</span>
+                                </span>
+                                <del>'.
+                                    $product->usd .
+                                    '<span class="currency">' .
+                                        trans('messages.curentcy') .
+                                    '</span>
+                                </del>';
+                    } else {
+                        $price = '<span class="item_price">' .
+                                    $product->usd .
+                                    '<span class="currency">' .
+                                    trans('messages.curentcy') .
+                                    '</span>
+                                </span>';
+                    }
+                }
+                if ( app()->getLocale() == 'vi' ) {
+                    if ( $product->on_sale != 0 ) {
+                        $price = '<span class="item_price">' .
+                                    $product->vnd - ( $product->on_sale / 100 * $product->vnd ) .
+                                        '<span class="currency">' .
+                                            trans('messages.curentcy') .
+                                        '</span>
+                                </span>
+                                <del>'.
+                                    $product->vnd .
+                                    '<span class="currency">' .
+                                        trans('messages.curentcy') .
+                                    '</span>
+                                </del>';
+                    } else {
+                        $price = '<span class="item_price">' .
+                                    $product->vnd .
+                                    '<span class="currency">' .
+                                    trans('messages.curentcy') .
+                                    '</span>
+                                </span>';
+                    }
+                }
                 $html .= '<div id="product-'.$product->id.'" class="product product-admin">
                             <div class="product-content">
                                 <div class="image-product-wrapper">
@@ -24,8 +70,8 @@ if (!function_exists('getProductHtml')) {
                                     <a href="/products/'.$product->id.'">
                                         <h3 class="product-name">'.$product->name.'</h3>
                                     </a>
-                                    <div class="product-price">
-                                        <span class="import-price">
+                                    <div class="info-product-price">
+                                        <span class="item_price">
                                             '.trans('messages.import_price').': '.number_format($product->price,0,".",".") .'<sup>'.trans('messages.curentcy').'</sup>
                                         </span>
                                         <span class="sale-price">
@@ -40,6 +86,82 @@ if (!function_exists('getProductHtml')) {
                                         '.csrf_field().'
                                         <button type="submit" class="btn-action btn-delete btn-delete-product" data-id="'.$product->id.'">'.trans('messages.delete').'</button>
                                     </form>
+                                </div>
+                            </div>
+                        </div>';
+            }
+        }
+
+        return $html;
+    }
+}
+
+if (!function_exists('getProductTemplate')) {
+    function getProductTemplate($products)
+    {
+        $html = '';
+        if (!empty($products)) {
+            foreach ($products as $product) {
+                if ( app()->getLocale() == 'en' ) {
+                    if ( $product->on_sale != 0 ) {
+                        $price = '<span class="item_price">' .
+                                    $product->usd - ( $product->on_sale / 100 * $product->usd ) .
+                                        '<span class="currency">' .
+                                            trans('messages.curentcy') .
+                                        '</span>
+                                </span>
+                                <del>'.
+                                    $product->usd .
+                                    '<span class="currency">' .
+                                        trans('messages.curentcy') .
+                                    '</span>
+                                </del>';
+                    } else {
+                        $price = '<span class="item_price">' .
+                                    $product->usd .
+                                    '<span class="currency">' .
+                                    trans('messages.curentcy') .
+                                    '</span>
+                                </span>';
+                    }
+                }
+                if ( app()->getLocale() == 'vi' ) {
+                    if ( $product->on_sale != 0 ) {
+                        $price = '<span class="item_price">' .
+                                    $product->vnd - ( $product->on_sale / 100 * $product->vnd ) .
+                                        '<span class="currency">' .
+                                            trans('messages.curentcy') .
+                                        '</span>
+                                </span>
+                                <del>'.
+                                    $product->vnd .
+                                    '<span class="currency">' .
+                                        trans('messages.curentcy') .
+                                    '</span>
+                                </del>';
+                    } else {
+                        $price = '<span class="item_price">' .
+                                    $product->vnd .
+                                    '<span class="currency">' .
+                                    trans('messages.curentcy') .
+                                    '</span>
+                                </span>';
+                    }
+                }
+                $html .= '<div id="product-'.$product->id.'" class="product">
+                            <div class="product-content">
+                                <div class="image-product-wrapper">
+                                    <a href="/products/' . $product->slug . '">
+                                        <img src="'. getProductLogo($product->id)->image_path.'" alt="Image Feature">
+                                    </a>
+                                </div>
+                                <div class="product-info">
+                                    <a href="/products/' . $product->slug . '">
+                                        <h3 class="product-name">'.$product->name.'</h3>
+                                    </a>
+                                    <div class="info-product-price">' .
+                                        $price .
+                                    '</div>
                                 </div>
                             </div>
                         </div>';

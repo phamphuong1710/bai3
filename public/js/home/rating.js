@@ -52,7 +52,7 @@ $(document).ready(function ($) {
                 alert(xhr.responseText);
             }
         });
-    })
+    });
 
     $('#stars .item-star').on('mouseover', function(){
         var input = $(this).find('input[type=radio]');

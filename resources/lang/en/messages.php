@@ -69,4 +69,9 @@ return [
     'search_header' => 'Search product, store',
     'welcome_text' => 'Welcome To CAMP!',
     'search_product' => 'Search Product',
+    'or' => 'or',
+    'to_comment' => 'to comment',
+    'enter_comment' => 'Enter Comment',
+    'comments' => 'Comments',
+    'comment' => 'Comment',
 ];

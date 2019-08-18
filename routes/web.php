@@ -84,4 +84,10 @@ Route::post('/rating-store', 'RatingController@store')->name('rating-store');
 
 Route::get('/store/{slug}', 'ArchiveController@store')->name('store');
 
+Route::get('/products/discount/{slug}', 'ArchiveController@productDiscount')->name('discount');
+
 Route::resource('slider', 'SliderController')->middleware(['auth']);
+
+Route::post('/comment-product', 'CommentController@createProductComment')->middleware(['auth']);
+
+Route::post('/comment-store', 'CommentController@createStoreComment')->middleware(['auth']);

@@ -1,3 +1,7 @@
+.btn {
+    padding: 0;
+    background: none;
+}
 .btn-main {
   position: relative;
   width: 100%;

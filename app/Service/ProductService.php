@@ -249,5 +249,16 @@ class ProductService implements ProductInterface
 
         return $product;
     }
+
+    // Get Product Discount
+    public function getProductDiscount($discount)
+    {
+        $product = Product::where('on_sale', '>=', $discount)
+            ->where('on_sale', '<', $discount + 10)
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        return $product;
+    }
 }
 

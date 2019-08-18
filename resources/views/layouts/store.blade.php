@@ -6,6 +6,7 @@
 <link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/product-single.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/store.css') }}" rel="stylesheet">
+<link href="{{ asset('css/home/comment.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="single-product">
@@ -78,52 +79,34 @@
                         </ul>
                     </div>
                     <!-- //reviews -->
-                    <!-- price range -->
-                    <div class="range">
-                        <h3 class="widget-title">Price range</h3>
-                        <ul class="dropdown-menu6">
-                            <li>
-                                <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header" style="left: 0.555556%; width: 66.1111%;"></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0.555556%;"></a><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 66.6667%;"></a></div>
-                                <input type="text" id="amount" style="border: 0; color: #ffffff; font-weight: normal;">
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- //price range -->
+                <div class="left-side">
+                    <h3 class="widget-title">Discount</h3>
+                    <ul>
 
-                    <!-- //food preference -->
-                    <!-- discounts -->
-                    <div class="left-side">
-                        <h3 class="agileits-sear-head">Discount</h3>
-                        <ul>
-                            <li>
-                                <input type="checkbox" class="checked">
-                                <span class="span">5% or More</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" class="checked">
-                                <span class="span">10% or More</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" class="checked">
+                        <li>
+                            <a href="/products/discount/20">
                                 <span class="span">20% or More</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" class="checked">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/products/discount/30">
                                 <span class="span">30% or More</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" class="checked">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/products/discount/40">
+                                <span class="span">40% or More</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/products/discount/50">
                                 <span class="span">50% or More</span>
-                            </li>
-                            <li>
-                                <input type="checkbox" class="checked">
-                                <span class="span">60% or More</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- //discounts -->
+                            </a>
+                        </li>
 
-
+                    </ul>
+                </div>
+                    <!-- //food preference -->
                     <!-- //deals -->
                 </div>
                 <!-- //product left -->
@@ -194,13 +177,13 @@
                                 <span class="number-product">{{ $store->products->count(). ' ' .__('messages.product') }}</span>
                             </div>
                             <div class="form-search search-product">
-                                <input type="search" name="search" class="search-product-in-store">
+                                <input type="search" name="search" class="search-product-in-store" placeholder="{{ __('messages.search_product') }}">
                                 <input type="hidden" value="{{ $store->id }}" name="store_id" class="store-id">
                             </div>
                         </div>
                         <div class="list-product-wrapper ajax-search-html">
                             @foreach($store->products as $product)
-                            <div class="col-md-4 product-men">
+                            <div id="product-{{ $product->id }}" class="product">
                                 <div class="men-pro-item simpleCart_shelfItem">
                                     <div class="men-thumb-item">
                                         <a href="/products/{{ $product->slug }}">
@@ -211,11 +194,10 @@
                                                 <a href="/products/{{ $product->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
                                             </div>
                                         </div>
-                                        <span class="product-new-top">{{ __('messages.new') }}</span>
                                     </div>
                                     <div class="item-info-product ">
                                         <h4>
-                                        <a href="/products/{{ $product->slug }}">{{ $product->name }}</a>
+                                            <a href="/products/{{ $product->slug }}">{{ $product->name }}</a>
                                         </h4>
                                         @if( app()->getLocale() == 'en' )
                                         <div class="info-product-price">
@@ -243,7 +225,44 @@
                                 </div>
                             </div>
                             @endforeach
+                            <div class="col-md-12 pagination">
+                                {{ $store->products->links() }}
+                            </div>
                         </div>
+                    </div>
+
+                    <div id="comment">
+                        <h2 class="title">{{ __('messages.comments') }}</h2>
+                        @if( Auth::id() )
+                            <form action="/comment-store" method="POST" class="form-comment">
+                                @csrf
+                                <textarea name="comment" id="input-comment" rows="5" placeholder="{{ __('messages.enter_comment') }}"></textarea>
+                                <button class="btn btn-post-comment" type="submit">
+                                    <span class="btn-main">
+                                        <span class="btn-default">
+                                            {{ __('messages.comment') }}
+                                        </span>
+                                        <span class="text-hover">
+                                            {{ __('messages.comment') }}
+                                        </span>
+                                        <span class="btn-hover"></span>
+                                    </span>
+                                </button>
+                                <input type="hidden" id="store-id" name="store_id" value="{{ $store->id }}">
+                                <input type="hidden" name="parent_id" value="0">
+                            </form>
+                            <div class="comment-list">
+                                {!! getStoreComment($store->id) !!}
+                            </div>
+
+                        @else
+                            <span>
+                                <a href="">{{ __('messages.sing_in') }}</a>
+                                {{ __('messages.or') }}
+                                <a href="">{{ __('messages.sing_in') }}</a>
+                                {{ __('messages.to_comment') }}
+                            </span>
+                        @endif
                     </div>
                 </div>
                 <!-- //product right -->
@@ -259,4 +278,6 @@
     <script src="{{ asset('js/home/quantity.js') }}"></script>
     <script src="{{ asset('js/home/rating.js') }}"></script>
     <script src="{{ asset('js/home/search-product.js') }}"></script>
+    <script src="{{ asset('js/home/comment.js') }}"></script>
+    <script src="{{ asset('js/home/reply-store.js') }}"></script>
 @endsection

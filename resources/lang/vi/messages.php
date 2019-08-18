@@ -69,4 +69,9 @@ return [
     'search_header' => 'Tìm kiếm, sản phẩm, cửa hàng...',
     'welcome_text' => 'Chào mừng bạn đến với CAMP',
     'search_product' => 'Tìm kiếm Sản Phẩm',
+    'or' => 'hoặc',
+    'to_comment' => 'để bình luận',
+    'enter_comment' => 'Nhập bình luận',
+    'comments' => 'Bình Luận',
+    'comment' => 'Bình Luận',
 ];

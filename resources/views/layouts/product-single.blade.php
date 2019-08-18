@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('style')
-<link href="{{ asset('css/ionicon.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/slick.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/slick-theme.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/product-single.css') }}" rel="stylesheet">
+<link href="{{ asset('css/home/comment.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="single-product">
@@ -149,7 +149,37 @@
                 </div>
 
                 <div id="comment">
+                    <h2 class="title">{{ __('messages.comments') }}</h2>
+                    @if( Auth::id() )
+                        <form action="/comment-product" method="POST" class="form-comment">
+                            @csrf
+                            <textarea name="comment" id="input-comment" rows="5" placeholder="{{ __('messages.enter_comment') }}"></textarea>
+                            <button class="btn btn-post-comment" type="submit">
+                                <span class="btn-main">
+                                    <span class="btn-default">
+                                        {{ __('messages.comment') }}
+                                    </span>
+                                    <span class="text-hover">
+                                        {{ __('messages.comment') }}
+                                    </span>
+                                    <span class="btn-hover"></span>
+                                </span>
+                            </button>
+                            <input type="hidden" id="product-id" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="parent_id" value="0">
+                        </form>
+                        <div class="comment-list">
+                            {!! getProductComment($product->id) !!}
+                        </div>
 
+                    @else
+                        <span>
+                            <a href="/login">{{ __('messages.sing_in') }}</a>
+                            {{ __('messages.or') }}
+                            <a href="/register">{{ __('messages.sing_in') }}</a>
+                            {{ __('messages.to_comment') }}
+                        </span>
+                    @endif
                 </div>
             </div>
         </div>
@@ -194,20 +224,6 @@
                             </div>
                             @endif
                             <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                <form action="#" method="post">
-                                    <fieldset>
-                                        <input type="hidden" name="cmd" value="_cart">
-                                        <input type="hidden" name="add" value="1">
-                                        <input type="hidden" name="business" value=" ">
-                                        <input type="hidden" name="item_name" value="Almonds, 100g">
-                                        <input type="hidden" name="amount" value="149.00">
-                                        <input type="hidden" name="discount_amount" value="1.00">
-                                        <input type="hidden" name="currency_code" value="USD">
-                                        <input type="hidden" name="return" value=" ">
-                                        <input type="hidden" name="cancel_return" value=" ">
-                                        <input type="submit" name="submit" value="Add to cart" class="button">
-                                    </fieldset>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -287,4 +303,6 @@
     <script src="{{ asset('js/home/product-slider.js') }}"></script>
     <script src="{{ asset('js/home/quantity.js') }}"></script>
     <script src="{{ asset('js/home/rating.js') }}"></script>
+    <script src="{{ asset('js/home/comment.js') }}"></script>
+    <script src="{{ asset('js/home/reply-product.js') }}"></script>
 @endsection

@@ -27,4 +27,5 @@ interface ProductInterface {
     public function getProductBySlug($slug);
     public function getTheSameProductInCategory($categoryId, $productId);
     public function getTheSameProductInStore($storeId, $productId);
+    public function getProductDiscount($discount);
 }
