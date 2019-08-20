@@ -23,7 +23,7 @@ class MediaService implements MediaInterface
                 $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
                 $link = public_path().'/files'.date("/Y/m/d/").$name;
                 $img = Image::make($link);
-                $img->fit(200);
+                $img->fit(600);
                 $img->resize(600, 600)->save($link);
                 $path = '/files'.date("/Y/m/d/").$name;
                 $image = new Media();
@@ -48,7 +48,7 @@ class MediaService implements MediaInterface
             $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
             $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
             $link = public_path().'/files'.date("/Y/m/d/").$name;
-            $img->fit(200);
+            $img->fit(600);
             $img->resize(600, 600)->save($link);
             $path = '/files'.date("/Y/m/d/").$name;
             $images->image_path = $path;
@@ -79,8 +79,8 @@ class MediaService implements MediaInterface
             $file->move(public_path().'/files/'.date("/Y/m/d/"), $name);
             $link = public_path().'/files'.date("/Y/m/d/").$name;
             $img = Image::make($link);
-            $img->fit(200);
-            $img->resize(300, 300)->save($link);
+            $img->fit(600);
+            $img->resize(600, 600)->save($link);
             $path = '/files'.date("/Y/m/d/").$name;
             $image = new Media();
             $image->image_path = $path;
@@ -129,7 +129,7 @@ class MediaService implements MediaInterface
         $file = public_path().'/files'.date("/Y/m/d/").$name;
         file_put_contents($file, $contents);
         $img = Image::make($file);
-        $img->fit(200);
+        $img->fit(600);
         $img->resize(600, 600)->save($link);
         $path = '/files'.date("/Y/m/d/").$name;
         $image = new Media();
@@ -251,8 +251,8 @@ class MediaService implements MediaInterface
             $file->move(public_path().'/files/slider'.date("/Y/m/d/"), $name);
             $link = public_path().'/files/slider'.date("/Y/m/d/").$name;
             $img = Image::make($link);
-            $img->fit(1920, 500);
-            $img->resize(1920, 500)->save($link);
+            $img->fit(1920, 800);
+            $img->resize(1920, 800)->save($link);
             $path = '/files/slider'.date("/Y/m/d/").$name;
             $image = new Media();
             $image->image_path = $path;

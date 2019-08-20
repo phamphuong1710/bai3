@@ -74,4 +74,10 @@ return [
     'enter_comment' => 'Enter Comment',
     'comments' => 'Comments',
     'comment' => 'Comment',
+    'rated_product' => 'You have rated product',
+    'rated_store' => 'You have rated store',
+    'star' => 'star',
+    'reviews' => 'Reviews',
+    'review' => 'Review',
+    'no_review' => 'No review yet',
 ];

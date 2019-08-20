@@ -8,6 +8,7 @@ use App\Service\StoreService;
 use App\Service\MediaService;
 use App\Service\ProductService;
 use App\Service\AddressService;
+use App\Service\CategoryService;
 use Auth;
 
 class StoreController extends Controller
@@ -17,12 +18,14 @@ class StoreController extends Controller
     protected $mediaService;
     protected $productService;
     protected $addressService;
+    protected $categoryService;
 
     public function __construct(
         StoreService $storeService,
         MediaService $mediaService,
         ProductService $productService,
-        AddressService $addressService
+        AddressService $addressService,
+        CategoryService $categoryService
     )
     {
         $this->middleware('auth');
@@ -30,6 +33,7 @@ class StoreController extends Controller
         $this->mediaService = $mediaService;
         $this->productService = $productService;
         $this->addressService = $addressService;
+        $this->categoryService = $categoryService;
     }
     /**
      * Display a listing of the resource.
@@ -84,12 +88,34 @@ class StoreController extends Controller
     public function show($id)
     {
         $store = $this->storeService->getStoreById($id);
+        $images = $this->mediaService->getImageByStoreId($id);
+        $listImage = [];
+        foreach ($images as $image) {
+            array_push($listImage, $image->id);
+        }
+        $listImage = implode(',', $listImage);
         $products = $this->productService->getAllProductStore($id);
         $store->products = $products;
         $address = $this->addressService->getAddressByStoreID($id);
-        $store->address = $address;
+        $store->list_image = $listImage;
+        $products = $this->productService->getAllProductInStore($id);
+        $listCategory = [];
+        $categories = [];
+        if (!empty($products)) {
+            foreach ($products as $product) {
+                array_push($listCategory, $product->category_id);
+            }
+            $listCategory = array_unique($listCategory);
+            $categories = $queryCategory->getCategoryStore($listCategory);
+        }
 
-        return view('admin.stores.info', compact('store'));
+        return view(
+            'admin.stores.info',
+            [
+                'store' => $store,
+                'categories' => $categories,
+            ]
+        );
     }
 
     /**

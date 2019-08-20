@@ -91,3 +91,6 @@ Route::resource('slider', 'SliderController')->middleware(['auth']);
 Route::post('/comment-product', 'CommentController@createProductComment')->middleware(['auth']);
 
 Route::post('/comment-store', 'CommentController@createStoreComment')->middleware(['auth']);
+
+Route::get('/test-create', 'Commentscontroller@create')->name('create.commet');
+Route::post('/comment-demo', 'Commentscontroller@store')->name('test');

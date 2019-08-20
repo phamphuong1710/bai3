@@ -6,17 +6,25 @@ use Illuminate\Http\Request;
 use App\Service\ProductService;
 use App\Service\CategoryService;
 use App\Service\StoreService;
+use App\Service\RatingService;
 
 class ArchiveController extends Controller
 {
     protected $productService;
     protected $categoryService;
+    protected $ratingService;
 
-    public function __construct( ProductService $productService, CategoryService $categoryService, StoreService $storeService )
+    public function __construct(
+        ProductService $productService,
+        CategoryService $categoryService,
+        StoreService $storeService,
+         RatingService $ratingService
+    )
     {
         $this->productService = $productService;
         $this->categoryService = $categoryService;
         $this->storeService = $storeService;
+        $this->ratingService = $ratingService;
     }
 
     public function product($slug)
@@ -35,6 +43,11 @@ class ArchiveController extends Controller
         $store = $this->storeService->getStoreBySlug($slug);
         $products = $this->productService->getAllProductStore($store->id);
         $store->products = $products;
+        $rating = $this->ratingService->getRatingStoreByUser($store->id);
+        if (!$rating) {
+            $rating = false;
+        }
+        $store->user_rating = $rating;
 
         return view('layouts.store', compact('store'));
     }

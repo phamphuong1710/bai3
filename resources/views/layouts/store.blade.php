@@ -120,7 +120,7 @@
                             <h1 class="title store-name">{{ $store->name }}</h1>
                             <span class="store-address">{{ $store->address->address }}</span>
                             <span class="store-phone">{{ $store->phone }}</span>
-                                @if( Auth::id() && ratingStore($store->id) === false )
+                                @if( Auth::id() && $store->user_rating === false )
                                 <div class="rating-star">
                                     <form action="/rating-store" id="form-rating" method="POST">
 
@@ -136,22 +136,23 @@
                                     </form>
                                 </div>
                                 @endif
-                                @if( Auth::id() && ratingStore($store->id) !== false )
+                                @if( Auth::id() && $store->user_rating !== false )
                                 <div class="rating-star">
                                     <ul id='stars' class="rating">
-                                        @for( $i=0; $i < ratingStore($store->id)->star ; $i++ )
+                                        @for( $i=0; $i < $store->user_rating->star ; $i++ )
                                          <li class="star selected">
                                             <span class="ion-android-star"></span>
                                           </li>
                                         @endfor
-                                        @for( $i=0; $i < ( 5 - ratingStore($store->id)->star) ; $i++ )
+                                        @for( $i=0; $i < ( 5 - $store->user_rating->star) ; $i++ )
                                          <li class="star">
                                             <span class="ion-android-star"></span>
                                           </li>
                                           @endfor
                                     </ul>
 
-                                    <span class="confirm-rating">Bạn đã đánh giá sản phẩm {{ ratingStore($store->id)->star }} sao</span>
+                                    <span class="confirm-rating">
+                                        {{ __('messages.rated_product').' '.$store->user_rating->star.' '.__('messages.star') }}</span>
                                 </div>
 
                                 @endif
@@ -161,9 +162,11 @@
                                 </div>
                                 <div class="number-rating">
                                     @if( $store->rating->count() == 0 )
-                                    <span>Chưa có đánh giá</span>
+                                    <span>{{ __('messages.no_review') }}</span>
+                                    @elseif( $store->rating->count() == 1 )
+                                        <span>{{ '1 '.__('messages.review') }}</span>
                                     @else
-                                    <span>{{ $store->rating->count().' đánh giá' }}</span>
+                                    <span>{{ $store->rating->count().' '.__('messages.reviews') }}</span>
                                     @endif
                                 </div>
 
@@ -187,7 +190,9 @@
                                 <div class="men-pro-item simpleCart_shelfItem">
                                     <div class="men-thumb-item">
                                         <a href="/products/{{ $product->slug }}">
-                                            <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Product">
+                                            @foreach ( $product->media->where( 'active', 1 ) as $logo )
+                                            <img src="{{ $logo->image_path }}" alt="Image Product">
+                                            @endforeach
                                         </a>
                                         <div class="men-cart-pro">
                                             <div class="inner-men-cart-pro">

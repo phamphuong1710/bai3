@@ -17,8 +17,21 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (data) {
-
-                $('.ajax-search-html').html(data);
+                var html = '';
+                $.each(data, function (index, value) {
+                    html += '<tr data-id="'+ value.id + '">' +
+                            '<td><a href="/categories/' + value.id + '">'+ value.name + '</a></td>' +
+                            '<td>' + value.created_at + '</td>' +
+                            '<td>' +
+                                '<a href="/categories/' + value.id + '/edit" class="btn-action btn-edit">Edit</a>' +
+                                '<form action="/categories/' + value.id + '" method="POST" class="form-delete">' +
+                                    '<input type="hidden" value="delete" name="_method">' +
+                                    '<button type="submit" class="btn-action btn-delete btn-delete-cat" data-id="' + value.id + '">Delete</button>' +
+                                '</form>' +
+                            '</td>' +
+                        '</tr>';
+                })
+                $('.ajax-search-html').html(html);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
@@ -45,7 +58,21 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (data) {
-                $('.ajax-search-html').html(data);
+                var html = '';
+                $.each(data, function (index, value) {
+                    html += '<tr data-id="'+ value.id + '">' +
+                            '<td><a href="/categories/' + value.id + '">'+ value.name + '</a></td>' +
+                            '<td>' + value.created_at + '</td>' +
+                            '<td>' +
+                                '<a href="/categories/' + value.id + '/edit" class="btn-action btn-edit">Edit</a>' +
+                                '<form action="/categories/' + value.id + '" method="POST" class="form-delete">' +
+                                    '<input type="hidden" value="delete" name="_method">' +
+                                    '<button type="submit" class="btn-action btn-delete btn-delete-cat" data-id="' + value.id + '">Delete</button>' +
+                                '</form>' +
+                            '</td>' +
+                        '</tr>';
+                })
+                $('.ajax-search-html').html(html);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);

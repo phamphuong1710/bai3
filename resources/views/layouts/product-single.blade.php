@@ -72,7 +72,7 @@
                             </div>
                             @endif
 
-                            @if( Auth::id() && ratingProduct($product->id) === false )
+                            @if( Auth::id() && $product->user_rating === false )
                             <div class="rating-star">
                                 <form action="/rating-product" id="form-rating" method="POST">
 
@@ -88,22 +88,23 @@
                                 </form>
                             </div>
                             @endif
-                            @if( Auth::id() && ratingProduct($product->id) !== false )
+                            @if( Auth::id() && $product->user_rating !== false )
                             <div class="rating-star">
                                 <ul id='stars' class="rating">
-                                    @for( $i=0; $i < ratingProduct($product->id)->star ; $i++ )
+                                    @for( $i=0; $i < $product->user_rating->star ; $i++ )
                                      <li class="star selected">
                                         <span class="fa fa-star"></span>
                                       </li>
                                     @endfor
-                                    @for( $i=0; $i < ( 5 - ratingProduct($product->id)->star) ; $i++ )
+                                    @for( $i=0; $i < ( 5 - $product->user_rating->star) ; $i++ )
                                      <li class="star">
                                         <span class="fa fa-star"></span>
                                       </li>
                                       @endfor
                                 </ul>
 
-                                <span class="confirm-rating">Bạn đã đánh giá sản phẩm {{ ratingProduct($product->id)->star }} sao</span>
+                                <span class="confirm-rating">
+                                    {{ __('messages.rated_product').' '.$product->user_rating->star.' '.__('messages.star') }} </span>
                             </div>
 
                             @endif
@@ -115,9 +116,11 @@
                             </div>
                             <div class="number-rating">
                                 @if( $product->rating->count() == 0 )
-                                <span>Chưa có đánh giá</span>
+                                <span>{{ __('messages.no_review') }}</span>
+                                @elseif( $product->rating->count() == 1 )
+                                    <span>{{ '1 '.__('messages.review') }}</span>
                                 @else
-                                <span>{{ $product->rating->count().' đánh giá' }}</span>
+                                <span>{{ $product->rating->count().' '.__('messages.reviews') }}</span>
                                 @endif
                             </div>
 
@@ -186,12 +189,14 @@
         <div class="related-product">
             <h2>Reated product</h2>
             <div class="row">
-                @foreach(sameProductInCategory($product->id) as $goods)
+                @foreach($product->in_category as $goods)
                 <div class="col-md-3 product-men">
                     <div class="men-pro-item simpleCart_shelfItem">
                         <div class="men-thumb-item">
                             <a href="/products/{{ $goods->slug }}">
-                                <img src="{{ getProductLogo($goods->id)->image_path }}" alt="Image Product">
+                                @foreach ( $goods->media->where( 'active', 1 ) as $logo )
+                                <img src="{{ $logo->image_path }}" alt="Image Product">
+                                @endforeach
                             </a>
                             <div class="men-cart-pro">
                                 <div class="inner-men-cart-pro">
@@ -234,12 +239,14 @@
         <div class="related-product">
             <h2>Products in the same store</h2>
             <div class="row">
-                @foreach(sameProductInStore($product->id) as $goods)
+                @foreach($product->in_store as $goods)
                 <div class="col-md-3 product-men">
                     <div class="men-pro-item simpleCart_shelfItem">
                         <div class="men-thumb-item">
                             <a href="/products/{{ $goods->slug }}">
-                                <img src="{{ getProductLogo($goods->id)->image_path }}" alt="Image Product">
+                                @foreach ( $goods->media->where( 'active', 1 ) as $logo )
+                                <img src="{{ $logo->image_path }}" alt="Image Product">
+                                @endforeach
                             </a>
                             <div class="men-cart-pro">
                                 <div class="inner-men-cart-pro">

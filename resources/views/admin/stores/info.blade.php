@@ -26,7 +26,9 @@
     <div class="store-info">
         <div class="store-info-wrapper">
             <div class="logo-store d-flex justify-content-center">
-                <img src="{{ getStoreLogoPath($store->id) }}" alt="{{ 'Logo '.$store->name }}">
+                @foreach( $store->media->where('active', 1) as $logo )
+                <img src="{{ $logo->image_path }}" alt="{{ 'Logo '.$store->name }}">
+                @endforeach
             </div>
             <p class="store-address">
                 <span class="label">{{ __('messages.address') }}: </span>
@@ -65,13 +67,13 @@
                     <div class="form-group">
                         <select class="form-control" id="product-category" name="category">
                             <option value="0">{{ __('messages.filter_category') }}</option>
-                            @foreach( getAllCategoryByStore($store->id) as $category )
+                            @foreach( categories as $category )
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
-                        <select class="form-control" id="sorting" name="category">
+                        <select class="form-control" id="sorting">
                             <option value="created_at-asc">
                                 {{ __('messages.sort_date_asc') }}</option>
                             <option value="name-asc">
@@ -107,7 +109,9 @@
                     <div class="product-content">
                         <div class="image-product-wrapper">
                             <a href="/products/{{$product->id}}">
-                                <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Feature">
+                                @foreach ( $product->media->where( 'active', 1 ) as $logo )
+                                <img src="{{ $logo->image_path }}" alt="Image Feature">
+                                @endforeach
                             </a>
                         </div>
                         <div class="product-info">

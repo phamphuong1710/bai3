@@ -74,4 +74,10 @@ return [
     'enter_comment' => 'Nhập bình luận',
     'comments' => 'Bình Luận',
     'comment' => 'Bình Luận',
+    'rated_product' => 'Bạn đã đánh giá sản phẩm',
+    'rated_store' => 'Bạn đã đánh giá cửa hàng',
+    'star' => 'sao',
+    'reviews' => 'đánh giá',
+    'review' => 'đánh giá',
+    'no_review' => 'Chưa có đánh giá',
 ];

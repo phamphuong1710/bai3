@@ -9,19 +9,13 @@
 
     <section class="slideshow" id="slideshow">
         <div class="slider-content slider-hero" id="slider-hero">
-        @foreach( getSlider() as $slider )
+        @foreach( $slider as $slide )
 
-            <div class="slider-item">
-                <div class="img-slide">
-                    <img src="{{ url('/') . $slider->media->image_path }}" alt="slider1">
-                </div>
+            <div class="slider-item" style="background-image: url({{$slide->media->image_path}});">
+
                 <div class="caption container">
-                    <span class="caption-title">{{ $slider->store->name }}</span>
-                    <span class="cap-text">{{ $slider->description }}</span>
-                    @if( getMaxDiscount($slider->store->id) != 0 )
-                    <h2 class="sale-up">{{ ' Save '. getMaxDiscount($slider->store->id).'%' }}</h2>
-                    @endif
-                    <a href="/store/{{ $slider->store->slug }}" class="btn-watch">
+                    <span class="caption-title">{{ $slide->store->name }}</span>
+                    <a href="/store/{{ $slide->store->slug }}" class="btn-watch">
 
                         <span class="btn-default">{{ __('messages.shop_now') }}</span>
                         <span class="text-hover">{{ __('messages.shop_now') }}</span>
@@ -152,12 +146,14 @@
                     <!-- first section (nuts) -->
                     <div class="product-sec1">
                         <h3 class="heading-tittle">{{ __('messages.new_product') }}</h3>
-                        @foreach( productNew() as $product )
+                        @foreach( $new as $product )
                         <div class="col-md-4 product-men">
                             <div class="men-pro-item simpleCart_shelfItem">
                                 <div class="men-thumb-item">
                                     <a href="/products/{{ $product->slug }}">
-                                        <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Product">
+                                        @foreach ( $product->media->where( 'active', 1 ) as $logo )
+                                        <img src="{{ $logo->image_path }}" alt="Image Product">
+                                        @endforeach
                                     </a>
                                     <div class="men-cart-pro">
                                         <div class="inner-men-cart-pro">
@@ -215,11 +211,13 @@
 
                     <div class="product-sec1">
                         <h3 class="heading-tittle">{{ __('messages.bestseller') }}</h3>
-                        @foreach( productBestSeller() as $product )
+                        @foreach( $bestSeller as $product )
                         <div class="col-md-4 product-men">
                             <div class="men-pro-item simpleCart_shelfItem">
                                 <div class="men-thumb-item">
-                                    <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Product">
+                                    @foreach ( $product->media->where( 'active', 1 ) as $logo )
+                                    <img src="{{ $logo->image_path }}" alt="Image Product">
+                                    @endforeach
                                     <div class="men-cart-pro">
                                         <div class="inner-men-cart-pro">
                                             <a href="single.html" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>

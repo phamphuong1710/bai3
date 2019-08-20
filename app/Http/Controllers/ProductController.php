@@ -36,6 +36,19 @@ class ProductController extends Controller
         return view('admin.index');
     }
 
+    public function product()
+    {
+        $categories = $this->categoryService->allCategory();
+
+        return view(
+            'admin.product.create',
+            [
+                'categories' => $categories,
+                'store_id' => $storeId
+            ]
+        );
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -79,8 +92,14 @@ class ProductController extends Controller
     {
         $product = $this->productService->getProductId($id);
         $categories = $this->categoryService->allCategory();
-        $images = $this->mediaService->getImageByProductId($id);
         $logo = $this->mediaService->getLogoByProductId($id);
+        $images = $this->mediaService->getImageByProductId($id);
+        $listImage = [];
+        foreach ($images as $image) {
+            array_push($listImage, $image->id);
+        }
+        $listImage = implode(',', $listImage);
+        $product->list_image = $listImage;
         $product->categories = $categories;
         $product->images = $images;
         $product->logo = $logo->image_path;
@@ -138,18 +157,26 @@ class ProductController extends Controller
         $categories = $this->categoryService->allCategory();
 
         return view(
-            'admin.product.create',
+            'admin.stores.create-product',
             [
                 'categories' => $categories,
-                'store_id' => $storeId
+                'store_id' => $storeId,
             ]
         );
     }
 
     public function getAllProductByUser()
     {
+        $categories = $this->categoryService->allCategory();
         $products = $this->productService->getProductByUser();
+        $products->categories = $categories;
 
-        return view('admin.product.list', compact('products'));
+        return view(
+            'admin.product.list',
+            [
+                'categories' => $categories,
+                'products' => $products,
+            ]
+        );
     }
 }

@@ -18,7 +18,23 @@ $(document).ready(function(){
             processData: false,
             success: function (data) {
 
-                $('.ajax-search-html').html(data);
+                var html = '';
+                $.each(data, function (index, value) {
+                    html += '<tr>' +
+                                '<td><a href="/users/' + value.id + '">' + value.name + '</a></td>' +
+                                '<td>' + value.phone + '</td>' +
+                                '<td>' + value.email + '</td>' +
+                                '<td>' + value.created_at + '</td>' +
+                                '<td>' +
+                                    '<a href="/users/' + value.id + '/edit" class="btn-action btn-edit">Edit</a>' +
+                                    '<form action="/users/ '+ value.id + '" method="POST" class="form-delete"' +
+                                        '<input type="hidden" name="_method" value="delete">' +
+                                        '<button type="submit" class="btn-action btn-delete">Delete</button>' +
+                                    '</form>' +
+                                '</td>' +
+                            '</tr>';
+                })
+                $('.ajax-search-html').html(html);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
@@ -45,7 +61,23 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (data) {
-                $('.ajax-search-html').html(data);
+                var html = '';
+                $.each(data, function (index, value) {
+                    html += '<tr>' +
+                                '<td><a href="/users/' + value.id + '">' + value.name + '</a></td>' +
+                                '<td>' + value.phone + '</td>' +
+                                '<td>' + value.email + '</td>' +
+                                '<td>' + value.created_at + '</td>' +
+                                '<td>' +
+                                    '<a href="/users/' + value.id + '/edit" class="btn-action btn-edit">Edit</a>' +
+                                    '<form action="/users/ '+ value.id + '" method="POST" class="form-delete"' +
+                                        '<input type="hidden" name="_method" value="delete">' +
+                                        '<button type="submit" class="btn-action btn-delete">Delete</button>' +
+                                    '</form>' +
+                                '</td>' +
+                            '</tr>';
+                })
+                $('.ajax-search-html').html(html);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);

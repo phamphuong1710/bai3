@@ -42,7 +42,7 @@
                         <div class="">
                             <select class="form-control" id="category" name="category_id">
                                 <option value="{{ $product->category_id }}">
-                                    {{ getCategoryName($product->category_id) }}
+                                    {{ $product->category->name }}
                                 </option>
 
                                 @foreach( $product->categories as $category )
@@ -147,7 +147,7 @@
                     </div>
                     <div id="preview-mode">
                         <ul id="image-preview" class="gallery-image-list">
-                            @foreach( $product->images as $key => $image )
+                            @foreach( $product->media->where('active', 0) as $key => $image )
                             <li data-item="{{ $image->id }}" class="image-item">
                                 <div class="image-wrapper">
                                     <div class="preview-action">
@@ -177,14 +177,14 @@
                             <div class="input-file">
                                 <label for="postImage">{{ __('messages.image') }}</label>
                                 <input type="file" class="custom-file-input" id="postImage" lang="in" multiple="multiple" name='image[]'>
-                                <input type="hidden" name="list_image" value="{{ getListImageProduct($product->id)}}" id="listImage">
+                                <input type="hidden" name="list_image" value="{{ $product->list_image }}" id="listImage">
                             </div>
                             <button class="btn btn-image-library">{{ __('messages.library_image') }}</button>
                             <button type="button" class="btn-video">{{ __('Video') }}</button>
                         </div>
                     </div>
                     <input type="hidden" name="user_id" value="{{ Auth::id() }}">
-                    <input type="hidden" name="usd_to_vnd" value="23000" class="usd-to-vnd">
+                    <input type="hidden" name="usd_to_vnd"  class="usd-to-vnd">
 
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">

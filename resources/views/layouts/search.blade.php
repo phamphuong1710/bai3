@@ -15,7 +15,9 @@
                         <div class="men-pro-item simpleCart_shelfItem">
                             <div class="men-thumb-item">
                                 <a href="/products/{{ $product->slug }}">
-                                    <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Product">
+                                    @foreach ( $product->media->where( 'active', 1 ) as $logo )
+                                    <img src="{{ $logo->image_path }}" alt="Image Product">
+                                    @endforeach
                                 </a>
                                 <div class="men-cart-pro">
                                     <div class="inner-men-cart-pro">
@@ -83,7 +85,9 @@
                         <div class="men-pro-item simpleCart_shelfItem">
                             <div class="men-thumb-item">
                                 <a href="/store/{{ $store->slug }}">
-                                    <img src="{{ getStoreLogo($store->id)->image_path }}" alt="Image Product">
+                                     @foreach( $store->media->where('active', 1) as $logo )
+                                    <img src="{{ $logo->image_path }}" alt="Image Product">
+                                    @endforeach
                                 </a>
                             </div>
                             <div class="item-info-product ">

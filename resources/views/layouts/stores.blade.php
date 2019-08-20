@@ -29,7 +29,9 @@
                     <div class="men-pro-item simpleCart_shelfItem">
                         <div class="men-thumb-item">
                             <a href="/store/{{ $store->slug }}">
-                                <img src="{{ getStoreLogo($store->id)->image_path }}" alt="Image Product">
+                                @foreach( $store->media->where('active', 1) as $logo )
+                                <img src="{{ $logo->image_path }}" alt="Image Product">
+                                @endfore
                             </a>
                         </div>
                         <div class="item-info-product ">

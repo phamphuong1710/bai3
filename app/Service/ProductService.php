@@ -52,9 +52,8 @@ class ProductService implements ProductInterface
             $price = (float)$request->price * (float)$request->usd_to_vnd;
             $product->in_price_vnd = formatNumber($price, 2);
             if ( !empty( $request->on_sale ) ) {
-                $product->on_sale_usd = $request->on_sale;
-                $price = (float)$request->on_sale * (float)$request->usd_to_vnd;
-                $product->in_price_vnd = formatNumber($price, 2);
+                $product->on_sale = $request->on_sale;
+
             }
         } else {
             $product->vnd = $request->sale_price;
@@ -64,9 +63,7 @@ class ProductService implements ProductInterface
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
             $product->in_price_usd = formatNumber($price, 2);
             if ( !empty( $request->on_sale ) ) {
-                $product->on_sale_vnd = $request->on_sale;
-                $price = (float)$request->on_sale / (float)$request->usd_to_vnd;
-                $product->in_price_usd = formatNumber($price, 2);
+                $product->on_sale = $request->on_sale;
             }
         }
         $product->save();
