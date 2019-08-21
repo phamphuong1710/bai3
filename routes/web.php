@@ -92,5 +92,4 @@ Route::post('/comment-product', 'CommentController@createProductComment')->middl
 
 Route::post('/comment-store', 'CommentController@createStoreComment')->middleware(['auth']);
 
-Route::get('/test-create', 'Commentscontroller@create')->name('create.commet');
-Route::post('/comment-demo', 'Commentscontroller@store')->name('test');
+Route::resource('cart', 'CartController')->middleware(['auth']);
