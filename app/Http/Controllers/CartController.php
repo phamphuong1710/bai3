@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\CartService;
 use Auth;
+use Session;
 
 class CartController extends Controller
 {
@@ -42,23 +43,35 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $request->session()->start();
-        $request->session()->put('key', 'value');
-        $request->session()->put('user_id', Auth::id());
-        if ( $request->session()->has('cart') ) {
-            $carDetail = $this->cartService->createCartDetail($cart->id, $request);
-            $cart = $this->cartService->updateCart($cart->id, $request);
-
-        } else {
-            $cart = $this->cartService->createCart($request);
+        // $request->session()->forget('cart');
+        $cart = $request->session()->get('cart');
+        if ( !$cart  ) {
+            $currentCart = $this->cartService->createCart($request);
+            $cartDetail = $this->cartService->createCartDetail($currentCart->id, $request);
             $data = [
-                'id' => $cart->id,
-                'user_id' => Auth::id(),
+                'id' => $currentCart->id,
+                'product' => [
+                    $cartDetail->product_id => $cartDetail->quantity,
+                ]
             ];
             $request->session()->put('cart', $data);
-            $carDetail = $this->cartService->createCartDetail($cart->id, $request);
-            dd($request->session()->all());
+        } else {
+            $products = $cart['product'];
+            $productId = $request->product_id;
+            if ( array_key_exists($productId, $products) ) {
+                $cartDetail = $this->cartService->updateCartDetail($cart['id'], $request);
+                $currentCart = $this->cartService->updateCart($cart['id'], $request);
+                $quantity = $cartDetail->quantity;
+                $request->session()->put('cart.product.' . $productId, $quantity);
+            } else {
+                $cart['product'][$productId] = $request->quantity;
+                $request->session()->put('cart.product.' . $productId, $request->quantity);
+                $currentCart = $this->cartService->updateCart($cart['id'], $request);
+                $carDetail = $this->cartService->createCartDetail($cart['id'], $request);
+            }
         }
+
+        return view('layouts.cart');
     }
 
     /**

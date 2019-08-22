@@ -35,25 +35,25 @@ class CartService implements CartInterface
         return $cart;
     }
 
-    public function createCartDetail($cartID, $request)
+    public function createCartDetail($cartId, $request)
     {
         $cart = New CartDetail();
         $productId = (int)$request->product_id;
         $product = Product::find($productId);
-        $cart->cart_id = $cartID;
+        $cart->cart_id = $cartId;
         $cart->product_id = $productId;
         $cart->quantity = $request->quantity;
         $cart->discount = 0;
         if (app()->getLocale() == 'en') {
             $cart->unit_price = $product->usd;
             if ( $product->on_sale != 0 ) {
-                $discount = ($product->on_sale )/100;
+                $discount = $product->usd * ($product->on_sale )/100;
                 $cart->discount = $discount;
             }
         } else {
             $cart->unit_price = $product->usd;
             if ( $product->on_sale != 0 ) {
-                $discount = ($product->on_sale )/100;
+                $discount = $product->vnd * ($product->on_sale )/100;
                 $cart->discount = $discount;
             }
         }
@@ -62,9 +62,9 @@ class CartService implements CartInterface
         return $cart;
     }
 
-    public function updateCart($cartID, $request)
+    public function updateCart($cartId, $request)
     {
-        $cart = Cart::find($cartID);
+        $cart = Cart::find($cartId);
         $productId = (int)$request->product_id;
         $product = Product::find($productId);
         $oldQty = $cart->quantity;
@@ -89,6 +89,20 @@ class CartService implements CartInterface
         $cart->save();
 
         return $cart;
+    }
+
+    public function updateCartDetail($cartId, $request)
+    {
+        $productId = (int)$request->product_id;
+        $cartDetail = CartDetail::where( 'cart_id', $cartId )
+            ->where('product_id', $productId)
+            ->first();
+        $oldQuantity = $cartDetail->quantity;
+        $quantity = $oldQuantity + (int)$request->quantity;
+        $cartDetail->quantity = $quantity;
+        $cartDetail->save();
+
+        return $cartDetail;
     }
 }
 
