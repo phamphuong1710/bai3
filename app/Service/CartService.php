@@ -47,14 +47,12 @@ class CartService implements CartInterface
         if (app()->getLocale() == 'en') {
             $cart->unit_price = $product->usd;
             if ( $product->on_sale != 0 ) {
-                $discount = $product->usd * ($product->on_sale )/100;
-                $cart->discount = $discount;
+                $cart->discount = $product->usd * ($product->on_sale )/100;
             }
         } else {
             $cart->unit_price = $product->usd;
             if ( $product->on_sale != 0 ) {
-                $discount = $product->vnd * ($product->on_sale )/100;
-                $cart->discount = $discount;
+                $cart->discount = $product->vnd * ($product->on_sale )/100;
             }
         }
         $cart->save();
@@ -103,6 +101,14 @@ class CartService implements CartInterface
         $cartDetail->save();
 
         return $cartDetail;
+    }
+
+    public function getCartByUser()
+    {
+        $userId = Auth::id();
+        $cart = Cart::where('user_id', $userId)->first();
+
+        return $cart;
     }
 }
 

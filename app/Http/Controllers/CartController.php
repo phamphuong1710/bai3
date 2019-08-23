@@ -43,33 +43,34 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->session()->forget('cart');
-        $cart = $request->session()->get('cart');
-        if ( !$cart  ) {
+        $request->session()->forget('cart');
+        $cart = $this->cartService->getCartByUser();
+        if ( $cart ) {
+            $cart = $this->getCart($request, $cart);
+            $products = $cart['product'];
+            $productId = $request->product_id;
+            $currentCart = $this->cartService->updateCart($cart['id'], $request);
+            if ( array_key_exists($productId, $products) ) {
+                $cartDetail = $this->cartService->updateCartDetail($cart['id'], $request);
+            } else {
+                $cartDetail = $this->cartService->createCartDetail($cart['id'], $request);
+            }
+            $product = $this->getProduct($cartDetail);
+            $request->session()->put('cart.product.' . $productId, $product);
+        } else {
             $currentCart = $this->cartService->createCart($request);
             $cartDetail = $this->cartService->createCartDetail($currentCart->id, $request);
             $data = [
                 'id' => $currentCart->id,
                 'product' => [
-                    $cartDetail->product_id => $cartDetail->quantity,
+                    $cartDetail->id => $cartDetail,
                 ]
             ];
             $request->session()->put('cart', $data);
-        } else {
-            $products = $cart['product'];
-            $productId = $request->product_id;
-            if ( array_key_exists($productId, $products) ) {
-                $cartDetail = $this->cartService->updateCartDetail($cart['id'], $request);
-                $currentCart = $this->cartService->updateCart($cart['id'], $request);
-                $quantity = $cartDetail->quantity;
-                $request->session()->put('cart.product.' . $productId, $quantity);
-            } else {
-                $cart['product'][$productId] = $request->quantity;
-                $request->session()->put('cart.product.' . $productId, $request->quantity);
-                $currentCart = $this->cartService->updateCart($cart['id'], $request);
-                $carDetail = $this->cartService->createCartDetail($cart['id'], $request);
-            }
         }
+
+        $cart = $request->session()->get('cart');
+        dd($cart);
 
         return view('layouts.cart');
     }
@@ -117,5 +118,30 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getCart($request, $cart)
+    {
+        $request->session()->put('cart.id', $cart->id);
+        $detail = $cart->detail;
+        foreach ($detail as $item) {
+            $productId = $item->product_id;
+            $product = $this->getProduct($item);
+            $request->session()->put('cart.product.' . $productId, $product);
+        }
+        $cart = $request->session()->get('cart');
+
+        return $cart;
+    }
+
+    public function getProduct($cartDetail)
+    {
+        $product = $cartDetail->product;
+        $logo = $product->media->where('active', 1)->first;
+        $product->toArray();
+        $product['logo'] = $logo->image_path;
+        $product['quantity'] = $cartDetail->quantity;
+
+        return $product;
     }
 }

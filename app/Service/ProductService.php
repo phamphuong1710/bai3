@@ -53,7 +53,6 @@ class ProductService implements ProductInterface
             $product->in_price_vnd = formatNumber($price, 2);
             if ( !empty( $request->on_sale ) ) {
                 $product->on_sale = $request->on_sale;
-
             }
         } else {
             $product->vnd = $request->sale_price;
@@ -86,7 +85,6 @@ class ProductService implements ProductInterface
         $product->slug = str_slug($request->name, '-').'-'.$request->store_id.$time;
         $product->category_id = $request->category_id;
         $product->description = $request->description;
-
         if (app()->getLocale() == 'en') {
             $product->usd = $request->sale_price;
             $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
