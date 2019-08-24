@@ -92,4 +92,4 @@ Route::post('/comment-product', 'CommentController@createProductComment')->middl
 
 Route::post('/comment-store', 'CommentController@createStoreComment')->middleware(['auth']);
 
-Route::resource('cart', 'CartController')->middleware(['auth']);
+Route::resource('cart', 'CartController');

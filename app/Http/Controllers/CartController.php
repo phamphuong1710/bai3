@@ -60,10 +60,11 @@ class CartController extends Controller
         } else {
             $currentCart = $this->cartService->createCart($request);
             $cartDetail = $this->cartService->createCartDetail($currentCart->id, $request);
+            $product = $this->getProduct($cartDetail);
             $data = [
                 'id' => $currentCart->id,
                 'product' => [
-                    $cartDetail->id => $cartDetail,
+                    $cartDetail->id => $product,
                 ]
             ];
             $request->session()->put('cart', $data);
@@ -138,9 +139,8 @@ class CartController extends Controller
     {
         $product = $cartDetail->product;
         $logo = $product->media->where('active', 1)->first;
-        $product->toArray();
-        $product['logo'] = $logo->image_path;
-        $product['quantity'] = $cartDetail->quantity;
+        $product->logo = $logo->image_path;
+        $product->quantity = $cartDetail->quantity;
 
         return $product;
     }
