@@ -92,4 +92,6 @@ Route::post('/comment-product', 'CommentController@createProductComment')->middl
 
 Route::post('/comment-store', 'CommentController@createStoreComment')->middleware(['auth']);
 
-Route::resource('cart', 'CartController');
+Route::post('/add-to-cart', 'CartController@addToCart')->name('add-to-cart');
+
+Route::delete('/delete-cart/{id}', 'CartController@deleteCartDetail')->name('delete-cart');

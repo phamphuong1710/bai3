@@ -15,38 +15,13 @@ class CartController extends Controller
     {
         $this->cartService = $cartService;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function addToCart(Request $request)
     {
         $request->session()->forget('cart');
         $cart = $this->cartService->getCartByUser();
         if ( $cart ) {
-            $cart = $this->getCart($request, $cart);
+            $cart = $this->getCart($cart);
             $products = $cart['product'];
             $productId = $request->product_id;
             $currentCart = $this->cartService->updateCart($cart['id'], $request);
@@ -69,22 +44,19 @@ class CartController extends Controller
             ];
             $request->session()->put('cart', $data);
         }
-
         $cart = $request->session()->get('cart');
-        dd($cart);
 
-        return view('layouts.cart');
+        return response()->json($cart);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function deleteCartDetail($id)
     {
-        //
+        $cartDetail = $this->cartService->deleteCartDetail($id);
+        session()->forget('cart');
+        $cart = $this->cartService->getCartByUser();
+        $cart = $this->getCart($cart);
+
+        return response()->json($cart);
     }
 
     /**
@@ -121,16 +93,19 @@ class CartController extends Controller
         //
     }
 
-    public function getCart($request, $cart)
+    public function getCart($cart)
     {
-        $request->session()->put('cart.id', $cart->id);
+        session()->put('cart.id', $cart->id);
         $detail = $cart->detail;
+        session()->put('cart.product', []);
         foreach ($detail as $item) {
             $productId = $item->product_id;
             $product = $this->getProduct($item);
-            $request->session()->put('cart.product.' . $productId, $product);
+            if ( $product ) {
+                session()->put('cart.product.' . $productId, $product);
+            }
         }
-        $cart = $request->session()->get('cart');
+        $cart = session()->get('cart');
 
         return $cart;
     }
@@ -138,9 +113,12 @@ class CartController extends Controller
     public function getProduct($cartDetail)
     {
         $product = $cartDetail->product;
-        $logo = $product->media->where('active', 1)->first;
-        $product->logo = $logo->image_path;
-        $product->quantity = $cartDetail->quantity;
+        if ( $product ) {
+            $logo = $product->media->where('active', 1)->first;
+            $product->logo = $logo->image_path;
+            $product->quantity = $cartDetail->quantity;
+            $product->detail_id = $cartDetail->id;
+        }
 
         return $product;
     }

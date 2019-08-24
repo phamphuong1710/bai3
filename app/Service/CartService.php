@@ -65,6 +65,7 @@ class CartService implements CartInterface
         $cart = Cart::find($cartId);
         $productId = (int)$request->product_id;
         $product = Product::find($productId);
+        return $product;
         $oldQty = $cart->quantity;
         $oldTotalPrice = $cart->total_price;
         $oldDiscount = $cart->discount;
@@ -89,6 +90,7 @@ class CartService implements CartInterface
         return $cart;
     }
 
+    // WHen click add to cart button
     public function updateCartDetail($cartId, $request)
     {
         $productId = (int)$request->product_id;
@@ -109,6 +111,27 @@ class CartService implements CartInterface
         $cart = Cart::where('user_id', $userId)->first();
 
         return $cart;
+    }
+
+    public function deleteCartDetail($id)
+    {
+        $cartDetail = CartDetail::find($id);
+        CartDetail::Destroy($id);
+
+        return $cartDetail;
+    }
+
+    // When Click button update cart page
+    public function updateDetail($cartId, $productId, $quantity)
+    {
+        $cartDetail = CartDetail::where('cart_id', $cartId)
+            ->where('product_id', $productId)
+            ->first();
+
+        $cartDetail->quantity = $quantity;
+        $cartDetail->save();
+
+        return $cartDetail;
     }
 }
 

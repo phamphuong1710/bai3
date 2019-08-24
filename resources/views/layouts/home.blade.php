@@ -3,6 +3,7 @@
 
 <link href="{{ asset('css/home/slick.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/slick-theme.css') }}" rel="stylesheet">
+<link href="{{ asset('css/home/mini-cart.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="font-page page-content">
@@ -187,12 +188,12 @@
                                     </div>
                                     @endif
                                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                        <form action="{{ route('cart.store') }}" method="post">
+                                        <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
                                             @csrf
                                             <fieldset>
-                                                <input type="hidden" name="product_id" value="{{$product->id}}">
-                                                <input type="hidden" name="quantity" value="1">
-                                                <input type="submit" name="submit" value="Add to cart" class="button">
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
+                                                <input type="hidden" name="quantity" value="1"  class="add-quantity">
+                                                <input type="submit" name="submit" value="Add to cart" class="button btn-add-to-cart">
                                             </fieldset>
                                         </form>
                                     </div>
@@ -288,8 +289,26 @@
     </div>
     <!-- //newsletter -->
 </div>
+<div  id="shop-overlay"></div>
+<div id="shop-cart-sidebar">
+    <div class="cart-sidebar-head">
+        <h4 class="cart-sidebar-title">Shopping cart</h4>
+            <span class="count">4</span>
+
+        <button id="close-cart-sidebar" class="ion-android-close"></button>
+    </div>
+    <div class="cart-sidebar-content">
+        <ul class="list-product-in-cart product-item-action">
+
+        </ul>
+    </div>
+</div>
 @endsection
 @section('js')
 <script src="{{ asset('js/slick.min.js') }}"></script>
 <script src="{{ asset('js/home/slider.js') }}"></script>
+<script src="{{ asset('js/home/add-to-cart.js') }}"></script>
+<script src="{{ asset('js/home/delete-cart.js') }}"></script>
 @endsection
+
+
