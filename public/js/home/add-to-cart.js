@@ -36,14 +36,14 @@ $(document).ready(function(){
                     total = 0;
                 $.each(data.product, function (index,value) {
                     html += '<li class="mini-cart-item cart-item">' +
-                                '<div class="product-minicart-logo">' +
-                                    '<img src="' + value.logo.image_path + '" alt="' + value.name + '">' +
-                                '</div>' +
                                 '<div class="product-minnicart-info">' +
                                     '<span class="mincart-product-name">' + value.name + '</span>' +
                                     '<span class="product-quantity">' +
-                                        '<span class="minicart-product-quantity">' + value.quantity + '</span> * <span class="minicart-product-price">$' + value.usd +'</span>' +
+                                        '<span class="minicart-product-quantity">' + value.quantity + '</span> x <span class="minicart-product-price">$' + value.usd +'</span>' +
                                     '</span>' +
+                                '</div>' +
+                                '<div class="product-minicart-logo">' +
+                                    '<img src="' + value.logo.image_path + '" alt="' + value.name + '">' +
                                 '</div>' +
                                 '<span class="remove_from_cart_button ion-android-close delete-product" product="' + value.detail_id + '"></span>'
                             '</li>';

@@ -1,25 +1,10 @@
-.main-content-action {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
-    opacity: 0;
-    background-color: rgba( 0, 0, 0, 0.5 );
-    transition: all 0.3s;
-
-
-}
-
-
 #shop-cart-sidebar {
     position: fixed;
     top: 0px;
     right: 0;
     bottom: 0;
     z-index: 999999990;
-    width: 300px;
+    width: 320px;
     background: #ffffff;
     visibility: hidden;
     -webkit-transform: translate3d(100%, 0, 0);
@@ -86,29 +71,28 @@
 
 
 
-    .remove_from_cart_button {
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        font-size: 0;
-        color: inherit;
-        opacity: 0;
-        z-index: 2;
-        -webkit-transform: translateY(-50%) translateX(0) rotate(0deg);
-        transform: translateY(-50%) translateX(0) rotate(0deg);
-        transition: all 0.3s;
-    }
+.remove_from_cart_button {
+    width: 20px;
+    height: 20px;
+    opacity: 0;
+    z-index: 2;
+    -webkit-transform: translateX(0) rotate(0deg);
+    transform: translateX(0) rotate(0deg);
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
 
 .mini-cart-item:hover .remove_from_cart_button{
-        opacity: 1;
-        -webkit-transform: translateY(-50%) translateX(0) rotate(90deg);
-        transform: translateY(-50%) translateX(0) rotate(90deg)!important;
+    opacity: 1;
+    -webkit-transform: translateX(0) rotate(90deg);
+    transform: translateX(0) rotate(90deg)!important;
 
 }
 
-.remove_from_cart_button.remove:hover {
+.remove_from_cart_button:hover {
     color: #e31246!important;
     background: none!important;
     -webkit-transform: translateY(-50%) translateX(0) rotate(90deg);
@@ -116,7 +100,8 @@
 }
 
 .cart-sidebar-content {
-    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
     height: -webkit-calc( 100% - 140px);
     height: -moz-calc( 100% - 140px);
     height: calc( 100% - 140px);
@@ -204,4 +189,34 @@
         visibility: visible;
         z-index: 9999;
         pointer-events: auto;
+}
+
+.mini-cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10px 20px 20px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.product-minicart-logo {
+    width: 70px;
+    margin: 0 15px 0 10px;
+}
+
+.product-minicart-logo img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.product-minnicart-info {
+    width: calc( 100% - 120px );
+}
+
+.mincart-product-name {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f3d70;
+    margin-bottom: 8px;
 }
