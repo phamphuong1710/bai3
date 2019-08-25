@@ -95,3 +95,7 @@ Route::post('/comment-store', 'CommentController@createStoreComment')->middlewar
 Route::post('/add-to-cart', 'CartController@addToCart')->name('add-to-cart');
 
 Route::delete('/delete-cart/{id}', 'CartController@deleteCartDetail')->name('delete-cart');
+
+Route::get('/cart', 'CartController@cart')->name('cart');
+
+Route::put('/update-cart/{id}', 'CartController@updateCart')->name('update-cart');

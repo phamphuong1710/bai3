@@ -16,19 +16,11 @@ class CartService implements CartInterface
         $product = Product::find($productId);
         $cart->user_id = Auth::id();
         $cart->quantity = $request->quantity;
-        $cart->discount = 0;
-        if (app()->getLocale() == 'en') {
-            $cart->total_price = (int)$request->quantity * $product->usd;
-            if ( $product->on_sale != 0 ) {
-                $discount = $cart->total_price * ($product->on_sale/100 );
-                $cart->discount = $discount;
-            }
-        } else {
-            $cart->total_price = (int)$request->quantity * $product->vnd;
-            if ( $product->on_sale != 0 ) {
-                $discount = $cart->total_price * ($product->on_sale/100 );
-                $cart->discount = $discount;
-            }
+        $cart->usd = (int)$request->quantity * $product->usd;
+        $cart->vnd = (int)$request->quantity * $product->vnd;
+        if ( $product->on_sale != 0 ) {
+            $cart->discount_usd = formatNumber($discount, 2);
+            $cart->discount_vnd = formatNumber($discount / $currency, 2);
         }
         $cart->save();
 
@@ -43,48 +35,39 @@ class CartService implements CartInterface
         $cart->cart_id = $cartId;
         $cart->product_id = $productId;
         $cart->quantity = $request->quantity;
-        $cart->discount = 0;
-        if (app()->getLocale() == 'en') {
-            $cart->unit_price = $product->usd;
-            if ( $product->on_sale != 0 ) {
-                $cart->discount = $product->usd * ($product->on_sale )/100;
-            }
-        } else {
-            $cart->unit_price = $product->usd;
-            if ( $product->on_sale != 0 ) {
-                $cart->discount = $product->vnd * ($product->on_sale )/100;
-            }
-        }
+        $discountUsd = $product->usd * ($product->on_sale )/100;
+        $discountVnd = $product->vnd * ($product->on_sale )/100;
+        $cart->usd = $product->usd;
+        $cart->vnd = $product->vnd;
+        $cart->discount_usd = formatNumber($discountUsd, 2);
+        $cart->discount_vnd = formatNumber($discountVnd, 2);
         $cart->save();
 
         return $cart;
     }
 
-    public function updateCart($cartId, $request)
+    public function updateCart($cartId)
     {
         $cart = Cart::find($cartId);
-        $productId = (int)$request->product_id;
-        $product = Product::find($productId);
-        return $product;
-        $oldQty = $cart->quantity;
-        $oldTotalPrice = $cart->total_price;
-        $oldDiscount = $cart->discount;
-        $cart->quantity = $oldQty + (int)$request->quantity;
-        if (app()->getLocale() == 'en') {
-            $price = (int)$request->quantity * $product->usd;
-            $cart->total_price = $oldTotalPrice + $price;
-            if ( $product->on_sale != 0 ) {
-                $discount = $price * ($product->on_sale )/100;
-                $cart->discount = $oldDiscount + $discount;
-            }
-        } else {
-            $price = (int)$request->quantity * $product->vnd;
-            $cart->total_price = $oldTotalPrice + $price;
-            if ( $product->on_sale != 0 ) {
-                $discount = $price * ($product->on_sale )/100;
-                $cart->discount = $oldDiscount + $discount;
-            }
+        $details = CartDetail::where('cart_id', $cartId)
+            ->get();
+        $quantity = 0;
+        $vnd = 0;
+        $usd = 0;
+        $discountVnd = 0;
+        $discountUsd = 0;
+        foreach ($details as $detail) {
+            $quantity = $quantity + $detail->quantity;
+            $vnd = $vnd + $detail->vnd * $detail->quantity;
+            $usd = $usd + $detail->usd * $detail->quantity;
+            $discountVnd = $discountVnd + $detail->discount_vnd * $detail->quantity;
+            $discountUsd = $discountUsd + $detail->discount_usd * $detail->quantity;
         }
+        $cart->quantity = $quantity;
+        $cart->vnd = $vnd;
+        $cart->usd = $usd;
+        $cart->discount_usd = $discountUsd;
+        $cart->discount_vnd = $discountVnd;
         $cart->save();
 
         return $cart;
@@ -116,18 +99,29 @@ class CartService implements CartInterface
     public function deleteCartDetail($id)
     {
         $cartDetail = CartDetail::find($id);
+        $cartId = $cartDetail->cart_id;
+        $cart = Cart::find($cartId);
+        $quantity = $cartDetail->quantity;
+        $usd = $quantity * $cartDetail->usd;
+        $vnd = $quantity * $cartDetail->vnd;
+        $discountVnd = $quantity * $cartDetail->discount_usd;
+        $discountUsd = $quantity * $cartDetail->discount_usd;
+        $cart->quantity = $cart->quantity - $quantity;
+        $cart->vnd = $cart->vnd - $vnd;
+        $cart->usd = $cart->usd - $usd;
+        $cart->discount_usd = $cart->discount_usd - $discountUsd;
+        $cart->discount_vnd = $cart->discount_vnd - $discountVnd;
+        $cart->save();
         CartDetail::Destroy($id);
 
         return $cartDetail;
     }
 
-    // When Click button update cart page
-    public function updateDetail($cartId, $productId, $quantity)
-    {
-        $cartDetail = CartDetail::where('cart_id', $cartId)
-            ->where('product_id', $productId)
-            ->first();
 
+    // When Click button update cart page
+    public function updateDetail($id, $quantity)
+    {
+        $cartDetail = CartDetail::find($id);
         $cartDetail->quantity = $quantity;
         $cartDetail->save();
 

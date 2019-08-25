@@ -193,6 +193,7 @@
                                             <fieldset>
                                                 <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
                                                 <input type="hidden" name="quantity" value="1"  class="add-quantity">
+                                                <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
                                                 <input type="submit" name="submit" value="Add to cart" class="button btn-add-to-cart">
                                             </fieldset>
                                         </form>
@@ -244,18 +245,13 @@
                                     </div>
                                     @endif
                                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                        <form action="#" method="post">
+                                        <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
+                                            @csrf
                                             <fieldset>
-                                                <input type="hidden" name="cmd" value="_cart">
-                                                <input type="hidden" name="add" value="1">
-                                                <input type="hidden" name="business" value=" ">
-                                                <input type="hidden" name="item_name" value="Almonds, 100g">
-                                                <input type="hidden" name="amount" value="149.00">
-                                                <input type="hidden" name="discount_amount" value="1.00">
-                                                <input type="hidden" name="currency_code" value="USD">
-                                                <input type="hidden" name="return" value=" ">
-                                                <input type="hidden" name="cancel_return" value=" ">
-                                                <input type="submit" name="submit" value="Add to cart" class="button">
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
+                                                <input type="hidden" name="quantity" value="1"  class="add-quantity">
+                                                <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
+                                                <input type="submit" name="submit" value="Add to cart" class="button btn-add-to-cart">
                                             </fieldset>
                                         </form>
                                     </div>
@@ -293,14 +289,61 @@
 <div id="shop-cart-sidebar">
     <div class="cart-sidebar-head">
         <h4 class="cart-sidebar-title">Shopping cart</h4>
-            <span class="count">4</span>
+            @if ( Session::get('cart')['quantity'] )
+                <span class="count">Session::get('cart')['quantity']</span>
+            @else
+                <span class="count">0</span>
+            @endif
 
         <button id="close-cart-sidebar" class="ion-android-close"></button>
     </div>
     <div class="cart-sidebar-content">
         <ul class="list-product-in-cart product-item-action">
+            @if ( Session::get('cart')['product'] )
+                @foreach( Session::get('cart')['product'] as $product )
+                <li class="mini-cart-item cart-item">
+                    <div class="product-minnicart-info">
+                        <span class="mincart-product-name">{{ $product->name }} </span>
+                        <span class="product-quantity">
+                            <span class="minicart-product-quantity">{{ $product->quantity }}</span> x
+                            <span class="minicart-product-price">
+                                @if( app()->getLocale() == 'en' )
+                                    {{ $product->usd }}
+                                @endif
+                                @if( app()->getLocale() == 'vi' )
+                                    {{ $product->vnd }}
+                                @endif
+                            </span>
+                        </span>
+                    </div>
+                    <div class="product-minicart-logo">
+                        <img src="{{ $product->logo }}" alt=" $product->name ">
+                    </div>
+                    <span class="remove_from_cart_button ion-android-close delete-product" product="{{ $product->id }}"></span>
+                </li>
+                @endforeach
+            @else
+            <h6>{{ __('messages.no_product') }}</h6>
+            @endif
 
         </ul>
+    </div>
+    <div class="subpay">
+        <span class="label">{{ __('messages.total').':' }}</span>
+        @if( app()->getLocale() == 'en' )
+        <span class="total-price">
+            {{ Session::get('cart')['usd'] - Session::get('cart')['discount_usd'] }}
+        </span>
+        @endif
+        @if( app()->getLocale() == 'vi' )
+        <span class="total-price">
+            {{ Session::get('cart')['vnd'] - Session::get('cart')['discount_vnd'] }}
+        </span>
+        @endif
+    </div>
+    <div class="mini-cart-action">
+        <a href="{{ route('cart') }}" class="btn btn-view-cart">{{ __('messages.view_cart') }}</a>
+        <a href="" class="btn btn-view-checkout">{{ __('messages.checkout') }}</a>
     </div>
 </div>
 @endsection
@@ -309,6 +352,7 @@
 <script src="{{ asset('js/home/slider.js') }}"></script>
 <script src="{{ asset('js/home/add-to-cart.js') }}"></script>
 <script src="{{ asset('js/home/delete-cart.js') }}"></script>
+<script src="{{ asset('js/admin/currency.js') }}"></script>
 @endsection
 
 

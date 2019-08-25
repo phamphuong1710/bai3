@@ -80,4 +80,8 @@ return [
     'reviews' => 'Reviews',
     'review' => 'Review',
     'no_review' => 'No review yet',
+    'total' => 'Total',
+    'view_cart' => 'View Cart',
+    'checkout' => 'Checkout',
+    'no_product' => 'No product in cart',
 ];

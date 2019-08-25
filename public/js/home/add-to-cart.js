@@ -34,24 +34,28 @@ $(document).ready(function(){
                 console.log(data);
                 var html = '',
                     total = 0;
+                    price = 0;
                 $.each(data.product, function (index,value) {
+                    unit = value.usd - value.discount_usd;
                     html += '<li class="mini-cart-item cart-item">' +
                                 '<div class="product-minnicart-info">' +
                                     '<span class="mincart-product-name">' + value.name + '</span>' +
                                     '<span class="product-quantity">' +
-                                        '<span class="minicart-product-quantity">' + value.quantity + '</span> x <span class="minicart-product-price">$' + value.usd +'</span>' +
+                                        '<span class="minicart-product-quantity">' + value.quantity + '</span> x <span class="minicart-product-price">$' + unit +'</span>' +
                                     '</span>' +
                                 '</div>' +
                                 '<div class="product-minicart-logo">' +
-                                    '<img src="' + value.logo.image_path + '" alt="' + value.name + '">' +
+                                    '<img src="' + value.logo + '" alt="' + value.name + '">' +
                                 '</div>' +
-                                '<span class="remove_from_cart_button ion-android-close delete-product" product="' + value.detail_id + '"></span>'
+                                '<span class="remove_from_cart_button ion-android-close delete-product" product="' + value.id + '"></span>'
                             '</li>';
                     total = total + parseInt(value.quantity);
+                    price = price + value.quantity * unit;
 
                 });
                 $('.list-product-in-cart').html(html);
                 $('.count').html(total);
+                $('.total-price').html(price);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
@@ -67,5 +71,10 @@ $(document).ready(function(){
     $('#shop-overlay').on('click', function (e) {
         $( '#shop-cart-sidebar' ).removeClass( 'showcart' );
         $( this ).removeClass( 'show' );
+    });
+
+    $('.icon-cart').on('click', function (e) {
+        $( '#shop-overlay' ).addClass( 'show' );
+        $( '#shop-cart-sidebar' ).addClass( 'showcart' );
     });
 });

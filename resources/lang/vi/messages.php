@@ -80,4 +80,8 @@ return [
     'reviews' => 'đánh giá',
     'review' => 'đánh giá',
     'no_review' => 'Chưa có đánh giá',
+    'total' => 'Tổng',
+    'view_cart' => 'Giỏ Hàng',
+    'checkout' => 'Thanh Toán',
+    'no_product' => 'Không có sản phẩm trong giỏ',
 ];

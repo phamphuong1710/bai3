@@ -94,7 +94,6 @@
                                     <li class="item-contact item-email">
                                         <span class="email ion-ios-email">
                                             info@camp.com
-
                                         </span>
                                     </li>
                                 </ul>
@@ -119,7 +118,17 @@
                         </div>
 
                         <div class="cart">
-                            <span class="ion-bag icon-cart"></span>
+                            <span class="ion-bag icon-cart">
+                                @if(Auth::id())
+                                    @if( Session::get('cart')['quantity'] )
+                                        <sup class="count cart-quantity">{{ Session::get('cart')['quantity'] }}</sup>
+                                    @else
+                                        <sup class="count cart-quantity">0</sup>
+                                    @endif
+                                @else
+                                <sup class="count cart-quantity">0</sup>
+                                @endif
+                            </span>
                         </div>
                     </div>
                 </div>

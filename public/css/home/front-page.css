@@ -12,6 +12,26 @@
     color: #1f3d70;
 }
 
+.icon-cart {
+    position: relative;
+}
+
+.cart-quantity {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #aa2231;
+    color: #fff;
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: -10px;
+}
 
 /* Navigation */
 .menu-toggle{

@@ -16,6 +16,18 @@ class CartController extends Controller
         $this->cartService = $cartService;
     }
 
+    public function cart()
+    {
+        session()->forget('cart');
+        $cart = $this->cartService->getCartByUser();
+        if ( $cart ) {
+            $cart = $this->getCart($cart);
+        }
+
+
+        return view('layouts.cart', compact('cart'));
+    }
+
     public function addToCart(Request $request)
     {
         $request->session()->forget('cart');
@@ -24,12 +36,12 @@ class CartController extends Controller
             $cart = $this->getCart($cart);
             $products = $cart['product'];
             $productId = $request->product_id;
-            $currentCart = $this->cartService->updateCart($cart['id'], $request);
             if ( array_key_exists($productId, $products) ) {
                 $cartDetail = $this->cartService->updateCartDetail($cart['id'], $request);
             } else {
                 $cartDetail = $this->cartService->createCartDetail($cart['id'], $request);
             }
+            $currentCart = $this->cartService->updateCart($cart['id'], $request);
             $product = $this->getProduct($cartDetail);
             $request->session()->put('cart.product.' . $productId, $product);
         } else {
@@ -38,6 +50,11 @@ class CartController extends Controller
             $product = $this->getProduct($cartDetail);
             $data = [
                 'id' => $currentCart->id,
+                'vnd' => $currentCart->vnd,
+                'usd' => $currentCart->usd,
+                'quantity' => $currentCart->quantity,
+                'discount_vnd' => $currentCart->discount_vnd,
+                'discount_usd' => $currentCart->discount_usd,
                 'product' => [
                     $cartDetail->id => $product,
                 ]
@@ -51,51 +68,32 @@ class CartController extends Controller
 
     public function deleteCartDetail($id)
     {
-        $cartDetail = $this->cartService->deleteCartDetail($id);
         session()->forget('cart');
+        $cartDetail = $this->cartService->deleteCartDetail($id);
         $cart = $this->cartService->getCartByUser();
-        $cart = $this->getCart($cart);
 
         return response()->json($cart);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function updateCart(Request $request, $id)
     {
-        //
-    }
+        $listQuantity = $request->quantity;
+        foreach ($listQuantity as $index => $quantity) {
+            $cartDetail = $this->cartService->updateDetail($index,$quantity);
+        }
+        $cart = $this->cartService->updateCart($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json($cart);
     }
 
     public function getCart($cart)
     {
         session()->put('cart.id', $cart->id);
+        session()->put('cart.vnd', $cart->vnd);
+        session()->put('cart.usd', $cart->usd);
+        session()->put('cart.quantity', $cart->quantity);
+        session()->put('cart.discount_vnd', $cart->discount_vnd);
+        session()->put('cart.discount_usd', $cart->discount_usd);
         $detail = $cart->detail;
         session()->put('cart.product', []);
         foreach ($detail as $item) {
@@ -113,13 +111,10 @@ class CartController extends Controller
     public function getProduct($cartDetail)
     {
         $product = $cartDetail->product;
-        if ( $product ) {
-            $logo = $product->media->where('active', 1)->first;
-            $product->logo = $logo->image_path;
-            $product->quantity = $cartDetail->quantity;
-            $product->detail_id = $cartDetail->id;
-        }
+        $logo = $product->media->where('active', 1)->first();
+        $cartDetail->logo = $logo->image_path;
+        $cartDetail->name = $product->name;
 
-        return $product;
+        return $cartDetail;
     }
 }
