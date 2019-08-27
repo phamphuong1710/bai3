@@ -24,7 +24,6 @@ class CartController extends Controller
             $cart = $this->getCart($cart);
         }
 
-
         return view('layouts.cart', compact('cart'));
     }
 
@@ -116,5 +115,16 @@ class CartController extends Controller
         $cartDetail->name = $product->name;
 
         return $cartDetail;
+    }
+
+    public function checkout()
+    {
+        session()->forget('cart');
+        $cart = $this->cartService->getCartByUser();
+        if ( $cart ) {
+            $cart = $this->getCart($cart);
+        }
+
+        return view('layouts.checkout', compact('cart'));
     }
 }

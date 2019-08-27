@@ -84,4 +84,7 @@ return [
     'view_cart' => 'View Cart',
     'checkout' => 'Checkout',
     'no_product' => 'No product in cart',
+    'billing' => 'Billing details',
+    'full_name' => 'Full Name',
+    'order_detail' => 'Order Detail',
 ];

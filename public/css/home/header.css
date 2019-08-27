@@ -71,7 +71,7 @@
 .input-serach-header {
     width: 100%;
     border: none;
-    height: 100%;
+    height: calc( 100% - 2px );
     padding: 0 20px;
 }
 

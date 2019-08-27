@@ -23,20 +23,28 @@
                             @if( app()->getLocale() == 'en' )
                             <div class="info-product-price">
                                 @if( $product->discount_usd != 0 )
-                                    <span class="item_price">{{ $product->usd - ( $product->discount_usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                    <del>{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                    <span class="item_price">
+                                        {{ '$'.($product->usd - ( $product->discount_usd )) }}
+                                    </span>
+                                    <del>{{ '$'.$product->usd }}</del>
                                 @else
-                                    <span class="item_price">{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    <span class="item_price">
+                                        {{ '$'.$product->usd }}
+                                    </span>
                                 @endif
                             </div>
                             @endif
                             @if( app()->getLocale() == 'vi' )
                             <div class="info-product-price">
                                 @if( $product->on_sale != 0 )
-                                    <span class="item_price">{{ $product->vnd - $product->discount_vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                    <del>{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                    <span class="item_price">
+                                        {{ 'đ'.($product->vnd - $product->discount_vnd) }}
+                                    </span>
+                                    <del>{{ 'đ' . $product->vnd }}</del>
                                 @else
-                                    <span class="item_price">{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    <span class="item_price">
+                                        {{ 'đ'.$product->vnd }}
+                                    </span>
                                 @endif
                             </div>
                             @endif

@@ -84,4 +84,7 @@ return [
     'view_cart' => 'Giỏ Hàng',
     'checkout' => 'Thanh Toán',
     'no_product' => 'Không có sản phẩm trong giỏ',
+    'billing' => 'Chi tiết thanh toán',
+    'full_name' => 'Họ và Tên',
+    'order_detail' => 'Chi tiết đơn hàng',
 ];

@@ -7,6 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="{{ asset('css/home/style.css') }}" rel="stylesheet" >
+        <link href="{{ asset('css/reset.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/ionicon.css') }}">
         <link href="{{ asset('css/home/front-page.css') }}" rel="stylesheet">
         <link href="{{ asset('css/home/header.css') }}" rel="stylesheet" >

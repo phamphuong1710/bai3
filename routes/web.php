@@ -99,3 +99,14 @@ Route::delete('/delete-cart/{id}', 'CartController@deleteCartDetail')->name('del
 Route::get('/cart', 'CartController@cart')->name('cart');
 
 Route::put('/update-cart/{id}', 'CartController@updateCart')->name('update-cart');
+
+Route::get('/checkout', 'CartController@checkout')->name('checkout');
+
+Route::get('/map', function()
+{
+    return view('map');
+});
+Route::get('/demo12', function()
+{
+    return view('demo');
+});
