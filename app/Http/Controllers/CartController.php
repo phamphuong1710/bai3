@@ -124,7 +124,37 @@ class CartController extends Controller
         if ( $cart ) {
             $cart = $this->getCart($cart);
         }
+        $stores = [];
+        foreach ($cart['product'] as $cartDetail) {
+            $store = $cartDetail->product->store;
+            $storeId = $store->id;
+            $storeName = $store->name;
+            if ( !array_key_exists($storeId, $stores) ) {
+                $stores[$storeId] = [
+                    'lat' => $store->address->lat,
+                    'lng' => $store->address->lng,
+                    'name' => $store->name,
+                ];
+            }
+        }
+        $stores = json_encode($stores);
 
-        return view('layouts.checkout', compact('cart'));
+        return view(
+            'layouts.checkout',
+            [
+                'cart' => $cart,
+                'stores' => $stores
+            ]
+        );
+    }
+
+    public function order(Request $request)
+    {
+        $userId = Auth::id();
+        $order = $this->cartService->order($request, $userId);
+        $orderId = $order->id;
+        $listOrder = $this->cartService->orderDetail($orderId, $userId);
+
+        return view('layouts.order', compact('listOrder'));
     }
 }

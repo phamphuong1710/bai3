@@ -10,6 +10,8 @@ $(document).ready(function ($) {
         }
     });
     directionsDisplay.setMap(map);
+
+
     // calculateAndDisplayRoute(directionsService, directionsDisplay);
 
 
@@ -41,7 +43,6 @@ $(document).ready(function ($) {
     //         if (navigator.geolocation) {
     //             navigator.geolocation.getCurrentPosition(function(position) {
     //
-
     //                 destination['destination'] = {
     //                         lat: position.coords.latitude,
     //                         lng: position.coords.longitude
@@ -106,6 +107,8 @@ var bounds = new google.maps.LatLngBounds;
                 travelMode: 'DRIVING'
             }, callback);
 
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+
 
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -117,23 +120,7 @@ var bounds = new google.maps.LatLngBounds;
 
 
     function callback(response, status) {
-        // if (status == 'OK') {
-        //     var origins = response.originAddresses;
-        //     var destinations = response.destinationAddresses;
-        //     for (var i = 0; i < origins.length; i++) {
-        //         var results = response.rows[i].elements;
-        //         console.log(results);
-        //         for (var j = 0; j < results.length; j++) {
-        //             var element = results[j];
-        //             var distance = element.distance.text;
-        //             var duration = element.duration.text;
-        //             var from = origins[i];
-        //             var to = destinations[j];
-        //         }
-        //     }
-        // }
-
-
+        if (status == 'OK') {
             var originList = response.originAddresses;
             var destinationList = response.destinationAddresses;
 
@@ -164,12 +151,44 @@ var bounds = new google.maps.LatLngBounds;
                     showGeocodedAddressOnMap(true));
               }
             }
-
+        }
     }
-      function deleteMarkers(markersArray) {
+
+    function deleteMarkers(markersArray) {
         for (var i = 0; i < markersArray.length; i++) {
           markersArray[i].setMap(null);
         }
         markersArray = [];
-      }
+    }
+
+    function calculateAndDisplayRoute(directionsService, map, pointA, pointB) {
+        directionsService.route({
+            origin: pointA,
+            destination: pointB,
+            avoidTolls: false,
+            avoidHighways: false,
+            travelMode: google.maps.TravelMode.DRIVING
+        }, function(response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                var directionsDisplay = new google.maps.DirectionsRenderer({
+                    map: map,
+                    suppressMarkers: true,
+                    // preserveViewprot: true
+                });
+                responses.push(response);
+                if (responses.length > 0) {
+                    for (var i = 0; i < (responses.length - 1); i++) {
+                        response.routes[0].bounds.union(responses[i].routes[0].bounds)
+                        for (var j = 0; j < responses[i].routes[0].legs.length; j++)
+                            response.routes[0].legs.push(responses[i].routes[0].legs[j]);
+                    }
+                    directionsDisplay.setDirections(response);
+                }
+                showSteps(response);
+            } else {
+                console.error('Directions request failed due to ' + status);
+            }
+        });
+
+    }
 });

@@ -102,11 +102,4 @@ Route::put('/update-cart/{id}', 'CartController@updateCart')->name('update-cart'
 
 Route::get('/checkout', 'CartController@checkout')->name('checkout');
 
-Route::get('/map', function()
-{
-    return view('map');
-});
-Route::get('/demo12', function()
-{
-    return view('demo');
-});
+Route::get('/order', 'CartController@order')->name('order');

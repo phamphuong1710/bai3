@@ -84,21 +84,48 @@
                         @endforeach
                         <tr class="cart-total">
                             <td class="total-label" colspan="6"> {{ __('messages.total') }}</td>
-                            <td class="total-price">
-
-                                @if( app()->getLocale() == 'en' )
-                                    {{ '$'.($cart['usd'] - $cart['discount_usd']) }}
-                                @else
-                                    {{ 'đ'.($cart['vnd'] - $cart['discount_vnd']) }}
-                                @endif
+                            @php
+                                if( app()->getLocale() == 'en' ) :
+                                    $price = ($cart['usd'] - $cart['discount_usd']);
+                                else :
+                                    $price = ($cart['vnd'] - $cart['discount_vnd']);
+                                endif
+                            @endphp
+                            <td class="total-price" usd="{{ ($cart['usd'] - $cart['discount_usd']) }}" vnd="{{ $cart['vnd'] - $cart['discount_vnd'] }}">
+                                    {{ '$'. $price }}
                             </td>
                         </tr>
                     </tbody>
 
                 </table>
             </div>
+            <div class="row info-order">
+                <div id="quangduong" class="col-md-12">
+                </div>
+                    @php
+                        if( app()->getLocale() == 'en' ) :
+                            $ship = 1;
+                        else :
+                            $ship = 5000;
+                        endif
+                    @endphp
+                <div class="col-md-2">
+
+                   <p class="ship" vnd="5000" usd="">Phí ship: <span class="cost"></span>/km</p>
+
+
+                </div>
+                <div class="col-md-4">
+                    <p class="total-ship" total-ship="0">Tổng số km: <strong id="km">0</strong>km</p>
+                </div>
+
+
+            </div>
             <form class="update-cart" action="" method="post" enctype="multipart/form-data">
                 @csrf
+
+                <div id="quangduong" class="col-md-12">
+                </div>
                 <h2 class="billing">{{ __('messages.billing') }}</h2>
                 <div class="form-group">
                     <label for="name">{{ __('messages.name') }}</label>
@@ -112,20 +139,30 @@
                     <label for="email">Email</label>
                     <input type="text" class="form-control" id="email">
                 </div>
-                <div class="form-group">
-                    <label for="address" class=" col-form-label text-md-right">{{ __('messages.address') }}</label>
-                    <div class="">
-                        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" autofocus>
-                        @error('address')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                        <div id="map"></div>
+                <div class="new-address">
+                    <span class="create-new-address">Thêm địa chỉ mới</span>
+                    <div class="form-group field-new-address">
+                        <label for="address" class=" col-form-label text-md-right">{{ __('messages.address') }}</label>
+                        <div class="">
+                            <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" autofocus>
+                            @error('address')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                            <div id="map"></div>
+                        </div>
+                        <input type="hidden" name="usd" id="total_usd">
+                        <input type="hidden" name="vnd" id="total_vnd">
+                        <input type="hidden" name="stores" value="{{ $stores }}" id="stores">
                         <input type="hidden" name="lat" id="lat">
                         <input type="hidden" name="lng" id="lng">
+                        <input type="hidden" class="usd-to-vnd">
+                        <input type="hidden" name="quantity" value="{{ $cart['quantity'] }}">
                     </div>
                 </div>
+
+                <button type="submit">Order</button>
             </form>
         </div>
     </div>
@@ -133,6 +170,6 @@
 @endsection
 @section('js')
 <script src="https://maps.googleapis.com/maps/api/js?key={{ config('map.google_key') }}&libraries=places&anguage=vi&region=VI"></script>
-<script src="{{ asset('js/admin/google-map.js') }}"></script>
-<script src="{{ asset('js/home/distance.js') }}"></script>
+<!-- <script src="{{ asset('js/admin/google-map.js') }}"></script> -->
+<script src="{{ asset('js/home/ship.js') }}"></script>
 @endsection

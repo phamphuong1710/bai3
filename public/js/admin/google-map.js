@@ -2,7 +2,6 @@ $(document).ready(function(){
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 21.0277644, lng: 105.83415979999995},
         zoom: 13,
-        // mapTypeId: 'roadmap'
     });
     // Create the search box and link it to the UI element.
     var input = document.getElementById('address');

@@ -127,5 +127,39 @@ class CartService implements CartInterface
 
         return $cartDetail;
     }
+
+    public function order($request, $userId)
+    {
+        $order = new Order();
+        $order->user_id = $userId;
+        $order->vnd = $request->vnd;
+        $order->usd = $request->usd;
+        $order->quantity = $request->quantity;
+        $order->save();
+
+        return $order;
+    }
+
+    public function orderDetail($orderId, $userId)
+    {
+        $order->order_id = $order_id;
+        $cart = Cart::where('user_id', $userId)
+            ->first();
+        $cartDetails = $cart->detail;
+        $orderDetails = [];
+        foreach ($cartDetails as $detail) {
+            $order = new OrderDetail();
+            $order->product_id = $detail->product_id;
+            $order->quantity = $detail->quantity;
+            $order->usd = $detail->usd;
+            $order->vnd = $detail->vnd;
+            $order->discount_usd = $detail->discount_usd;
+            $order->discount_vnd = $detail->discount_vnd;
+            $order->save();
+            array_push( $orderDetails, $order);
+        }
+
+        return $orderDetails;
+    }
 }
 

@@ -30,6 +30,7 @@
         // $.ajaxSetup({
         //     headers: {
         //       'X-CSRF-TOKEN': token,
+
         //     }
         // });
         //     $.ajax({
