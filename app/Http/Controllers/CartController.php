@@ -154,7 +154,20 @@ class CartController extends Controller
         $order = $this->cartService->order($request, $userId);
         $orderId = $order->id;
         $listOrder = $this->cartService->orderDetail($orderId, $userId);
+        $cart = $this->cartService->getCartByUser($userId);
+        $this->cartService->deleteCart($cart->id);
+        $request->session()->forget('cart');
+        $user = $this->cartService->updateUserInfo($userId, $request);
+        $address = $this->cartService->createUserAddress($userId, $request);
+        $user->total_vnd = $order->vnd;
+        $user->total_usd = $order->usd;
 
-        return view('layouts.order', compact('listOrder'));
+        return view(
+            'layouts.order',
+            [
+                'order' => $listOrder,
+                'user' => $user,
+            ]
+        );
     }
 }

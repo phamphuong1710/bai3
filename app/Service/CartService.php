@@ -5,6 +5,10 @@ use App\InterfaceService\CartInterface;
 use App\Cart;
 use App\Product;
 use App\CartDetail;
+use App\Order;
+use App\OrderDetail;
+use App\User;
+use App\Address;
 use Auth;
 
 class CartService implements CartInterface
@@ -142,13 +146,13 @@ class CartService implements CartInterface
 
     public function orderDetail($orderId, $userId)
     {
-        $order->order_id = $order_id;
         $cart = Cart::where('user_id', $userId)
             ->first();
         $cartDetails = $cart->detail;
         $orderDetails = [];
         foreach ($cartDetails as $detail) {
             $order = new OrderDetail();
+            $order->order_id = $orderId;
             $order->product_id = $detail->product_id;
             $order->quantity = $detail->quantity;
             $order->usd = $detail->usd;
@@ -156,10 +160,52 @@ class CartService implements CartInterface
             $order->discount_usd = $detail->discount_usd;
             $order->discount_vnd = $detail->discount_vnd;
             $order->save();
-            array_push( $orderDetails, $order);
+            array_push( $orderDetails, $detail);
         }
 
         return $orderDetails;
+    }
+
+    public function deleteCart($cartId)
+    {
+        $cartDetails = CartDetail::where('cart_id', $cartId)
+            ->get();
+        $cart = Cart::findOrFail($cartId);
+        if(!$cart) abort('404');
+        Cart::Destroy($cartId);
+        foreach ($cartDetails as $detail) {
+            CartDetail::Destroy($detail->id);
+        }
+
+        return $cart;
+    }
+
+    public function updateUserInfo($userId, $request)
+    {
+        $user = User::findOrFail($userId);
+        if(!$user) abort('404');
+        $user->phone = $request->phone;
+        $user->full_name = $request->name;
+        return $user;
+    }
+
+    public function createUserAddress($userId, $request)
+    {
+        $address = new Address();
+        $address->user_id = $userId;
+        $address->address = $request->address;
+        $address->lat = $request->lat;
+        $address->lng = $request->lng;
+        $address->active = 1;
+        $address->save();
+        $oldAddress = Address::where('user_id', $userId)
+            ->get();
+        foreach ($oldAddress as $address) {
+            $addr = Address::findOrFail($address->id);
+            $addr->active = 0;
+        }
+
+        return $address;
     }
 }
 

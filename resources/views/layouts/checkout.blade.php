@@ -102,13 +102,6 @@
             <div class="row info-order">
                 <div id="quangduong" class="col-md-12">
                 </div>
-                    @php
-                        if( app()->getLocale() == 'en' ) :
-                            $ship = 1;
-                        else :
-                            $ship = 5000;
-                        endif
-                    @endphp
                 <div class="col-md-2">
 
                    <p class="ship" vnd="5000" usd="">Phí ship: <span class="cost"></span>/km</p>
@@ -121,7 +114,7 @@
 
 
             </div>
-            <form class="update-cart" action="" method="post" enctype="multipart/form-data">
+            <form class="update-cart" action="{{ route('order') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <div id="quangduong" class="col-md-12">
@@ -129,15 +122,15 @@
                 <h2 class="billing">{{ __('messages.billing') }}</h2>
                 <div class="form-group">
                     <label for="name">{{ __('messages.name') }}</label>
-                    <input type="text" class="form-control" id="name">
+                    <input type="text" class="form-control" id="name" name="name">
                 </div>
                 <div class="form-group">
                     <label for="phone">{{ __('messages.phone') }}</label>
-                    <input type="text" class="form-control" id="phone">
+                    <input type="text" class="form-control" id="phone" name="phone">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email">
+                    <input type="text" class="form-control" id="email" name="email">
                 </div>
                 <div class="new-address">
                     <span class="create-new-address">Thêm địa chỉ mới</span>

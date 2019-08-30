@@ -102,4 +102,4 @@ Route::put('/update-cart/{id}', 'CartController@updateCart')->name('update-cart'
 
 Route::get('/checkout', 'CartController@checkout')->name('checkout');
 
-Route::get('/order', 'CartController@order')->name('order');
+Route::post('/order', 'CartController@order')->name('order');
