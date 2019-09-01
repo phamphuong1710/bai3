@@ -191,27 +191,6 @@ class ProductService implements ProductInterface
         return $product;
     }
 
-    public function getProductBestSeller()
-    {
-        $product = Product::orderby('total_sale', 'desc')->paginate(6);
-
-        return $product;
-    }
-
-    public function getNewProduct()
-    {
-        $product = Product::orderby('created_at', 'desc')->paginate(6);
-
-        return $product;
-    }
-
-    public function getOnSaleProduct()
-    {
-        $product = Product::orderBy('on_sale', 'desc')->paginate(3);
-
-        return $product;
-    }
-
     public function getProductBySlug($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();

@@ -3,24 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Service\ProductService;
+use App\Service\HomeService;
 use App\Service\CartService;
-use App\Service\SliderService;
 
 class HomeController extends Controller
 {
-    protected $productService;
-    protected $sliderService;
+    protected $homeService;
     protected $cartService;
 
-    public function __construct(
-        ProductService $productService,
-        SliderService $sliderService,
-        CartService $cartService
-    )
+    public function __construct( HomeService $homeService, CartService $cartService )
     {
-        $this->productService = $productService;
-        $this->sliderService = $sliderService;
+        $this->homeService = $homeService;
         $this->cartService = $cartService;
     }
     /**
@@ -37,13 +30,15 @@ class HomeController extends Controller
     public function index()
     {
         session()->forget('cart');
-        $bestSeller = $this->productService->getProductBestSeller();
-        $new = $this->productService->getNewProduct();
-        $slider = $this->sliderService->getSlider();
+        $bestSeller = $this->homeService->getProductBestSeller();
+        $new = $this->homeService->getNewProduct();
+        $slider = $this->homeService->getSlider();
         $cart = $this->cartService->getCartByUser();
         if ( $cart ) {
             $cart = $this->getCart($cart);
         }
+        $storeBestSeller = $this->homeService->getStoreBestSeller();
+        $storeRating = $this->homeService->getTopStoreRating();
         return view(
             'layouts/home',
             [
@@ -51,6 +46,8 @@ class HomeController extends Controller
                 'new' => $new,
                 'slider' => $slider,
                 'cart' => $cart,
+                'storeSale' => $storeBestSeller,
+                'storeRating' => $storeRating,
             ]
         );
     }

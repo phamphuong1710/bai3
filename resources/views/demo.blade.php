@@ -404,3 +404,102 @@
     </script>
 
 @endsection
+
+
+            <div class="side-bar col-md-3">
+                <div class="search-product">
+                    <h3 class="widget-title">{{ __('messages.search_product') }}</h3>
+                    <form action="/search/product" method="post" class="form-search-sidebar">
+                        @csrf
+                        <input type="search" placeholder="Product name..." name="search" required class="input-search-sidebar">
+                        <button type="submit" class="btn btn-search" aria-label="Left Align">
+                            <span class="btn-main">
+                                <span class="btn-default ion-android-search"></span>
+                                <span class="text-hover ion-android-search"></span>
+                                <span class="btn-hover"></span>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- reviews -->
+                <div class="customer-rev left-side">
+                    <h3 class="widget-title">Customer Review</h3>
+                    <ul>
+                        <li>
+                            <a href="/store/rating/5">
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <span>5.0</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/store/rating/4">
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <span>4.0</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/store/rating/3">
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <span>3.0</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="store/rating/2">
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                <span>2</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //reviews -->
+                <!-- discounts -->
+                <div class="left-side">
+                    <h3 class="widget-title">Discount</h3>
+                    <ul>
+
+                        <li>
+                            <a href="/products/discount/20">
+                                <span class="span">20% or More</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/products/discount/30">
+                                <span class="span">30% or More</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/products/discount/40">
+                                <span class="span">40% or More</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/products/discount/50">
+                                <span class="span">50% or More</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- //discounts -->
+
+
+                <!-- //deals -->
+            </div>

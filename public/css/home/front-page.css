@@ -663,3 +663,55 @@
 .copy-right {
     background-color: #aa2231;
 }
+
+
+.list-tab {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.item-link {
+    line-height: 40px;
+    padding: 0 20px;
+    display: block;
+    color: #000;
+    font-size: 20px;
+}
+
+.active.item-link {
+    color: #aa2231;
+}
+
+
+.stores-wrapper {
+    display: none;
+}
+
+.stores-wrapper.is-selected {
+    display: block;
+}
+
+.heading-tittle {
+    text-align: center;
+    margin: 80px 0 50px;
+}
+
+
+.item-pro {
+    margin-bottom: 50px;
+}
+
+
+.item-name,
+.info-product-price {
+    text-align: center;
+    margin-top: 15px;
+}
+
+
+.add-to-cart-form {
+    text-align: center;
+}

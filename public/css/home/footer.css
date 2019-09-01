@@ -1,0 +1,44 @@
+.copy-right-text {
+    padding: 10px 0;
+    display: block;
+}
+
+.copy-right {
+    text-align: center;
+}
+
+
+.footer {
+    background-color: #ededed;
+}
+
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.social ul {
+    display: flex;
+    font-size: 25px;
+}
+
+.social ul li:not(:last-child) {
+    margin-right: 20px;
+}
+
+.social ul li a {
+    color: #000;
+}
+
+.footer {
+    padding: 50px 0;
+    margin-top: 100px;
+}
+
+
+.footer a {
+    color: #333;
+}

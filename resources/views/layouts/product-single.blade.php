@@ -137,7 +137,8 @@
                             <div class="product-description">
                                 <span class="description-text">{{ $product->description }}</span>
                             </div>
-                            <form class="add-cart" action="" method="post" enctype="multipart/form-data">
+                            <form class="add-cart" action="{{ route('add-to-cart') }}" method="post" enctype="multipart/form-data">
+                                @csrf
 
                                 <div class="quantity">
                                     <span class="modify-qty dec ion-android-remove"></span>

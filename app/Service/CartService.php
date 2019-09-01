@@ -77,7 +77,7 @@ class CartService implements CartInterface
         return $cart;
     }
 
-    // WHen click add to cart button
+    // When click add to cart button
     public function updateCartDetail($cartId, $request)
     {
         $productId = (int)$request->product_id;

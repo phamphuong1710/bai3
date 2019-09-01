@@ -39,14 +39,6 @@ class SliderService implements SliderInterface
         return $slider;
     }
 
-    public function getSlider()
-    {
-        $slider = Slider::orderBy('created_at', 'desc')
-            ->paginate(3);
-
-        return $slider;
-    }
-
     public function getSliderById($id)
     {
         $slider = Slider::find($id);
@@ -57,6 +49,13 @@ class SliderService implements SliderInterface
     public function getAllSlider()
     {
         $slider = Slider::paginate(10);
+
+        return $slider;
+    }
+
+    public function getAllSlider()
+    {
+        $slider = Slider::paginate(5);
 
         return $slider;
     }
