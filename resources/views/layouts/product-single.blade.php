@@ -5,6 +5,7 @@
 <link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/product-single.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/comment.css') }}" rel="stylesheet">
+<link href="{{ asset('css/home/mini-cart.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="single-product">
@@ -80,7 +81,7 @@
                                     @for( $i=1; $i<6 ; $i++ )
                                      <li class="item-star">
                                         <input type="radio" value="{{ $i }}" name="star">
-                                        <span class="fa fa-star"></span>
+                                        <span class="ion-android-star"></span>
                                       </li>
                                       @endfor
                                 </ul>
@@ -93,12 +94,12 @@
                                 <ul id='stars' class="rating">
                                     @for( $i=0; $i < $product->user_rating->star ; $i++ )
                                      <li class="star selected">
-                                        <span class="fa fa-star"></span>
+                                        <span class="ion-android-star"></span>
                                       </li>
                                     @endfor
                                     @for( $i=0; $i < ( 5 - $product->user_rating->star) ; $i++ )
                                      <li class="star">
-                                        <span class="fa fa-star"></span>
+                                        <span class="ion-android-star"></span>
                                       </li>
                                       @endfor
                                 </ul>
@@ -137,16 +138,17 @@
                             <div class="product-description">
                                 <span class="description-text">{{ $product->description }}</span>
                             </div>
-                            <form class="add-cart" action="{{ route('add-to-cart') }}" method="post" enctype="multipart/form-data">
+                            <form class="add-cart add-to-cart-form" action="{{ route('add-to-cart') }}" method="post" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="quantity">
                                     <span class="modify-qty dec ion-android-remove"></span>
-                                    <input type="number" id="quantity" class="input-text qty text" step="1" min="1" max="{{ $product->quantity_stock }}" name="quantity" value="1" title="Qty" size="4" inputmode="numeric">
+                                    <input type="number" id="quantity" class="input-text qty add-quantity" step="1" min="1" max="{{ $product->quantity_stock }}" name="quantity" value="1" size="4" inputmode="numeric">
                                     <span class="modify-qty inc ion-android-add"></span>
                                 </div>
+                                <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
 
-                                <button type="submit" name="add-to-cart" value="{{ $product->id }}" class="add-to-cart">{{ __('messages.add_to_cart') }}</button>
+                                <button type="submit" name="add-to-cart" value="{{ $product->id }}" class="add-to-cart btn-add-to-cart">{{ __('messages.add_to_cart') }}</button>
                             </form>
                         </div>
                     </div>
@@ -279,22 +281,6 @@
                                 @endif
                             </div>
                             @endif
-                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                <form action="#" method="post">
-                                    <fieldset>
-                                        <input type="hidden" name="cmd" value="_cart">
-                                        <input type="hidden" name="add" value="1">
-                                        <input type="hidden" name="business" value=" ">
-                                        <input type="hidden" name="item_name" value="Almonds, 100g">
-                                        <input type="hidden" name="amount" value="149.00">
-                                        <input type="hidden" name="discount_amount" value="1.00">
-                                        <input type="hidden" name="currency_code" value="USD">
-                                        <input type="hidden" name="return" value=" ">
-                                        <input type="hidden" name="cancel_return" value=" ">
-                                        <input type="submit" name="submit" value="Add to cart" class="button">
-                                    </fieldset>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -305,6 +291,66 @@
 
     </div>
 </div>
+
+<div id="shop-cart-sidebar">
+    <div class="cart-sidebar-head">
+        <h4 class="cart-sidebar-title">Shopping cart</h4>
+            @if ( Session::get('cart')['quantity'] )
+                <span class="count">{{ Session::get('cart')['quantity'] }}</span>
+            @else
+                <span class="count">0</span>
+            @endif
+
+        <button id="close-cart-sidebar" class="ion-android-close"></button>
+    </div>
+    <div class="cart-sidebar-content">
+        <ul class="list-product-in-cart product-item-action">
+            @if ( Session::get('cart')['product'] )
+                @foreach( Session::get('cart')['product'] as $product )
+                <li class="mini-cart-item cart-item">
+                    <div class="product-minnicart-info">
+                        <span class="mincart-product-name">{{ $product->name }} </span>
+                        <span class="product-quantity">
+                            <span class="minicart-product-quantity">{{ $product->quantity }}</span> x
+                            <span class="minicart-product-price">
+                                @if( app()->getLocale() == 'en' )
+                                    {{ $product->usd }}
+                                @endif
+                                @if( app()->getLocale() == 'vi' )
+                                    {{ $product->vnd }}
+                                @endif
+                            </span>
+                        </span>
+                    </div>
+                    <div class="product-minicart-logo">
+                        <img src="{{ $product->logo }}" alt=" $product->name ">
+                    </div>
+                    <span class="remove_from_cart_button ion-android-close delete-product" product="{{ $product->id }}"></span>
+                </li>
+                @endforeach
+            @else
+            <h6>{{ __('messages.no_product') }}</h6>
+            @endif
+
+        </ul>
+    </div>
+    <div class="subpay">
+        <span class="label">{{ __('messages.total').':' }}</span>
+        @if( app()->getLocale() == 'en' )
+        <span class="total-price">
+            {{ Session::get('cart')['usd'] - Session::get('cart')['discount_usd'] }}
+        </span>
+        @endif
+        @if( app()->getLocale() == 'vi' )
+        <span class="total-price">
+            {{ Session::get('cart')['vnd'] - Session::get('cart')['discount_vnd'] }}
+        </span>
+        @endif
+    </div>
+    <div class="mini-cart-action">
+        <a href="{{ route('cart') }}" class="btn btn-view-cart">{{ __('messages.view_cart') }}</a>
+        <a href="{{ route('checkout') }}" class="btn btn-view-checkout">{{ __('messages.checkout') }}</a>
+    </div>
 @endsection
 @section('js')
     <script src="{{ asset('js/slick.min.js') }}"></script>
@@ -313,4 +359,5 @@
     <script src="{{ asset('js/home/rating.js') }}"></script>
     <script src="{{ asset('js/home/comment.js') }}"></script>
     <script src="{{ asset('js/home/reply-product.js') }}"></script>
+    <script src="{{ asset('js/home/add-to-cart.js') }}"></script>
 @endsection

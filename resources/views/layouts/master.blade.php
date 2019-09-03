@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" >
-        <!-- <link href="{{ asset('css/home/style.css') }}" rel="stylesheet" > -->
+        <link href="{{ asset('css/home/style.css') }}" rel="stylesheet" >
         <link href="{{ asset('css/reset.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/ionicon.css') }}">
         <link href="{{ asset('css/home/front-page.css') }}" rel="stylesheet">
@@ -60,6 +60,10 @@
                                             @endif
                                         @endauth
                                     @endif
+
+                                <li><a href="{{ url('locale/en') }}">EN</a></li>
+                                <li><a href="{{ url('locale/vi') }}" >VI</a></li>
+
                                 </ul>
                             </div>
                         </div>
@@ -139,6 +143,19 @@
             </div>
         </header>
         @yield('content')
+        <div id="shop-overlay"></div>
+        @guest
+            <div class="login-wrapper" id="login">
+                <div class="login-form">
+
+                </div>
+            </div>
+            @if (Route::has('register'))
+            <div class="register-wrapper" id="register">
+                <div class="register-form"></div>
+            </div>
+            @endif
+        @endguest
         <!-- footer -->
         <footer class="footer">
             <div class="container">

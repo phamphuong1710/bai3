@@ -1,8 +1,8 @@
 $(document).ready(function(){
     $( '.btn-add-to-cart' ).on( 'click', function (e) {
         e.preventDefault();
-        var btn = $(this);
-        form = $(this).parents('.add-to-cart-form'),
+        var btn = $(this),
+            form = $(this).parents('.add-to-cart-form'),
             product = form.find('.add-product').val(),
             quantity = form.find('.add-quantity').val(),
             action = form.attr('action'),
@@ -62,6 +62,34 @@ $(document).ready(function(){
             }
         });
     });
+
+    $( '.user-login' ).on( 'click', function (e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            }
+        });
+        $.ajax({
+            url: '/user-login',
+            type: 'GET',
+            contentType: false,
+            processData: false,
+            beforeSend: function (data) {
+                $('#shop-overlay').addClass('show');
+                $('#login').addClass('active');
+                $('#login').addClass('loading');
+
+            },
+            success: function (data) {
+                $('#login').removeClass('loading');
+                $('.login-form').html(data);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+    } );
 
     $('.cart-sidebar-head').on('click','#close-cart-sidebar', function (e) {
         $( '#shop-cart-sidebar' ).removeClass( 'showcart' );

@@ -152,7 +152,11 @@
                                                     <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
                                                     <input type="hidden" name="quantity" value="1"  class="add-quantity">
                                                     <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
-                                                    <input type="submit" name="submit" value="Add to cart" class="button btn-add-to-cart">
+                                                    @guest
+                                                    <button class="user-login">{{ __('messages.add_to_cart') }}</button>
+                                                    @else
+                                                    <button type="submit" class="button btn-add-to-cart">{{ __('messages.add_to_cart') }}</button>
+                                                    @endguest
                                                 </fieldset>
                                             </form>
                                         </div>
@@ -206,7 +210,11 @@
                                                 <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
                                                 <input type="hidden" name="quantity" value="1"  class="add-quantity">
                                                 <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
-                                                <input type="submit" name="submit" value="Add to cart" class="button btn-add-to-cart">
+                                                @guest
+                                                <button class="user-login">{{ __('messages.add_to_cart') }}</button>
+                                                @else
+                                                <button type="submit" class="button btn-add-to-cart">{{ __('messages.add_to_cart') }}</button>
+                                                @endguest
                                             </fieldset>
                                         </form>
                                     </div>
@@ -223,7 +231,7 @@
     </div>
 
 </div>
-<div id="shop-overlay"></div>
+
 <div id="shop-cart-sidebar">
     <div class="cart-sidebar-head">
         <h4 class="cart-sidebar-title">Shopping cart</h4>

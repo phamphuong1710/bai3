@@ -103,3 +103,7 @@ Route::put('/update-cart/{id}', 'CartController@updateCart')->name('update-cart'
 Route::get('/checkout', 'CartController@checkout')->name('checkout');
 
 Route::post('/order', 'CartController@order')->name('order');
+
+Route::get('/user-login', 'AuthController@login')->name('user-login');
+
+Route::get('/user-register', 'AuthController@register')->name('user-register');

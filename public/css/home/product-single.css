@@ -181,3 +181,12 @@
 .number-rating {
     width: calc( 100% -90px );
 }
+
+.summary-wrapper .info-product-price{
+    text-align: left;
+}
+
+
+#stars {
+    padding: 0;
+}
