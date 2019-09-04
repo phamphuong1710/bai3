@@ -176,7 +176,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        App\Providers\StoreServiceProvider::class,
         App\Providers\ImageLibraryProvider::class,
         App\Providers\ProductProvider::class,
         App\Providers\CommentServiceProvider::class,

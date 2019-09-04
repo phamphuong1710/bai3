@@ -1,7 +1,6 @@
 /* Form login  */
 #login,
 #register {
-    display: none;
     position: fixed;
     width: 80%;
     height: 80vh;
@@ -9,20 +8,30 @@
     top: calc( ( 100% - 80vh )/2 );
     left: calc( ( 100% - 80% )/2 );
     visibility: hidden;
-    transform: translateY(-100px);
+    transform: translateY(-300px);
     z-index: -1;
     opacity: 0;
-    transition: all 0.3s;
+    transition: transform 0.3s;
 }
 
 
 #login.active,
 #register.active {
-    display: block;
     visibility: visible;
-    z-index: 99999;
     opacity: 1;
+    z-index: 99999;
     transform: translateY(0);
-    transition: all 0.3s;
+    transition: transform 0.3s;
     pointer-events: auto;
+}
+
+.close-form-login,
+.close-form-register {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999999;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
 }

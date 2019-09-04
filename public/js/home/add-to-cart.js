@@ -91,6 +91,44 @@ $(document).ready(function(){
         });
     } );
 
+    $( '.btn-register' ).on( 'click', function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            }
+        });
+        $.ajax({
+            url: '/user-register',
+            type: 'GET',
+            contentType: false,
+            processData: false,
+            beforeSend: function (data) {
+                $('#shop-overlay').addClass('show');
+                $('#register').addClass('active');
+                $('#register').addClass('loading');
+
+            },
+            success: function (data) {
+                $('#register').removeClass('loading');
+                $('.register-form').html(data);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+    });
+
+    $( '.login-wrapper' ).on( 'click', '.close-form-login', function (e) {
+        $( '#shop-overlay' ).removeClass( 'show' );
+        $( '.login-wrapper' ).removeClass( 'active' );
+    } );
+
+    $( '.register-wrapper' ).on( 'click', '.close-form-register', function (e) {
+        $( '#shop-overlay' ).removeClass( 'show' );
+        $( '.register-wrapper' ).removeClass( 'active' );
+    } )
+
     $('.cart-sidebar-head').on('click','#close-cart-sidebar', function (e) {
         $( '#shop-cart-sidebar' ).removeClass( 'showcart' );
         $( '#shop-overlay' ).removeClass( 'show' );

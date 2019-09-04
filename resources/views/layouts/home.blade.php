@@ -128,20 +128,20 @@
                                         @if( app()->getLocale() == 'en' )
                                         <div class="info-product-price">
                                             @if( $product->on_sale != 0 )
-                                            <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                            <del>{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                            <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">$</span></span>
+                                            <del>{{ $product->usd }}<span class="currency">$</span></del>
                                             @else
-                                            <span class="item_price">{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                            <span class="item_price">{{ $product->usd }}<span class="currency">$</span></span>
                                             @endif
                                         </div>
                                         @endif
                                         @if( app()->getLocale() == 'vi' )
                                         <div class="info-product-price">
                                             @if( $product->on_sale != 0 )
-                                            <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                            <del>{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                            <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">đ</span></span>
+                                            <del>{{ $product->vnd }}<span class="currency">đ</span></del>
                                             @else
-                                            <span class="item_price">{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                            <span class="item_price">{{ $product->vnd }}<span class="currency">đ</span></span>
                                             @endif
                                         </div>
                                         @endif
@@ -186,18 +186,18 @@
                                     @if( app()->getLocale() == 'en' )
                                     <div class="info-product-price">
                                         @if( $product->on_sale != 0 )
-                                        <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                        <del>{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                        <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">$</span></span>
+                                        <del>{{ $product->usd }}<span class="currency">$</span></del>
                                         @else
-                                        <span class="item_price">{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                        <span class="item_price">{{ $product->usd }}<span class="currency">$</span></span>
                                         @endif
                                     </div>
                                     @endif
                                     @if( app()->getLocale() == 'vi' )
                                     <div class="info-product-price">
                                         @if( $product->on_sale != 0 )
-                                        <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                        <del>{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                        <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">đ</span></span>
+                                        <del>{{ $product->vnd }}<span class="currency">đ</span></del>
                                         @else
                                         <span class="item_price">{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
                                         @endif
@@ -254,10 +254,10 @@
                             <span class="minicart-product-quantity">{{ $product->quantity }}</span> x
                             <span class="minicart-product-price">
                                 @if( app()->getLocale() == 'en' )
-                                    {{ $product->usd }}
+                                    {{ '$'.$product->usd }}
                                 @endif
                                 @if( app()->getLocale() == 'vi' )
-                                    {{ $product->vnd }}
+                                    {{ 'đ'.$product->vnd }}
                                 @endif
                             </span>
                         </span>
@@ -278,12 +278,12 @@
         <span class="label">{{ __('messages.total').':' }}</span>
         @if( app()->getLocale() == 'en' )
         <span class="total-price">
-            {{ Session::get('cart')['usd'] - Session::get('cart')['discount_usd'] }}
+            {{ '$'.Session::get('cart')['usd'] - Session::get('cart')['discount_usd'] }}
         </span>
         @endif
         @if( app()->getLocale() == 'vi' )
         <span class="total-price">
-            {{ Session::get('cart')['vnd'] - Session::get('cart')['discount_vnd'] }}
+            {{ 'đ'.Session::get('cart')['vnd'] - Session::get('cart')['discount_vnd'] }}
         </span>
         @endif
     </div>

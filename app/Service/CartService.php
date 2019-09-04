@@ -13,19 +13,15 @@ use Auth;
 
 class CartService implements CartInterface
 {
-    public function createCart($request)
+    public function createCart($request, $userId)
     {
         $cart = New Cart();
-        $productId = (int)$request->product_id;
-        $product = Product::find($productId);
-        $cart->user_id = Auth::id();
-        $cart->quantity = $request->quantity;
-        $cart->usd = (int)$request->quantity * $product->usd;
-        $cart->vnd = (int)$request->quantity * $product->vnd;
-        if ( $product->on_sale != 0 ) {
-            $cart->discount_usd = formatNumber($discount, 2);
-            $cart->discount_vnd = formatNumber($discount / $currency, 2);
-        }
+        $cart->user_id = $userId;
+        $cart->usd = 0;
+        $cart->vnd = 0;
+        $cart->discount_usd = 0;
+        $cart->discount_vnd = 0;
+        $cart->quantity = 0;
         $cart->save();
 
         return $cart;

@@ -45,14 +45,14 @@
                                         </li>
                                         @else
                                         <li>
-                                            <a href="{{ route('login') }}">
+                                            <a href="{{ route('login') }}" class="user-login">
                                                 <span class="ion-person"></span>
                                                 {{ __('messages.sing_in') }}
                                             </a>
                                         </li>
                                             @if (Route::has('register'))
                                             <li>
-                                                <a href="{{ route('register') }}" data-toggle="modal" data-target="#myModal1" >
+                                                <a href="{{ route('register') }}" class="btn-register" >
                                                     <span class="ion-android-create"></span>
                                                     {{ __('messages.register') }}
                                                 </a>
@@ -149,10 +149,12 @@
                 <div class="login-form">
 
                 </div>
+                <span class="close-form-login ion-android-close"></span>
             </div>
             @if (Route::has('register'))
             <div class="register-wrapper" id="register">
                 <div class="register-form"></div>
+                <span class="close-form-register ion-android-close"></span>
             </div>
             @endif
         @endguest

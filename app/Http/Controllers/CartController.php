@@ -30,6 +30,7 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
         $request->session()->forget('cart');
+        $userId = Auth::id();
         $cart = $this->cartService->getCartByUser();
         if ( $cart ) {
             $cart = $this->getCart($cart);
@@ -44,8 +45,9 @@ class CartController extends Controller
             $product = $this->getProduct($cartDetail);
             $request->session()->put('cart.product.' . $productId, $product);
         } else {
-            $currentCart = $this->cartService->createCart($request);
+            $currentCart = $this->cartService->createCart($request, $userId);
             $cartDetail = $this->cartService->createCartDetail($currentCart->id, $request);
+            $currentCart = $this->cartService->updateCart($currentCart->id);
             $product = $this->getProduct($cartDetail);
             $data = [
                 'id' => $currentCart->id,

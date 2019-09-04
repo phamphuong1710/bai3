@@ -15,7 +15,7 @@ $(document).ready(function ($) {
             data: form.serialize(),
             success: function(data) {
                 $('.comment-list').html(data);
-                $('#input-comment').html();
+                $('#input-comment').val('');
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
