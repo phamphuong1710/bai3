@@ -21,7 +21,7 @@ class CreateAddressesTable extends Migration
             $table->string('lat');
             $table->string('lng');
             $table->integer('active')->default(0);
-            $table->timestamp('deleted_at');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

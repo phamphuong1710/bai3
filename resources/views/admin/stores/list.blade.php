@@ -54,7 +54,9 @@
                     @foreach( $stores as $store )
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="{{ getStoreLogoPath($store->id) }}" alt="Card image cap">
+                            @foreach( $store->media->where('active', 1) as $logo )
+                            <img class="card-img-top" src="{{ $logo->image_path }}" alt="Card image cap">
+                            @endforeach
                             <div class="card-body">
                                 <h4 class="store-name">{{ $store->name }}</h4>
                                 <span class="store-phone store-text">
@@ -63,7 +65,7 @@
                                 </span>
                                 <span class="store-address store-text">
                                     <span class="label">{{ __('messages.address') }}: </span>
-                                    {{ getStoreAddress($store->id)->address }}
+                                    {{ $store->address->address }}
                                 </span>
                                 <span class="store-description store-text">
                                     <span class="label">{{ __('messages.description') }}: </span>

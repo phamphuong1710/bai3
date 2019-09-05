@@ -19,12 +19,50 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (data) {
-                $('.ajax-search-html').html(data);
+                var html = '';
+                $.each(data, function (index, value) {
+                    html += '<div id="product-' + value.id +'" class="product product-admin">' +
+                                '<div class="product-content">' +
+                                    '<div class="image-product-wrapper">' +
+                                        '<a href="/products/' + value.id + '">' +
+                                            '<img src="'+ value.logo.image_path + '" alt="Image Feature">' +
+                                        '</a>' +
+                                    '</div>' +
+                                    '<div class="product-info">' +
+                                        '<a href="/products/' + value.id + '">' +
+                                            '<h3 class="product-name">' + value.name + '</h3>' +
+                                        '</a>' +
+                                        '<div class="info-product-price">' +
+
+                                            '<span class="sale-price">' +
+                                                'Price: ' + numberFormat(value.usd, 2) + '<sup>USD</sup>' +
+                                            '</span>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="product-action">' +
+                                        '<a href="/products/' + value.id + '/edit" class="btn-action btn-edit">Edit</a>' +
+                                        '<form action="/products/' + value.id + '" method="POST" class="form-delete">' +
+                                            '<input type="hidden" name="_method" value="delete">' +
+                                            '<button type="submit" class="btn-action btn-delete btn-delete-product" data-id="' + value.id + '">Delete</button>' +
+                                        '</form>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>';
+                })
+                $('.ajax-search-html').html(html);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
             }
         });
     });
+
+    function numberFormat($number, $lenght) {
+        var ex = Math.pow(10, $lenght ) ;
+        $number = parseInt( $number * ex );
+        $number = $number / ex;
+
+        return $number;
+    }
 
 });

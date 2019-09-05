@@ -1,0 +1,51 @@
+.order-table {
+    width: 100%;
+}
+.order-table img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.product-image {
+    width: 90px;
+}
+.product-thumb {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #eee;
+    margin: 20px 15px 20px 0;
+}
+
+.order-store-address {
+    width: 250px;
+    padding: 0 20px 0 0;
+}
+
+.cart-item td {
+    border-bottom: 1px solid #eee;
+}
+
+.order-table th {
+    border-bottom: 2px solid #eee;
+    padding: 20px 0;
+}
+
+.product-name {
+    width: 200px;
+}
+
+.order-detail {
+    margin-bottom: 80px;
+}
+
+.cart-total td{
+    padding: 30px 0;
+}
+
+.total-price {
+    text-align: right;
+}
+
+#map {
+    height: 500px;
+}

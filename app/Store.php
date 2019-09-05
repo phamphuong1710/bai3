@@ -24,4 +24,29 @@ class Store extends Model
      * @var  array
      */
     protected $dates = ['deleted_at'];
+
+    public function products()
+    {
+        return $this->hasMany('App\Product');
+    }
+
+    public function media()
+    {
+        return $this->hasMany('App\Media');
+    }
+
+    public function address()
+    {
+        return $this->hasOne('App\Address');
+    }
+
+    public function rating()
+    {
+        return $this->hasMany('App\Rating');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

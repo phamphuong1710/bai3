@@ -11,9 +11,7 @@
         </div>
         <div class="store-action">
             <div class="action-top d-flex justify-content-between align-items-center">
-                <a href="/shop//create-product" class="create create-store">
-                    {{ __('messages.createproduct') }}
-                </a>
+
                 <div class="form-search search-product">
                     <input type="search" name="product" id="input-product">
                     <button type="submit" class="fa fa-search btn-search btn-search-product"></button>
@@ -28,7 +26,7 @@
                     <div class="form-group">
                         <select class="form-control" id="product-category" name="category">
                             <option value="0">{{ __('messages.filter_category') }}</option>
-                            @foreach( getAllCategory() as $category )
+                            @foreach( $categories as $category )
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
@@ -70,7 +68,9 @@
                     <div class="product-content">
                         <div class="image-product-wrapper">
                             <a href="/products/{{$product->id}}">
-                                <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Feature">
+                                @foreach( $product->media->where('active', 1) as $logo )
+                                <img src="{{ $logo->image_path }}" alt="Image Feature">
+                                @endforeach
                             </a>
                         </div>
                         <div class="product-info">

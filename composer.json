@@ -13,7 +13,9 @@
         "imliam/laravel-env-set-command": "^1.0.0",
         "intervention/image": "^2.5",
         "laravel/framework": "5.8.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "laravelcollective/html": "^5.8",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -38,9 +40,9 @@
             "App\\": "app/"
         },
         "files": [
-            "app/Helpers/StoreHelper.php",
             "app/Helpers/ImageLibraryHelper.php",
-            "app/Helpers/ProductHelper.php"
+            "app/Helpers/ProductHelper.php",
+            "app/Helpers/CommentHelper.php"
         ],
         "classmap": [
             "database/seeds",

@@ -3,14 +3,16 @@ namespace App\Service;
 
 use App\InterfaceService\CategoryInterface;
 use App\Category; // model
+use Carbon\Carbon;
 
 class CategoryService implements CategoryInterface
 {
     public function createCategory($request)
     {
         $category = new Category();
+        $time = Carbon::now()->timestamp;
         $category->name = $request->name;
-        $category->slug = str_slug( $request->name, '-' );
+        $category->slug = str_slug( $request->name, '-' ) . $time;
         $category->parent_id = $request->parent_id;
         $category->save();
 
@@ -88,5 +90,11 @@ class CategoryService implements CategoryInterface
         return $categories;
     }
 
+    public function getCategoryBySlug($slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        return $category;
+    }
 }
 

@@ -1,0 +1,38 @@
+.quantity {
+    width: 155px;
+    height: 50px;
+    position: relative;
+    margin-right: 10px!important;
+}
+
+.qty::-webkit-inner-spin-button,
+.qty::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.inc {
+    right: 0;
+    border-left: 2px solid #f5f5f5;
+}
+
+.dec {
+    left: 0;
+    border-right: 2px solid #f5f5f5;
+}
+.modify-qty {
+    position: absolute;
+    width: 50px;
+    top: 8px;
+    bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.qty {
+    width: 100%!important;
+    height: 100%;
+    border: 2px solid #e0e0e0;
+    text-align: center;
+    -moz-appearance:textfield;
+}

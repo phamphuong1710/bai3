@@ -19,4 +19,6 @@ interface MediaInterface {
     public function deleteOldProductLogo($productId, $id);
     public function getImageByUserId($userId);
     public function insertImageInLibrary($request);
+    public function createImageSlider($request, $sliderId = null);
+    public function updateImageSlider($id, $sliderId);
 }

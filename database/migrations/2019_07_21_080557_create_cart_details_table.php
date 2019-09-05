@@ -20,7 +20,7 @@ class CreateCartDetailsTable extends Migration
             $table->float('unit_price');
             $table->float('discount');
             $table->integer('quantity');
-            $table->timestamp('deleted_at');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

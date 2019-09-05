@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::resource('home', 'HomeController');
+Route::resource('/', 'HomeController');
 
 Route::resource('users', 'UserController')->middleware(['auth']);
 
@@ -33,6 +29,8 @@ Route::get('shop/{storeID}/create-product', 'ProductController@createProduct')->
 
 Route::get('product', 'ProductController@getAllProductByUser')->name('listProduct')->middleware(['auth']);
 
+Route::get('products/{slug}', 'SingleProductController@product')->name('product-single');
+
 Route::resource('products', 'ProductController')->middleware(['auth']);
 
 Route::resource('media-product', 'MediaProductController')->middleware(['auth']);
@@ -41,6 +39,8 @@ Route::get('locale/{locale}', function ($locale){
     Session::put('locale', $locale);
     return redirect()->back();
 });
+
+Route::post('/image-slider', 'LogoController@createImageSlider')->middleware(['auth']);
 
 Route::resource('logo', 'LogoController')->middleware(['auth']);
 
@@ -65,3 +65,45 @@ Route::post( '/filter-user', 'SearchController@filterUser')->middleware(['auth']
 Route::post( '/search-category', 'SearchController@searchCategory')->middleware(['auth']);
 
 Route::post( '/filter-category', 'SearchController@filterCategory')->middleware(['auth']);
+
+Route::get('/archive/{slug}', 'ArchiveController@product')->name('archive');
+
+Route::post('/search', 'FilterController@search')->name('search');
+
+Route::post('/search/product', 'FilterController@searchProduct')->name('search-product');
+
+Route::post('/store/search-product', 'FilterController@searchProductInStore')->name('search-product-in-store');
+
+Route::get('/store/rating/{rating}', 'FilterController@filterStoreByRating')->name('filter-rating-store');
+
+Route::get('/product/rating/{rating}', 'FilterController@filterProductByRating')->name('filter-rating-product');
+
+Route::post('/rating-product', 'RatingController@product')->name('rating-product');
+
+Route::post('/rating-store', 'RatingController@store')->name('rating-store');
+
+Route::get('/store/{slug}', 'ArchiveController@store')->name('store');
+
+Route::get('/products/discount/{slug}', 'ArchiveController@productDiscount')->name('discount');
+
+Route::resource('slider', 'SliderController')->middleware(['auth']);
+
+Route::post('/comment-product', 'CommentController@createProductComment')->middleware(['auth']);
+
+Route::post('/comment-store', 'CommentController@createStoreComment')->middleware(['auth']);
+
+Route::post('/add-to-cart', 'CartController@addToCart')->name('add-to-cart');
+
+Route::delete('/delete-cart/{id}', 'CartController@deleteCartDetail')->name('delete-cart');
+
+Route::get('/cart', 'CartController@cart')->name('cart');
+
+Route::put('/update-cart/{id}', 'CartController@updateCart')->name('update-cart');
+
+Route::get('/checkout', 'CartController@checkout')->name('checkout');
+
+Route::post('/order', 'CartController@order')->name('order');
+
+Route::get('/user-login', 'AuthController@login')->name('user-login');
+
+Route::get('/user-register', 'AuthController@register')->name('user-register');

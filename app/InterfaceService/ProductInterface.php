@@ -22,6 +22,8 @@ interface ProductInterface {
     public function filterProductByUserCategory($request, $listCategory);
     // Filter All Product In Store
     public function filterAllProductStore($request);
-    public function getProductBestSeller();
-    public function getNewProduct();
+    public function getProductBySlug($slug);
+    public function getTheSameProductInCategory($categoryId, $productId);
+    public function getTheSameProductInStore($storeId, $productId);
+    public function getProductDiscount($discount);
 }

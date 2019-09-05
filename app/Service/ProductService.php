@@ -52,9 +52,7 @@ class ProductService implements ProductInterface
             $price = (float)$request->price * (float)$request->usd_to_vnd;
             $product->in_price_vnd = formatNumber($price, 2);
             if ( !empty( $request->on_sale ) ) {
-                $product->on_sale_usd = $request->on_sale;
-                $price = (float)$request->on_sale * (float)$request->usd_to_vnd;
-                $product->in_price_vnd = formatNumber($price, 2);
+                $product->on_sale = $request->on_sale;
             }
         } else {
             $product->vnd = $request->sale_price;
@@ -64,9 +62,7 @@ class ProductService implements ProductInterface
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
             $product->in_price_usd = formatNumber($price, 2);
             if ( !empty( $request->on_sale ) ) {
-                $product->on_sale_vnd = $request->on_sale;
-                $price = (float)$request->on_sale / (float)$request->usd_to_vnd;
-                $product->in_price_usd = formatNumber($price, 2);
+                $product->on_sale = $request->on_sale;
             }
         }
         $product->save();
@@ -89,7 +85,6 @@ class ProductService implements ProductInterface
         $product->slug = str_slug($request->name, '-').'-'.$request->store_id.$time;
         $product->category_id = $request->category_id;
         $product->description = $request->description;
-
         if (app()->getLocale() == 'en') {
             $product->usd = $request->sale_price;
             $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
@@ -134,7 +129,9 @@ class ProductService implements ProductInterface
     public function searchProduct($request)
     {
         $storeId = (int)$request->store;
-        $product = Product::where('store_id', $storeId)->where('name', 'like', '%'.$request->product.'%')->get();
+        $product = Product::where('store_id', $storeId)
+            ->where('name', 'like', '%'.$request->product.'%')
+            ->get();
 
         return $product;
     }
@@ -194,23 +191,46 @@ class ProductService implements ProductInterface
         return $product;
     }
 
-    public function getProductBestSeller()
+    public function getProductBySlug($slug)
     {
-        $product = Product::orderby('total_sale', 'desc')->paginate(6);
+        $product = Product::where('slug', $slug)->firstOrFail();
 
         return $product;
     }
 
-    public function getNewProduct()
+    public function getTheSameProductInCategory($categoryId, $productId)
     {
-        $product = Product::orderby('created_at', 'desc')->paginate(6);
+        $products = Product::where('category_id', $categoryId)
+                    ->whereNotIn('id', [$productId])->paginate(4);
+
+        return $products;
+    }
+
+    public function getTheSameProductInStore($storeId, $productId)
+    {
+        $products = Product::where('store_id', $storeId)
+                    ->whereNotIn('id', [$productId])->paginate(4);
+
+        return $products;
+    }
+
+    // Get All Product In category
+    public function getProductInCategory($listCategory)
+    {
+        $product = Product::whereIn('category_id', $listCategory)
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
 
         return $product;
     }
 
-    public function getOnSaleProduct()
+    // Get Product Discount
+    public function getProductDiscount($discount)
     {
-        $product = Product::orderBy('on_sale', 'desc')->paginate(3);
+        $product = Product::where('on_sale', '>=', $discount)
+            ->where('on_sale', '<', $discount + 10)
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
 
         return $product;
     }

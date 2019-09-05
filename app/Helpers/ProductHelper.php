@@ -1,43 +1,73 @@
 <?php
 
 use App\Service\CategoryService;
-use App\Service\AddressService;
-use App\Service\MediaService;
-use App\Service\ProductService;
 
-if (!function_exists('getProductHtml')) {
-    function getProductHtml($products)
+if (!function_exists('getProductTemplate')) {
+    function getProductTemplate($products)
     {
         $html = '';
         if (!empty($products)) {
             foreach ($products as $product) {
-                $html .= '<div id="product-'.$product->id.'" class="product product-admin">
+                if ( app()->getLocale() == 'en' ) {
+                    if ( $product->on_sale != 0 ) {
+                        $price = '<span class="item_price">' .
+                                    $product->usd - ( $product->on_sale / 100 * $product->usd ) .
+                                        '<span class="currency">' .
+                                            trans('messages.curentcy') .
+                                        '</span>
+                                </span>
+                                <del>'.
+                                    $product->usd .
+                                    '<span class="currency">' .
+                                        trans('messages.curentcy') .
+                                    '</span>
+                                </del>';
+                    } else {
+                        $price = '<span class="item_price">' .
+                                    $product->usd .
+                                    '<span class="currency">' .
+                                    trans('messages.curentcy') .
+                                    '</span>
+                                </span>';
+                    }
+                }
+                if ( app()->getLocale() == 'vi' ) {
+                    if ( $product->on_sale != 0 ) {
+                        $price = '<span class="item_price">' .
+                                    $product->vnd - ( $product->on_sale / 100 * $product->vnd ) .
+                                        '<span class="currency">' .
+                                            trans('messages.curentcy') .
+                                        '</span>
+                                </span>
+                                <del>'.
+                                    $product->vnd .
+                                    '<span class="currency">' .
+                                        trans('messages.curentcy') .
+                                    '</span>
+                                </del>';
+                    } else {
+                        $price = '<span class="item_price">' .
+                                    $product->vnd .
+                                    '<span class="currency">' .
+                                    trans('messages.curentcy') .
+                                    '</span>
+                                </span>';
+                    }
+                }
+                $html .= '<div id="product-'.$product->id.'" class="product">
                             <div class="product-content">
                                 <div class="image-product-wrapper">
-                                    <a href="/products/'.$product->id.'">
+                                    <a href="/products/' . $product->slug . '">
                                         <img src="'. getProductLogo($product->id)->image_path.'" alt="Image Feature">
                                     </a>
                                 </div>
                                 <div class="product-info">
-                                    <a href="/products/'.$product->id.'">
+                                    <a href="/products/' . $product->slug . '">
                                         <h3 class="product-name">'.$product->name.'</h3>
                                     </a>
-                                    <div class="product-price">
-                                        <span class="import-price">
-                                            '.trans('messages.import_price').': '.number_format($product->price,0,".",".") .'<sup>'.trans('messages.curentcy').'</sup>
-                                        </span>
-                                        <span class="sale-price">
-                                            '.trans('messages.price_sale').': '.number_format($product->sale_price,0,".",".").'<sup>'.trans('messages.curentcy').'</sup>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="product-action">
-                                    <a href="/products/'.$product->id.'/edit" class="btn-action btn-edit">'.trans('messages.edit').'</a>
-                                    <form action="/products/'.$product->id.'" method="POST" class="form-delete">
-                                        <input type="hidden" name="_method" value="delete">
-                                        '.csrf_field().'
-                                        <button type="submit" class="btn-action btn-delete btn-delete-product" data-id="'.$product->id.'">'.trans('messages.delete').'</button>
-                                    </form>
+                                    <div class="info-product-price">' .
+                                        $price .
+                                    '</div>
                                 </div>
                             </div>
                         </div>';
@@ -64,55 +94,6 @@ if (!function_exists('getChildCategory')) {
     }
 }
 
-if (!function_exists('getCategoryHtml')) {
-    function getCategoryHtml($categories)
-    {
-        $html = '';
-        if (!empty($categories)) {
-            foreach ($categories as $category) {
-                $html .= '<tr data-id="'.$category->id.'">
-                            <td><a href="/categories/'.$category->id.'">'.$category->name.'</a></td>
-                            <td>'.$category->created_at.'</td>
-                            <td>
-                                <a href="/categories/'.$category->id.'/edit" class="btn-action btn-edit">'.trans('messages.edit') .'</a>
-                                <form action="/categories/'.$category->id.'" method="POST" class="form-delete">
-                                    <input type="hidden" value="delete" name="_method">
-                                    '.csrf_field().'
-                                    <button type="submit" class="btn-action btn-delete btn-delete-cat" data-id="{{ $category->id }}">'.trans('messages.delete').'</button>
-                                </form>
-                            </td>
-                        </tr>';
-            }
-        }
-
-        return $html;
-    }
-}
-
-if (!function_exists('getUserHtml')) {
-    function getUserHtml($users)
-    {
-        $html = '';
-        foreach ($users as $user) {
-            $html .= '<tr>
-                        <td><a href="/users/' . $user->id . '">' . $user->name . '</a></td>
-                        <td> ' . $user->phone . '</td>
-                        <td> ' . $user->email . '</td>
-                        <td> ' . $user->created_at . '</td>
-                        <td>
-                            <a href="/users/' . $user->id . '/edit" class="btn-action btn-edit">' . trans('messages.edit') .'</a>
-                            <form action="/users/ '. $user->id . '" method="POST" class="form-delete">
-                                <input type="hidden" name="_method" value="delete">' .
-                                csrf_field() .'
-                                <button type="submit" class="btn-action btn-delete"> ' . trans('messages.delete') . '</button>
-                            </form>
-                        </td>
-                    </tr>';
-        }
-
-        return $html;
-    }
-}
 
 if (!function_exists('formatNumber')) {
     function formatNumber($number, $lamTronSoSauDauPhay) {
@@ -120,32 +101,6 @@ if (!function_exists('formatNumber')) {
         $number = $number/pow(10, $lamTronSoSauDauPhay);
 
         return $number;
-    }
-}
-
-if ( !function_exists( 'getListImageProduct' ) ) {
-    function getListImageProduct($productId)
-    {
-        $media = new MediaService();
-        $images = $media->getImageByProductId($productId);
-        $listImage = [];
-        foreach ($images as $image) {
-            array_push($listImage, $image->id);
-        }
-
-        $listImage = implode(',', $listImage);
-
-        return $listImage;
-    }
-}
-
-if ( !function_exists( 'getProducCategory' ) ) {
-    function getCategoryName($categoryId)
-    {
-        $category = new CategoryService();
-        $cat = $category->getCategoryById($categoryId);
-
-        return $cat->name;
     }
 }
 
@@ -201,7 +156,7 @@ if (!function_exists('getMenuTeamplate')) {
         $listCategory = $categories->getParentCategory();
         $html = '<ul class="main-menu" id="primary-menu">
                     <li class="menu-item active">
-                        <a href="/home" class="nav-stylehead">'.
+                        <a href="/" class="nav-stylehead">'.
                             trans('messages.home').
                         '</a>
                     </li>';
@@ -225,35 +180,5 @@ if (!function_exists('getMenuTeamplate')) {
         $html .= '</ul>';
 
         return $html;
-    }
-}
-
-if (!function_exists('productBestSeller')) {
-    function productBestSeller()
-    {
-        $products = new ProductService();
-        $bestSeller = $products->getProductBestSeller();
-
-        return $bestSeller;
-    }
-}
-
-if (!function_exists('productNew')) {
-    function productNew()
-    {
-        $products = new ProductService();
-        $new = $products->getNewProduct();
-
-        return $new;
-    }
-}
-
-if (!function_exists('getTopDiscountProduct')) {
-    function getTopDiscountProduct()
-    {
-        $products = new ProductService();
-        $listProduct = $products->getOnSaleProduct();
-
-        return $listProduct;
     }
 }

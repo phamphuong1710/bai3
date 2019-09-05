@@ -1,318 +1,220 @@
 @extends('layouts.master')
 @section('style')
-<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+<link href="{{ asset('css/home/slick.css') }}" rel="stylesheet">
+<link href="{{ asset('css/home/slick-theme.css') }}" rel="stylesheet">
+<link href="{{ asset('css/home/mini-cart.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/list-product.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="font-page page-content">
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="..." class="d-block w-100" alt="...">
-            </div>
-            @foreach( getTopDiscountProduct() as $product )
-            <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>{{ $product->store->name }}</h5>
-                    <p>Discount up to {{ $product->on_sale.'%' }}</p>
+
+    <section class="slideshow" id="slideshow">
+        <div class="slider-content slider-hero" id="slider-hero">
+        @foreach( $slider as $slide )
+
+            <div class="slider-item" style="background-image: url({{$slide->media->image_path}});">
+
+                <div class="caption container">
+                    <span class="caption-title">{{ $slide->store->name }}</span>
+                    <a href="/store/{{ $slide->store->slug }}" class="btn-watch">
+
+                        <span class="btn-default">{{ __('messages.shop_now') }}</span>
+                        <span class="text-hover">{{ __('messages.shop_now') }}</span>
+                        <span class="btn-hover"></span>
+                    </a>
                 </div>
             </div>
-            @endforeach
+
+        @endforeach
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-    <div class="ads-grid">
+
+
+        <span class="btn-slide-prev">
+            <span class="default ion-ios-arrow-back"></span>
+            <span class="hover ion-ios-arrow-back"></span>
+        </span>
+        <span class="btn-slide-next">
+            <span class="default ion-ios-arrow-forward"></span>
+            <span class="hover ion-ios-arrow-forward"></span>
+        </span>
+
+    </section>
+    <div class="home-main-content">
         <div class="container">
-            <!-- //tittle heading -->
-            <!-- product left -->
-            <div class="side-bar col-md-3">
-                <div class="search-hotel">
-                    <h3 class="agileits-sear-head">Search Here..</h3>
-                    <form action="#" method="post">
-                        <input type="search" placeholder="Product name..." name="search" required="">
-                        <input type="submit" value=" ">
-                    </form>
-                </div>
-                <!-- price range -->
-                <div class="range">
-                    <h3 class="agileits-sear-head">Price range</h3>
-                    <ul class="dropdown-menu6">
-                        <li>
-                            <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header" style="left: 0.555556%; width: 66.1111%;"></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0.555556%;"></a><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 66.6667%;"></a></div>
-                            <input type="text" id="amount" style="border: 0; color: #ffffff; font-weight: normal;">
-                        </li>
-                    </ul>
-                </div>
-                <!-- //price range -->
-                <!-- food preference -->
-                <div class="left-side">
-                    <h3 class="agileits-sear-head">Food Preference</h3>
-                    <ul>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Vegetarian</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Non-Vegetarian</span>
-                        </li>
-                    </ul>
-                </div>
-                <!-- //food preference -->
-                <!-- discounts -->
-                <div class="left-side">
-                    <h3 class="agileits-sear-head">Discount</h3>
-                    <ul>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">5% or More</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">10% or More</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">20% or More</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">30% or More</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">50% or More</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">60% or More</span>
-                        </li>
-                    </ul>
-                </div>
-                <!-- //discounts -->
-                <!-- reviews -->
-                <div class="customer-rev left-side">
-                    <h3 class="agileits-sear-head">Customer Review</h3>
-                    <ul>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <span>5.0</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <span>4.0</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <span>3.5</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <span>3.0</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                <span>2.5</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- //reviews -->
-                <!-- cuisine -->
-                <div class="left-side">
-                    <h3 class="agileits-sear-head">Cuisine</h3>
-                    <ul>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">South American</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">French</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Greek</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Chinese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Japanese</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Italian</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Mexican</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Thai</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span">Indian</span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="checked">
-                            <span class="span"> Spanish </span>
-                        </li>
-                    </ul>
-                </div>
-                <!-- //cuisine -->
-                <!-- deals -->
-                <div class="deal-leftmk left-side">
-                    <h3 class="agileits-sear-head">Special Deals</h3>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d2.jpg" alt="">
+            <div class="stores">
+                <h2 class="heading-tittle">{{ __('messages.store') }}</h3>
+                <ul class="list-tab">
+                    <li class="tab-item">
+                        <a href="#store-seller" class="item-link active">BestSeller</a>
+                    </li>
+                    <li class="tab-item">
+                        <a href="#store-rating" class="item-link">Rating</a>
+                    </li>
+                </ul>
+
+                <div class="store-content">
+                    <div class="stores-wrapper is-selected" id="store-seller">
+                        <div class="row">
+                            @foreach( $storeSale as $store )
+                            <div class="col-md-3 product-men">
+                                <div class="store-item item-pro">
+                                    <div class="men-thumb-item">
+                                        <a href="/store/{{ $store->slug }}">
+                                            @foreach ( $store->media->where( 'active', 1 ) as $logo )
+                                            <img src="{{ $logo->image_path }}" alt="Image Product">
+                                            @endforeach
+                                        </a>
+                                    </div>
+                                    <div class="item-info-product ">
+                                        <h4 class="item-name">
+                                        <a href="/store/{{ $store->slug }}">{{ Str::words($store->name, 3) }}</a>
+                                        </h4>
+
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Lay's Potato Chips</h3>
-                            <a href="single.html">$18.00</a>
-                        </div>
-                        <div class="clearfix"></div>
                     </div>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d1.jpg" alt="">
+
+                    <div class="stores-wrapper" id="store-rating">
+                        <div class="row">
+                            @foreach( $storeRating as $store )
+                            <div class="col-md-3 product-men">
+                                <div class="store-item item-pro">
+                                    <div class="men-thumb-item">
+                                        <a href="/store/{{ $store->slug }}">
+                                            @foreach ( $store->media->where( 'active', 1 ) as $logo )
+                                            <img src="{{ $logo->image_path }}" alt="Image Product">
+                                            @endforeach
+                                        </a>
+                                    </div>
+                                    <div class="item-info-product ">
+                                        <h4 class="item-name">
+                                        <a href="/store/{{ $store->slug }}">{{ Str::words($store->name, 3) }}</a>
+                                        </h4>
+
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Bingo Mad Angles</h3>
-                            <a href="single.html">$9.00</a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d4.jpg" alt="">
-                        </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Tata Salt</h3>
-                            <a href="single.html">$15.00</a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d5.jpg" alt="">
-                        </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Gujarat Dry Fruit</h3>
-                            <a href="single.html">$525.00</a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="special-sec1">
-                        <div class="col-xs-4 img-deals">
-                            <img src="images/d3.jpg" alt="">
-                        </div>
-                        <div class="col-xs-8 img-deal1">
-                            <h3>Cadbury Dairy Milk</h3>
-                            <a href="single.html">$149.00</a>
-                        </div>
-                        <div class="clearfix"></div>
+
                     </div>
                 </div>
-                <!-- //deals -->
+
+
             </div>
-            <!-- //product left -->
-            <!-- product right -->
-            <div class="agileinfo-ads-display col-md-9">
+            <div class="products">
                 <div class="wrapper">
-                    <!-- first section (nuts) -->
-                    <div class="product-sec1">
-                        <h3 class="heading-tittle">{{ __('messages.new_product') }}</h3>
-                        @foreach( productNew() as $product )
-                        <div class="col-md-4 product-men">
-                            <div class="men-pro-item simpleCart_shelfItem">
-                                <div class="men-thumb-item">
-                                    <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Product">
-                                    <div class="men-cart-pro">
-                                        <div class="inner-men-cart-pro">
-                                            <a href="single.html" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
+                    <div class="product-wrapper row">
+                        <h3 class="heading-tittle col-md-12">{{ __('messages.new_product') }}</h3>
+
+                            @foreach( $new as $product )
+                            <div class="col-md-3 product-men">
+                                <div class="men-pro-item item-pro">
+                                    <div class="men-thumb-item">
+                                        <a href="/products/{{ $product->slug }}">
+                                            @foreach ( $product->media->where( 'active', 1 ) as $logo )
+                                            <img src="{{ $logo->image_path }}" alt="Image Product">
+                                            @endforeach
+                                        </a>
+                                    </div>
+                                    <div class="item-info-product ">
+                                        <h4 class="item-name">
+                                        <a href="/products/{{ $product->slug }}">{{ Str::words($product->name, 3) }}</a>
+                                        </h4>
+                                        @if( app()->getLocale() == 'en' )
+                                        <div class="info-product-price">
+                                            @if( $product->on_sale != 0 )
+                                            <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">$</span></span>
+                                            <del>{{ $product->usd }}<span class="currency">$</span></del>
+                                            @else
+                                            <span class="item_price">{{ $product->usd }}<span class="currency">$</span></span>
+                                            @endif
+                                        </div>
+                                        @endif
+                                        @if( app()->getLocale() == 'vi' )
+                                        <div class="info-product-price">
+                                            @if( $product->on_sale != 0 )
+                                            <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">đ</span></span>
+                                            <del>{{ $product->vnd }}<span class="currency">đ</span></del>
+                                            @else
+                                            <span class="item_price">{{ $product->vnd }}<span class="currency">đ</span></span>
+                                            @endif
+                                        </div>
+                                        @endif
+                                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                            <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
+                                                @csrf
+                                                <fieldset>
+                                                    <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
+                                                    <input type="hidden" name="quantity" value="1"  class="add-quantity">
+                                                    <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
+                                                    @guest
+                                                    <button class="user-login">{{ __('messages.add_to_cart') }}</button>
+                                                    @else
+                                                    <button type="submit" class="button btn-add-to-cart">{{ __('messages.add_to_cart') }}</button>
+                                                    @endguest
+                                                </fieldset>
+                                            </form>
                                         </div>
                                     </div>
-                                    <span class="product-new-top">{{ __('messages.new') }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+
+                    </div>
+
+                    <div class="product-wrapper row">
+                        <h3 class="heading-tittle col-md-12">{{ __('messages.bestseller') }}</h3>
+                        @foreach( $bestSeller as $product )
+                        <div class="col-md-3 product-men">
+                            <div class="men-pro-item item-pro">
+                                <div class="men-thumb-item">
+                                    <a href="/products/{{ $product->slug }}">
+                                    @foreach ( $product->media->where( 'active', 1 ) as $logo )
+                                    <img src="{{ $logo->image_path }}" alt="Image Product">
+                                    @endforeach
+                                    </a>
                                 </div>
                                 <div class="item-info-product ">
-                                    <h4>
-                                    <a href="single.html">Almonds, 100g</a>
+                                    <h4 class="item-name">
+                                    <a href="/products/{{ $product->slug }}">{{ $product->name }}</a>
                                     </h4>
                                     @if( app()->getLocale() == 'en' )
                                     <div class="info-product-price">
-                                        @if( $product->on_sale_usd != 0 )
-                                        <span class="item_price">{{ $product->on_sale_usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                        <del>{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                        @if( $product->on_sale != 0 )
+                                        <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">$</span></span>
+                                        <del>{{ $product->usd }}<span class="currency">$</span></del>
                                         @else
-                                        <span class="item_price">{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                        <span class="item_price">{{ $product->usd }}<span class="currency">$</span></span>
                                         @endif
                                     </div>
                                     @endif
                                     @if( app()->getLocale() == 'vi' )
                                     <div class="info-product-price">
-                                        @if( $product->on_sale_vnd != 0 )
-                                        <span class="item_price">{{ $product->on_sale_vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                        <del>{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                        @if( $product->on_sale != 0 )
+                                        <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">đ</span></span>
+                                        <del>{{ $product->vnd }}<span class="currency">đ</span></del>
                                         @else
                                         <span class="item_price">{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
                                         @endif
                                     </div>
                                     @endif
                                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                        <form action="#" method="post">
+                                        <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
+                                            @csrf
                                             <fieldset>
-                                                <input type="hidden" name="cmd" value="_cart">
-                                                <input type="hidden" name="add" value="1">
-                                                <input type="hidden" name="business" value=" ">
-                                                <input type="hidden" name="item_name" value="Almonds, 100g">
-                                                <input type="hidden" name="amount" value="149.00">
-                                                <input type="hidden" name="discount_amount" value="1.00">
-                                                <input type="hidden" name="currency_code" value="USD">
-                                                <input type="hidden" name="return" value=" ">
-                                                <input type="hidden" name="cancel_return" value=" ">
-                                                <input type="submit" name="submit" value="Add to cart" class="button">
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
+                                                <input type="hidden" name="quantity" value="1"  class="add-quantity">
+                                                <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
+                                                @guest
+                                                <button class="user-login">{{ __('messages.add_to_cart') }}</button>
+                                                @else
+                                                <button type="submit" class="button btn-add-to-cart">{{ __('messages.add_to_cart') }}</button>
+                                                @endguest
                                             </fieldset>
                                         </form>
                                     </div>
@@ -320,108 +222,84 @@
                             </div>
                         </div>
                         @endforeach
-                        <div class="clearfix"></div>
-                    </div>
-                    <!-- //first section (nuts) -->
-                    <!-- second section (nuts special) -->
-                    <div class="product-sec1 product-sec2">
-                        <div class="col-xs-7 effect-bg">
-                            <h3 class="">Pure Energy</h3>
-                            <h6>Enjoy our all healthy Products</h6>
-                            <p>Get Extra 10% Off</p>
-                        </div>
-                        <h3 class="w3l-nut-middle">Nuts &amp; Dry Fruits</h3>
-                        <div class="col-xs-5 bg-right-nut">
-                            <img src="images/nut1.png" alt="">
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <!-- //second section (nuts special) -->
-                    <!-- third section (oils) -->
-                    <div class="product-sec1">
-                        <h3 class="heading-tittle">{{ __('messages.bestseller') }}</h3>
-                        @foreach( productBestSeller() as $product )
-                        <div class="col-md-4 product-men">
-                            <div class="men-pro-item simpleCart_shelfItem">
-                                <div class="men-thumb-item">
-                                    <img src="{{ getProductLogo($product->id)->image_path }}" alt="Image Product">
-                                    <div class="men-cart-pro">
-                                        <div class="inner-men-cart-pro">
-                                            <a href="single.html" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item-info-product ">
-                                    <h4>
-                                    <a href="single.html">{{ $product->name }}</a>
-                                    </h4>
-                                    @if( app()->getLocale() == 'en' )
-                                    <div class="info-product-price">
-                                        @if( $product->on_sale != 0 )
-                                        <span class="item_price">{{ $product->on_sale_usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                        <del>{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                        @else
-                                        <span class="item_price">{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                        @endif
-                                    </div>
-                                    @endif
-                                    @if( app()->getLocale() == 'vi' )
-                                    <div class="info-product-price">
-                                        @if( $product->on_sale != 0 )
-                                        <span class="item_price">{{ $product->on_sale_vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                        <del>{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                        @else
-                                        <span class="item_price">{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                        @endif
-                                    </div>
-                                    @endif
-                                    <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                        <form action="#" method="post">
-                                            <fieldset>
-                                                <input type="hidden" name="cmd" value="_cart">
-                                                <input type="hidden" name="add" value="1">
-                                                <input type="hidden" name="business" value=" ">
-                                                <input type="hidden" name="item_name" value="Almonds, 100g">
-                                                <input type="hidden" name="amount" value="149.00">
-                                                <input type="hidden" name="discount_amount" value="1.00">
-                                                <input type="hidden" name="currency_code" value="USD">
-                                                <input type="hidden" name="return" value=" ">
-                                                <input type="hidden" name="cancel_return" value=" ">
-                                                <input type="submit" name="submit" value="Add to cart" class="button">
-                                            </fieldset>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                        <div class="clearfix"></div>
+
                     </div>
                     <!-- //third section (oils) -->
                 </div>
             </div>
-            <!-- //product right -->
         </div>
     </div>
-    <div class="footer-top">
-        <div class="container-fluid">
-            <div class="col-xs-8 agile-leftmk">
-                <h2>Get your Groceries delivered from local stores</h2>
-                <p>Free Delivery on your first order!</p>
-                <form action="#" method="post">
-                    <input type="email" placeholder="E-mail" name="email" required>
-                    <input type="submit" value="Subscribe">
-                </form>
-                <div class="newsform-w3l">
-                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
+
+</div>
+
+<div id="shop-cart-sidebar">
+    <div class="cart-sidebar-head">
+        <h4 class="cart-sidebar-title">Shopping cart</h4>
+            @if ( Session::get('cart')['quantity'] )
+                <span class="count">{{ Session::get('cart')['quantity'] }}</span>
+            @else
+                <span class="count">0</span>
+            @endif
+
+        <button id="close-cart-sidebar" class="ion-android-close"></button>
     </div>
-    <!-- //newsletter -->
+    <div class="cart-sidebar-content">
+        <ul class="list-product-in-cart product-item-action">
+            @if ( Session::get('cart')['product'] )
+                @foreach( Session::get('cart')['product'] as $product )
+                <li class="mini-cart-item cart-item">
+                    <div class="product-minnicart-info">
+                        <span class="mincart-product-name">{{ $product->name }} </span>
+                        <span class="product-quantity">
+                            <span class="minicart-product-quantity">{{ $product->quantity }}</span> x
+                            <span class="minicart-product-price">
+                                @if( app()->getLocale() == 'en' )
+                                    {{ '$'.$product->usd }}
+                                @endif
+                                @if( app()->getLocale() == 'vi' )
+                                    {{ 'đ'.$product->vnd }}
+                                @endif
+                            </span>
+                        </span>
+                    </div>
+                    <div class="product-minicart-logo">
+                        <img src="{{ $product->logo }}" alt=" $product->name ">
+                    </div>
+                    <span class="remove_from_cart_button ion-android-close delete-product" product="{{ $product->id }}"></span>
+                </li>
+                @endforeach
+            @else
+            <h6>{{ __('messages.no_product') }}</h6>
+            @endif
+
+        </ul>
+    </div>
+    <div class="subpay">
+        <span class="label">{{ __('messages.total').':' }}</span>
+        @if( app()->getLocale() == 'en' )
+        <span class="total-price">
+            {{ '$'.Session::get('cart')['usd'] - Session::get('cart')['discount_usd'] }}
+        </span>
+        @endif
+        @if( app()->getLocale() == 'vi' )
+        <span class="total-price">
+            {{ 'đ'.Session::get('cart')['vnd'] - Session::get('cart')['discount_vnd'] }}
+        </span>
+        @endif
+    </div>
+    <div class="mini-cart-action">
+        <a href="{{ route('cart') }}" class="btn btn-view-cart">{{ __('messages.view_cart') }}</a>
+        <a href="{{ route('checkout') }}" class="btn btn-view-checkout">{{ __('messages.checkout') }}</a>
+    </div>
 </div>
 @endsection
 @section('js')
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="{{ asset('js/slick.min.js') }}"></script>
+<script src="{{ asset('js/home/slider.js') }}"></script>
+<script src="{{ asset('js/home/add-to-cart.js') }}"></script>
+<script src="{{ asset('js/home/delete-cart.js') }}"></script>
+<script src="{{ asset('js/admin/currency.js') }}"></script>
+<script src="{{ asset('js/home/tab.js') }}"></script>
 @endsection
+
+

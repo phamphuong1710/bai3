@@ -106,7 +106,7 @@
                                 <div class="input-file">
                                     <label for="postImage">{{ __('messages.image') }}</label>
                                     <input type="file" class="custom-file-input" id="postImage" lang="in" multiple="multiple" name='image[]'>
-                                    <input type="hidden" name="list_image" value="{{ getListImageStore($store->id) }}" id="listImage">
+                                    <input type="hidden" name="list_image" value="{{ $store->list_image }}" id="listImage">
                                 </div>
                                 <button class="btn btn-image-library">{{ __('messages.library_image') }}</button>
                                 <button type="button" class="btn-video">Video</button>

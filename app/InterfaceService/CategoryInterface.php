@@ -12,4 +12,5 @@ interface CategoryInterface {
     public function searchCategory($request);
     public function filterCategory($request);
     public function getParentCategory();
+    public function getCategoryBySlug($slug);
 }

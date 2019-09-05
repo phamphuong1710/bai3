@@ -1,0 +1,45 @@
+.product-logo {
+    max-width: 120px;
+}
+
+.cart-table {
+    width: 100%;
+}
+
+.cart-item {
+    margin: 15px 0;
+    min-height: 120px;
+}
+
+.btn-update-cart,
+.btn-checkout {
+    padding: 12px 30px;
+    color: #fff;
+    background-color: #aa2231;
+    margin-top: 50px;
+}
+
+.car-update {
+    text-align: center;
+}
+
+.btn-checkout {
+    margin-left: 30px;
+}
+
+.total-label,
+.total-price {
+    padding: 30px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.product-logo {
+    padding: 30px 0;
+}
+
+.total-price {
+    color: #aa2231;
+}

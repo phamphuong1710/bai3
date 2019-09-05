@@ -1,0 +1,81 @@
+.btn {
+    padding: 0;
+    background: none;
+}
+.btn-main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-hover,
+.btn-default {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  transition: all 0.3s cubic-bezier(0.44, 0.13, 0.48, 0.87);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.text-hover {
+  opacity: 0;
+  color: #ffffff;
+  z-index: 100;
+  transition: all 0.3s cubic-bezier(0.44, 0.13, 0.48, 0.87);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.btn-hover {
+  top: 100%;
+  height: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #ffffff;
+  background-color: #1f3d70;
+  border: none;
+}
+
+.btn-default {
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.btn-main .btn-default {
+    border: none;
+    background-color: #aa2231;
+    color: #fff;
+}
+
+.btn-main:hover{
+    border: none;
+}
+
+.btn-main:hover .text-hover{
+    opacity: 1;
+}
+
+.btn-main:hover .btn-hover{
+    height: 100%;
+    top: 0;
+}
+
+.btn-main:hover .btn-default{
+    opacity: 0;
+
+}

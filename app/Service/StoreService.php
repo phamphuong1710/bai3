@@ -15,6 +15,14 @@ class StoreService implements StoreInterface
         return $stores;
     }
 
+    public function getStore()
+    {
+        $stores = Store::orderBy('name', 'asc')
+            ->get();
+
+        return $stores;
+    }
+
     public function createStore($request)
     {
         $store = new Store();
@@ -92,6 +100,13 @@ class StoreService implements StoreInterface
             ->get();
 
         return $stores;
+    }
+
+    public function getStoreBySlug($slug)
+    {
+        $store = Store::where('slug', $slug)->first();
+
+        return $store;
     }
 }
 

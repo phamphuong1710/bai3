@@ -27,26 +27,34 @@ class SearchController extends Controller
     public function searchStore(Request $request)
     {
         $stores = $this->storeService->searchStore($request);
-        $html = listStoreHtml($stores);
+        foreach ($stores as $index => $store) {
+            $stores[$index]->logo = $store->media->where('active', 1)->first();
+            $stores[$index]->address = $store->address->address;
+        }
 
-        return response()->json($html);
+        return response()->json($stores);
     }
 
     public function filterStore(Request $request)
     {
         $stores = $this->storeService->filterStore($request);
-        $html = listStoreHtml($stores);
+        foreach ($stores as $index => $store) {
+            $stores[$index]->logo = $store->media->where('active', 1)->first();
+            $stores[$index]->address = $store->address->address;
+        }
 
-        return response()->json($html);
+        return response()->json($stores);
     }
 
     // Search Product In Store
     public function searchProduct(Request $request)
     {
         $products = $this->productService->searchProduct($request);
-        $html = getProductHtml($products);
+        foreach ($products as $key => $product) {
+            $products[$key]->logo = $product->media->where('active', 1)->first();
+        }
 
-        return response()->json($html);
+        return response()->json($products);
     }
 
     // Filter Product in category in Store
@@ -59,19 +67,22 @@ class SearchController extends Controller
             $listCategory = getChildCategory($request->category);
             $products = $this->productService->filterProductByCategory($request, $listCategory);
         }
+        foreach ($products as $key => $product) {
+            $products[$key]->logo = $product->media->where('active', 1)->first();
+        }
 
-        $html = getProductHtml($products);
-
-        return response()->json($html);
+        return response()->json($products);
     }
 
     // Search Product Create By User
     public function searchProductByUser(Request $request)
     {
         $products = $this->productService->searchProductByUser($request);
-        $html = getProductHtml($products);
+        foreach ($products as $key => $product) {
+            $products[$key]->logo = $product->media->where('active', 1)->first();
+        }
 
-        return response()->json($html);
+        return response()->json($products);
     }
 
     // Filter Product in category create by User
@@ -92,33 +103,29 @@ class SearchController extends Controller
     public function searchUser(Request $request)
     {
         $users = $this->userService->searchUser($request);
-        $html = getUserHtml($users);
 
-        return response()->json($html);
+        return response()->json($users);
     }
 
     public function filterUser(Request $request)
     {
         $users = $this->userService->filterUser($request);
-        $html = getUserHtml($users);
 
-        return response()->json($html);
+        return response()->json($users);
     }
 
     public function searchCategory(Request $request)
     {
         $categories = $this->categoryService->searchCategory($request);
-        $html = getCategoryHtml($categories);
 
-        return response()->json($html);
+        return response()->json($categories);
     }
 
     public function filterCategory(Request $request)
     {
         $categories = $this->categoryService->filterCategory($request);
-        $html = getCategoryHtml($categories);
 
-        return response()->json($html);
+        return response()->json($categories);
     }
 
 }

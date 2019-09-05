@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->integer('quatity_stock');
             $table->float('rating_average');
             $table->longText('description');
-            $table->timestamp('deleted_at');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
