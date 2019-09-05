@@ -58,7 +58,7 @@ if (!function_exists('getProductTemplate')) {
                             <div class="product-content">
                                 <div class="image-product-wrapper">
                                     <a href="/products/' . $product->slug . '">
-                                        <img src="'. getProductLogo($product->id)->image_path.'" alt="Image Feature">
+                                        <img src="" alt="Image Feature">
                                     </a>
                                 </div>
                                 <div class="product-info">

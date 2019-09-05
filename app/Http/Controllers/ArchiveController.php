@@ -41,7 +41,16 @@ class ArchiveController extends Controller
     public function store($slug)
     {
         $store = $this->storeService->getStoreBySlug($slug);
-        $products = $this->productService->getAllProductStore($store->id);
+        $products = $store->products;
+        $listCategory = [];
+        foreach ($products as $product) {
+            $categoryId = $product->category_id;
+            if ( !in_array($categoryId, $listCategory) ) {
+                array_push($listCategory, $categoryId);
+            }
+        }
+        $categories = $this->categoryService->getCategoryStore($listCategory);
+        $store->categories = $categories;
         $store->products = $products;
         $rating = $this->ratingService->getRatingStoreByUser($store->id);
         if (!$rating) {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service\CartService;
+use App\Http\Requests\CartRequest;
+use App\Http\Requests\OrderRequest;
 use Auth;
 use Session;
 
@@ -27,7 +29,7 @@ class CartController extends Controller
         return view('layouts.cart', compact('cart'));
     }
 
-    public function addToCart(Request $request)
+    public function addToCart(CartRequest $request)
     {
         $request->session()->forget('cart');
         $userId = Auth::id();
@@ -76,7 +78,7 @@ class CartController extends Controller
         return response()->json($cart);
     }
 
-    public function updateCart(Request $request, $id)
+    public function updateCart(CartRequest $request, $id)
     {
         $listQuantity = $request->quantity;
         foreach ($listQuantity as $index => $quantity) {
@@ -150,7 +152,7 @@ class CartController extends Controller
         );
     }
 
-    public function order(Request $request)
+    public function order(OrderRequest $request)
     {
         $userId = Auth::id();
         $order = $this->cartService->order($request, $userId);

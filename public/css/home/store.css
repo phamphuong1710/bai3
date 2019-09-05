@@ -71,3 +71,13 @@
 .product img {
     width: 100%;
 }
+
+.rating-star {
+    display: flex;
+    align-items: center;
+}
+
+#stars {
+    margin-bottom: 0;
+    margin-right: 20px;
+}

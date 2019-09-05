@@ -263,7 +263,7 @@
                         </span>
                     </div>
                     <div class="product-minicart-logo">
-                        <img src="{{ $product->logo }}" alt=" $product->name ">
+                        <img src="{{ $product->logo }}" alt="{{ $product->name }}">
                     </div>
                     <span class="remove_from_cart_button ion-android-close delete-product" product="{{ $product->id }}"></span>
                 </li>
@@ -277,13 +277,13 @@
     <div class="subpay">
         <span class="label">{{ __('messages.total').':' }}</span>
         @if( app()->getLocale() == 'en' )
-        <span class="total-price">
-            {{ '$'.Session::get('cart')['usd'] - Session::get('cart')['discount_usd'] }}
+        <span class="total-price">$
+            {{ Session::get('cart')['usd'] - Session::get('cart')['discount_usd'] }}
         </span>
         @endif
         @if( app()->getLocale() == 'vi' )
-        <span class="total-price">
-            {{ 'đ'.Session::get('cart')['vnd'] - Session::get('cart')['discount_vnd'] }}
+        <span class="total-price">đ
+            {{ Session::get('cart')['vnd'] - Session::get('cart')['discount_vnd'] }}
         </span>
         @endif
     </div>

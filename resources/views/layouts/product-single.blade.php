@@ -143,7 +143,7 @@
 
                                 <div class="quantity">
                                     <span class="modify-qty dec ion-android-remove"></span>
-                                    <input type="number" id="quantity" class="input-text qty add-quantity" step="1" min="1" max="{{ $product->quantity_stock }}" name="quantity" value="1" size="4" inputmode="numeric">
+                                    <input type="number" id="quantity" class="input-text qty add-quantity @error('quantity') is-invalid @enderror" step="1" min="1" max="{{ $product->quantity_stock }}" name="quantity" value="1" size="4" inputmode="numeric">
                                     <span class="modify-qty inc ion-android-add"></span>
                                 </div>
                                 <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
@@ -351,6 +351,7 @@
         <a href="{{ route('cart') }}" class="btn btn-view-cart">{{ __('messages.view_cart') }}</a>
         <a href="{{ route('checkout') }}" class="btn btn-view-checkout">{{ __('messages.checkout') }}</a>
     </div>
+</div>
 @endsection
 @section('js')
     <script src="{{ asset('js/slick.min.js') }}"></script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service\RatingService;
+use App\Http\Requests\RatingRequest;
 
 class RatingController extends Controller
 {
@@ -14,14 +15,14 @@ class RatingController extends Controller
         $this->ratingService = $ratingService;
     }
 
-    public function product(Request $request)
+    public function product(RatingRequest $request)
     {
         $rating = $this->ratingService->ratingProduct($request);
 
         return response()->json($rating);
     }
 
-    public function store(Request $request)
+    public function store(RatingRequest $request)
     {
         $rating = $this->ratingService->ratingStore($request);
 
