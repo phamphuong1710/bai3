@@ -106,7 +106,7 @@ class StoreController extends Controller
                 array_push($listCategory, $product->category_id);
             }
             $listCategory = array_unique($listCategory);
-            $categories = $queryCategory->getCategoryStore($listCategory);
+            $categories = $this->categoryService->getCategoryStore($listCategory);
         }
 
         return view(
