@@ -122,15 +122,15 @@
                 <h2 class="billing">{{ __('messages.billing') }}</h2>
                 <div class="form-group">
                     <label for="name">{{ __('messages.name') }}</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name">
                 </div>
                 <div class="form-group">
                     <label for="phone">{{ __('messages.phone') }}</label>
-                    <input type="text" class="form-control" id="phone" name="phone">
+                    <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email">
+                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
                 </div>
                 <div class="new-address">
                     <span class="create-new-address">Thêm địa chỉ mới</span>
@@ -163,6 +163,5 @@
 @endsection
 @section('js')
 <script src="https://maps.googleapis.com/maps/api/js?key={{ config('map.google_key') }}&libraries=places&anguage=vi&region=VI"></script>
-<!-- <script src="{{ asset('js/admin/google-map.js') }}"></script> -->
 <script src="{{ asset('js/home/ship.js') }}"></script>
 @endsection
