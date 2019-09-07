@@ -715,3 +715,34 @@
 .add-to-cart-form {
     text-align: center;
 }
+
+.wt-star-rating {
+    position: relative;
+    overflow: hidden;
+    width: 70px;
+    height: 20px;
+    color: #ffc400;
+    margin: 0 auto;
+}
+
+.wt-star-rating:before {
+    content: '\f4b2 \f4b2 \f4b2 \f4b2 \f4b2';
+    font-family: "Ionicons";
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.wt-star-rating .star-reviewed {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.wt-star-rating .star-reviewed:before {
+    content: '\f4b3\f4b3\f4b3\f4b3\f4b3';
+    font-family: "Ionicons";
+    position: absolute;
+}
