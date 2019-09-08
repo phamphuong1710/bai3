@@ -15,13 +15,15 @@ Auth::routes();
 
 Route::resource('/', 'HomeController');
 
+Route::get('/user/{id}/edit', 'UserController@getEditUserTemplate')->middleware(['auth'])->name('edit-user');
+
 Route::resource('users', 'UserController')->middleware(['auth']);
 
 Route::resource('categories', 'CategoryController')->middleware(['auth']);
 
 Route::resource('stores', 'StoreController')->middleware(['auth']);
 
-Route::resource('media-store', 'MediaStoreController')->middleware(['auth']);
+Route::resource('media-store', 'MediaController')->middleware(['auth']);
 
 Route::resource('video-store', 'VideoStoreController')->middleware(['auth']);
 
@@ -32,8 +34,6 @@ Route::get('product', 'ProductController@getAllProductByUser')->name('listProduc
 Route::get('products/{slug}', 'SingleProductController@product')->name('product-single');
 
 Route::resource('products', 'ProductController')->middleware(['auth']);
-
-Route::resource('media-product', 'MediaProductController')->middleware(['auth']);
 
 Route::get('locale/{locale}', function ($locale){
     Session::put('locale', $locale);
@@ -107,3 +107,5 @@ Route::post('/order', 'CartController@order')->name('order');
 Route::get('/user-login', 'AuthController@login')->name('user-login');
 
 Route::get('/user-register', 'AuthController@register')->name('user-register');
+
+

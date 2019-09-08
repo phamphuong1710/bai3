@@ -7,17 +7,17 @@ use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Service\UserService;
 use App\Service\AddressService;
-
+use App\Service\MediaService;
 class UserController extends Controller
 {
     protected $userService;
-    protected $addressService;
+    protected $mediaService;
 
-    public function __construct(UserService $userService, AddressService $addressService)
+    public function __construct(UserService $userService, MediaService $mediaService)
     {
         $this->middleware('auth');
         $this->userService = $userService;
-        $this->addressService = $addressService;
+        $this->mediaService = $mediaService;
     }
 
     /**
@@ -92,7 +92,6 @@ class UserController extends Controller
     public function update(UserEditRequest $request, $id)
     {
         $this->userService->updateUser($request,$id);
-        $this->addressService->updateUserAddress($id, $request);
 
         return redirect()->route('users.index');
     }
@@ -108,5 +107,12 @@ class UserController extends Controller
         $this->userService->deleteUserById($id);
 
         return redirect()->route('users.index');
+    }
+
+    public function getEditUserTemplate($id)
+    {
+        $user = $this->userService->getUserByID($id);
+
+        return view('layouts.edit-user', compact('user'));
     }
 }

@@ -273,4 +273,3 @@ class MediaService implements MediaInterface
         return $image;
     }
 }
-

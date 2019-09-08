@@ -2,8 +2,13 @@
 namespace App\Service;
 
 use App\InterfaceService\UserInterface;
+use Intervention\Image\ImageManagerStatic as Image;
 use App\User; // model
+use App\Media;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use File;
+
 
 class UserService implements UserInterface
 {
@@ -46,7 +51,10 @@ class UserService implements UserInterface
         $user = User::findOrFail($id);
         if(!$user) abort('404');
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $mediaId = (int)$request->logo_id;
+        $media = Media::findOrFail($mediaId);
+        $user->avatar = $media->image_path;
         $user->save();
 
         return $user;

@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\HomeService;
 use App\Service\CartService;
+use App\Service\UserService;
 
 class HomeController extends Controller
 {
     protected $homeService;
     protected $cartService;
 
-    public function __construct( HomeService $homeService, CartService $cartService )
+    public function __construct( HomeService $homeService, CartService $cartService, UserService $userService )
     {
         $this->homeService = $homeService;
         $this->cartService = $cartService;
+        $this->userService = $userService;
     }
     /**
      * Create a new controller instance.
@@ -76,4 +78,5 @@ class HomeController extends Controller
 
         return $cart;
     }
+
 }

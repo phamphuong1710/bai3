@@ -1,6 +1,9 @@
 .btn-sing-out {
     background: none;
 }
+h4.item-name a {
+    color: #1f3d70;
+}
 
 .navigation-menu {
     display: flex;
@@ -706,11 +709,16 @@
 
 
 .item-name,
+.store-address,
 .info-product-price {
     text-align: center;
     margin-top: 15px;
 }
 
+.store-address {
+    display: block;
+    font-size: 14px;
+}
 
 .add-to-cart-form {
     text-align: center;
@@ -723,6 +731,7 @@
     height: 20px;
     color: #ffc400;
     margin: 0 auto;
+    font-weight: 600;
 }
 
 .wt-star-rating:before {
@@ -745,4 +754,9 @@
     content: '\f4b3\f4b3\f4b3\f4b3\f4b3';
     font-family: "Ionicons";
     position: absolute;
+}
+
+.item-name a {
+    font-size: 15px;
+    text-transform: capitalize;
 }
