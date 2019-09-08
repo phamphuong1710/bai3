@@ -70,6 +70,17 @@
                                         <h4 class="item-name">
                                         <a href="/store/{{ $store->slug }}">{{ Str::words($store->name, 3) }}</a>
                                         </h4>
+                                        <span class="store-address">
+                                            {{  Str::words($store->address->address, 4) }}
+                                        </span>
+                                        @php
+                                            $avg = $store->rating_average;
+                                            $p = ( $avg / 5 ) * 100;
+                                        @endphp
+                                        <div class="wt-star-rating">
+                                            <span class="star-reviewed" style="width: {{ $p }}%">
+                                            </span>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -232,66 +243,6 @@
 
 </div>
 
-<div id="shop-cart-sidebar">
-    <div class="cart-sidebar-head">
-        <h4 class="cart-sidebar-title">Shopping cart</h4>
-            @if ( Session::get('cart')['quantity'] )
-                <span class="count">{{ Session::get('cart')['quantity'] }}</span>
-            @else
-                <span class="count">0</span>
-            @endif
-
-        <button id="close-cart-sidebar" class="ion-android-close"></button>
-    </div>
-    <div class="cart-sidebar-content">
-        <ul class="list-product-in-cart product-item-action">
-            @if ( Session::get('cart')['product'] )
-                @foreach( Session::get('cart')['product'] as $product )
-                <li class="mini-cart-item cart-item">
-                    <div class="product-minnicart-info">
-                        <span class="mincart-product-name">{{ $product->name }} </span>
-                        <span class="product-quantity">
-                            <span class="minicart-product-quantity">{{ $product->quantity }}</span> x
-                            <span class="minicart-product-price">
-                                @if( app()->getLocale() == 'en' )
-                                    {{ '$'.$product->usd }}
-                                @endif
-                                @if( app()->getLocale() == 'vi' )
-                                    {{ 'đ'.$product->vnd }}
-                                @endif
-                            </span>
-                        </span>
-                    </div>
-                    <div class="product-minicart-logo">
-                        <img src="{{ $product->logo }}" alt="{{ $product->name }}">
-                    </div>
-                    <span class="remove_from_cart_button ion-android-close delete-product" product="{{ $product->id }}"></span>
-                </li>
-                @endforeach
-            @else
-            <h6>{{ __('messages.no_product') }}</h6>
-            @endif
-
-        </ul>
-    </div>
-    <div class="subpay">
-        <span class="label">{{ __('messages.total').':' }}</span>
-        @if( app()->getLocale() == 'en' )
-        <span class="total-price">$
-            {{ Session::get('cart')['usd'] - Session::get('cart')['discount_usd'] }}
-        </span>
-        @endif
-        @if( app()->getLocale() == 'vi' )
-        <span class="total-price">đ
-            {{ Session::get('cart')['vnd'] - Session::get('cart')['discount_vnd'] }}
-        </span>
-        @endif
-    </div>
-    <div class="mini-cart-action">
-        <a href="{{ route('cart') }}" class="btn btn-view-cart">{{ __('messages.view_cart') }}</a>
-        <a href="{{ route('checkout') }}" class="btn btn-view-checkout">{{ __('messages.checkout') }}</a>
-    </div>
-</div>
 @endsection
 @section('js')
 <script src="{{ asset('js/slick.min.js') }}"></script>

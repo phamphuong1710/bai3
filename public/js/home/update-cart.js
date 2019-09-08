@@ -1,6 +1,16 @@
 $(document).ready(function ($) {
     $( '.btn-update-cart' ).on( 'click', function (e) {
         e.preventDefault();
+        updateCart();
+    });
+
+    $('body').on( 'click', '.modify-qty', function(e) {
+        e.preventDefault();
+        updateCart();
+    } );
+
+    function updateCart() {
+
         var url = $('.update-cart').attr('action'),
             item = $('.qty');
             formData = new FormData();
@@ -37,11 +47,12 @@ $(document).ready(function ($) {
                     price = data.vnd - data.discount_vnd;
                     $( '.total-price' ).html( 'đ' + price );
                 }
+                $('.count').html(data.quantity);
 
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
             }
         });
-    });
+    }
 });
