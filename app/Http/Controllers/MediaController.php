@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\MediaService;
 
-class MediaStoreController extends Controller
+class MediaController extends Controller
 {
     protected $mediaService;
 

@@ -8,7 +8,7 @@
                 </span>
             </div>
             <div class="card-body">
-                <form method="POST" action="/products/{{ $product->id }}">
+                <form method="POST" action="{{ route('products.update', ['id' => $product->id]) }}">
                     @method('PUT')
                     @csrf
                     <div class="logo-content">

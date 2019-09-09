@@ -144,10 +144,7 @@
 <script src="{{ asset('js/admin/delete-image.js') }}"></script>
 <script src="{{ asset('js/admin/edit-image.js') }}"></script>
 <script src="{{ asset('js/admin/delete-product.js') }}"></script>
-@if( app()->getLocale() == 'en' )
-<script src="{{ asset('js/admin/currency.js') }}"></script>
-@endif
 <script src="{{ asset('js/admin/filter-product-user.js') }}"></script>
 <script src="{{ asset('js/admin/edit-popup.js') }}"></script>
-
+<script src="{{ asset('js/admin/currency.js') }}"></script>
 @endsection

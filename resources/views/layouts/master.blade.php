@@ -36,13 +36,26 @@
                                     </li>
                                     @if (Route::has('login'))
                                         @auth
-                                        <li>
-                                            <form action="{{ route('logout') }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-user btn-sing-out ">
-                                                <span class="ion-power"></span>
-                                                {{ __('messages.sing_out') }}</button>
-                                            </form>
+                                        <li class="user user-dropdown">
+                                            @php
+                                                $username = Auth::user()->name;
+                                            @endphp
+                                            {{ $username }}
+                                            <ul class="list-user-action">
+                                                <li class="user-action-item">
+                                                    <form action="{{ route('logout') }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-user btn-sing-out ">
+                                                        <span class="ion-power"></span>
+                                                        {{ __('messages.sing_out') }}</button>
+                                                    </form>
+                                                </li>
+                                                <li class="user-action-item">
+                                                    <span class="profile" data-user="{{ Auth::id() }}">
+                                                        {{ __('messages.profile') }}
+                                                    </span>
+                                                </li>
+                                            </ul>
                                         </li>
                                         @else
                                         <li>
@@ -61,6 +74,7 @@
                                             @endif
                                         @endauth
                                     @endif
+
 
                                 <li><a href="{{ url('locale/en') }}">EN</a></li>
                                 <li><a href="{{ url('locale/vi') }}" >VI</a></li>
@@ -145,6 +159,15 @@
         </header>
         @yield('content')
         <div id="shop-overlay"></div>
+        @auth
+        <div class="edit-popup-overlay">
+            <div id="edit-popup">
+                <div class="edit-popup-wrapper">
+
+                </div>
+            </div>
+        </div>
+        @endauth
         @guest
             <div class="login-wrapper" id="login">
                 <div class="login-form">
@@ -332,6 +355,7 @@
         <script src="{{ asset('js/home/navigation.js') }}"></script>
         <script src="{{ asset('js/home/quantity.js') }}"></script>
         <script src="{{ asset('js/home/update-cart.js') }}"></script>
+        <script src="{{ asset('js/home/profile.js') }}"></script>
         @yield('js')
     </body>
 </html>

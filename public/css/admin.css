@@ -135,19 +135,6 @@
     border: none;
 }
 
-.logo-wrapper {
-    width: 150px;
-    height: 150px;
-    display: inline-block;
-    margin: 0 auto 30px;
-}
-
-.logo-wrapper img {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    object-fit: cover;
-}
 
 #preview-mode {
     margin-bottom: 30px;
