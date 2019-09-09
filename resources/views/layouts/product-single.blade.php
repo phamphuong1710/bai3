@@ -176,6 +176,51 @@
                         </form>
                         <div class="comment-list">
                             {!! getProductComment($product->id) !!}
+
+                            @php
+                                $commentParents = $product->comments->where('parent_id', 0);
+                            @endphp
+                            <ul class="comments">
+                                @foreach ( $commentParents as $comment )
+                                    <li class="comment-item">
+                                        <div class="comment-info">
+                                            <div class="comment-info-left">
+                                                <span class="author">{{ $comment->user->name }}</span>
+                                                <span class="created-at ion-clock">{{ ($comment->created_at)->diffForHumans() }}</span>
+                                            </div>
+                                            <a href="#" class="reply-comment ion-chatbubble" comment="{{ $comment->id }}">Reply</a>
+                                        </div>
+                                        <span class="comment-content">
+                                            {{ $comment->content }}
+                                        </span>
+                                        <div class="reply-form"></div>
+                                    </li>
+
+                                    @php
+                                        $id = $comment->id;
+                                        $comments = $product->comments;
+                                        $commentChilds = $product->comments->where('parent_id', $id);
+                                    @endphp
+                                    @if ( $commentChilds )
+                                        @foreach( $commentChilds as $comment )
+                                            <ul class="comments">
+                                                <li class="comment-item">
+                                                    <div class="comment-info">
+                                                        <div class="comment-info-left">
+                                                            <span class="author">{{ $comment->user->name }}</span>
+                                                            <span class="created-at ion-clock">{{ ($comment->created_at)->diffForHumans() }}</span>
+                                                        </div>
+                                                        <a href="#" class="reply-comment ion-chatbubble" comment="'.$comment->id.'">Reply</a>
+                                                    </div>
+                                                    <span class="comment-content">{{ $comment->content }}
+                                                    </span>
+                                                    <div class="reply-form"></div>
+                                                </li>
+                                            </ul>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            </ul>
                         </div>
 
                     @else

@@ -45,11 +45,14 @@
     align-items: center;
 }
 
+.list-product-on-store--wrapper .form-search {
+    width: 100%;
+}
 
 .search-product-in-store {
     border: 1px solid #eee;
     margin: 30px 0;
-    min-width: 300px;
+    width: 100%;
     height: 45px;
     padding: 0 15px;
 }
@@ -160,7 +163,7 @@
     font-size: 18px;
     border: none;
     width: 30px;
-    height: 30px;
+    min-height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -174,6 +177,7 @@
 .btn-shop-add-to-cart:before {
     content: '\f489';
     font-family: "Ionicons";
+    margin: 0;
 }
 
 .item-info-product,
@@ -199,13 +203,8 @@
     font-weight: 700;
 }
 
-.wt-star-rating {
-    position: relative;
-    overflow: hidden;
-    width: 70px;
-    height: 20px;
-    color: #ffc400;
-    margin-right: 15px;
+.good-main-info .wt-star-rating {
+    margin: 0;
 }
 
 .wt-star-rating:before {
@@ -268,3 +267,14 @@
     padding: 8px 0;
 }
 
+.store-wrapper .store-information {
+    display: flex;
+}
+
+.store-information .store-address {
+    text-align: left;
+}
+
+.rating {
+    padding: 0;
+}
