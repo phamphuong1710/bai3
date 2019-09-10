@@ -28,7 +28,7 @@
 
         <div class="wrapper store-wrapper">
 
-            <div class="container">
+            <div class="container store-information">
                 <div class="logo-wrapper">
                     <img src="{{ url('/').$store->media->where('active', 1)->first()->image_path }}" alt="">
                 </div>
@@ -94,7 +94,7 @@
             <div class="container">
                 <div class="store-main-content">
                     <div class="row store-main--wrapper">
-                        <div class="store--category col-md-3">
+                        <div class="store--category col-md-4">
                             <div class="store-list-category">
                                 <h4 class="store-title">{{ __('messages.category') }}</h4>
                                 <ul class="list-category-wrapper">
@@ -106,7 +106,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="product-in-store col-md-6">
+                        <div class="product-in-store col-md-8">
                             <div class="list-product-on-store--wrapper">
                                 <div class="product-action">
                                     <div class="form-search search-product">
@@ -223,6 +223,7 @@
                             <input type="hidden" name="parent_id" value="0">
                         </form>
                         <div class="comment-list">
+
                             {!! getStoreComment($store->id) !!}
                         </div>
 
@@ -245,7 +246,6 @@
 @endsection
 @section('js')
     <script src="{{ asset('js/slick.min.js') }}"></script>
-    <script src="{{ asset('js/home/product-slider.js') }}"></script>
     <script src="{{ asset('js/home/quantity.js') }}"></script>
     <script src="{{ asset('js/home/rating.js') }}"></script>
     <script src="{{ asset('js/home/search-product.js') }}"></script>
