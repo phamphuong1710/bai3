@@ -223,8 +223,48 @@
                             <input type="hidden" name="parent_id" value="0">
                         </form>
                         <div class="comment-list">
+                            <ul class="comments">
+                                @foreach ( $comments as $comment )
+                                    <li class="comment-item">
+                                        <div class="comment-item-wrapper">
+                                            <div class="comment-info">
+                                                <div class="comment-info-left">
+                                                    <span class="author">{{ $comment->user->name }}</span>
+                                                    <span class="created-at ion-clock">{{ ($comment->created_at)->diffForHumans() }}</span>
+                                                </div>
+                                                <a href="#" class="reply-comment ion-chatbubble" comment="{{ $comment->id }}">Reply</a>
+                                            </div>
+                                            <span class="comment-content">
+                                                {{ $comment->content }}
+                                            </span>
+                                            <div class="reply-form"></div>
+                                        </div>
 
-                            {!! getStoreComment($store->id) !!}
+                                        <ul class="list-comment-child" data-comment="{{ $comment->id }}">
+                                        @foreach( $store->comments->where('parent_id', $comment->id) as $child )
+
+                                            <li class="comment-item">
+                                                <div class="comment-item-wrapper">
+                                                    <div class="comment-info">
+                                                        <div class="comment-info-left">
+                                                            <span class="author">{{ $child->user->name }}</span>
+                                                            <span class="created-at ion-clock">{{ ($child->created_at)->diffForHumans() }}</span>
+                                                        </div>
+                                                        <a href="#" class="reply-comment ion-chatbubble" comment="{{$comment->id}}">Reply</a>
+                                                    </div>
+                                                    <span class="comment-content">{{ $child->content }}
+                                                    </span>
+                                                    <div class="reply-form"></div>
+                                                </div>
+                                            </li>
+
+                                        @endforeach
+                                        </ul>
+
+                                    </li>
+
+                                @endforeach
+                            </ul>
                         </div>
 
                     @else

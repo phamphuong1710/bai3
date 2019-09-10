@@ -3,7 +3,7 @@ $(document).ready(function ($) {
         e.preventDefault()
         var parentId = $(this).attr('comment'),
             storeId = $('#store-id').val(),
-            replyForm = $(this).parents('.comment-item').find('.reply-form'),
+            replyForm = $(this).parents('.comment-item-wrapper').find('.reply-form'),
             form = '<form action="/comment-store" method="POST" class="form-comment">' +
                     '<textarea name="comment" class="input-comment" rows="5" placeholder="Enter Comment"></textarea>' +
                     '<button class="btn btn-post-comment" type="submit">' +
@@ -16,7 +16,7 @@ $(document).ready(function ($) {
                     '<input type="hidden" name="store_id" value="' + storeId + '">' +
                     '<input type="hidden" name="parent_id" value="' + parentId + '">' +
                 '</form>';
-
+        replyForm.find('.form-comment').remove();
         replyForm.append(form);
         var textarea = replyForm.find('.input-comment');
         $( textarea , this ).focus();

@@ -175,50 +175,47 @@
                             <input type="hidden" name="parent_id" value="0">
                         </form>
                         <div class="comment-list">
-                            {!! getProductComment($product->id) !!}
 
-                            @php
-                                $commentParents = $product->comments->where('parent_id', 0);
-                            @endphp
                             <ul class="comments">
-                                @foreach ( $commentParents as $comment )
+                                @foreach ( $comments as $comment )
                                     <li class="comment-item">
-                                        <div class="comment-info">
-                                            <div class="comment-info-left">
-                                                <span class="author">{{ $comment->user->name }}</span>
-                                                <span class="created-at ion-clock">{{ ($comment->created_at)->diffForHumans() }}</span>
+                                        <div class="comment-item-wrapper">
+                                            <div class="comment-info">
+                                                <div class="comment-info-left">
+                                                    <span class="author">{{ $comment->user->name }}</span>
+                                                    <span class="created-at ion-clock">{{ ($comment->created_at)->diffForHumans() }}</span>
+                                                </div>
+                                                <a href="#" class="reply-comment ion-chatbubble" comment="{{ $comment->id }}">Reply</a>
                                             </div>
-                                            <a href="#" class="reply-comment ion-chatbubble" comment="{{ $comment->id }}">Reply</a>
+                                            <span class="comment-content">
+                                                {{ $comment->content }}
+                                            </span>
+                                            <div class="reply-form"></div>
                                         </div>
-                                        <span class="comment-content">
-                                            {{ $comment->content }}
-                                        </span>
-                                        <div class="reply-form"></div>
-                                    </li>
 
-                                    @php
-                                        $id = $comment->id;
-                                        $comments = $product->comments;
-                                        $commentChilds = $product->comments->where('parent_id', $id);
-                                    @endphp
-                                    @if ( $commentChilds )
-                                        @foreach( $commentChilds as $comment )
-                                            <ul class="comments">
-                                                <li class="comment-item">
+                                        <ul class="list-comment-child" data-comment="{{ $comment->id }}">
+                                        @foreach( $product->comments->where('parent_id', $comment->id) as $child )
+
+                                            <li class="comment-item">
+                                                <div class="comment-item-wrapper">
                                                     <div class="comment-info">
                                                         <div class="comment-info-left">
-                                                            <span class="author">{{ $comment->user->name }}</span>
-                                                            <span class="created-at ion-clock">{{ ($comment->created_at)->diffForHumans() }}</span>
+                                                            <span class="author">{{ $child->user->name }}</span>
+                                                            <span class="created-at ion-clock">{{ ($child->created_at)->diffForHumans() }}</span>
                                                         </div>
-                                                        <a href="#" class="reply-comment ion-chatbubble" comment="'.$comment->id.'">Reply</a>
+                                                        <a href="#" class="reply-comment ion-chatbubble" comment="{{$comment->id}}">Reply</a>
                                                     </div>
-                                                    <span class="comment-content">{{ $comment->content }}
+                                                    <span class="comment-content">{{ $child->content }}
                                                     </span>
                                                     <div class="reply-form"></div>
-                                                </li>
-                                            </ul>
+                                                </div>
+                                            </li>
+
                                         @endforeach
-                                    @endif
+                                        </ul>
+
+                                    </li>
+
                                 @endforeach
                             </ul>
                         </div>
@@ -234,104 +231,108 @@
                 </div>
             </div>
         </div>
-        <div class="related-product">
-            <h2>Reated product</h2>
-            <div class="row">
-                @foreach($product->in_category as $goods)
-                <div class="col-md-3 product-men">
-                    <div class="men-pro-item simpleCart_shelfItem">
-                        <div class="men-thumb-item">
-                            <a href="/products/{{ $goods->slug }}">
-                                @foreach ( $goods->media->where( 'active', 1 ) as $logo )
-                                <img src="{{ $logo->image_path }}" alt="Image Product">
-                                @endforeach
-                            </a>
-                            <div class="men-cart-pro">
-                                <div class="inner-men-cart-pro">
-                                    <a href="/products/{{ $goods->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
+        @if( count($product->in_category) != 0 )
+            <div class="related-product">
+                <h2>Reated product</h2>
+                <div class="row">
+                    @foreach($product->in_category as $goods)
+                    <div class="col-md-3 product-men">
+                        <div class="men-pro-item simpleCart_shelfItem">
+                            <div class="men-thumb-item">
+                                <a href="/products/{{ $goods->slug }}">
+                                    @foreach ( $goods->media->where( 'active', 1 ) as $logo )
+                                    <img src="{{ $logo->image_path }}" alt="Image Product">
+                                    @endforeach
+                                </a>
+                                <div class="men-cart-pro">
+                                    <div class="inner-men-cart-pro">
+                                        <a href="/products/{{ $goods->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-info-product ">
+                                <h4>
+                                <a href="/products/{{ $goods->slug }}">{{ $product->name }}</a>
+                                </h4>
+                                @if( app()->getLocale() == 'en' )
+                                <div class="info-product-price">
+                                    @if( $goods->on_sale != 0 )
+                                    <span class="item_price">{{ $goods->usd - ( $goods->on_sale / 100 * $goods->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    <del>{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                    @else
+                                    <span class="item_price">{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    @endif
+                                </div>
+                                @endif
+                                @if( app()->getLocale() == 'vi' )
+                                <div class="info-product-price">
+                                    @if( $goods->on_sale != 0 )
+                                    <span class="item_price">{{ $goods->vnd - ( $goods->on_sale / 100 * $goods->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    <del>{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                    @else
+                                    <span class="item_price">{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    @endif
+                                </div>
+                                @endif
+                                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
                                 </div>
                             </div>
                         </div>
-                        <div class="item-info-product ">
-                            <h4>
-                            <a href="/products/{{ $goods->slug }}">{{ $product->name }}</a>
-                            </h4>
-                            @if( app()->getLocale() == 'en' )
-                            <div class="info-product-price">
-                                @if( $goods->on_sale != 0 )
-                                <span class="item_price">{{ $goods->usd - ( $goods->on_sale / 100 * $goods->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                <del>{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                @else
-                                <span class="item_price">{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                @endif
-                            </div>
-                            @endif
-                            @if( app()->getLocale() == 'vi' )
-                            <div class="info-product-price">
-                                @if( $goods->on_sale != 0 )
-                                <span class="item_price">{{ $goods->vnd - ( $goods->on_sale / 100 * $goods->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                <del>{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                @else
-                                <span class="item_price">{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                @endif
-                            </div>
-                            @endif
-                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                            </div>
-                        </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
             </div>
-        </div>
-        <div class="related-product">
-            <h2>Products in the same store</h2>
-            <div class="row">
-                @foreach($product->in_store as $goods)
-                <div class="col-md-3 product-men">
-                    <div class="men-pro-item simpleCart_shelfItem">
-                        <div class="men-thumb-item">
-                            <a href="/products/{{ $goods->slug }}">
-                                @foreach ( $goods->media->where( 'active', 1 ) as $logo )
-                                <img src="{{ $logo->image_path }}" alt="Image Product">
-                                @endforeach
-                            </a>
-                            <div class="men-cart-pro">
-                                <div class="inner-men-cart-pro">
-                                    <a href="/products/{{ $goods->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
+        @endif
+        @if( count($product->in_store) != 0 )
+            <div class="related-product">
+                <h2>Products in the same store</h2>
+                <div class="row">
+                    @foreach($product->in_store as $goods)
+                    <div class="col-md-3 product-men">
+                        <div class="men-pro-item simpleCart_shelfItem">
+                            <div class="men-thumb-item">
+                                <a href="/products/{{ $goods->slug }}">
+                                    @foreach ( $goods->media->where( 'active', 1 ) as $logo )
+                                    <img src="{{ $logo->image_path }}" alt="Image Product">
+                                    @endforeach
+                                </a>
+                                <div class="men-cart-pro">
+                                    <div class="inner-men-cart-pro">
+                                        <a href="/products/{{ $goods->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="item-info-product ">
-                            <h4>
-                            <a href="/products/{{ $goods->slug }}">{{ $product->name }}</a>
-                            </h4>
-                            @if( app()->getLocale() == 'en' )
-                            <div class="info-product-price">
-                                @if( $goods->on_sale != 0 )
-                                <span class="item_price">{{ $goods->usd - ( $goods->on_sale / 100 * $goods->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                <del>{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                @else
-                                <span class="item_price">{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                            <div class="item-info-product ">
+                                <h4>
+                                <a href="/products/{{ $goods->slug }}">{{ $product->name }}</a>
+                                </h4>
+                                @if( app()->getLocale() == 'en' )
+                                <div class="info-product-price">
+                                    @if( $goods->on_sale != 0 )
+                                    <span class="item_price">{{ $goods->usd - ( $goods->on_sale / 100 * $goods->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    <del>{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                    @else
+                                    <span class="item_price">{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    @endif
+                                </div>
+                                @endif
+                                @if( app()->getLocale() == 'vi' )
+                                <div class="info-product-price">
+                                    @if( $goods->on_sale != 0 )
+                                    <span class="item_price">{{ $goods->vnd - ( $goods->on_sale / 100 * $goods->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    <del>{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
+                                    @else
+                                    <span class="item_price">{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    @endif
+                                </div>
                                 @endif
                             </div>
-                            @endif
-                            @if( app()->getLocale() == 'vi' )
-                            <div class="info-product-price">
-                                @if( $goods->on_sale != 0 )
-                                <span class="item_price">{{ $goods->vnd - ( $goods->on_sale / 100 * $goods->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                <del>{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                @else
-                                <span class="item_price">{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                @endif
-                            </div>
-                            @endif
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
             </div>
-        </div>
+        @endif
 
 
     </div>
