@@ -14,7 +14,6 @@ $(document).ready(function ($) {
             url: form.attr('action'),
             data: form.serialize(),
             success: function(data) {
-                console.log(data);
                 var child = $('.list-comment-child');
                 var item = $( '.comment-list' ).find('.comment-item');
                 var first = item[0];
@@ -32,11 +31,8 @@ $(document).ready(function ($) {
                             '</div>' +
                         '</li>';
                 if ( data.parent_id == 0 ) {
-
                         $('.comments').prepend( html );
                         $('#input-comment').val('');
-
-
                 } else {
                     child.each(function (index) {
                         var btn = $(this);

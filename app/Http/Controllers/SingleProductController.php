@@ -42,14 +42,19 @@ class SingleProductController extends Controller
             $cart = $this->getCart($cart);
         }
         $product->user_rating = $rating;
-        $comments = $this->commentService->getCommentParentProduct($product->id);
+        $commentsParent = $this->commentService->getCommentParentProduct($product->id);
+        $commentsChild = array();
+        foreach ($commentsParent as $comment) {
+            $commentsChild[$comment->id] = $this->commentService->getCommentChild($comment->id);
+        }
 
         return view(
             'layouts.product-single',
             [
                 'product' => $product,
                 'cart' => $cart,
-                'comments' => $comments,
+                'comments_parent' => $commentsParent,
+                'comments_child' => $commentsChild,
             ]
         );
     }

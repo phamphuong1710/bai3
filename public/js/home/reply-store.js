@@ -19,6 +19,6 @@ $(document).ready(function ($) {
         replyForm.find('.form-comment').remove();
         replyForm.append(form);
         var textarea = replyForm.find('.input-comment');
-        $( textarea , this ).focus();
+        $(textarea, this).focus();
     })
 });

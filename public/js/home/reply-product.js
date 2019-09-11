@@ -2,7 +2,6 @@ $(document).ready(function ($) {
 
     $('#comment').on('click', '.reply-comment', function (e) {
         e.preventDefault();
-        console.log($(this));
         var parentId = $(this).attr('comment'),
             productId = $('#product-id').val(),
             replyForm = $(this).parents('.comment-item-wrapper').find('.reply-form'),
@@ -21,6 +20,6 @@ $(document).ready(function ($) {
         replyForm.find('.form-comment').remove();
         replyForm.append(form);
         var textarea = replyForm.find('.input-comment');
-        $( textarea , this ).focus();
+        $(textarea, this).focus();
     })
 });

@@ -119,12 +119,10 @@
                                     @foreach($store->categories as $category)
                                     <div id="{{ $category->slug }}" class="product-category">
                                         <h4 class="category-name">{{ $category->name }}</h4>
-                                        @php
-                                            $products = $category->products->where('store_id', $store->id);
-                                        @endphp
+
                                         <div class="list-goods-in-category">
 
-                                            @foreach( $products as $product )
+                                            @foreach( $products[$category->id] as $product )
                                             <div id="product-{{ $product->id }}" class="product">
                                                 <div class="item-info-product ">
                                                     <div class="goods-thumb-item">
@@ -224,7 +222,7 @@
                         </form>
                         <div class="comment-list">
                             <ul class="comments">
-                                @foreach ( $comments as $comment )
+                                @foreach ( $comments_parent as $comment )
                                     <li class="comment-item">
                                         <div class="comment-item-wrapper">
                                             <div class="comment-info">
@@ -241,7 +239,7 @@
                                         </div>
 
                                         <ul class="list-comment-child" data-comment="{{ $comment->id }}">
-                                        @foreach( $store->comments->where('parent_id', $comment->id) as $child )
+                                        @foreach( $comments_child[$comment->id] as $child )
 
                                             <li class="comment-item">
                                                 <div class="comment-item-wrapper">

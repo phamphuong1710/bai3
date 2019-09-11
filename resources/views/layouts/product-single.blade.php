@@ -177,7 +177,7 @@
                         <div class="comment-list">
 
                             <ul class="comments">
-                                @foreach ( $comments as $comment )
+                                @foreach ( $comments_parent as $comment )
                                     <li class="comment-item">
                                         <div class="comment-item-wrapper">
                                             <div class="comment-info">
@@ -194,7 +194,7 @@
                                         </div>
 
                                         <ul class="list-comment-child" data-comment="{{ $comment->id }}">
-                                        @foreach( $product->comments->where('parent_id', $comment->id) as $child )
+                                        @foreach( $comments_child[$comment->id] as $child )
 
                                             <li class="comment-item">
                                                 <div class="comment-item-wrapper">

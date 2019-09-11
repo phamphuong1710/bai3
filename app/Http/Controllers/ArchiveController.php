@@ -14,7 +14,6 @@ class ArchiveController extends Controller
     protected $categoryService;
     protected $ratingService;
 
-
     public function __construct(
         ProductService $productService,
         CategoryService $categoryService,
