@@ -229,5 +229,14 @@ class ProductService implements ProductInterface
 
         return $product;
     }
+
+    public function getProductByCategoryInStore($storeId, $categoryId)
+    {
+        $products = Product::where('store_id', $storeId)
+            ->where('category_id', $categoryId)
+            ->get();
+
+        return $products;
+    }
 }
 

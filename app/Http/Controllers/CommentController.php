@@ -21,16 +21,18 @@ class CommentController extends Controller
     public function createProductComment(CommentProductRequest $request)
     {
         $comment = $this->commentService->createProductComment($request);
-        $html = getProductComment($comment->product_id);
+        $comment->author = $comment->user->name;
+        $comment->time = ($comment->created_at)->diffForHumans();
 
-        return response()->json($html);
+        return response()->json($comment);
     }
 
     public function createStoreComment(CommentStoreRequest $request)
     {
         $comment = $this->commentService->createStoreComment($request);
-        $html = getStoreComment($comment->store_id);
+        $comment->author = $comment->user->name;
+        $comment->time = ($comment->created_at)->diffForHumans();
 
-        return response()->json($html);
+        return response()->json($comment);
     }
 }

@@ -23,7 +23,6 @@ class ArchiveController extends Controller
     {
         $this->productService = $productService;
         $this->categoryService = $categoryService;
-        $this->storeService = $storeService;
         $this->ratingService = $ratingService;
     }
 
@@ -37,29 +36,6 @@ class ArchiveController extends Controller
         return view('layouts.archive-category', compact('products'));
     }
 
-
-    public function store($slug)
-    {
-        $store = $this->storeService->getStoreBySlug($slug);
-        $products = $store->products;
-        $listCategory = [];
-        foreach ($products as $product) {
-            $categoryId = $product->category_id;
-            if ( !in_array($categoryId, $listCategory) ) {
-                array_push($listCategory, $categoryId);
-            }
-        }
-        $categories = $this->categoryService->getCategoryStore($listCategory);
-        $store->categories = $categories;
-        $store->products = $products;
-        $rating = $this->ratingService->getRatingStoreByUser($store->id);
-        if (!$rating) {
-            $rating = false;
-        }
-        $store->user_rating = $rating;
-
-        return view('layouts.store', compact('store'));
-    }
 
     public function productDiscount($discount)
     {

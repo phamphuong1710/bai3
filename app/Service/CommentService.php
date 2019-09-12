@@ -3,6 +3,8 @@ namespace App\Service;
 
 use App\InterfaceService\CommentInterface;
 use App\Comment;
+use App\Product;
+use App\Store;
 use Auth;
 
 class CommentService implements CommentInterface
@@ -15,6 +17,9 @@ class CommentService implements CommentInterface
         $comment->user_id = Auth::id();
         $comment->parent_id = $request->parent_id;
         $comment->save();
+        $product = Product::findOrFail($comment->product_id);
+        $product->comment_count = $product->comment_count + 1;
+        $product->save();
 
         return $comment;
     }
@@ -55,6 +60,9 @@ class CommentService implements CommentInterface
         $comment->user_id = Auth::id();
         $comment->parent_id = $request->parent_id;
         $comment->save();
+        $store = Store::findOrFail($comment->store_id);
+        $store->comment_count = $store->comment_count + 1;
+        $store->save();
 
         return $comment;
     }

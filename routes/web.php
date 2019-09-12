@@ -82,7 +82,7 @@ Route::post('/rating-product', 'RatingController@product')->name('rating-product
 
 Route::post('/rating-store', 'RatingController@store')->name('rating-store');
 
-Route::get('/store/{slug}', 'ArchiveController@store')->name('store');
+Route::get('/store/{slug}', 'StoreSingleController@store')->name('store');
 
 Route::get('/products/discount/{slug}', 'ArchiveController@productDiscount')->name('discount');
 

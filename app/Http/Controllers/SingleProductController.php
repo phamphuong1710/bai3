@@ -6,18 +6,21 @@ use Illuminate\Http\Request;
 use App\Service\ProductService;
 use App\Service\RatingService;
 use App\Service\CartService;
+use App\Service\CommentService;
 
 class SingleProductController extends Controller
 {
     protected $productService;
     protected $ratingService;
     protected $cartService;
+    protected $commentService;
 
-    public function __construct( ProductService $productService, RatingService $ratingService, CartService $cartService )
+    public function __construct( ProductService $productService, RatingService $ratingService, CartService $cartService, CommentService $commentService )
     {
         $this->productService = $productService;
         $this->ratingService = $ratingService;
         $this->cartService = $cartService;
+        $this->commentService = $commentService;
     }
 
     public function product($slug)
@@ -39,12 +42,19 @@ class SingleProductController extends Controller
             $cart = $this->getCart($cart);
         }
         $product->user_rating = $rating;
+        $commentsParent = $this->commentService->getCommentParentProduct($product->id);
+        $commentsChild = array();
+        foreach ($commentsParent as $comment) {
+            $commentsChild[$comment->id] = $this->commentService->getCommentChild($comment->id);
+        }
 
         return view(
             'layouts.product-single',
             [
                 'product' => $product,
-                'cart' => $cart
+                'cart' => $cart,
+                'comments_parent' => $commentsParent,
+                'comments_child' => $commentsChild,
             ]
         );
     }
