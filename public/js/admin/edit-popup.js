@@ -133,7 +133,18 @@ $(document).ready(function(){
                 },
                 success: function ($data){
                     $('#image-library').removeClass('loading');
-                    $('#image-library').html($data);
+                    var html = '';
+                    $.each( $data, function ( index, data ) {
+                        html += '<li class="image-checkbox image-item" data-src=' + data + '>' +
+                                    '<div class="image-item-wrapper">' +
+                                        '<input type="checkbox" name="image_item" value="' + data + '">' +
+                                        '<span class="checkmark">' +
+                                            '<img src="' + data + '" alt="Image">'
+                                        '</span>' +
+                                    '</div>' +
+                                '</li>';
+                    } );
+                    $('#image-library').html(html);
                 },
                 error: function (xhr, status, error) {
                     alert(xhr.responseText);
@@ -187,7 +198,6 @@ $(document).ready(function(){
 
                 },
                 success: function ($data){
-                    console.log($data);
                     var listId = [];
                     $.each( $data, function (index, value) {
                         arrayImage.push(value.id);

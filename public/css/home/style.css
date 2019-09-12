@@ -139,7 +139,8 @@
     cursor: pointer;
 }
 
-.btn-add-to-cart {
+.btn-add-to-cart,
+.btn-add-cart {
     width: 100%;
     min-height: 40px;
     background-color: #aa2231;
@@ -148,6 +149,7 @@
     cursor: pointer;
 }
 
+.btn-add-cart:before,
 .btn-add-to-cart:before {
     margin-right: 10px;
 }

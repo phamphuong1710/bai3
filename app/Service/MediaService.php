@@ -128,6 +128,7 @@ class MediaService implements MediaInterface
         }
         $file = public_path().'/files'.date("/Y/m/d/").$name;
         file_put_contents($file, $contents);
+        $link = public_path().'/files'.date("/Y/m/d/").$name;
         $img = Image::make($file);
         $img->fit(600);
         $img->resize(600, 600)->save($link);
