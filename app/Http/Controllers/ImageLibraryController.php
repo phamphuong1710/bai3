@@ -24,20 +24,13 @@ class ImageLibraryController extends Controller
     {
         $user = Auth::id();
         $images = $this->mediaService->getImageByUserId($user);
-        $listImage = listImageUser($images);
-        $html = imageLibraryHtml($listImage);
+        $listPath = [];
+        foreach ($images as $image) {
+            $listPath[$image->id] = $image->image_path;
+        }
+        $listPath = array_unique($listPath);
 
-        return response()->json($html);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json($listPath);
     }
 
     /**
@@ -51,50 +44,5 @@ class ImageLibraryController extends Controller
         $images = $this->mediaService->insertImageInLibrary($request);
 
         return response()->json($images);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

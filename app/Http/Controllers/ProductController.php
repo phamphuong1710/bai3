@@ -117,7 +117,6 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, $id)
     {
-        dd($product);
         $product = $this->productService->updateProduct($request, $id);
         $listImage = $request->list_image;
         $logo = $request->logo_id;

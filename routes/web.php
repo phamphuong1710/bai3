@@ -14,57 +14,12 @@
 Auth::routes();
 
 Route::resource('/', 'HomeController');
-
-Route::get('/user/{id}/edit', 'UserController@getEditUserTemplate')->middleware(['auth'])->name('edit-user');
-
-Route::resource('users', 'UserController')->middleware(['auth']);
-
-Route::resource('categories', 'CategoryController')->middleware(['auth']);
-
-Route::resource('stores', 'StoreController')->middleware(['auth']);
-
-Route::resource('media-store', 'MediaController')->middleware(['auth']);
-
-Route::resource('video-store', 'VideoStoreController')->middleware(['auth']);
-
-Route::get('shop/{storeID}/create-product', 'ProductController@createProduct')->name('createProduct')->middleware(['auth']);
-
-Route::get('product', 'ProductController@getAllProductByUser')->name('listProduct')->middleware(['auth']);
-
 Route::get('products/{slug}', 'SingleProductController@product')->name('product-single');
-
-Route::resource('products', 'ProductController')->middleware(['auth']);
 
 Route::get('locale/{locale}', function ($locale){
     Session::put('locale', $locale);
     return redirect()->back();
 });
-
-Route::post('/image-slider', 'LogoController@createImageSlider')->middleware(['auth']);
-
-Route::resource('logo', 'LogoController')->middleware(['auth']);
-
-Route::resource('library', 'ImageLibraryController')->middleware(['auth']);
-
-Route::post('/search-store', 'SearchController@searchStore')->middleware(['auth']);
-
-Route::post('/search-product', 'SearchController@searchProduct')->middleware(['auth']);
-
-Route::post( '/search-category', 'SearchController@filterByCategory')->middleware(['auth']);
-
-Route::post( '/search-product-user', 'SearchController@searchProductByUser')->middleware(['auth']);
-
-Route::post( '/search-category-user', 'SearchController@filterByCategoryUser')->middleware(['auth']);
-
-Route::post( '/filter-store', 'SearchController@filterStore')->middleware(['auth']);
-
-Route::post( '/search-user', 'SearchController@searchUser')->middleware(['auth']);
-
-Route::post( '/filter-user', 'SearchController@filterUser')->middleware(['auth']);
-
-Route::post( '/search-category', 'SearchController@searchCategory')->middleware(['auth']);
-
-Route::post( '/filter-category', 'SearchController@filterCategory')->middleware(['auth']);
 
 Route::get('/archive/{slug}', 'ArchiveController@product')->name('archive');
 
@@ -86,12 +41,6 @@ Route::get('/store/{slug}', 'StoreSingleController@store')->name('store');
 
 Route::get('/products/discount/{slug}', 'ArchiveController@productDiscount')->name('discount');
 
-Route::resource('slider', 'SliderController')->middleware(['auth']);
-
-Route::post('/comment-product', 'CommentController@createProductComment')->middleware(['auth']);
-
-Route::post('/comment-store', 'CommentController@createStoreComment')->middleware(['auth']);
-
 Route::post('/add-to-cart', 'CartController@addToCart')->name('add-to-cart');
 
 Route::delete('/delete-cart/{id}', 'CartController@deleteCartDetail')->name('delete-cart');
@@ -107,5 +56,69 @@ Route::post('/order', 'CartController@order')->name('order');
 Route::get('/user-login', 'AuthController@login')->name('user-login');
 
 Route::get('/user-register', 'AuthController@register')->name('user-register');
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('users', 'UserController');
+
+    Route::get('/user/{id}/edit', 'UserController@getEditUserTemplate')->name('edit-user');
+
+    Route::resource('users', 'UserController');
+
+    Route::resource('categories', 'CategoryController');
+
+    Route::resource('stores', 'StoreController');
+
+    Route::resource('media-store', 'MediaController');
+
+    Route::resource('video-store', 'VideoStoreController');
+
+    Route::get('shop/{storeID}/create-product', 'ProductController@createProduct')->name('createProduct');
+
+    Route::get('product', 'ProductController@getAllProductByUser')->name('listProduct');
+
+    Route::resource('products', 'ProductController');
+
+    Route::post('/image-slider', 'LogoController@createImageSlider');
+
+    Route::resource('logo', 'LogoController');
+
+    Route::resource('library', 'ImageLibraryController');
+
+    Route::post('/search-store', 'SearchController@searchStore');
+
+    Route::post('/search-product', 'SearchController@searchProduct');
+
+    Route::post( '/search-category', 'SearchController@filterByCategory');
+
+    Route::post( '/search-product-user', 'SearchController@searchProductByUser');
+
+    Route::post( '/search-category-user', 'SearchController@filterByCategoryUser');
+
+    Route::post( '/filter-store', 'SearchController@filterStore');
+
+    Route::post( '/search-user', 'SearchController@searchUser');
+
+    Route::post( '/filter-user', 'SearchController@filterUser');
+
+    Route::post( '/search-category', 'SearchController@searchCategory');
+
+    Route::post( '/filter-category', 'SearchController@filterCategory');
+
+    Route::resource('slider', 'SliderController');
+
+    Route::post('/comment-product', 'CommentController@createProductComment');
+
+    Route::post('/comment-store', 'CommentController@createStoreComment');
+});
+
+
+
+
+
+
+
+
+
+
 
 

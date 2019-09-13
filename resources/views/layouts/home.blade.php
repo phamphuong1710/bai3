@@ -149,7 +149,7 @@
                                                 <input type="hidden" name="quantity" value="1"  class="add-quantity">
                                                 <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
                                                 @guest
-                                                <button class="user-login">{{ __('messages.add_to_cart') }}</button>
+                                                <button class="user-login btn-add-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
                                                 @else
                                                 <button type="submit" class="button btn-add-to-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
                                                 @endguest
@@ -213,7 +213,7 @@
                                             <input type="hidden" name="quantity" value="1"  class="add-quantity">
                                             <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
                                             @guest
-                                            <button class="user-login">{{ __('messages.add_to_cart') }}</button>
+                                            <button class="user-login btn-add-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
                                             @else
                                             <button type="submit" class="button btn-add-to-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
                                             @endguest
