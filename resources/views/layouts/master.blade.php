@@ -15,6 +15,7 @@
         <link href="{{ asset('css/home/footer.css') }}" rel="stylesheet" >
         <link href="{{ asset('css/home/button.css') }}" rel="stylesheet" >
         <link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/home/mini-cart.css') }}" rel="stylesheet">
 
         @yield('style')
     </head>

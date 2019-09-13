@@ -760,3 +760,20 @@ h4.item-name a {
     font-size: 15px;
     text-transform: capitalize;
 }
+
+.section-support {
+    padding: 50px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+
+.support-wrapper .support-item {
+    display: flex;
+    align-items: center;
+}
+
+.support-title {
+    font-size: 20px;
+    margin-left: 25px;
+}

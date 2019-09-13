@@ -11,64 +11,84 @@
                 <h2>Search For Product</h2>
                 <div class="row">
                     @foreach($products as $product)
-                    <div class="col-md-3 product-men">
-                        <div class="men-pro-item simpleCart_shelfItem">
-                            <div class="men-thumb-item">
-                                <a href="/products/{{ $product->slug }}">
-                                    @foreach ( $product->media->where( 'active', 1 ) as $logo )
-                                    <img src="{{ $logo->image_path }}" alt="Image Product">
-                                    @endforeach
-                                </a>
-                                <div class="men-cart-pro">
-                                    <div class="inner-men-cart-pro">
-                                        <a href="/products/{{ $product->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
+                        <div class="col-md-3 product-men">
+                            <div class="men-pro-item item-pro">
+                                <div class="men-thumb-item">
+                                    <a href="/products/{{ $product->slug }}">
+
+                                        <img src="{{ $product->logo }}" alt="{{ $product->name }}">
+                                    </a>
+                                    <?php if ( $product->on_sale != 0 ): ?>
+                                        <span class="product-discount">{{ $product->on_sale . '%' }}</span>
+                                    <?php endif ?>
+
+                                    <div class="add-to-cart-wrapper">
+                                        <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
+                                            <input type="hidden" name="quantity" value="1"  class="add-quantity">
+                                            <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
+                                            @guest
+                                            <button class="user-login btn-add-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
+                                            @else
+                                            <button type="submit" class="button btn-add-to-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
+                                            @endguest
+                                        </form>
                                     </div>
                                 </div>
-                                <span class="product-new-top">{{ __('messages.new') }}</span>
-                            </div>
-                            <div class="item-info-product ">
-                                <h4>
-                                <a href="/products/{{ $product->slug }}">{{ $product->name }}</a>
-                                </h4>
-                                @if( app()->getLocale() == 'en' )
-                                <div class="info-product-price">
-                                    @if( $product->on_sale != 0 )
-                                    <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                    <del>{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                    @else
-                                    <span class="item_price">{{ $product->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                <div class="item-info-product ">
+                                    <h4 class="item-name">
+                                    <a href="/products/{{ $product->slug }}">{{ Str::words($product->name, 3) }}</a>
+                                    </h4>
+                                    @php
+                                        $avg = $product->rating_average;
+                                        $p = ( $avg / 5 ) * 100;
+                                    @endphp
+                                    <div class="wt-star-rating">
+                                        <span class="star-reviewed" style="width: {{ $p }}%">
+                                        </span>
+                                    </div>
+                                    @if( app()->getLocale() == 'en' )
+                                    <div class="info-product-price">
+
+                                        @if( $product->on_sale != 0 )
+                                            @php
+                                                $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
+                                            @endphp
+                                        <span class="item_price">
+                                            <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
+                                        </span>
+                                        <del>
+                                            <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}</del>
+                                        @else
+                                        <span class="item_price">
+                                            <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                        </span>
+                                        @endif
+                                    </div>
                                     @endif
-                                </div>
-                                @endif
-                                @if( app()->getLocale() == 'vi' )
-                                <div class="info-product-price">
-                                    @if( $product->on_sale != 0 )
-                                    <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                    <del>{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                    @else
-                                    <span class="item_price">{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                    @if( app()->getLocale() == 'vi' )
+                                    <div class="info-product-price">
+                                        @if( $product->on_sale != 0 )
+                                            @php
+                                                $price = $product->vnd - ( $product->on_sale / 100 * $product->vnd )
+                                            @endphp
+                                        <span class="item_price">
+                                            <span class="currency">đ</span>{{ number_format($price,0,'.','.') }}
+                                        </span>
+                                        <del>
+                                            <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                        </del>
+                                        @else
+                                        <span class="item_price">
+                                            <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                        </span>
+                                        @endif
+                                    </div>
                                     @endif
-                                </div>
-                                @endif
-                                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                    <form action="#" method="post">
-                                        <fieldset>
-                                            <input type="hidden" name="cmd" value="_cart">
-                                            <input type="hidden" name="add" value="1">
-                                            <input type="hidden" name="business" value=" ">
-                                            <input type="hidden" name="item_name" value="Almonds, 100g">
-                                            <input type="hidden" name="amount" value="149.00">
-                                            <input type="hidden" name="discount_amount" value="1.00">
-                                            <input type="hidden" name="currency_code" value="USD">
-                                            <input type="hidden" name="return" value=" ">
-                                            <input type="hidden" name="cancel_return" value=" ">
-                                            <input type="submit" name="submit" value="Add to cart" class="button">
-                                        </fieldset>
-                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
 
@@ -81,23 +101,32 @@
                 <h2>Store</h2>
                 <div class="row">
                     @foreach($stores as $store)
-                    <div class="col-md-3 product-men">
-                        <div class="men-pro-item simpleCart_shelfItem">
-                            <div class="men-thumb-item">
-                                <a href="/store/{{ $store->slug }}">
-                                     @foreach( $store->media->where('active', 1) as $logo )
-                                    <img src="{{ $logo->image_path }}" alt="Image Product">
-                                    @endforeach
-                                </a>
-                            </div>
-                            <div class="item-info-product ">
-                                <h4>
-                                <a href="/store/{{ $store->slug }}">{{ $store->name }}</a>
-                                </h4>
+                            <div class="col-md-3 product-men">
+                                <div class="store-item item-pro">
+                                    <div class="men-thumb-item">
+                                        <a href="/store/{{ $store->slug }}">
+                                            <img src="{{ $store->logo }}" alt="{{ $store->name }}">
+                                        </a>
+                                    </div>
+                                    <div class="item-info-product ">
+                                        <h4 class="item-name">
+                                        <a href="/store/{{ $store->slug }}">{{ Str::words($store->name, 3) }}</a>
+                                        </h4>
+                                        <span class="store-address">
+                                            {{  Str::words($store->address->address, 4) }}
+                                        </span>
+                                        @php
+                                            $avg = $store->rating_average;
+                                            $p = ( $avg / 5 ) * 100;
+                                        @endphp
+                                        <div class="wt-star-rating">
+                                            <span class="star-reviewed" style="width: {{ $p }}%">
+                                            </span>
+                                        </div>
 
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
                     @endforeach
                 </div>
 
@@ -105,23 +134,7 @@
             @endif
         </div>
     </div>
-    <div class="footer-top">
-        <div class="container-fluid">
-            <div class="col-xs-8 agile-leftmk">
-                <h2>Get your Groceries delivered from local stores</h2>
-                <p>Free Delivery on your first order!</p>
-                <form action="#" method="post">
-                    <input type="email" placeholder="E-mail" name="email" required>
-                    <input type="submit" value="Subscribe">
-                </form>
-                <div class="newsform-w3l">
-                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    <!-- //newsletter -->
+
 </div>
 @endsection
 @section('js')

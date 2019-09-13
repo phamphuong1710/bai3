@@ -33,14 +33,27 @@ class HomeController extends Controller
     {
         session()->forget('cart');
         $bestSeller = $this->homeService->getProductBestSeller();
+        foreach ($bestSeller as $index => $product) {
+            $bestSeller[$index]->logo = $product->media->where('active', 1)->first();
+        }
         $new = $this->homeService->getNewProduct();
+        foreach ($new as $index => $product) {
+            $new[$index]->logo = $product->media->where('active', 1)->first();
+        }
         $slider = $this->homeService->getSlider();
         $cart = $this->cartService->getCartByUser();
         if ( $cart ) {
             $cart = $this->getCart($cart);
         }
         $storeBestSeller = $this->homeService->getStoreBestSeller();
+        foreach ($storeBestSeller as $key => $store) {
+            $storeBestSeller[$key]->logo = $store->media->where('active', 1)->first();
+        }
         $storeRating = $this->homeService->getTopStoreRating();
+        foreach ($storeRating as $key => $store) {
+            $storeRating[$key]->logo = $store->media->where('active', 1)->first();
+        }
+
         return view(
             'layouts/home',
             [

@@ -24,7 +24,19 @@ class FilterController extends Controller
     public function search(Request $request)
     {
         $products = $this->searchService->searchProduct($request);
+        if ( $products ) {
+            foreach ($products as $index => $product) {
+                $logo = $product->media->where('active', 1)->first()->image_path;
+                $products[$index]->logo = $logo;
+            }
+        }
         $stores = $this->searchService->searchStore($request);
+        if ( $stores ) {
+            foreach ($stores as $index => $store) {
+                $logo = $store->media->where('active', 1)->first()->image_path;
+                $stores[$index]->logo = $logo;
+            }
+        }
 
         return view('layouts.search', ['products' => $products, 'stores' => $stores]);
     }
@@ -33,6 +45,12 @@ class FilterController extends Controller
     public function searchProduct(Request $request)
     {
         $products = $this->searchService->searchProduct($request);
+        if ( $products ) {
+            foreach ($products as $index => $product) {
+                $logo = $product->media->where('active', 1)->first()->image_path;
+                $products[$index]->logo = $logo;
+            }
+        }
 
         return view('layouts.search', ['products' => $products, 'stores' => null]);
     }
@@ -42,6 +60,12 @@ class FilterController extends Controller
     {
         $star = (int)$request->rating;
         $stores = $this->ratingService->getStoreByRating($star);
+        if ( $stores ) {
+            foreach ($stores as $index => $store) {
+                $logo = $store->media->where('active', 1)->first()->image_path;
+                $stores[$index]->logo = $logo;
+            }
+        }
         $stores->star = $star;
 
         return view('layouts.search', ['products' => null, 'stores' => $stores]);
@@ -52,6 +76,12 @@ class FilterController extends Controller
     {
         $star = (int)$request->rating;
         $products = $this->ratingService->getProductByRating($star);
+        if ( $products ) {
+            foreach ($products as $index => $product) {
+                $logo = $product->media->where('active', 1)->first()->image_path;
+                $products[$index]->logo = $logo;
+            }
+        }
         $products->star = $star;
 
         return view('layouts.search', ['products' => $products, 'stores' => null]);

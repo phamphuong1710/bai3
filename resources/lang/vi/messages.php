@@ -58,7 +58,7 @@ return [
     'on_sale' => 'Giảm Giá',
     'home' => 'Trang Chủ',
     'new_product' => 'Sản Phẩm Mới',
-    'bestseller' => 'Sản Phẩm Bán Chạy',
+    'bestseller' => 'Bán Chạy Nhất',
     'new' => 'Mới',
     'quick_view' => 'Xem Nhanh',
     'add_to_cart' => 'Thêm vào giỏ hàng',
@@ -87,4 +87,5 @@ return [
     'billing' => 'Chi tiết thanh toán',
     'full_name' => 'Họ và Tên',
     'order_detail' => 'Chi tiết đơn hàng',
+    'rating' => 'Xếp Hạng',
 ];
