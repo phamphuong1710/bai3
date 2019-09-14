@@ -43,7 +43,10 @@ class ArchiveController extends Controller
     public function productDiscount($discount)
     {
         $products = $this->productService->getProductDiscount($discount);
+        foreach ($products as $index => $product) {
+            $products[$index]->logo = $product->media->where('active', 1)->first()->image_path;
+        }
 
-         return view('layouts.search', ['products' => $products, 'stores' => null]);
+        return response()->json($products);
     }
 }

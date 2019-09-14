@@ -88,4 +88,5 @@ return [
     'full_name' => 'Họ và Tên',
     'order_detail' => 'Chi tiết đơn hàng',
     'rating' => 'Xếp Hạng',
+    'store_rating' => 'Xếp Hạng Cửa Hàng',
 ];

@@ -88,4 +88,5 @@ return [
     'full_name' => 'Full Name',
     'order_detail' => 'Order Detail',
     'rating' => 'Rating',
+    'store_rating' => 'Store Rating',
 ];
