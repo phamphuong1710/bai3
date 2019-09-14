@@ -17,11 +17,11 @@ $(document).ready(function(){
             url: '/products/discount/' + discount,
             data: formData,
             beforeSend: function (data) {
-                btn.addClass('eloading');
 
-                $( '#shop-cart-sidebar' ).addClass('eloading');
+                $( '.page-loading' ).addClass('loading');
             },
             success: function(data) {
+                $( '.page-loading' ).removeClass('loading');
                 console.log(data);
                 var html = '';
                 var discount = '';

@@ -21,6 +21,7 @@
         @yield('style')
     </head>
     <body>
+        <div class="page-loading"></div>
         <header class="site-header">
             <div class="header-top">
                 <div class="container">
