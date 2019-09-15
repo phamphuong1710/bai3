@@ -9,7 +9,7 @@
 
 
 .footer {
-    background-color: #ededed;
+    background-color: #f7f7f7;
 }
 
 
@@ -41,4 +41,24 @@
 
 .footer a {
     color: #333;
+}
+
+.footer-grids h3 {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.footer-grids ul li {
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-footer li:before {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.sidebar {
+    margin-top: 50px;
 }

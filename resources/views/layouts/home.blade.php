@@ -3,7 +3,6 @@
 
 <link href="{{ asset('css/home/slick.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/slick-theme.css') }}" rel="stylesheet">
-<link href="{{ asset('css/home/mini-cart.css') }}" rel="stylesheet">
 <link href="{{ asset('css/admin/list-product.css') }}" rel="stylesheet">
 @endsection
 @section('content')
@@ -40,231 +39,395 @@
         </span>
 
     </section>
-    <div class="home-main-content">
+    <section class="home-main-content">
         <div class="container">
-            <div class="stores">
-                <h2 class="heading-tittle">{{ __('messages.store') }}</h3>
-                <ul class="list-tab">
-                    <li class="tab-item">
-                        <a href="#store-seller" class="item-link active">BestSeller</a>
-                    </li>
-                    <li class="tab-item">
-                        <a href="#store-rating" class="item-link">Rating</a>
-                    </li>
-                </ul>
-
-                <div class="store-content">
-                    <div class="stores-wrapper is-selected" id="store-seller">
-                        <div class="row">
-                            @foreach( $storeSale as $store )
-                            <div class="col-md-3 product-men">
-                                <div class="store-item item-pro">
-                                    <div class="men-thumb-item">
-                                        <a href="/store/{{ $store->slug }}">
-                                            @foreach ( $store->media->where( 'active', 1 ) as $logo )
-                                            <img src="{{ $logo->image_path }}" alt="Image Product">
-                                            @endforeach
-                                        </a>
-                                    </div>
-                                    <div class="item-info-product ">
-                                        <h4 class="item-name">
-                                        <a href="/store/{{ $store->slug }}">{{ Str::words($store->name, 3) }}</a>
-                                        </h4>
-                                        <span class="store-address">
-                                            {{  Str::words($store->address->address, 4) }}
-                                        </span>
-                                        @php
-                                            $avg = $store->rating_average;
-                                            $p = ( $avg / 5 ) * 100;
-                                        @endphp
-                                        <div class="wt-star-rating">
-                                            <span class="star-reviewed" style="width: {{ $p }}%">
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
+            <div class="row">
+                <div class="sidebar col-md-3">
+                    <div class="search-product sidebar-widget">
+                        <h3 class="widget-title">{{ __('messages.search_product') }}</h3>
+                        <form action="/search/product" method="post" class="form-search-sidebar">
+                            @csrf
+                            <input type="search" placeholder="Product name..." name="search" required class="input-search-sidebar">
+                            <button type="submit" class="btn btn-search ion-android-search" aria-label="Left Align">
+                            </button>
+                        </form>
                     </div>
 
-                    <div class="stores-wrapper" id="store-rating">
-                        <div class="row">
-                            @foreach( $storeRating as $store )
-                            <div class="col-md-3 product-men">
-                                <div class="store-item item-pro">
-                                    <div class="men-thumb-item">
-                                        <a href="/store/{{ $store->slug }}">
-                                            @foreach ( $store->media->where( 'active', 1 ) as $logo )
-                                            <img src="{{ $logo->image_path }}" alt="Image Product">
-                                            @endforeach
-                                        </a>
-                                    </div>
-                                    <div class="item-info-product ">
-                                        <h4 class="item-name">
-                                        <a href="/store/{{ $store->slug }}">{{ Str::words($store->name, 3) }}</a>
-                                        </h4>
-                                        <span class="store-address">
-                                            {{  Str::words($store->address->address, 4) }}
-                                        </span>
-                                        @php
-                                            $avg = $store->rating_average;
-                                            $p = ( $avg / 5 ) * 100;
-                                        @endphp
-                                        <div class="wt-star-rating">
-                                            <span class="star-reviewed" style="width: {{ $p }}%">
-                                            </span>
-                                        </div>
+                    <!-- reviews -->
+                    <div class="customer-rev left-side sidebar-widget">
+                        <h3 class="widget-title">{{ __('messages.store_rating') }}</h3>
+                        <ul class="list-rating">
+                            <li>
+                                <a href="/store/rating/5">
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
 
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/store/rating/4">
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                </a>
+                            </li>
 
+                            <li>
+                                <a href="/store/rating/3">
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="store/rating/2">
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
+                    <!-- //reviews -->
+                    <!-- discounts -->
+                    <div class="left-side  sidebar-widget">
+                        <h3 class="widget-title">{{ __('messages.discount') }}</h3>
+                        <ul class="list-discount">
+
+                            <li class="discount-item">
+                                <input type="checkbox" name="discount" class="discount-sidebar-input" value="20">
+                                    <span class="span">20% or More</span>
+                                </a>
+                            </li>
+                            <li class="discount-item">
+                                <input type="checkbox" name="discount" class="discount-sidebar-input" value="30">
+                                <span class="span">30% or More</span>
+                            </li>
+                            <li class="discount-item">
+                                <input type="checkbox" name="discount" class="discount-sidebar-input" value="40">
+                                    <span class="span">40% or More</span>
+                            </li>
+                            <li class="discount-item">
+                                <input type="checkbox" name="discount" class="discount-sidebar-input" value="50">
+                                    <span class="span">50% or More</span>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- //discounts -->
+
+
+                    <!-- //deals -->
                 </div>
+                <div id="primary" class="content-page col-md-9">
+                    <div class="stores">
+                        <h2 class="heading-tittle">{{ __('messages.store') }}</h2>
+                        <ul class="list-tab">
+                            <li class="tab-item">
+                                <a href="#store-seller" class="item-link active">{{ __('messages.rating') }}</a>
+                            </li>
+                            <li class="tab-item">
+                                <a href="#store-rating" class="item-link">{{ __('messages.bestseller') }}</a>
+                            </li>
+                        </ul>
 
+                        <div class="store-content">
+                            <div class="stores-wrapper is-selected" id="store-seller">
+                                <div class="row">
+                                    @foreach( $storeSale as $store )
+                                    <div class="col-md-4 product-men">
+                                        <div class="store-item item-pro">
+                                            <div class="men-thumb-item">
+                                                <a href="/store/{{ $store->slug }}">
+                                                    <img src="{{ $store->logo->image_path }}" alt="{{ $store->name }}">
+                                                </a>
+                                            </div>
+                                            <div class="item-info-store ">
+                                                <h4 class="item-name">
+                                                <a href="/store/{{ $store->slug }}">{{ Str::words($store->name, 3) }}</a>
+                                                </h4>
+                                                <span class="store-address">
+                                                    {{  Str::words($store->address->address, 4) }}
+                                                </span>
+                                                @php
+                                                    $avg = $store->rating_average;
+                                                    $p = ( $avg / 5 ) * 100;
+                                                @endphp
+                                                <div class="wt-star-rating">
+                                                    <span class="star-reviewed" style="width: {{ $p }}%">
+                                                    </span>
+                                                </div>
 
-            </div>
-            <div class="products">
-                <div class="wrapper">
-                    <div class="product-wrapper row">
-                        <h3 class="heading-tittle col-md-12">{{ __('messages.new_product') }}</h3>
-
-                            @foreach( $new as $product )
-                            <div class="col-md-3 product-men">
-                                <div class="men-pro-item item-pro">
-                                    <div class="men-thumb-item">
-                                        <a href="/products/{{ $product->slug }}">
-                                            @foreach ( $product->media->where( 'active', 1 ) as $logo )
-                                            <img src="{{ $logo->image_path }}" alt="Image Product">
-                                            @endforeach
-                                        </a>
-                                        <div class="add-to-cart-wrapper">
-                                            <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
-                                                @csrf
-                                                <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
-                                                <input type="hidden" name="quantity" value="1"  class="add-quantity">
-                                                <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
-                                                @guest
-                                                <button class="user-login btn-add-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
-                                                @else
-                                                <button type="submit" class="button btn-add-to-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
-                                                @endguest
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="item-info-product ">
-                                        <h4 class="item-name">
-                                        <a href="/products/{{ $product->slug }}">{{ Str::words($product->name, 3) }}</a>
-                                        </h4>
-                                        @php
-                                            $avg = $product->rating_average;
-                                            $p = ( $avg / 5 ) * 100;
-                                        @endphp
-                                        <div class="wt-star-rating">
-                                            <span class="star-reviewed" style="width: {{ $p }}%">
-                                            </span>
-                                        </div>
-                                        @if( app()->getLocale() == 'en' )
-                                        <div class="info-product-price">
-                                            @if( $product->on_sale != 0 )
-                                            <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">$</span></span>
-                                            <del>{{ $product->usd }}<span class="currency">$</span></del>
-                                            @else
-                                            <span class="item_price">{{ $product->usd }}<span class="currency">$</span></span>
-                                            @endif
-                                        </div>
-                                        @endif
-                                        @if( app()->getLocale() == 'vi' )
-                                        <div class="info-product-price">
-                                            @if( $product->on_sale != 0 )
-                                            <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">đ</span></span>
-                                            <del>{{ $product->vnd }}<span class="currency">đ</span></del>
-                                            @else
-                                            <span class="item_price">{{ $product->vnd }}<span class="currency">đ</span></span>
-                                            @endif
-                                        </div>
-                                        @endif
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
-                            @endforeach
 
-                    </div>
+                            <div class="stores-wrapper" id="store-rating">
+                                <div class="row">
+                                    @foreach( $storeRating as $store )
+                                    <div class="col-md-3 product-men">
+                                        <div class="store-item item-pro">
+                                            <div class="men-thumb-item">
+                                                <a href="/store/{{ $store->slug }}">
+                                                    <img src="{{ $store->logo->image_path }}" alt="{{ $store->name }}">
+                                                </a>
+                                            </div>
+                                            <div class="item-info-product ">
+                                                <h4 class="item-name">
+                                                <a href="/store/{{ $store->slug }}">{{ Str::words($store->name, 3) }}</a>
+                                                </h4>
+                                                <span class="store-address">
+                                                    {{  Str::words($store->address->address, 4) }}
+                                                </span>
+                                                @php
+                                                    $avg = $store->rating_average;
+                                                    $p = ( $avg / 5 ) * 100;
+                                                @endphp
+                                                <div class="wt-star-rating">
+                                                    <span class="star-reviewed" style="width: {{ $p }}%">
+                                                    </span>
+                                                </div>
 
-                    <div class="product-wrapper row">
-                        <h3 class="heading-tittle col-md-12">{{ __('messages.bestseller') }}</h3>
-                        @foreach( $bestSeller as $product )
-                        <div class="col-md-3 product-men">
-                            <div class="men-pro-item item-pro">
-                                <div class="men-thumb-item">
-                                    <a href="/products/{{ $product->slug }}">
-                                    @foreach ( $product->media->where( 'active', 1 ) as $logo )
-                                    <img src="{{ $logo->image_path }}" alt="Image Product">
+                                            </div>
+                                        </div>
+                                    </div>
                                     @endforeach
-                                    </a>
-                                    <div class="add-to-cart-wrapper">
-                                        <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
-                                            <input type="hidden" name="quantity" value="1"  class="add-quantity">
-                                            <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
-                                            @guest
-                                            <button class="user-login btn-add-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
-                                            @else
-                                            <button type="submit" class="button btn-add-to-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
-                                            @endguest
-                                        </form>
-                                    </div>
                                 </div>
-                                <div class="item-info-product ">
-                                    <h4 class="item-name">
-                                    <a href="/products/{{ $product->slug }}">{{ $product->name }}</a>
-                                    </h4>
-                                    @php
-                                        $avg = $product->rating_average;
-                                        $p = ( $avg / 5 ) * 100;
-                                    @endphp
-                                    <div class="wt-star-rating">
-                                        <span class="star-reviewed" style="width: {{ $p }}%">
-                                        </span>
-                                    </div>
-                                    @if( app()->getLocale() == 'en' )
-                                    <div class="info-product-price">
-                                        @if( $product->on_sale != 0 )
-                                        <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}<span class="currency">$</span></span>
-                                        <del>{{ $product->usd }}<span class="currency">$</span></del>
-                                        @else
-                                        <span class="item_price">{{ $product->usd }}<span class="currency">$</span></span>
-                                        @endif
-                                    </div>
-                                    @endif
-                                    @if( app()->getLocale() == 'vi' )
-                                    <div class="info-product-price">
-                                        @if( $product->on_sale != 0 )
-                                        <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}<span class="currency">đ</span></span>
-                                        <del>{{ $product->vnd }}<span class="currency">đ</span></del>
-                                        @else
-                                        <span class="item_price">{{ $product->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                        @endif
-                                    </div>
-                                    @endif
-                                </div>
+
                             </div>
                         </div>
-                        @endforeach
-
                     </div>
-                    <!-- //third section (oils) -->
+                        <div class="products">
+                            <div class="wrapper">
+                                <div class="container">
+                                    <div class="product-wrapper row">
+                                        <h3 class="heading-tittle col-md-12">{{ __('messages.new_product') }}</h3>
+
+                                            @foreach( $new as $product )
+                                            <div class="col-md-3 product-men">
+                                                <div class="men-pro-item item-pro">
+                                                    <div class="men-thumb-item">
+                                                        <a href="/products/{{ $product->slug }}">
+
+                                                            <img src="{{ $product->logo->image_path }}" alt="{{ $product->name }}">
+                                                        </a>
+                                                        <?php if ( $product->on_sale != 0 ): ?>
+                                                            <span class="product-discount">{{ $product->on_sale . '%' }}</span>
+                                                        <?php endif ?>
+
+                                                        <div class="add-to-cart-wrapper">
+                                                            <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
+                                                                @csrf
+                                                                <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
+                                                                <input type="hidden" name="quantity" value="1"  class="add-quantity">
+                                                                <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
+                                                                @guest
+                                                                <button class="user-login btn-add-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
+                                                                @else
+                                                                <button type="submit" class="button btn-add-to-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
+                                                                @endguest
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-info-product ">
+                                                        <h4 class="item-name">
+                                                        <a href="/products/{{ $product->slug }}">{{ Str::words($product->name, 3) }}</a>
+                                                        </h4>
+                                                        @php
+                                                            $avg = $product->rating_average;
+                                                            $p = ( $avg / 5 ) * 100;
+                                                        @endphp
+                                                        <div class="wt-star-rating">
+                                                            <span class="star-reviewed" style="width: {{ $p }}%">
+                                                            </span>
+                                                        </div>
+                                                        @if( app()->getLocale() == 'en' )
+                                                        <div class="info-product-price">
+
+                                                            @if( $product->on_sale != 0 )
+                                                                @php
+                                                                    $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
+                                                                @endphp
+                                                            <span class="item_price">
+                                                                <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
+                                                            </span>
+                                                            <del>
+                                                                <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}</del>
+                                                            @else
+                                                            <span class="item_price">
+                                                                <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                                            </span>
+                                                            @endif
+                                                        </div>
+                                                        @endif
+                                                        @if( app()->getLocale() == 'vi' )
+                                                        <div class="info-product-price">
+                                                            @if( $product->on_sale != 0 )
+                                                                @php
+                                                                    $price = $product->vnd - ( $product->on_sale / 100 * $product->vnd )
+                                                                @endphp
+                                                            <span class="item_price">
+                                                                <span class="currency">đ</span>{{ number_format($price,0,'.','.') }}
+                                                            </span>
+                                                            <del>
+                                                                <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                                            </del>
+                                                            @else
+                                                            <span class="item_price">
+                                                                <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                                            </span>
+                                                            @endif
+                                                        </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endforeach
+
+                                    </div>
+                                </div>
+
+                                <div class="section-support">
+                                    <div class="container">
+                                        <div class="support-wrapper">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="support-item">
+                                                        <img src="{{ asset('images/freeship.png') }}" alt="Track Order">
+                                                        <h5 class="support-title">Track Your Order</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="support-item">
+                                                        <img src="{{ asset('images/spencial.png') }}" alt="Track Order">
+                                                        <h5 class="support-title">SPECIAL DISSCOUNT</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="support-item">
+                                                        <img src="{{ asset('images/support.png') }}" alt="Track Order">
+                                                        <h5 class="support-title">SUPPORT CUSTOMER</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container">
+
+                                    <div class="product-wrapper row">
+                                        <h3 class="heading-tittle col-md-12">{{ __('messages.bestseller') }}</h3>
+                                        @foreach( $bestSeller as $product )
+                                            <div class="col-md-3 product-men">
+                                                <div class="men-pro-item item-pro">
+                                                    <div class="men-thumb-item">
+                                                        <a href="/products/{{ $product->slug }}">
+
+                                                            <img src="{{ $product->logo->image_path }}" alt="{{ $product->name }}">
+                                                        </a>
+                                                        <?php if ( $product->on_sale != 0 ): ?>
+                                                            <span class="product-discount">{{ $product->on_sale . '%' }}</span>
+                                                        <?php endif ?>
+
+                                                        <div class="add-to-cart-wrapper">
+                                                            <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
+                                                                @csrf
+                                                                <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
+                                                                <input type="hidden" name="quantity" value="1"  class="add-quantity">
+                                                                <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
+                                                                @guest
+                                                                <button class="user-login btn-add-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
+                                                                @else
+                                                                <button type="submit" class="button btn-add-to-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
+                                                                @endguest
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-info-product ">
+                                                        <h4 class="item-name">
+                                                        <a href="/products/{{ $product->slug }}">{{ Str::words($product->name, 3) }}</a>
+                                                        </h4>
+                                                        @php
+                                                            $avg = $product->rating_average;
+                                                            $p = ( $avg / 5 ) * 100;
+                                                        @endphp
+                                                        <div class="wt-star-rating">
+                                                            <span class="star-reviewed" style="width: {{ $p }}%">
+                                                            </span>
+                                                        </div>
+                                                        @if( app()->getLocale() == 'en' )
+                                                        <div class="info-product-price">
+
+                                                            @if( $product->on_sale != 0 )
+                                                                @php
+                                                                    $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
+                                                                @endphp
+                                                            <span class="item_price">
+                                                                <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
+                                                            </span>
+                                                            <del>
+                                                                <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}</del>
+                                                            @else
+                                                            <span class="item_price">
+                                                                <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                                            </span>
+                                                            @endif
+                                                        </div>
+                                                        @endif
+                                                        @if( app()->getLocale() == 'vi' )
+                                                        <div class="info-product-price">
+                                                            @if( $product->on_sale != 0 )
+                                                                @php
+                                                                    $price = $product->vnd - ( $product->on_sale / 100 * $product->vnd )
+                                                                @endphp
+                                                            <span class="item_price">
+                                                                <span class="currency">đ</span>{{ number_format($price,0,'.','.') }}
+                                                            </span>
+                                                            <del>
+                                                                <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                                            </del>
+                                                            @else
+                                                            <span class="item_price">
+                                                                <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                                            </span>
+                                                            @endif
+                                                        </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
+                                    </div>
+                                </div>
+                                <!-- //third section (oils) -->
+                            </div>
+                        </div>
+
                 </div>
             </div>
         </div>
-    </div>
+
+
+    </section>
 
 </div>
+
+
 
 @endsection
 @section('js')
@@ -274,6 +437,7 @@
 <script src="{{ asset('js/home/delete-cart.js') }}"></script>
 <script src="{{ asset('js/admin/currency.js') }}"></script>
 <script src="{{ asset('js/home/tab.js') }}"></script>
+<script src="{{ asset('js/home/filter-discount.js') }}"></script>
 @endsection
 
 

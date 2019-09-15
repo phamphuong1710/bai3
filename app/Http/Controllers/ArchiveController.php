@@ -32,6 +32,9 @@ class ArchiveController extends Controller
         $listCategory = getChildCategory($category->id);
         $products = $this->productService->getProductInCategory($listCategory);
         $products->category = $category;
+        foreach ($products as $index => $product) {
+            $products[$index]->logo = $product->media->where('active', 1)->first();
+        }
 
         return view('layouts.archive-category', compact('products'));
     }
@@ -40,7 +43,10 @@ class ArchiveController extends Controller
     public function productDiscount($discount)
     {
         $products = $this->productService->getProductDiscount($discount);
+        foreach ($products as $index => $product) {
+            $products[$index]->logo = $product->media->where('active', 1)->first()->image_path;
+        }
 
-         return view('layouts.search', ['products' => $products, 'stores' => null]);
+        return response()->json($products);
     }
 }

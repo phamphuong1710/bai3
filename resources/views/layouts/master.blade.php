@@ -7,6 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" >
+        <link href="{{ asset('css/poppins.css') }}" rel="stylesheet">
         <link href="{{ asset('css/home/style.css') }}" rel="stylesheet" >
         <link href="{{ asset('css/reset.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/ionicon.css') }}">
@@ -15,10 +16,12 @@
         <link href="{{ asset('css/home/footer.css') }}" rel="stylesheet" >
         <link href="{{ asset('css/home/button.css') }}" rel="stylesheet" >
         <link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/home/mini-cart.css') }}" rel="stylesheet">
 
         @yield('style')
     </head>
     <body>
+        <div class="page-loading"></div>
         <header class="site-header">
             <div class="header-top">
                 <div class="container">
@@ -100,12 +103,7 @@
                                 <form action="{{ route('search') }}" method="post">
                                     @csrf
                                     <input name="search" type="search" placeholder="{{ __('messages.search_header') }}" required class="input-serach-header">
-                                    <button type="submit" class="btn-search" aria-label="Left Align">
-                                    <span class="btn-main">
-                                        <span class="btn-default ion-android-search"></span>
-                                        <span class="text-hover ion-android-search"></span>
-                                        <span class="btn-hover"></span>
-                                    </span>
+                                    <button type="submit" class="btn-search ion-android-search" aria-label="Left Align">
                                     </button>
                                 </form>
                             </div>
@@ -290,15 +288,10 @@
                         </div>
                         <div class="col-md-3 footer-grids">
                             <h3>Get in Touch</h3>
-                            <ul>
-                                <li>
-                                <i class="fa fa-map-marker"></i> 123 Sebastian, USA.</li>
-                                <li>
-                                <i class="fa fa-mobile"></i> 333 222 3333 </li>
-                                <li>
-                                <i class="fa fa-phone"></i> +222 11 4444 </li>
-                                <li>
-                                    <i class="fa fa-envelope-o"></i>
+                            <ul class="contact-footer">
+                                <li class="ion-android-pin">123 Sebastian, USA.</li>
+                                <li class="ion-ios-telephone"></i> 333 222 3333 </li>
+                                <li class="ion-email">
                                     <a href="mailto:example@mail.com"> mail@example.com</a>
                                 </li>
                             </ul>
@@ -306,7 +299,7 @@
                          <!-- //quick links -->
                         <!-- social icons -->
 
-                        <div class="social col-md-3">
+                        <div class="social col-md-3 footer-grids">
                             <h3>Follow Us on</h3>
                             <ul>
                                 <li>
@@ -326,7 +319,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="agileits_app-devices col-md-3">
+                        <div class="agileits_app-devices col-md-3  footer-grids">
                             <h3>Download the App</h3>
                             <a href="#">
                                 <img src="{{ asset('images/1.png') }}" alt="">

@@ -81,8 +81,9 @@ $(document).ready(function ($) {
                                 '</div>' +
                             '</div>';
 
-                    $('.ajax-search-html').html(html);
+
                 });
+                $('.ajax-search-html').html(html);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);

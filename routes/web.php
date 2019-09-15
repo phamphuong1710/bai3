@@ -39,7 +39,7 @@ Route::post('/rating-store', 'RatingController@store')->name('rating-store');
 
 Route::get('/store/{slug}', 'StoreSingleController@store')->name('store');
 
-Route::get('/products/discount/{slug}', 'ArchiveController@productDiscount')->name('discount');
+Route::get('/products/discount/{discount}', 'ArchiveController@productDiscount')->name('discount');
 
 Route::post('/add-to-cart', 'CartController@addToCart')->name('add-to-cart');
 
