@@ -21,7 +21,11 @@
         @yield('style')
     </head>
     <body>
-        <div class="page-loading"></div>
+        <div class="page-loading">
+            <div class="loader">
+
+            </div>
+        </div>
         <header class="site-header">
             <div class="header-top">
                 <div class="container">
@@ -344,7 +348,9 @@
                 </span>
             </div>
         </div>
+        <span class="btn-back-to-top ion-chevron-up"></span>
         <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/home/app.js') }}"></script>
         <script src="{{ asset('js/home/navigation.js') }}"></script>
         <script src="{{ asset('js/home/quantity.js') }}"></script>
         <script src="{{ asset('js/home/update-cart.js') }}"></script>

@@ -63,12 +63,14 @@ class FilterController extends Controller
         if ( $stores ) {
             foreach ($stores as $index => $store) {
                 $logo = $store->media->where('active', 1)->first()->image_path;
+                $address = $store->address->address;
                 $stores[$index]->logo = $logo;
+                $stores[$index]->address = $address;
             }
         }
         $stores->star = $star;
 
-        return view('layouts.search', ['products' => null, 'stores' => $stores]);
+        return response()->json($stores);
     }
 
     // Rating Product

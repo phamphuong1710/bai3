@@ -55,11 +55,13 @@
                                             @php
                                                 $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
                                             @endphp
-                                        <span class="item_price">
+                                        <del>
+                                            <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                        </del>
+                                        <span class="item_price item-sale">
                                             <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
                                         </span>
-                                        <del>
-                                            <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}</del>
+
                                         @else
                                         <span class="item_price">
                                             <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
@@ -97,7 +99,7 @@
 
             @if($stores)
 
-            <div class="related-product">
+            <div class="related-store">
                 <h2>Store</h2>
                 <div class="row">
                     @foreach($stores as $store)

@@ -100,8 +100,8 @@ h4.item-name {
     z-index: 100;
     min-width: 180px;
     background-color: #fff;
-    -webkit-transition: all 0.2s ease-in-out 0s, opacity 0.2s;
-    transition: all 0.2s ease-in-out 0s, opacity 0.2s;
+    -webkit-transition: transform 0.2s ease-in-out 0s, opacity 0.2s;
+    transition: transform 0.2s ease-in-out 0s, opacity 0.2s;
     box-shadow: 0 0 10px rgba(102, 102, 102, 0.19), 0 4px 10px rgba(102, 102, 102, 0.2);
 }
 
@@ -244,6 +244,7 @@ h4.item-name {
     list-style: none;
     display: flex;
     padding: 15px 0;
+    margin: 0;
 
 }
 
@@ -259,6 +260,7 @@ h4.item-name {
 
 .slideshow {
   position: relative;
+  overflow: hidden;
 }
 
 .slideshow .btn-slide-prev,
@@ -811,7 +813,7 @@ h4.item-name {
 }
 
 .item-info-store {
-    padding-bottom: 25px;
+    padding: 0 15px 25px;
 }
 
 .stores {
@@ -879,20 +881,24 @@ h4.item-name {
 .men-pro-item .item-name {
     margin-bottom: 5px;
 }
-.men-pro-item .item_price,
-.men-pro-item del {
+.item_price,
+del {
     position: relative;
     padding-left: 10px;
 }
 
+.item-sale {
+    font-weight: 600;
+}
+
 .men-pro-item del {
-    margin-left: 1px;
+    margin-right: 5px;
 }
 
 .currency {
     position: absolute;
     left: 0;
-    bottom: 5px;
+    bottom: 2px;
     font-size: 13px;
 }
 
@@ -908,7 +914,7 @@ h4.item-name {
 }
 
 .list-rating li {
-    line-height: 28px;
+    line-height: 20px;
     font-size: 18px;
 }
 
@@ -921,3 +927,109 @@ h4.item-name {
     color: #222;
     line-height: 28px;
 }
+
+
+/* The item-filter */
+.item-filter {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.item-filter input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 9;
+}
+
+/* Create a custom checkbox */
+.filter-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #ddd;
+    z-index: -1
+}
+
+/* On mouse-over, add a grey background color */
+
+
+/* When the checkbox is checked, add a blue background */
+.item-filter input.is-selected ~ .filter-label {
+    background-color: #fff;
+}
+
+/* Create the filter-label/indicator (hidden when not checked) */
+.filter-label:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the filter-label when checked */
+.item-filter input.is-selected ~ .filter-label:after {
+  display: block;
+}
+
+/* Style the filter-label/indicator */
+.item-filter .filter-label:after {
+    background-color: #aa2231;
+    height: 18px;
+    width: 18px;
+    border: 3px solid #fff;
+}
+
+.filter-star {
+    color: #fcd800;
+}
+
+.btn-back-to-top {
+    position: fixed;
+    bottom: 50px;
+    right: 40px;
+    height: 40px;
+    width: 40px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 50%;
+    z-index: 99999;
+    transform: translateY(80px);
+    visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #aa2231;
+    opacity: 0.6;
+    transition: all 0.1s;
+}
+
+.btn-back-to-top.btn-show {
+    transform: translateY(0);
+    transition: all 0.3s;
+    visibility: visible;
+}
+
+.btn-back-to-top:hover {
+    opacity: 1;
+}
+
+
+

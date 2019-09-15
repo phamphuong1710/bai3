@@ -24,6 +24,7 @@ class ArchiveController extends Controller
         $this->productService = $productService;
         $this->categoryService = $categoryService;
         $this->ratingService = $ratingService;
+        $this->storeService = $storeService;
     }
 
     public function product($slug)
@@ -48,5 +49,20 @@ class ArchiveController extends Controller
         }
 
         return response()->json($products);
+    }
+
+    public function allStore()
+    {
+        $stores = $this->storeService->getAllStore();
+        if ( $stores ) {
+            foreach ($stores as $index => $store) {
+                $logo = $store->media->where('active', 1)->first()->image_path;
+                $address = $store->address->address;
+                $stores[$index]->logo = $logo;
+                $stores[$index]->address = $address;
+            }
+        }
+
+        return view('layouts.stores', compact('stores'));
     }
 }
