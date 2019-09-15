@@ -31,7 +31,7 @@ $(document).ready(function(){
                 html += '</div></div>'
                 $('#primary').html(html);
                 var page = 1;
-                var contentHeight =$('.content-ajax').height();
+                var contentHeight = $('.content-ajax').height();
                 var position = $('.content-ajax').height() + $('.content-ajax').offset().top;
                 $(window).scroll(function() {
                     var scroll = $(window).scrollTop();

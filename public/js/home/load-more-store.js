@@ -11,7 +11,6 @@ $(document).ready(function(){
             loadMoreStore(page);
         }
     });
-
     function addCommas(nStr) {
         nStr += '';
         x = nStr.split('.');
@@ -39,7 +38,6 @@ $(document).ready(function(){
                var html = storeTemplate(data);
 
                 $("body .product-wrapper").append(html);
-
             },
         })
         .fail(function(jqXHR, ajaxOptions, thrownError)
