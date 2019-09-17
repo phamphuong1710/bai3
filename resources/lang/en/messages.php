@@ -89,4 +89,5 @@ return [
     'order_detail' => 'Order Detail',
     'rating' => 'Rating',
     'store_rating' => 'Store Rating',
+    'all_store' => 'All Store',
 ];

@@ -20,7 +20,7 @@ class HomeService implements HomeInterface
     public function getTopStoreRating()
     {
         $store = Store::orderBy( 'rating_average', 'DESC' )
-            ->paginate(8);
+            ->paginate(6);
 
         return $store;
     }
@@ -28,7 +28,7 @@ class HomeService implements HomeInterface
     public function getStoreBestSeller()
     {
         $store = Store::orderBy( 'total_sale', 'DESC' )
-            ->paginate(8);
+            ->paginate(6);
 
         return $store;
     }
@@ -36,7 +36,7 @@ class HomeService implements HomeInterface
     public function getProductBestSeller()
     {
         $product = Product::orderby('total_sale', 'desc')
-            ->paginate(8);
+            ->paginate(9);
 
         return $product;
     }
@@ -44,7 +44,7 @@ class HomeService implements HomeInterface
     public function getNewProduct()
     {
         $product = Product::orderby('created_at', 'desc')
-            ->paginate(8);
+            ->paginate(9);
 
         return $product;
     }

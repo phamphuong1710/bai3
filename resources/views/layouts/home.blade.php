@@ -57,43 +57,50 @@
                     <div class="customer-rev left-side sidebar-widget">
                         <h3 class="widget-title">{{ __('messages.store_rating') }}</h3>
                         <ul class="list-rating">
-                            <li>
-                                <a href="/store/rating/5">
+                            <li class="item-filter">
+                                <div class="filter-star">
                                     <i class="ion-android-star" aria-hidden="true"></i>
                                     <i class="ion-android-star" aria-hidden="true"></i>
                                     <i class="ion-android-star" aria-hidden="true"></i>
                                     <i class="ion-android-star" aria-hidden="true"></i>
                                     <i class="ion-android-star" aria-hidden="true"></i>
+                                </div>
+                                <input type="checkbox" name="rating" class="rating-sidebar-input" value="5">
+                                <span class="filter-label"></span>
+                            </li>
+                            <li class="item-filter">
+                                <div class="filter-star">
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                </div>
+                                <input type="checkbox" name="rating" class="rating-sidebar-input" value="4">
+                                <span class="filter-label"></span>
+                            </li>
 
-                                </a>
+                            <li class="item-filter">
+                                <div class="filter-star">
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star" aria-hidden="true"></i>
+                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
+                                </div>
+                                <input type="checkbox" name="rating" class="rating-sidebar-input" value="3">
+                                <span class="filter-label"></span>
                             </li>
-                            <li>
-                                <a href="/store/rating/4">
-                                    <i class="ion-android-star" aria-hidden="true"></i>
-                                    <i class="ion-android-star" aria-hidden="true"></i>
-                                    <i class="ion-android-star" aria-hidden="true"></i>
-                                    <i class="ion-android-star" aria-hidden="true"></i>
-                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="/store/rating/3">
-                                    <i class="ion-android-star" aria-hidden="true"></i>
-                                    <i class="ion-android-star" aria-hidden="true"></i>
-                                    <i class="ion-android-star" aria-hidden="true"></i>
-                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
-                                    <i class="ion-android-star-outline" aria-hidden="true"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="store/rating/2">
+                            <li class="item-filter">
+                                <div class="filter-star">
                                     <i class="ion-android-star" aria-hidden="true"></i>
                                     <i class="ion-android-star" aria-hidden="true"></i>
                                     <i class="ion-android-star-outline" aria-hidden="true"></i>
                                     <i class="ion-android-star-outline" aria-hidden="true"></i>
                                     <i class="ion-android-star-outline" aria-hidden="true"></i>
-                                </a>
+                                </div>
+                                <input type="checkbox" name="rating" class="rating-sidebar-input" value="2">
+                                <span class="filter-label"></span>
                             </li>
                         </ul>
                     </div>
@@ -103,23 +110,26 @@
                         <h3 class="widget-title">{{ __('messages.discount') }}</h3>
                         <ul class="list-discount">
 
-                            <li class="discount-item">
+                            <li class="discount-item item-filter">
+                                20% or More
                                 <input type="checkbox" name="discount" class="discount-sidebar-input" value="20">
-                                    <span class="span">20% or More</span>
+                                    <span class="filter-label"></span>
                                 </a>
                             </li>
-                            <li class="discount-item">
+                            <li class="discount-item item-filter">
+                                30% or More
                                 <input type="checkbox" name="discount" class="discount-sidebar-input" value="30">
-                                <span class="span">30% or More</span>
+                                <span class="filter-label"></span>
                             </li>
-                            <li class="discount-item">
+                            <li class="discount-item item-filter">
+                                40% or More
                                 <input type="checkbox" name="discount" class="discount-sidebar-input" value="40">
-                                    <span class="span">40% or More</span>
+                                    <span class="filter-label"></span>
                             </li>
-                            <li class="discount-item">
+                            <li class="discount-item item-filter">
+                                50% or More
                                 <input type="checkbox" name="discount" class="discount-sidebar-input" value="50">
-                                    <span class="span">50% or More</span>
-
+                                    <span class="filter-label"></span>
                             </li>
 
                         </ul>
@@ -178,7 +188,7 @@
                             <div class="stores-wrapper" id="store-rating">
                                 <div class="row">
                                     @foreach( $storeRating as $store )
-                                    <div class="col-md-3 product-men">
+                                    <div class="col-md-4 product-men">
                                         <div class="store-item item-pro">
                                             <div class="men-thumb-item">
                                                 <a href="/store/{{ $store->slug }}">
@@ -209,6 +219,10 @@
 
                             </div>
                         </div>
+
+                        <a href="{{ route( 'all-store' ) }}" class="btn-all-store">
+                            {{ __('messages.all_store') }}
+                        </a>
                     </div>
                         <div class="products">
                             <div class="wrapper">
@@ -217,7 +231,7 @@
                                         <h3 class="heading-tittle col-md-12">{{ __('messages.new_product') }}</h3>
 
                                             @foreach( $new as $product )
-                                            <div class="col-md-3 product-men">
+                                            <div class="col-md-4 product-men">
                                                 <div class="men-pro-item item-pro">
                                                     <div class="men-thumb-item">
                                                         <a href="/products/{{ $product->slug }}">
@@ -261,11 +275,13 @@
                                                                 @php
                                                                     $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
                                                                 @endphp
-                                                            <span class="item_price">
+                                                            <del>
+                                                                <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                                            </del>
+                                                            <span class="item_price item-sale">
                                                                 <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
                                                             </span>
-                                                            <del>
-                                                                <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}</del>
+
                                                             @else
                                                             <span class="item_price">
                                                                 <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
@@ -332,7 +348,7 @@
                                     <div class="product-wrapper row">
                                         <h3 class="heading-tittle col-md-12">{{ __('messages.bestseller') }}</h3>
                                         @foreach( $bestSeller as $product )
-                                            <div class="col-md-3 product-men">
+                                            <div class="col-md-4 product-men">
                                                 <div class="men-pro-item item-pro">
                                                     <div class="men-thumb-item">
                                                         <a href="/products/{{ $product->slug }}">
@@ -376,11 +392,12 @@
                                                                 @php
                                                                     $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
                                                                 @endphp
-                                                            <span class="item_price">
-                                                                <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
-                                                            </span>
-                                                            <del>
+                                                                <del>
                                                                 <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}</del>
+                                                                <span class="item_price">
+                                                                    <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
+                                                                </span>
+
                                                             @else
                                                             <span class="item_price">
                                                                 <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
@@ -394,12 +411,13 @@
                                                                 @php
                                                                     $price = $product->vnd - ( $product->on_sale / 100 * $product->vnd )
                                                                 @endphp
-                                                            <span class="item_price">
-                                                                <span class="currency">đ</span>{{ number_format($price,0,'.','.') }}
-                                                            </span>
                                                             <del>
                                                                 <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
                                                             </del>
+                                                            <span class="item_price item-sale">
+                                                                <span class="currency">đ</span>{{ number_format($price,0,'.','.') }}
+                                                            </span>
+
                                                             @else
                                                             <span class="item_price">
                                                                 <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
@@ -438,6 +456,7 @@
 <script src="{{ asset('js/admin/currency.js') }}"></script>
 <script src="{{ asset('js/home/tab.js') }}"></script>
 <script src="{{ asset('js/home/filter-discount.js') }}"></script>
+<script src="{{ asset('js/home/filter-rating.js') }}"></script>
 @endsection
 
 

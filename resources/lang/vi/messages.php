@@ -89,4 +89,5 @@ return [
     'order_detail' => 'Chi tiết đơn hàng',
     'rating' => 'Xếp Hạng',
     'store_rating' => 'Xếp Hạng Cửa Hàng',
+    'all_store' => 'Tất Cả Cửa Hàng',
 ];
