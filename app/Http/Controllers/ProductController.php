@@ -24,6 +24,10 @@ class ProductController extends Controller
         $this->productService = $productService;
         $this->mediaService = $mediaService;
         $this->categoryService = $categoryService;
+        $this->middleware('permission:product-list');
+        $this->middleware('permission:product-create', ['only' => ['create','store']]);
+        $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
 
     /**
