@@ -181,6 +181,7 @@ return [
         App\Providers\CommentServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*
