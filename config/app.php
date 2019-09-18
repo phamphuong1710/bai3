@@ -180,6 +180,7 @@ return [
         App\Providers\ProductProvider::class,
         App\Providers\CommentServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*

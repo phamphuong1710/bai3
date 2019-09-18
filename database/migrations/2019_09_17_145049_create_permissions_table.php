@@ -17,7 +17,7 @@ class CreatePermissionsTable extends Migration
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('slug');
+            $table->string('guard_name');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -26,7 +26,7 @@ class CreatePermissionsTable extends Migration
         Schema::create($tableNames['roles'], function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('slug');
+            $table->string('guard_name');
             $table->softDeletes();
             $table->timestamps();
         });

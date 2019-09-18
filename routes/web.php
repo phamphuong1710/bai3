@@ -60,6 +60,8 @@ Route::get('/user-login', 'AuthController@login')->name('user-login');
 Route::get('/user-register', 'AuthController@register')->name('user-register');
 
 Route::middleware(['auth'])->group(function () {
+    Route::resource('roles','RoleController');
+
     Route::resource('users', 'UserController');
 
     Route::get('/user/{id}/edit', 'UserController@getEditUserTemplate')->name('edit-user');
