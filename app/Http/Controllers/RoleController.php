@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleRequest;
+use App\Service\RoleService;
+use App\Service\PermissionService;
 
 class RoleController extends Controller
 {
+    protected $roleService;
+    protected $permissionService;
+    function __construct(RoleService $roleService, PermissionService $permissionService)
+    {
+        $this->roleService = $roleService;
+        $this->permissionService = $permissionService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = $this->roleService->getAllRole();
+
+        return view('admin.role.list', compact('roles'));
     }
 
     /**
@@ -23,7 +35,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $permission = $this->permissionService->getAllPermission();
+
+        return view('admin.role.create',compact('permission'));
     }
 
     /**
@@ -32,9 +46,13 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        //
+        $role = $this->roleService->createRole($request);
+        $role->syncPermissions($request->input('permission'));
+
+        return redirect()->route('roles.index')
+            ->with('success','Role created successfully');
     }
 
     /**
@@ -45,7 +63,6 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -56,7 +73,14 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = $this->roleService->getRole($id);
+        $permission = $this->permissionService->getAllPermission();
+        $rolePermissions = $this->permissionService->getAllRolePermissions();
+
+        return view(
+            'roles.edit',
+            compact('role','permission','rolePermissions')
+        );
     }
 
     /**
@@ -66,9 +90,13 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RoleRequest $request, $id)
     {
-        //
+        $role = $this->roleService->updateRole($request, $id);
+        $role->syncPermissions($request->input('permission'));
+
+        return redirect()->route('roles.index')
+            ->with('success','Role updated successfully');
     }
 
     /**
@@ -79,6 +107,9 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role = $this->roleService->deleteRole($id);
+
+        return redirect()->route('roles.index')
+            ->with('success','Role deleted successfully');
     }
 }
