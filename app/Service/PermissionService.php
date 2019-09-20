@@ -22,15 +22,15 @@ class PermissionService implements PermissionInterface
     public function rolePermissions($roleId)
     {
         $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-            ->where("role_has_permissions.role_id",$id)
+            ->where("role_has_permissions.role_id",$roleId)
             ->get();
 
         return $rolePermissions;
     }
 
-    public function getAllRolePermissions()
+    public function getAllRolePermissions($roleId)
     {
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$roleId)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
 

@@ -16,10 +16,10 @@ class RoleController extends Controller
     {
         $this->roleService = $roleService;
         $this->permissionService = $permissionService;
-        // $this->middleware('permission:role-list');
-        // $this->middleware('permission:role-create', ['only' => ['create','store']]);
-        // $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-        // $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:role-list');
+        $this->middleware('permission:role-create', ['only' => ['create','store']]);
+        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -80,10 +80,10 @@ class RoleController extends Controller
     {
         $role = $this->roleService->getRole($id);
         $permission = $this->permissionService->getAllPermission();
-        $rolePermissions = $this->permissionService->getAllRolePermissions();
+        $rolePermissions = $this->permissionService->getAllRolePermissions($id);
 
         return view(
-            'roles.edit',
+            'admin.role.edit',
             compact('role','permission','rolePermissions')
         );
     }
@@ -95,7 +95,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RoleRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $role = $this->roleService->updateRole($request, $id);
         $role->syncPermissions($request->input('permission'));
