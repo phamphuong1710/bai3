@@ -6,23 +6,25 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Service\UserService;
-use App\Service\AddressService;
+use App\Service\RoleService;
 use App\Service\MediaService;
 class UserController extends Controller
 {
     protected $userService;
     protected $mediaService;
+    protected $roleService;
 
-    public function __construct(UserService $userService, MediaService $mediaService)
+    public function __construct(UserService $userService, MediaService $mediaService, RoleService $roleService)
     {
         $this->middleware('auth');
         $this->userService = $userService;
         $this->mediaService = $mediaService;
+        $this->roleService = $roleService;
     }
 
     /**
      * Display a listing of the resource.
-     *
+     *s
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -39,7 +41,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.user.create');
+        $roles = $this->roleService->getListRole();
+
+        return view('admin.user.create', compact('roles'));
     }
 
     /**
@@ -51,9 +55,10 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $user = $this->userService->createUser($request);
-        $users = $this->userService->getAllUser();
+        $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index', [ 'users' => $users ]);
+        return redirect()->route('admin.users.list')
+            ->with('success','User created successfully');
     }
 
     /**
@@ -78,8 +83,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = $this->userService->getUserByID($id);
+        $roles = $this->roleService->getListRole();
+        $userRole = $user->roles->pluck('name','name')->all();
 
-        return view( 'admin.user.edit', compact('user') );
+        return view( 'admin.user.edit', compact('user','roles','userRole') );
     }
 
     /**
@@ -91,7 +98,8 @@ class UserController extends Controller
      */
     public function update(UserEditRequest $request, $id)
     {
-        $this->userService->updateUser($request,$id);
+        $user = $this->userService->updateUser($request,$id);
+        $user->assignRole($request->input('roles'));
 
         return redirect()->route('users.index');
     }

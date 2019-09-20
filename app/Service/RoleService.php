@@ -5,6 +5,7 @@ use App\InterfaceService\RoleInterface;
 use Spatie\Permission\Models\Role;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Support\Str;
 
 class RoleService implements RoleInterface
 {
@@ -19,8 +20,6 @@ class RoleService implements RoleInterface
     {
         $role = new Role();
         $role->name = $request->name;
-        $slug = Str::slug($request->name, '-');
-        $role->guard_name = $slug;
         $role->save();
 
         return $role;
@@ -50,6 +49,13 @@ class RoleService implements RoleInterface
         Role::destroy($id);
 
         return $role;
+    }
+
+    public function getListRole()
+    {
+        $roles = Role::pluck('name','name')->all();
+
+        return $roles;
     }
 }
 

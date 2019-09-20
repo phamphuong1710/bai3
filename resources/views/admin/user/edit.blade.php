@@ -32,6 +32,14 @@
                             @enderror
                         </div>
                     </div>
+                        @php
+                        var_dump( $userRole );
+                        @endphp
+
+                        <div class="form-group row">
+                            <strong>Role:</strong>
+                            {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+                        </div>
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">
                             <button type="submit" class="btn btn-primary">

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RoleRequest;
 use App\Service\RoleService;
 use App\Service\PermissionService;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -15,6 +16,10 @@ class RoleController extends Controller
     {
         $this->roleService = $roleService;
         $this->permissionService = $permissionService;
+        // $this->middleware('permission:role-list');
+        // $this->middleware('permission:role-create', ['only' => ['create','store']]);
+        // $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+        // $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.

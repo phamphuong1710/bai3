@@ -6,7 +6,9 @@ use Intervention\Image\ImageManagerStatic as Image;
 use App\User; // model
 use App\Media;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 use Carbon\Carbon;
+use DB;
 use File;
 
 
@@ -52,9 +54,12 @@ class UserService implements UserInterface
         if(!$user) abort('404');
         $user->name = $request->name;
         $user->phone = $request->phone;
-        $mediaId = (int)$request->logo_id;
-        $media = Media::findOrFail($mediaId);
-        $user->avatar = $media->image_path;
+        if ( $request->logo_id ) {
+            $mediaId = (int)$request->logo_id;
+            $media = Media::findOrFail($mediaId);
+            $user->avatar = $media->image_path;
+        }
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
         $user->save();
 
         return $user;
