@@ -36,8 +36,6 @@ class RoleService implements RoleInterface
     {
         $role = Role::findOrFail($id);
         $role->name = $request->name;
-        $slug = Str::slug($request->name, '-');
-        $role->guard_name = $slug;
         $role->save();
 
         return $role;
