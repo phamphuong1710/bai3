@@ -114,7 +114,7 @@
 
 
             </div>
-            <form class="update-cart" action="{{ route('order') }}" method="post" enctype="multipart/form-data">
+            <form class="update-cart" action="{{ route('order.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <div id="quangduong" class="col-md-12">
