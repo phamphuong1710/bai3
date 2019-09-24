@@ -84,5 +84,12 @@ class OrderService implements OrderInterface
 
         return $orders;
     }
+
+    public function getOrderById($id)
+    {
+        $order = Order::findOrFail($id);
+
+        return $order;
+    }
 }
 

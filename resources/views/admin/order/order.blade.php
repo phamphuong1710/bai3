@@ -6,8 +6,7 @@
 @section('content')
 <div class="order-section">
     <div class="table-orders">
-        <h1 class="page-title header">User</h1>
-        <a href="/orders/create" class="create">Create User</a>
+        <h1 class="page-title header">{{ __( 'messages.order' ) }}</h1>
         <div class="order-action">
 
             <div class="action-bottom d-flex justify-content-between align-items-center">
@@ -44,17 +43,18 @@
                         <i class="fa fa-caret-down sorting desc" data-sort="name"></i>
                     </th>
                     <th>
-                        {{ __('messages.phone') }}
-                        <i class="fa fa-caret-down sorting desc" data-sort="phone"></i>
-                    </th>
-                    <th>
-                        Email
+                        {{ __('messages.total') }}
                         <i class="fa fa-caret-down sorting desc" data-sort="email"></i>
                     </th>
                     <th>
                         {{ __('messages.created_at') }}
                         <i class="fa fa-caret-down sorting desc"  data-sort="created_at"></i>
                     </th>
+                    <th>
+                        {{ __('messages.status') }}
+                        <i class="fa fa-caret-down sorting desc" data-sort="phone"></i>
+                    </th>
+
                     <th>{{ __('messages.action') }} </th>
                 </tr>
             </thead>
@@ -62,16 +62,18 @@
                 @foreach( $orders as $order )
                 <tr>
                     <td><a href="/users/{{ $order->id }}">{{ $order->user->name }}</a></td>
-                    <td>{{ $order->user->phone }}</td>
-                    <td>{{ $order->user->email }}</td>
-                    <td>{{ $order->created_at }}</td>
                     <td>
-                        <a href="/users/{{ $order->id }}/edit" class="btn-action btn-edit"  data-id="{{ $order->id }}" controller="users">{{ __('messages.edit') }}</a>
-                        <form action="/users/{{ $order->id }}" method="POST" class="form-delete">
-                            @method('delete')
-                            {{ csrf_field() }}
-                            <button type="submit" class="btn-action btn-delete">{{ __('messages.delete') }}</button>
-                        </form>
+                        @if( 'en' == app()->getLocale() )
+                            {{ '$' . $order->usd }}
+                        @else
+                            {{ 'đ' . $order->vnd }}
+                        @endif
+                    </td>
+                    <td>{{ $order->created_at }}</td>
+                    <td>{{ $order->status }}</td>
+                    <td>
+                        <a href="/order/{{ $order->id }}/edit" class="btn-action btn-edit"  data-id="{{ $order->id }}" controller="users">{{ __('messages.edit') }}</a>
+                        <a href="/order/{{ $order->id }}">{{ __( 'messages.show' ) }}</a>
                     </td>
                 </tr>
                 @endforeach

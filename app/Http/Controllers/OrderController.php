@@ -82,7 +82,10 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = $this->orderService->getOrderById($id);
+        $orderDetail = $order->orderDetail;
+
+        return view('admin.order.order-detail', compact('order', 'orderDetail'));
     }
 
     /**
@@ -93,7 +96,10 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = $this->orderService->getOrderById($id);
+        $orderDetail = $order->orderDetail;
+
+        return view('admin.order.edit', compact('order', 'orderDetail'));
     }
 
     /**
