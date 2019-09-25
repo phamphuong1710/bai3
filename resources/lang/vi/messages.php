@@ -92,5 +92,9 @@ return [
     'all_store' => 'Tất Cả Cửa Hàng',
     'status' => 'Trạng Thái',
     'show' => 'Xem',
-    'order' => 'Đơn Hàng'
+    'order' => 'Đơn Hàng',
+    'accept' => 'Chấp Thuận',
+    'failed' => 'Thất Bại',
+    'completed' => 'Đã Hoàn Thành',
+    'processing' => 'Đang Giao',
 ];

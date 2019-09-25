@@ -96,6 +96,10 @@
 
             </table>
         </div>
+
+        <div class="order-status">
+            <span class="status">{{ $order->status }}</span>
+        </div>
     </div>
 </div>
 

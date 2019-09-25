@@ -84,8 +84,32 @@ class OrderController extends Controller
     {
         $order = $this->orderService->getOrderById($id);
         $orderDetail = $order->orderDetail;
+        foreach ($orderDetail as $key => $detail) {
+            $product = $detail->product;
+            $logo = $product->media->where('active', 1)->first();
+            $product->logo = $logo->image_path;
+            $orderDetail[$key]->product = $product;
+        }
+        if (app()->getLocale() == 'en') {
+            $status = [
+                'accept' => 'Accept',
+                'failed' => 'Failed',
+                'completed' => 'Completed',
+                'processing' => 'Processing',
+            ];
+        } else {
+            $status = [
+                'accept' => 'Chấp Thuận',
+                'failed' => 'Thất Bại',
+                'completed' => 'Đã Hoàn Thành',
+                'processing' => 'Đang Giao',
+            ];
+        }
+        $user = $order->user;
+        $address = $user->address->where('active', 1)->first()->address;
+        $user->address = $address;
 
-        return view('admin.order.order-detail', compact('order', 'orderDetail'));
+        return view('admin.order.order-detail', compact('order', 'orderDetail', 'status', 'user'));
     }
 
     /**
@@ -111,7 +135,9 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order = $this->orderService->updateOrder($request, $id);
+
+        return redirect()->route('order.index')->with('sucsess', 'Update Sussess');
     }
 
     /**

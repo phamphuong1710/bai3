@@ -2,6 +2,7 @@
 @section('style')
 <link href="{{ asset('css/admin/usertable.css') }}" rel="stylesheet">
 <link href="{{ asset('css/admin/edit-popup.css') }}" rel="stylesheet">
+<link href="{{ asset('css/admin/order-popup.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="order-section">
@@ -72,8 +73,8 @@
                     <td>{{ $order->created_at }}</td>
                     <td>{{ $order->status }}</td>
                     <td>
-                        <a href="/order/{{ $order->id }}/edit" class="btn-action btn-edit"  data-id="{{ $order->id }}" controller="users">{{ __('messages.edit') }}</a>
-                        <a href="/order/{{ $order->id }}">{{ __( 'messages.show' ) }}</a>
+
+                        <a href="/order/{{ $order->id }}" class="btn-action btn-show-order btn-edit">{{ __( 'messages.show' ) }}</a>
                     </td>
                 </tr>
                 @endforeach
@@ -82,18 +83,15 @@
         <div class="pagination">
             {{ $orders->links() }}
         </div>
-        <div class="edit-popup-overlay" id="edit-popup">
-            <div class="edit-popup" data-edit="users">
-                <div class="edit-popup-wrapper edit-user">
-
-                </div>
-                <span class="btn-close-popup fa fa-close"></span>
-            </div>
-        </div>
+    </div>
+    <div class="order-detail" id="order-detail">
+        <div id="order-detail-wrapper" class="order-detail-wrapper"></div>
+        <span class="btn-close-popup fa fa-close"></span>
     </div>
 </div>
+
 @endsection
 @section('js')
 <script src="{{ asset('js/admin/filter-user.js') }}"></script>
-<script src="{{ asset('js/admin/edit-popup.js') }}"></script>
+<script src="{{ asset('js/admin/order-detail.js') }}"></script>
 @endsection

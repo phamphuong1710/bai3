@@ -93,4 +93,8 @@ return [
     'status' => 'Status',
     'show' => 'Show',
     'order' => 'Order',
+    'accept' => 'Accept',
+    'failed' => 'Failed',
+    'completed' => 'Completed',
+    'processing' => 'Processing',
 ];

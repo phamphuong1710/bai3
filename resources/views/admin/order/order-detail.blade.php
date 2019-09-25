@@ -58,13 +58,13 @@
                             @endif
                         </td>
                         <td class="product-quantity">
-                            {{ $product->quantity }}
+                            {{ $detail->quantity }}
                         </td>
                         <td>
                             @if( app()->getLocale() == 'en' )
-                                {{ '$'.($product->quantity * ( $product->usd - $product->discount_usd) ) }}
+                                {{ '$'.($detail->quantity * ( $product->usd - $product->discount_usd) ) }}
                             @else
-                                {{ 'đ'.($product->quantity * ( $product->vnd - $product->discount_vnd)) }}
+                                {{ 'đ'.($detail->quantity * ( $product->vnd - $product->discount_vnd)) }}
                             @endif
                         </td>
                         <td class="order-store">
@@ -96,10 +96,50 @@
                 </tbody>
 
             </table>
+
+            <div class="user-order">
+                <div class="content-info-order">
+                    <div class="row user-item">
+                        <div class="col-md-2 user-label">
+                            <h6>{{ __('messages.full_name').': ' }}</h6>
+                        </div>
+                        <div class="col-md-10 user-item-info">
+                            <span>{{ $user->full_name }}</span>
+                        </div>
+                    </div>
+                    <div class="row user-item">
+                        <div class="col-md-2 user-label">
+                            <h6>Email:</h6>
+                        </div>
+                        <div class="col-md-10 user-item-info">
+                            <span>{{ $user->address }}</span>
+                        </div>
+                    </div>
+                    <div class="row user-item">
+                        <div class="col-md-2 user-label">
+                            <h6>{{ __('messages.phone') }}</h6>
+                        </div>
+                        <div class="col-md-10 user-item-info">
+                            <span>{{ $user->phone }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="order-status">
-            <span class="status">{{ $order->status }}</span>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">{{ __('messages.status') }}</label>
+                <select class="form-control" id="order-status" name="status" order="{{ $order->id }}">
+                  <option value="{{ $order->status }}">{{ $order->status }}</option>
+
+                  @foreach($status as $key => $option)
+                        @if($key != $order->status)
+                        <option value="{{ $key }}">{{ $option }}</option>
+                        @endif
+                  @endforeach
+                </select>
+              </div>
         </div>
     </div>
 

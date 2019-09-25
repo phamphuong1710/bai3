@@ -91,5 +91,16 @@ class OrderService implements OrderInterface
 
         return $order;
     }
+
+    public function updateOrder($request, $id)
+    {
+        $order = $this->getOrderById($id);
+        if ( $request->status ) {
+            $order->status = $request->status;
+        }
+        $order->save();
+
+        return $order;
+    }
 }
 
