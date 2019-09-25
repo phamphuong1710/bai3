@@ -90,4 +90,7 @@ return [
     'rating' => 'Rating',
     'store_rating' => 'Store Rating',
     'all_store' => 'All Store',
+    'status' => 'Status',
+    'show' => 'Show',
+    'order' => 'Order',
 ];

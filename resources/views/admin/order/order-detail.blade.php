@@ -1,6 +1,7 @@
 
-<div class="row justify-content-center">
-    <div class="col-md-12">
+<div class="justify-content-center">
+
+    <div class="content-order">
         <div class="product-order">
             <table class="order-table">
                 <thead>
@@ -96,6 +97,12 @@
 
             </table>
         </div>
+
+        <div class="order-status">
+            <span class="status">{{ $order->status }}</span>
+        </div>
     </div>
+
 </div>
+
 

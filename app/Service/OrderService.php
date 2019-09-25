@@ -6,6 +6,7 @@ use App\Order;
 use App\Cart;
 use App\User;
 use App\Address;
+use App\Product;
 use App\OrderDetail;
 
 class OrderService implements OrderInterface
@@ -39,6 +40,10 @@ class OrderService implements OrderInterface
             $order->discount_vnd = $detail->discount_vnd;
             $order->save();
             array_push( $orderDetails, $detail);
+            $product = Product::findOrFail( $detail->product_id );
+            $product->total_sale = $product->total_sale + $detail->quantity;
+            $product->quantity_stock = $product->quantity_stock - $detail->quantity;
+            $product->save();
         }
 
         return $orderDetails;
@@ -71,6 +76,20 @@ class OrderService implements OrderInterface
         }
 
         return $address;
+    }
+
+    public function getOrder()
+    {
+        $orders = Order::paginate(15);
+
+        return $orders;
+    }
+
+    public function getOrderById($id)
+    {
+        $order = Order::findOrFail($id);
+
+        return $order;
     }
 }
 

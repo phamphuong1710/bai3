@@ -90,4 +90,7 @@ return [
     'rating' => 'Xếp Hạng',
     'store_rating' => 'Xếp Hạng Cửa Hàng',
     'all_store' => 'Tất Cả Cửa Hàng',
+    'status' => 'Trạng Thái',
+    'show' => 'Xem',
+    'order' => 'Đơn Hàng'
 ];
