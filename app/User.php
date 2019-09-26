@@ -49,4 +49,9 @@ class User extends Authenticatable
      * @var  array
      */
     protected $dates = ['deleted_at'];
+
+    public function address()
+    {
+        return $this->hasmany('App\Address');
+    }
 }

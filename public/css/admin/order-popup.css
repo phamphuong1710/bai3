@@ -1,0 +1,25 @@
+.order-detail-wrapper {
+    position: fixed;
+    width: 80%;
+    height: 85vh;
+    background-color: #fff;
+    box-shadow: 1px 3px 20px rgba( 0,0,0,0.2 );
+    top: calc( (100% - 85vh)/2 );
+    left: calc( (100% - 80%)/2 );
+}
+
+#order-detail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+    transform: translateY(-100%);
+}
+
+#order-detail.active {
+    transform: translateY(0);
+    z-index: 9999;
+}
