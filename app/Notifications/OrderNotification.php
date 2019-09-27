@@ -61,17 +61,4 @@ class OrderNotification extends Notification
             'order_id' => $this->details['order_id']
         ];
     }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
 }

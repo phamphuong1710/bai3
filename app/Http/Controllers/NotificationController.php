@@ -34,6 +34,6 @@ class NotificationController extends Controller
 
         Notification::send($user, new OrderNotification($details));
 
-        return redirect()->route('home.index');
+        // return redirect()->route('home.index');
     }
 }
