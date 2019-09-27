@@ -25,6 +25,8 @@ class PermissionTableSeeder extends Seeder
            'category-create',
            'category-edit',
            'category-delete',
+           'salesman',
+           'storekeeper',
         ];
 
 
