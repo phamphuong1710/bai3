@@ -49,4 +49,9 @@ class Store extends Model
     {
         return $this->hasMany('App\Comment');
     }
+
+    public function users()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

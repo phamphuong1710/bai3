@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
 use App\Service\OrderService;
 use App\Service\CartService;
+use Notification;
+use App\Service\UserService;
+use App\Notifications\OrderNotification;
 use Auth;
 
 class OrderController extends Controller
@@ -64,6 +67,18 @@ class OrderController extends Controller
         $address = $this->orderService->createUserAddress($userId, $request);
         $user->total_vnd = $order->vnd;
         $user->total_usd = $order->usd;
+
+        foreach ($listOrder as $detail) {
+            $store = $detail->product;
+            $users = $store->users;
+            dd($store);
+            $details = [
+                'order_id' => $orderId,
+                'user' => $user->id,
+                'product' => $detail,
+            ];
+            Notification::send($users, new OrderNotification($details));
+        }
 
         return view(
             'layouts.order',
