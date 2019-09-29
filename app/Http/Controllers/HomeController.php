@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Service\HomeService;
 use App\Service\CartService;
 use App\Service\UserService;
+use Auth;
 
 class HomeController extends Controller
 {

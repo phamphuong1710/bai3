@@ -8,7 +8,8 @@ use App\Http\Requests\UserEditRequest;
 use App\Service\UserService;
 use App\Service\RoleService;
 use App\Service\MediaService;
-class UserController extends Controller
+
+class UserController extends BaseController
 {
     protected $userService;
     protected $mediaService;
@@ -16,6 +17,7 @@ class UserController extends Controller
 
     public function __construct(UserService $userService, MediaService $mediaService, RoleService $roleService)
     {
+        parent::__construct($userService);
         $this->middleware('auth');
         $this->userService = $userService;
         $this->mediaService = $mediaService;

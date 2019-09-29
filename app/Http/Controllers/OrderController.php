@@ -15,11 +15,17 @@ class OrderController extends Controller
 {
     protected $orderService;
     protected $cartService;
+    protected $userService;
 
-    public function __construct( OrderService $orderService, CartService $cartService )
+    public function __construct(
+        OrderService $orderService,
+        CartService $cartService,
+        UserService $userService
+    )
     {
         $this->orderService = $orderService;
         $this->cartService = $cartService;
+        $this->userService = $userService;
     }
     /**
      * Display a listing of the resource.
@@ -67,17 +73,16 @@ class OrderController extends Controller
         $address = $this->orderService->createUserAddress($userId, $request);
         $user->total_vnd = $order->vnd;
         $user->total_usd = $order->usd;
-
         foreach ($listOrder as $detail) {
-            $store = $detail->product;
-            $users = $store->users;
-            dd($store);
+            $store = $detail->product->store;
+            $userId = $store->user_id;
+            $storeUser = $this->userService->getUserById($userId);
             $details = [
                 'order_id' => $orderId,
                 'user' => $user->id,
-                'product' => $detail,
+                'detail' => $detail->id,
             ];
-            Notification::send($users, new OrderNotification($details));
+            Notification::send($storeUser, new OrderNotification($details));
         }
 
         return view(

@@ -85,7 +85,6 @@
 
                                 <li><a href="{{ url('locale/en') }}">EN</a></li>
                                 <li><a href="{{ url('locale/vi') }}" >VI</a></li>
-
                                 </ul>
                             </div>
                         </div>

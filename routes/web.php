@@ -115,7 +115,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/comment-store', 'CommentController@createStoreComment');
 
-    Route::get('send', 'NotificationController@sendNotification')->name('send');
+    Route::resource('note', 'NotificationController');
 });
 
 

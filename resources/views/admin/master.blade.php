@@ -65,7 +65,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             </form>
                                         </div>
                                     </li>
-
+                                </ul>
+                            </li>
+                            <li class="dropdown notifications-menu open">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="label label-warning">
+                                    @php
+                                        $number = count( $notes );
+                                    @endphp
+                                    {{ $number }}
+                                  </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have {{ $number }} notifications</li>
+                                    <li>
+                                    <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            @foreach( $notes as $note )
+                                            <li>
+                                                <a href="/note/{{ $note->id }}">
+                                                  <i class="fa fa-users text-aqua"></i> {{ $number }} new members joined today
+                                                </a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

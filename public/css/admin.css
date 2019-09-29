@@ -285,3 +285,13 @@
 .action-bottom {
     margin-top: 20px;
 }
+
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar-nav li:not(:last-child) {
+    margin-right: 15px;
+}
