@@ -97,4 +97,6 @@ return [
     'failed' => 'Failed',
     'completed' => 'Completed',
     'processing' => 'Processing',
+    'shopping_cart' => 'Shoping Cart',
+    'similar_product' => 'Similar Product',
 ];

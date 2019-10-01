@@ -11,61 +11,6 @@ $(document).ready(function ($) {
     });
     directionsDisplay.setMap(map);
 
-
-    // calculateAndDisplayRoute(directionsService, directionsDisplay);
-
-
-    // function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-    //     var selectedMode = 'DRIVING';
-    //     var listAddress = $('.origin');
-    //     var destination = [];
-    //     var list = [];
-    //     $('.origin').each(function (index) {
-    //         var data = $(this).val(),
-
-    //             store = $(this).attr('store');
-    //             if ( ! list.includes(data) ) {
-    //                 console.log(333);
-    //                 data = data.split(",");
-    //                 list.push(data);
-    //             }
-    //             console.log( list );
-    //     });
-    //     for (var i = 0; i < list.length; i++) {
-    //         list[i];
-    //         var key = 'origin' + i;
-    //         destination['origin'] = {
-    //             lat: parseFloat(list[i][0]),
-    //             lng: parseFloat(list[i][1])
-    //         };
-
-    //         console.log(destination);
-    //         if (navigator.geolocation) {
-    //             navigator.geolocation.getCurrentPosition(function(position) {
-    //
-    //                 destination['destination'] = {
-    //                         lat: position.coords.latitude,
-    //                         lng: position.coords.longitude
-    //                     };
-    //                     destination['travelMode'] = google.maps.TravelMode[selectedMode];
-    //                     destination = Object.assign({}, destination);
-    //                 directionsService.route( destination, function(response, status) {
-    //                     if (status == 'OK') {
-    //                         directionsDisplay.setDirections(response);
-    //                     } else {
-    //                         window.alert('Directions request failed due to ' + status);
-    //                     }
-    //                 });
-
-    //             }, function() {
-    //                 handleLocationError(true, infoWindow, map.getCenter());
-    //             });
-    //         } else {
-    //             // Browser doesn't support Geolocation
-    //             handleLocationError(false, infoWindow, map.getCenter());
-    //         }
-    //     }
-    // }
 var bounds = new google.maps.LatLngBounds;
         var markersArray = [];
         var geocoder = new google.maps.Geocoder;

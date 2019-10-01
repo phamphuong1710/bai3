@@ -128,11 +128,11 @@ $(document).ready(function(){
                     price = '<div class="info-product-price">' +
 
                                 '<span class="item_price">' +
-                                    '<span class="currency">$</span>' +
+                                    '<span class="currency">đ</span>' +
                                     addCommas(vnd) +
                                 '</span>' +
                                 '<del>' +
-                                    '<span class="currency">$</span>' +
+                                    '<span class="currency">đ</span>' +
                                     addCommas(value.vnd) +
                                 '</del>' +
                             '</div>'
@@ -140,7 +140,7 @@ $(document).ready(function(){
                 } else {
                     price = '<div class="info-product-price">' +
                                 '<span class="item_price">' +
-                                    '<span class="currency">$</span>' +
+                                    '<span class="currency">đ</span>' +
                                     addCommas(value.vnd) +
                                 '</span>' +
                             '</div>';

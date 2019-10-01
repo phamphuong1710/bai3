@@ -52,44 +52,44 @@
                     <div class="product-summary col-md-6">
                         <div class="summary-wrapper">
                             <h1 class="product-name">{{ $product->name }}</h1>
-                                                        @if( app()->getLocale() == 'en' )
-                                                        <div class="info-product-price">
+                            @if( app()->getLocale() == 'en' )
+                            <div class="info-product-price">
 
-                                                            @if( $product->on_sale != 0 )
-                                                                @php
-                                                                    $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
-                                                                @endphp
-                                                            <span class="item_price item_sale">
-                                                                <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
-                                                            </span>
-                                                            <del>
-                                                                <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}</del>
-                                                            @else
-                                                            <span class="item_price">
-                                                                <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
-                                                            </span>
-                                                            @endif
-                                                        </div>
-                                                        @endif
-                                                        @if( app()->getLocale() == 'vi' )
-                                                        <div class="info-product-price">
-                                                            @if( $product->on_sale != 0 )
-                                                                @php
-                                                                    $price = $product->vnd - ( $product->on_sale / 100 * $product->vnd )
-                                                                @endphp
-                                                            <span class="item_price item_sale">
-                                                                <span class="currency">đ</span>{{ number_format($price,0,'.','.') }}
-                                                            </span>
-                                                            <del>
-                                                                <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
-                                                            </del>
-                                                            @else
-                                                            <span class="item_price">
-                                                                <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
-                                                            </span>
-                                                            @endif
-                                                        </div>
-                                                        @endif
+                                @if( $product->on_sale != 0 )
+                                    @php
+                                        $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
+                                    @endphp
+                                <span class="item_price item_sale">
+                                    <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
+                                </span>
+                                <del>
+                                    <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}</del>
+                                @else
+                                <span class="item_price">
+                                    <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                </span>
+                                @endif
+                            </div>
+                            @endif
+                            @if( app()->getLocale() == 'vi' )
+                            <div class="info-product-price">
+                                @if( $product->on_sale != 0 )
+                                    @php
+                                        $price = $product->vnd - ( $product->on_sale / 100 * $product->vnd )
+                                    @endphp
+                                <span class="item_price item_sale">
+                                    <span class="currency">đ</span>{{ number_format($price,0,'.','.') }}
+                                </span>
+                                <del>
+                                    <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                </del>
+                                @else
+                                <span class="item_price">
+                                    <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                </span>
+                                @endif
+                            </div>
+                            @endif
 
                             @if( Auth::id() && $product->user_rating === false )
                             <div class="rating-star">
@@ -303,50 +303,89 @@
         @endif
         @if( count($product->in_store) != 0 )
             <div class="related-product">
-                <h2>Products in the same store</h2>
+                <h2>{{ __('messages.similar_product') }}</h2>
                 <div class="row">
-                    @foreach($product->in_store as $goods)
-                    <div class="col-md-3 product-men">
-                        <div class="men-pro-item simpleCart_shelfItem">
-                            <div class="men-thumb-item">
-                                <a href="/products/{{ $goods->slug }}">
-                                    @foreach ( $goods->media->where( 'active', 1 ) as $logo )
-                                    <img src="{{ $logo->image_path }}" alt="Image Product">
-                                    @endforeach
-                                </a>
-                                <div class="men-cart-pro">
-                                    <div class="inner-men-cart-pro">
-                                        <a href="/products/{{ $goods->slug }}" class="link-product-add-cart">{{ __('messages.quick_view') }}</a>
+                    @foreach($product->in_store as $product)
+                        <div class="col-md-3 product-men">
+                            <div class="men-pro-item item-pro">
+                                <div class="men-thumb-item">
+                                    <a href="/products/{{ $product->slug }}">
+
+                                        <img src="{{ $product->logo }}" alt="{{ $product->name }}">
+                                    </a>
+                                    <?php if ( $product->on_sale != 0 ): ?>
+                                        <span class="product-discount">{{ $product->on_sale . '%' }}</span>
+                                    <?php endif ?>
+
+                                    <div class="add-to-cart-wrapper">
+                                        <form action="{{ route('add-to-cart') }}" method="post" class="add-to-cart-form">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
+                                            <input type="hidden" name="quantity" value="1"  class="add-quantity">
+                                            <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
+                                            @guest
+                                            <button class="user-login btn-add-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
+                                            @else
+                                            <button type="submit" class="button btn-add-to-cart ion-ios-cart">{{ __('messages.add_to_cart') }}</button>
+                                            @endguest
+                                        </form>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="item-info-product ">
-                                <h4>
-                                <a href="/products/{{ $goods->slug }}">{{ $product->name }}</a>
-                                </h4>
-                                @if( app()->getLocale() == 'en' )
-                                <div class="info-product-price">
-                                    @if( $goods->on_sale != 0 )
-                                    <span class="item_price">{{ $goods->usd - ( $goods->on_sale / 100 * $goods->usd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                    <del>{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                    @else
-                                    <span class="item_price">{{ $goods->usd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
+                                <div class="item-info-product ">
+                                    <h4 class="item-name">
+                                    <a href="/products/{{ $product->slug }}">{{ Str::words($product->name, 3) }}</a>
+                                    </h4>
+                                    @php
+                                        $avg = $product->rating_average;
+                                        $p = ( $avg / 5 ) * 100;
+                                    @endphp
+                                    <div class="wt-star-rating">
+                                        <span class="star-reviewed" style="width: {{ $p }}%">
+                                        </span>
+                                    </div>
+                                    @if( app()->getLocale() == 'en' )
+                                    <div class="info-product-price">
+
+                                        @if( $product->on_sale != 0 )
+                                            @php
+                                                $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
+                                            @endphp
+                                        <del>
+                                            <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                        </del>
+                                        <span class="item_price item-sale">
+                                            <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
+                                        </span>
+
+                                        @else
+                                        <span class="item_price">
+                                            <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                        </span>
+                                        @endif
+                                    </div>
+                                    @endif
+                                    @if( app()->getLocale() == 'vi' )
+                                    <div class="info-product-price">
+                                        @if( $product->on_sale != 0 )
+                                            @php
+                                                $price = $product->vnd - ( $product->on_sale / 100 * $product->vnd )
+                                            @endphp
+                                        <span class="item_price">
+                                            <span class="currency">đ</span>{{ number_format($price,0,'.','.') }}
+                                        </span>
+                                        <del>
+                                            <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                        </del>
+                                        @else
+                                        <span class="item_price">
+                                            <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                        </span>
+                                        @endif
+                                    </div>
                                     @endif
                                 </div>
-                                @endif
-                                @if( app()->getLocale() == 'vi' )
-                                <div class="info-product-price">
-                                    @if( $goods->on_sale != 0 )
-                                    <span class="item_price">{{ $goods->vnd - ( $goods->on_sale / 100 * $goods->vnd ) }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                    <del>{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></del>
-                                    @else
-                                    <span class="item_price">{{ $goods->vnd }}<span class="currency">{{ __('messages.curentcy') }}</span></span>
-                                    @endif
-                                </div>
-                                @endif
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
             </div>
@@ -358,7 +397,7 @@
 
 <div id="shop-cart-sidebar">
     <div class="cart-sidebar-head">
-        <h4 class="cart-sidebar-title">Shopping cart</h4>
+        <h4 class="cart-sidebar-title">{{ __('messages.shopping_cart') }}</h4>
             @if ( Session::get('cart')['quantity'] )
                 <span class="count">{{ Session::get('cart')['quantity'] }}</span>
             @else

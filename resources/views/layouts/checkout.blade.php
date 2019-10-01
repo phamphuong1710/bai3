@@ -30,6 +30,7 @@
                             </td>
                             <td class="product-name">{{ $product->name }}</td>
                             <td class="product-price">
+
                                 @if( app()->getLocale() == 'en' )
                                 <div class="info-product-price">
                                     @if( $product->discount_usd != 0 )
@@ -46,7 +47,7 @@
                                 @endif
                                 @if( app()->getLocale() == 'vi' )
                                 <div class="info-product-price">
-                                    @if( $product->on_sale != 0 )
+                                    @if( $product->discount_vnd != 0 )
                                         <span class="item_price">
                                             {{ 'đ'.($product->vnd - $product->discount_vnd) }}
                                         </span>
@@ -64,10 +65,18 @@
                             </td>
                             <td>
                                 @if( app()->getLocale() == 'en' )
-                                    {{ '$'.($product->quantity * ( $product->usd - $product->discount_usd) ) }}
+                                    @php
+                                        $price = ($product->quantity * ( $product->usd - $product->discount_usd) );
+                                        $symbol = '$';
+                                    @endphp
                                 @else
-                                    {{ 'đ'.($product->quantity * ( $product->vnd - $product->discount_vnd)) }}
+                                    @php
+                                        $price = ($product->quantity * ( $product->vnd - $product->discount_vnd));
+                                        $symbol = 'đ';
+                                    @endphp
                                 @endif
+
+                                {{ $symbol . number_format($price,0,'.','.') }}
                             </td>
                             <td class="order-store">
                                 {{ $product->product->store->name }}

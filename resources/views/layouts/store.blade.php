@@ -149,21 +149,41 @@
                                                 <div class="product-right">
                                                     @if( app()->getLocale() == 'en' )
                                                     <div class="info-goods-price">
+
                                                         @if( $product->on_sale != 0 )
-                                                        <span class="item_price">{{ $product->usd - ( $product->on_sale / 100 * $product->usd ) }}$</span>
-                                                        <del>{{ $product->usd }}$</del>
+                                                            @php
+                                                                $price = $product->usd - ( $product->on_sale / 100 * $product->usd )
+                                                            @endphp
+                                                        <del>
+                                                            <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                                        </del>
+                                                        <span class="item_price item-sale">
+                                                            <span class="currency">$</span>{{ number_format($price,2,'.','.') }}
+                                                        </span>
+
                                                         @else
-                                                        <span class="item_price">{{ $product->usd }}$</span></span>
+                                                        <span class="item_price">
+                                                            <span class="currency">$</span>{{ number_format($product->usd,2,'.','.') }}
+                                                        </span>
                                                         @endif
                                                     </div>
                                                     @endif
                                                     @if( app()->getLocale() == 'vi' )
                                                     <div class="info-goods-price">
                                                         @if( $product->on_sale != 0 )
-                                                        <span class="item_price">{{ $product->vnd - ( $product->on_sale / 100 * $product->vnd ) }}đ</span>
-                                                        <del>{{ $product->vnd }}đ</del>
+                                                            @php
+                                                                $price = $product->vnd - ( $product->on_sale / 100 * $product->vnd )
+                                                            @endphp
+                                                        <span class="item_price">
+                                                            <span class="currency">đ</span>{{ number_format($price,0,'.','.') }}
+                                                        </span>
+                                                        <del>
+                                                            <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                                        </del>
                                                         @else
-                                                        <span class="item_price">{{ $product->vnd }}đ</span>
+                                                        <span class="item_price">
+                                                            <span class="currency">đ</span>{{ number_format($product->vnd,0,'.','.') }}
+                                                        </span>
                                                         @endif
                                                     </div>
                                                     @endif
@@ -264,7 +284,6 @@
                                 @endforeach
                             </ul>
                         </div>
-
                     @else
                         <span>
                             <a href="">{{ __('messages.sing_in') }}</a>

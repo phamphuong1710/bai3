@@ -30,6 +30,10 @@ class SingleProductController extends Controller
             abort('404');
         }
         $productStore = $this->productService->getTheSameProductInStore($product->store_id, $product->id);
+        foreach ($productStore as $index => $product) {
+            $logo = $product->media->where('active', 1)->first()->image_path;
+            $productStore[$index]->logo = $logo;
+        }
         $productCategory = $this->productService->getTheSameProductInCategory($product->category, $product->id);
         $product->in_store = $productStore;
         $product->in_category = $productCategory;
