@@ -39,7 +39,7 @@ class OrderService implements OrderInterface
             $order->discount_usd = $detail->discount_usd;
             $order->discount_vnd = $detail->discount_vnd;
             $order->save();
-            array_push( $orderDetails, $detail);
+            array_push( $orderDetails, $order);
             $product = Product::findOrFail( $detail->product_id );
             $product->total_sale = $product->total_sale + $detail->quantity;
             $product->quantity_stock = $product->quantity_stock - $detail->quantity;

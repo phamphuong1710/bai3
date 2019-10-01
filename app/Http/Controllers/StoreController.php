@@ -11,7 +11,7 @@ use App\Service\AddressService;
 use App\Service\CategoryService;
 use Auth;
 
-class StoreController extends Controller
+class StoreController extends BaseController
 {
 
     protected $storeService;
