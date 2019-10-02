@@ -49,3 +49,14 @@
 #map {
     height: 500px;
 }
+
+
+.btn-order {
+    background-color: #aa2231;
+    color: #fff;
+    height: 40px;
+    padding: 0 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

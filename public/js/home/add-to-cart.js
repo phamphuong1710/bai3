@@ -45,10 +45,15 @@ $(document).ready(function(){
                     html += '<li class="mini-cart-item cart-item">' +
                                 '<div class="product-minnicart-info">' +
                                     '<span class="mincart-product-name">' + value.name + '</span>' +
-                                    '<span class="product-quantity">' +
-                                        '<span class="minicart-product-quantity">' + value.quantity + '</span> x <span class="minicart-product-price">' + symbol + unit +'</span>' +
-                                    '</span>' +
+                                    '<div class="quantity-mini-cart quantity">' +
+                                        '<span class="modify-qty dec ion-android-remove"></span>' +
+                                        '<input type="number" class="input-text qty text"  min="1" max="" name="quantity[' + value.id + '" value="' + value.quantity + '">' +
+                                        '<span class="modify-qty inc ion-android-add"></span>' +
+                                    '</div>' +
                                 '</div>' +
+                                '<span class="minicart-product-price">' +
+                                    symbol + unit +
+                                '</span>' +
                                 '<div class="product-minicart-logo">' +
                                     '<img src="' + value.logo + '" alt="' + value.name + '">' +
                                 '</div>' +

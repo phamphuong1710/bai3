@@ -4,6 +4,7 @@
 <link href="{{ asset('css/home/slick.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/slick-theme.css') }}" rel="stylesheet">
 <link href="{{ asset('css/admin/list-product.css') }}" rel="stylesheet">
+<link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <div class="font-page page-content">

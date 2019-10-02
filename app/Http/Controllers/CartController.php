@@ -125,22 +125,23 @@ class CartController extends Controller
     {
         session()->forget('cart');
         $cart = $this->cartService->getCartByUser();
+        $stores = [];
         if ( $cart ) {
             $cart = $this->getCart($cart);
-        }
-        $stores = [];
-        foreach ($cart['product'] as $cartDetail) {
-            $store = $cartDetail->product->store;
-            $storeId = $store->id;
-            $storeName = $store->name;
-            if ( !array_key_exists($storeId, $stores) ) {
-                $stores[$storeId] = [
-                    'lat' => $store->address->lat,
-                    'lng' => $store->address->lng,
-                    'name' => $store->name,
-                ];
+            foreach ($cart['product'] as $cartDetail) {
+                $store = $cartDetail->product->store;
+                $storeId = $store->id;
+                $storeName = $store->name;
+                if ( !array_key_exists($storeId, $stores) ) {
+                    $stores[$storeId] = [
+                        'lat' => $store->address->lat,
+                        'lng' => $store->address->lng,
+                        'name' => $store->name,
+                    ];
+                }
             }
         }
+
         $stores = json_encode($stores);
 
         return view(

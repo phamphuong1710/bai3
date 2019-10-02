@@ -99,4 +99,5 @@ return [
     'processing' => 'Đang Giao',
     'shopping_cart' => 'Giỏ Hàng',
     'similar_product' => 'Sản Phẩm Tương Tự',
+    'delivery_cost' => 'Phí Giao Hàng',
 ];

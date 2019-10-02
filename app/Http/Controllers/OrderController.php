@@ -159,15 +159,4 @@ class OrderController extends Controller
 
         return redirect()->route('order.index')->with('sucsess', 'Update Sussess');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
