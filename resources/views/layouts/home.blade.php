@@ -111,23 +111,23 @@
                         <ul class="list-discount">
 
                             <li class="discount-item item-filter">
-                                20% or More
+                                20%
                                 <input type="checkbox" name="discount" class="discount-sidebar-input" value="20">
                                     <span class="filter-label"></span>
                                 </a>
                             </li>
                             <li class="discount-item item-filter">
-                                30% or More
+                                30%
                                 <input type="checkbox" name="discount" class="discount-sidebar-input" value="30">
                                 <span class="filter-label"></span>
                             </li>
                             <li class="discount-item item-filter">
-                                40% or More
+                                40%
                                 <input type="checkbox" name="discount" class="discount-sidebar-input" value="40">
                                     <span class="filter-label"></span>
                             </li>
                             <li class="discount-item item-filter">
-                                50% or More
+                                50%
                                 <input type="checkbox" name="discount" class="discount-sidebar-input" value="50">
                                     <span class="filter-label"></span>
                             </li>

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    var lang = $('html').attr('lang');
     $( '.btn-add-to-cart' ).on( 'click', function (e) {
         e.preventDefault();
         var btn = $(this),
@@ -9,8 +10,6 @@ $(document).ready(function(){
             formData = new FormData();
             formData.append('product_id', product);
             formData.append('quantity', quantity);
-            console.log(product);
-            // console.log(data);
         $.ajaxSetup({
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -26,22 +25,28 @@ $(document).ready(function(){
                 btn.addClass('eloading');
                 $( '#shop-cart-sidebar' ).addClass( 'showcart' );
                 $( '#shop-overlay' ).addClass( 'show' );
-                $( '#shop-cart-sidebar' ).removeClass('added').addClass('eloading');
+                $( '#shop-cart-sidebar' ).addClass('eloading');
             },
             success: function (data) {
                 btn.removeClass('eloading');
-                $( '#shop-cart-sidebar' ).addClass('added').removeClass('eloading');
-                console.log(data);
+                $( '#shop-cart-sidebar' ).removeClass('eloading');
                 var html = '',
                     total = 0;
                     price = 0;
                 $.each(data.product, function (index,value) {
-                    unit = value.usd - value.discount_usd;
+                    if (lang == 'en') {
+                        unit = value.usd - value.discount_usd;
+                        symbol = '$';
+                    } else {
+                        unit = value.vnd - value.discount_vnd;
+                        symbol = 'đ';
+                    }
+
                     html += '<li class="mini-cart-item cart-item">' +
                                 '<div class="product-minnicart-info">' +
                                     '<span class="mincart-product-name">' + value.name + '</span>' +
                                     '<span class="product-quantity">' +
-                                        '<span class="minicart-product-quantity">' + value.quantity + '</span> x <span class="minicart-product-price">$' + unit +'</span>' +
+                                        '<span class="minicart-product-quantity">' + value.quantity + '</span> x <span class="minicart-product-price">' + symbol + unit +'</span>' +
                                     '</span>' +
                                 '</div>' +
                                 '<div class="product-minicart-logo">' +
@@ -52,10 +57,11 @@ $(document).ready(function(){
                     total = total + parseInt(value.quantity);
                     price = price + value.quantity * unit;
 
+
                 });
                 $('.list-product-in-cart').html(html);
                 $('.count').html(total);
-                $('.total-price').html(price);
+                $('.total-price').html( symbol + price);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);

@@ -97,4 +97,6 @@ return [
     'failed' => 'Thất Bại',
     'completed' => 'Đã Hoàn Thành',
     'processing' => 'Đang Giao',
+    'shopping_cart' => 'Giỏ Hàng',
+    'similar_product' => 'Sản Phẩm Tương Tự',
 ];
