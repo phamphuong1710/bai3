@@ -59,7 +59,7 @@ Route::get('/user-register', 'AuthController@register')->name('user-register');
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('order/{user}/{order}','OrderController@order')->name('order-template');
+    Route::get('order-detail/{id}','OrderController@order')->name('order-template');
 
     Route::resource('order','OrderController');
 

@@ -53,7 +53,7 @@ class SliderService implements SliderInterface
         return $slider;
     }
 
-    public function getAllSlider()
+    public function getSlider()
     {
         $slider = Slider::paginate(5);
 

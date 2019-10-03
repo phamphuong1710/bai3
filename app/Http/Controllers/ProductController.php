@@ -7,8 +7,9 @@ use App\Service\ProductService;
 use App\Service\MediaService;
 use App\Service\CategoryService;
 use App\Http\Requests\ProductRequest;
+use App\Service\UserService;
 
-class ProductController extends Controller
+class ProductController extends BaseController
 {
     protected $productService;
     protected $mediaService;
@@ -17,10 +18,12 @@ class ProductController extends Controller
     public function __construct(
         ProductService $productService,
         MediaService $mediaService,
-        CategoryService $categoryService
+        CategoryService $categoryService,
+        UserService $userService
     )
     {
         $this->middleware('auth');
+        parent::__construct($userService);
         $this->productService = $productService;
         $this->mediaService = $mediaService;
         $this->categoryService = $categoryService;

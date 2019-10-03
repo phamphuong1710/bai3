@@ -2,7 +2,8 @@
 namespace App\Service;
 
 use App\InterfaceService\StoreInterface;
-use App\Store; // model
+use App\Store;
+use App\Address; // model
 use Auth;
 
 class StoreService implements StoreInterface
@@ -107,6 +108,41 @@ class StoreService implements StoreInterface
         $store = Store::where('slug', $slug)->first();
 
         return $store;
+    }
+
+    public function createStoreAddress($storeId, $request)
+    {
+        $address = new Address();
+        $address->address = $request->address;
+        $address->lat = $request->lat;
+        $address->lng = $request->lng;
+        $address->store_id = $storeId;
+        $address->active = 1;
+        $address->save();
+
+        return $address;
+    }
+
+    public function updateStoreAddress($storeId, $request)
+    {
+        $address = Address::where('store_id', $storeId)
+            ->where('active', 1)
+            ->firstOrFail();
+        $address->address = $request->address;
+        $address->lat = $request->lat;
+        $address->lng = $request->lng;
+        $address->save();
+
+        return $address;
+    }
+
+    public function getAddressByStoreID($storeId)
+    {
+        $address = Address::where('store_id', $storeId)
+            ->where('active', 1)
+            ->firstOrFail();
+
+        return $address;
     }
 }
 

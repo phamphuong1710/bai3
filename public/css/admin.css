@@ -295,3 +295,8 @@
 .navbar-nav li:not(:last-child) {
     margin-right: 15px;
 }
+
+.slider-section .table-slider img {
+    border-radius: 0;
+    object-fit: contain;
+}
