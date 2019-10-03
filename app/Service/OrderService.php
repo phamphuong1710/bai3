@@ -26,7 +26,7 @@ class OrderService implements OrderInterface
     public function orderDetail($orderId, $userId)
     {
         $cart = Cart::where('user_id', $userId)
-            ->first();
+            ->firstOrFail();
         $cartDetails = $cart->detail;
         $orderDetails = [];
         foreach ($cartDetails as $detail) {
@@ -56,6 +56,8 @@ class OrderService implements OrderInterface
         if(!$user) abort('404');
         $user->phone = $request->phone;
         $user->full_name = $request->name;
+        $user->save();
+
         return $user;
     }
 

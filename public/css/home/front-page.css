@@ -1,5 +1,7 @@
 .btn-sing-out {
     background: none;
+    font-size: 14px;
+    outline: none;
 }
 h4.item-name a {
     color: #222;

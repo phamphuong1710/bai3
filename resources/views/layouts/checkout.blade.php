@@ -7,6 +7,7 @@
 <div class="section-checkout checkout-detail">
     <div class="container">
         <div class="cart-detail-wrapper">
+            @if( ! empty( $cart['product'] ) )
             <div class="order-detail">
                 <table class="order-table">
                     <thead>
@@ -21,6 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         @foreach( $cart['product'] as $product )
                         <tr class="cart-item">
                             <td class="product-image">
@@ -91,6 +93,7 @@
 
                         </tr>
                         @endforeach
+
                         <tr class="cart-total">
                             <td class="total-label" colspan="6"> {{ __('messages.total') }}</td>
                             @php
@@ -113,7 +116,7 @@
                 </div>
                 <div class="col-md-2">
 
-                   <p class="ship" vnd="5000" usd="">Phí ship: <span class="cost"></span>/km</p>
+                   <p class="ship" vnd="5000" usd="">{{ __('messages.delivery_cost') }}: <span class="cost"></span>/km</p>
 
 
                 </div>
@@ -142,7 +145,7 @@
                     <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
                 </div>
                 <div class="new-address">
-                    <span class="create-new-address">Thêm địa chỉ mới</span>
+
                     <div class="form-group field-new-address">
                         <label for="address" class=" col-form-label text-md-right">{{ __('messages.address') }}</label>
                         <div class="">
@@ -164,8 +167,9 @@
                     </div>
                 </div>
 
-                <button type="submit">Order</button>
+                <button type="submit" class="btn-order">{{ __('messages.order') }}</button>
             </form>
+            @endif
         </div>
     </div>
 </div>

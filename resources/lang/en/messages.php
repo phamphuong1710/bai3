@@ -99,4 +99,5 @@ return [
     'processing' => 'Processing',
     'shopping_cart' => 'Shoping Cart',
     'similar_product' => 'Similar Product',
+    'delivery_cost' => 'Delivery Cost',
 ];
