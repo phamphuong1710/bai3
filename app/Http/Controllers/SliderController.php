@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Service\StoreService;
 use App\Service\MediaService;
 use App\Service\SliderService;
+use App\Service\UserService;
 
-class SliderController extends Controller
+class SliderController extends BaseController
 {
     protected $storeService;
     protected $mediaService;
@@ -16,10 +17,12 @@ class SliderController extends Controller
     public function __construct(
         StoreService $storeService,
         MediaService $mediaService,
-        SliderService $sliderService
+        SliderService $sliderService,
+        UserService $userService
     )
     {
         $this->middleware('auth');
+        parent::__construct($userService);
         $this->storeService = $storeService;
         $this->mediaService = $mediaService;
         $this->sliderService = $sliderService;

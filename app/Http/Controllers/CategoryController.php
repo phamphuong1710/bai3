@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 use App\Service\CategoryService;
+use App\Service\UserService;
 
-class CategoryController extends Controller
+class CategoryController extends BaseController
 {
     protected $categoryService;
 
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, UserService $userService)
     {
         $this->middleware('auth');
+        parent::__construct($userService);
         $this->categoryService = $categoryService;
     }
 

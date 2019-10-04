@@ -4,8 +4,10 @@
 <link href="{{ asset('css/home/checkout.css') }}" rel="stylesheet">
 @endsection
 @section('content')
+<div class="container">
     <div class="content-order">
         <div class="user-order">
+            <h2 class="billing-detail-title">{{ __('messages.billing') }}</h2>
             <div class="content-info-order">
                 <div class="row user-item">
                     <div class="col-md-2 user-label">
@@ -34,6 +36,7 @@
             </div>
 
         <div class="product-order">
+            <h2 class="billing-detail-title">{{ __('messages.order') }}</h2>
             <table class="order-table">
                 <thead>
                     <tr>
@@ -47,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach( $order as $detail )
+                    @foreach( $orderDetail as $detail )
                     @php
                     $product = $detail->product;
                     @endphp
@@ -131,6 +134,7 @@
         </div>
         </div>
     </div>
+</div>
 @endsection
 @section('js')
 

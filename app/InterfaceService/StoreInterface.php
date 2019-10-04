@@ -13,4 +13,7 @@ interface StoreInterface {
     public function filterStore($request);
     public function getStoreBySlug($slug);
     public function getStore();
+    public function createStoreAddress($storeId, $request);
+    public function updateStoreAddress($storeId, $request);
+    public function getAddressByStoreID($storeId);
 }

@@ -15,8 +15,8 @@
     {{ session('success_update') }}
 </div>
 @endif
-<div class="user-section">
-    <div class="table-users">
+<div class="slider-section">
+    <div class="table-users table-slider">
         <h1 class="page-title header">Slider</h1>
         <a href="/slider/create" class="create">{{ __('messages.create_slider') }}</a>
 

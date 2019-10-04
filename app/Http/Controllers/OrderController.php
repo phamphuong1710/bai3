@@ -85,13 +85,7 @@ class OrderController extends Controller
             Notification::send($storeUser, new OrderNotification($details));
         }
 
-        return view(
-            'layouts.order',
-            [
-                'order' => $listOrder,
-                'user' => $user,
-            ]
-        );
+        return redirect()->route('order-template', ['id' => $orderId]);
     }
 
     /**
@@ -158,5 +152,28 @@ class OrderController extends Controller
         $order = $this->orderService->updateOrder($request, $id);
 
         return redirect()->route('order.index')->with('sucsess', 'Update Sussess');
+    }
+
+    public function order($id)
+    {
+        $userId = Auth::id();
+        $user = $this->userService->getUserById($userId);
+        $order = $this->orderService->getOrderById($id);
+        $orderDetail = $order->orderDetail;
+        foreach ($orderDetail as $key => $detail) {
+            $product = $detail->product;
+            $logo = $product->media->where('active', 1)->first();
+            $product->logo = $logo->image_path;
+            $orderDetail[$key]->product = $product;
+        }
+
+        return view(
+            'layouts.order',
+            [
+                'orderDetail' => $orderDetail,
+                'order' => $order,
+                'user' => $user,
+            ]
+        );
     }
 }

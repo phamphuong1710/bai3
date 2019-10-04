@@ -1033,5 +1033,14 @@ del {
     opacity: 1;
 }
 
+.user-order {
+    margin: 60px 0 0;
+}
 
+.content-info-order {
+    margin-bottom: 60px;
+}
 
+.billing-detail-title {
+    margin-bottom: 30px;
+}

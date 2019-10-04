@@ -185,7 +185,7 @@
         @endguest
         <div id="shop-cart-sidebar">
             <div class="cart-sidebar-head">
-                <h4 class="cart-sidebar-title">__('messages.shopping_cart')</h4>
+                <h4 class="cart-sidebar-title">{{ __('messages.shopping_cart') }}</h4>
                     @if ( Session::get('cart')['quantity'] )
                         <span class="count">{{ Session::get('cart')['quantity'] }}</span>
                     @else

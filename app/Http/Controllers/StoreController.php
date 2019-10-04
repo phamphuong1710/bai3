@@ -7,7 +7,7 @@ use App\Http\Requests\StoreRequest;
 use App\Service\StoreService;
 use App\Service\MediaService;
 use App\Service\ProductService;
-use App\Service\AddressService;
+use App\Service\UserService;
 use App\Service\CategoryService;
 use Auth;
 
@@ -17,22 +17,22 @@ class StoreController extends BaseController
     protected $storeService;
     protected $mediaService;
     protected $productService;
-    protected $addressService;
+    protected $userService;
     protected $categoryService;
 
     public function __construct(
         StoreService $storeService,
         MediaService $mediaService,
         ProductService $productService,
-        AddressService $addressService,
+        UserService $userService,
         CategoryService $categoryService
     )
     {
         $this->middleware('auth');
+        parent::__construct($userService);
         $this->storeService = $storeService;
         $this->mediaService = $mediaService;
         $this->productService = $productService;
-        $this->addressService = $addressService;
         $this->categoryService = $categoryService;
     }
     /**
@@ -73,7 +73,7 @@ class StoreController extends BaseController
         foreach ($listImage as $position => $id) {
             $this->mediaService->updateStoreImage($id, $store->id, $position);
         }
-        $this->addressService->createStoreAddress($store->id, $request);
+        $this->storeService->createStoreAddress($store->id, $request);
 
         return redirect()->route('stores.index');
 
@@ -96,7 +96,7 @@ class StoreController extends BaseController
         $listImage = implode(',', $listImage);
         $products = $this->productService->getAllProductStore($id);
         $store->products = $products;
-        $address = $this->addressService->getAddressByStoreID($id);
+        $address = $this->storeService->getAddressByStoreID($id);
         $store->list_image = $listImage;
         $products = $this->productService->getAllProductInStore($id);
         $listCategory = [];
@@ -129,7 +129,7 @@ class StoreController extends BaseController
         $store = $this->storeService->getStoreById($id);
         $image = $this->mediaService->getImageByStoreId($id);
         $logo = $this->mediaService->getLogoByStoreId($id);
-        $address = $this->addressService->getAddressByStoreID($id);
+        $address = $this->storeService->getAddressByStoreID($id);
         $store->address = $address;
         $store->media = $image;
         $store->logo = $logo->image_path;
@@ -160,7 +160,7 @@ class StoreController extends BaseController
                 $this->mediaService->updateStoreImage($idImage, $id, $position);
             }
         }
-        $this->addressService->updateStoreAddress($id, $request);
+        $this->storeService->updateStoreAddress($id, $request);
 
         return redirect()->route('stores.index');
     }
