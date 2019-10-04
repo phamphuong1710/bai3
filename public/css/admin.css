@@ -300,3 +300,35 @@
     border-radius: 0;
     object-fit: contain;
 }
+
+.logo-wrapper {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto 20px;
+}
+
+.logo-wrapper img {
+    width: 100%;
+}
+
+.logo-wrapper.loading:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    opacity: 0.5;
+    content: '';
+    display: block;
+}
+
+
+.logo-wrapper.loading:before {
+    position: absolute;
+    content: url('../images/preloader.gif');
+    display: block;
+    top: calc( ( 100% - 32px )/2 );
+}

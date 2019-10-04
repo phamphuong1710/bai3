@@ -16,6 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Theme style -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/admin/library-image.css') }}" rel="stylesheet">
         @yield('style')
     </head>
     <body class="hold-transition skin-blue sidebar-mini" data-src='{{ url("/") }}'>
@@ -83,11 +84,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <!-- inner menu: contains the actual data -->
                                         <ul class="menu">
                                             @foreach( $notes as $note )
-                                            <li>
-                                                <a href="/note/{{ $note->id }}">
-                                                  <i class="fa fa-users text-aqua"></i> {{ $number }} new members joined today
-                                                </a>
-                                            </li>
+                                                @php
+                                                    $detail = $note->data;
+                                                    $detail = json_encode($detail);
+                                                    $detail = json_decode($detail);
+
+                                                @endphp
+                                                <li>
+                                                    <a href="/note/{{ $note->id }}">
+                                                      <i class="fa fa-users text-aqua"></i> Order {{ $detail->order_id }}
+                                                    </a>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </li>
@@ -103,8 +110,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <section class="sidebar">
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
-                        <li class="header">{{ __('messages.dashboard') }}</li>
-                        <!-- Optionally, you can add icons to the links -->
+
                         <li>
                             <a href="/stores">
                                 <i class="fa fa-link"></i>
@@ -121,20 +127,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <li class="">
                             <a href="{{ url('/categories') }}">
-                                <i class="fa fa-user"></i>
+                                <i class="fa fa-list-alt"></i>
                                 <span>{{ __('messages.category') }}</span>
                             </a>
                         </li>
                         <li class="">
                             <a href="{{ url('/product') }}">
-                                <i class="fa fa-user"></i>
+                                <i class="fa fa-product-hunt"></i>
                                 <span>{{ __('messages.product') }}</span>
                             </a>
                         </li>
                         <li class="">
                             <a href="{{ url('/slider') }}">
-                                <i class="fa fa-user"></i>
+                                <i class="fa fa-photo"></i>
                                 <span>Slider</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="{{ url('/order') }}">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <span>{{ __('messages.order') }}</span>
                             </a>
                         </li>
                     </li>
