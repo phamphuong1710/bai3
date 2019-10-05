@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $( '#edit-popup' ).on( 'change', '#postImage', function () {
+    $( 'body' ).on( 'change', '#postImage', function () {//#edit-popup
         var val = $('#listImage').val();
         var url = $('body').attr('data-src');
         var arrayImage = [];

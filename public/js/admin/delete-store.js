@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    var lang  = $('html').attr('lang');
     $(".list-store").on( 'click', '.btn-delete-store', function(e){
         e.preventDefault();
         var $delete = confirm( 'Delete Store' );
@@ -17,11 +18,20 @@ $(document).ready(function(){
                 },
                 success: function ($data){
                     btn.parents('tr').remove();
-                    alert( 'Store ' + $data['name'] + ' deleted successfully');
+                    if ( lang == 'en' ) {
+                        alert( 'Store ' + $data['name'] + ' deleted successfully');
+                    } else {
+                        alert( 'Cửa Hàng ' + $data['name'] + ' đã được xóa thành công');
+                    }
                 },
                 error: function (e){
-                    alert( 'Opps!, Something went wrong, please try again later.' );
-                    console.log(e);
+                    if ( lang == 'en' ) {
+                        alert( 'Opps!, Something went wrong, please try again later.' );
+
+                    } else {
+                        alert( 'Opps!, Đã xảy ra lỗi, vui lòng thử lại sau.');
+                    }
+
                 }
             });
         }

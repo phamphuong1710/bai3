@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    var lang  = $('html').attr('lang');
     $(".btn-delete-cat").on( 'click', function(e){
         e.preventDefault();
         var $delete = confirm( 'Delete Category' );
@@ -17,14 +18,22 @@ $(document).ready(function(){
                 },
                 success: function ($data){
                     btn.parents('tr').remove();
-                    console.log(btn.parents('td'));
                     alert( 'Category ' + $data['name'] + ' deleted successfully');
+                    if ( lang == 'en' ) {
+                        alert( 'Category ' + $data['name'] + ' deleted successfully');
 
+                    } else {
+                        alert( 'Danh Mục ' + $data['name'] + ' đã được xóa thành công');
+                    }
 
                 },
                 error: function (e){
-                    alert( 'Opps!, Something went wrong, please try again later.' );
-                    console.log(e);
+                    if ( lang == 'en' ) {
+                        alert( 'Opps!, Something went wrong, please try again later.' );
+
+                    } else {
+                        alert( 'Opps!, Đã xảy ra lỗi, vui lòng thử lại sau.');
+                    }
                 }
             });
         }

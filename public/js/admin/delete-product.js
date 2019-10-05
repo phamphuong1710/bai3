@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    var lang  = $('html').attr('lang');
     $(".list-product").on( 'click', '.btn-delete-product', function(e){
         e.preventDefault();
         var $delete = confirm( 'Delete Product' );
@@ -17,11 +18,20 @@ $(document).ready(function(){
                 },
                 success: function ($data){
                     btn.parents('.product').remove();
-                    alert( 'Product ' + $data['name'] + ' deleted successfully');
+                    if ( lang == 'en' ) {
+                        alert( 'Product ' + $data['name'] + ' deleted successfully');
+                    } else {
+                        alert( 'Product ' + $data['name'] + ' đã được xóa thành công');
+                    }
+
                 },
                 error: function (e){
-                    alert( 'Opps!, Something went wrong, please try again later.' );
-                    console.log(e);
+                    if ( lang == 'en' ) {
+                        alert( 'Opps!, Something went wrong, please try again later.' );
+
+                    } else {
+                        alert( 'Opps!, Đã xảy ra lỗi, vui lòng thử lại sau.');
+                    }
                 }
             });
         }
