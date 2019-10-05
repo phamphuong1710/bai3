@@ -4,7 +4,6 @@ $(document).ready(function(){
         var btn = $(this),
             id = btn.attr('data-id'),
             control = btn.attr('controller') ;
-            console.log(control);
 
         $.ajaxSetup({
             headers: {
@@ -154,7 +153,9 @@ $(document).ready(function(){
     }
 
     function closeLibraryImage() {
-        $('.library-image-wrapper').removeClass('active');
+        $('body').on('click', '.btn-close', function () {
+            $('.library-image-wrapper').removeClass('active');
+        });
     }
 
     function chooseImages() {

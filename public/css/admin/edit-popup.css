@@ -26,6 +26,7 @@
     top: calc( ( 100% - 235px )/2 );
     height: 235px;
     width: 85%;
+    overflow: hidden;
 }
 
 .edit-product,
@@ -33,10 +34,25 @@
     top: calc( ( 100% - 80vh )/2 );
     height: 80vh;
     width: 85%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    display: flex;
 }
 
+.edit-store .card {
+    height: 100%;
+    overflow: hidden;
+}
+
+
+.edit-popup-wrapper .card-body{
+    height: calc( 100% - 40px );
+    overflow-y: scroll;
+    overflow-x: hidden;;
+    padding: 0;
+}
+
+.edit-popup-wrapper .card-body form {
+    padding: 20px;
+}
 
 .edit-popup-overlay.active {
     visibility: visible;
@@ -52,6 +68,7 @@
     padding: 0;
     height: 40px;
 }
+
 
 .header-text {
     padding: 0 30px;

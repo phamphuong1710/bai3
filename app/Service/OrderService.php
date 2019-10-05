@@ -31,6 +31,7 @@ class OrderService implements OrderInterface
         $orderDetails = [];
         foreach ($cartDetails as $detail) {
             $order = new OrderDetail();
+            $product = Product::findOrFail( $detail->product_id );
             $order->order_id = $orderId;
             $order->product_id = $detail->product_id;
             $order->quantity = $detail->quantity;
@@ -38,9 +39,9 @@ class OrderService implements OrderInterface
             $order->vnd = $detail->vnd;
             $order->discount_usd = $detail->discount_usd;
             $order->discount_vnd = $detail->discount_vnd;
+            $order->store_id = $product->store_id;
             $order->save();
             array_push( $orderDetails, $order);
-            $product = Product::findOrFail( $detail->product_id );
             $product->total_sale = $product->total_sale + $detail->quantity;
             $product->quantity_stock = $product->quantity_stock - $detail->quantity;
             $product->save();
