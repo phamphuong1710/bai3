@@ -8,4 +8,5 @@ interface OrderInterface {
     public function updateUserInfo($userId, $request);
     public function createUserAddress($userId, $request);
     public function getOrderById($id);
+    public function getListOrderDetail($listId);
 }

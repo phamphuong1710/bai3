@@ -100,4 +100,8 @@ return [
     'shopping_cart' => 'Shoping Cart',
     'similar_product' => 'Similar Product',
     'delivery_cost' => 'Delivery Cost',
+    'notification' => 'Notification',
+    'read' => 'Read',
+    'unread' => 'Unread',
+    'type' => 'Type',
 ];

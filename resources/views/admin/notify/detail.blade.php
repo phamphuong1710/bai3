@@ -20,10 +20,8 @@
         <td>{{ $custommer->address}}</td>
     </tr>
 </table>
-@php
-$product = $orderDetail->product;
-@endphp
-<table>
+
+<table class="table-order-product">
     <thead>
         <tr>
             <th>{{ __('messages.name') }}</th>
@@ -33,6 +31,10 @@ $product = $orderDetail->product;
         </tr>
     </thead>
     <tbody>
+        @foreach($orderDetail as $detail)
+            @php
+            $product = $detail->product;
+            @endphp
         <tr>
             <td>
                 {{ $product->name }}
@@ -80,15 +82,16 @@ $product = $orderDetail->product;
                             </div>
                         @endif
             </td>
-            <td>{{ $orderDetail->quantity }}</td>
+            <td>{{ $detail->quantity }}</td>
             <td>
                 @if( app()->getLocale() == 'en' )
-                    {{ '$'.($orderDetail->quantity * ( $orderDetail->usd - $orderDetail->discount_usd) ) }}
+                    {{ '$'.($detail->quantity * ( $detail->usd - $detail->discount_usd) ) }}
                 @else
-                    {{ 'đ'.($orderDetail->quantity * ( $orderDetail->vnd - $orderDetail->discount_vnd)) }}
+                    {{ 'đ'.($detail->quantity * ( $detail->vnd - $detail->discount_vnd)) }}
                 @endif
             </td>
         </tr>
+        @endforeach
     </tbody>
 </table>
 </div>

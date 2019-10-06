@@ -332,3 +332,22 @@
     display: block;
     top: calc( ( 100% - 32px )/2 );
 }
+.table-order-product {
+    width: 100%;
+    margin-top: 50px;
+}
+
+
+.user-order,
+.order-status {
+    padding: 0 30px;
+}
+
+#order-status {
+    border-radius: 5px;
+}
+
+#input-order {
+    width: calc( 100% - 30px );
+    border: none;
+}

@@ -12,7 +12,7 @@ use App\Service\UserService;
 use App\Notifications\OrderNotification;
 use Auth;
 
-class OrderController extends Controller
+class OrderController extends BaseController
 {
     protected $orderService;
     protected $cartService;
@@ -26,6 +26,8 @@ class OrderController extends Controller
         StoreService $storeService
     )
     {
+        $this->middleware('auth');
+        parent::__construct($userService);
         $this->orderService = $orderService;
         $this->cartService = $cartService;
         $this->userService = $userService;

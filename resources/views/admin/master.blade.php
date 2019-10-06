@@ -110,7 +110,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <section class="sidebar">
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
-
+                        <li class="">
+                            <a href="{{ url('/note') }}">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <span>{{ __('messages.notification') }}</span>
+                            </a>
+                        </li>
                         <li>
                             <a href="/stores">
                                 <i class="fa fa-link"></i>

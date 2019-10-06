@@ -8,52 +8,21 @@
 <div class="order-section">
     <div class="table-orders">
         <h1 class="page-title header">{{ __( 'messages.order' ) }}</h1>
-        <div class="order-action">
 
-            <div class="action-bottom d-flex justify-content-between align-items-center">
-                <div class="form-search search-order">
-                    <input type="search" name="order" id="input-order" placeholder="Search User">
-                    <button type="submit" class="fa fa-search btn-search"></button>
-                </div>
-                <div class="form-filter d-flex justify-content-between align-items-center">
-
-                    <div class="form-select">
-                        <select class="form-control" id="sorting" name="sorting">
-                            <option value="created_at-asc">
-                                {{ __('messages.sort_date_asc') }}</option>
-                            <option value="name-asc">
-                                {{ __('messages.sort_name_asc') }}
-                            </option>
-
-                            <option value="name-desc">
-                                {{ __('messages.sort_name_desc') }}
-                            </option>
-                            <option value="created_at-desc">
-                                {{ __('messages.sort_date_desc') }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
         <table cellspacing="0">
             <thead>
                 <tr>
                     <th>
                         {{ __('messages.name') }}
-                        <i class="fa fa-caret-down sorting desc" data-sort="name"></i>
                     </th>
                     <th>
                         {{ __('messages.total') }}
-                        <i class="fa fa-caret-down sorting desc" data-sort="email"></i>
                     </th>
                     <th>
                         {{ __('messages.created_at') }}
-                        <i class="fa fa-caret-down sorting desc"  data-sort="created_at"></i>
                     </th>
                     <th>
                         {{ __('messages.status') }}
-                        <i class="fa fa-caret-down sorting desc" data-sort="phone"></i>
                     </th>
 
                     <th>{{ __('messages.action') }} </th>
