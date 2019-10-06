@@ -108,7 +108,7 @@
         </ul>
         <div class="library-action">
             <div class="library-action-wrapper">
-                <span class="btn btn-close-library">{{ __('messages.close') }}</span>
+                <span class="btn btn-close">{{ __('messages.close') }}</span>
                 <button class="btn btn-images-choose">{{ __('messages.insert') }}</button>
             </div>
         </div>

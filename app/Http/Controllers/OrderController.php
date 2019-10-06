@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
 use App\Service\OrderService;
 use App\Service\CartService;
+use App\Service\StoreService;
 use Notification;
 use App\Service\UserService;
 use App\Notifications\OrderNotification;
@@ -16,16 +17,19 @@ class OrderController extends Controller
     protected $orderService;
     protected $cartService;
     protected $userService;
+    protected $storeService;
 
     public function __construct(
         OrderService $orderService,
         CartService $cartService,
-        UserService $userService
+        UserService $userService,
+        StoreService $storeService
     )
     {
         $this->orderService = $orderService;
         $this->cartService = $cartService;
         $this->userService = $userService;
+        $this->storeService = $storeService;
     }
     /**
      * Display a listing of the resource.
@@ -73,15 +77,27 @@ class OrderController extends Controller
         $address = $this->orderService->createUserAddress($userId, $request);
         $user->total_vnd = $order->vnd;
         $user->total_usd = $order->usd;
+        $listStore = [];
+        $listNote = [];
         foreach ($listOrder as $detail) {
-            $store = $detail->product->store;
+            $storeId = $detail->store_id;
+            if (!in_array($storeId, $listStore)) {
+                array_push($listStore, $storeId);
+                $note = [
+                    'order_id' => $orderId,
+                    'user' => $user->id,
+                    'detail' => [ $detail->id ],
+                ];
+                $listNote[$storeId] = $note;
+            } else {
+                array_push($listNote[$storeId]['detail'], $detail->id);
+            }
+        }
+        foreach ($listNote as $storeId => $note) {
+            $store = $this->storeService->getStoreById($storeId);
             $userId = $store->user_id;
             $storeUser = $this->userService->getUserById($userId);
-            $details = [
-                'order_id' => $orderId,
-                'user' => $user->id,
-                'detail' => $detail->id,
-            ];
+            $details = $note;
             Notification::send($storeUser, new OrderNotification($details));
         }
 

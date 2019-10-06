@@ -34,7 +34,7 @@ $(document).ready(function(){
         });
     });
 
-    $('body').on('click', '.btn-close-library', function () {
+    $('body').on('click', '.btn-close', function () {
         $('.library-image-wrapper').removeClass('active');
     });
 
