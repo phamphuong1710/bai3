@@ -105,5 +105,12 @@ class OrderService implements OrderInterface
 
         return $order;
     }
+
+    public function getListOrderDetail($listId)
+    {
+        $orderDetail = OrderDetail::whereIn('id', $listId)->get();
+
+        return $orderDetail;
+    }
 }
 

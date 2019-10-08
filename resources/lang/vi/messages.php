@@ -100,4 +100,8 @@ return [
     'shopping_cart' => 'Giỏ Hàng',
     'similar_product' => 'Sản Phẩm Tương Tự',
     'delivery_cost' => 'Phí Giao Hàng',
+    'notification' => 'Thông Báo',
+    'read' => 'Đã Đọc',
+    'unread' => 'Chưa Đọc',
+    'type' => 'Phân Loại',
 ];

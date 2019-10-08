@@ -31,7 +31,19 @@ class NotificationController extends BaseController
         $userId = Auth::id();
         $user = $this->userService->getUserById($userId);
         $listNote = [];
+        $notifications = [];
         foreach ($user->notifications as $notification) {
+            $detail = $notification->data;
+            $detail = json_encode($detail);
+            $detail = json_decode($detail);
+            $custommer = $this->userService->getUserById($detail->user);
+            $address = $custommer->address->where('active', 1)->first()->address;
+            $custommer->address = $address;
+            $order = $this->orderService->getOrderById($detail->order_id);
+            $orderDetail = $this->orderService->getListOrderDetail($detail->detail);
+            $notification->custommer = $custommer;
+            $notification->order = $order;
+            $notification->order_details = $orderDetail;
             $listNote[] = $notification;
         }
 
@@ -67,7 +79,7 @@ class NotificationController extends BaseController
         $address = $custommer->address->where('active', 1)->first()->address;
         $custommer->address = $address;
         $order = $this->orderService->getOrderById($detail->order_id);
-        $orderDetail = $order->orderDetail->where('id', $detail->detail)->first();
+        $orderDetail = $this->orderService->getListOrderDetail($detail->detail);
         $notify->update(['read_at' => now()]);
 
         return view('admin.notify.detail', compact('custommer', 'order', 'orderDetail'));
