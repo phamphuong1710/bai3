@@ -63,7 +63,7 @@ class StoreController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $store = $this->storeService->createStore($request);
         $listImage = $request->list_image;
