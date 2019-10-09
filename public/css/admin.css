@@ -238,10 +238,8 @@
 
 .page-title {
     min-height: 80px;
-    background-color: #1f3d70;
-    color: #fff;
+    color: #000;
     padding: 20px 15px;
-    text-align: center;
     margin-bottom: 0
 }
 
@@ -350,4 +348,12 @@
 #input-order {
     width: calc( 100% - 30px );
     border: none;
+}
+
+.category-action {
+    margin-bottom: 30px;
+}
+
+.pagination {
+    margin: 30px auto;
 }

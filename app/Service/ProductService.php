@@ -48,9 +48,6 @@ class ProductService implements ProductInterface
             $product->usd = $request->sale_price;
             $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
             $product->vnd = formatNumber($price, 2);
-            $product->in_price_usd = $request->price;
-            $price = (float)$request->price * (float)$request->usd_to_vnd;
-            $product->in_price_vnd = formatNumber($price, 2);
             if ( !empty( $request->on_sale ) ) {
                 $product->on_sale = $request->on_sale;
             }
@@ -58,9 +55,6 @@ class ProductService implements ProductInterface
             $product->vnd = $request->sale_price;
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
             $product->usd = formatNumber($price, 2);
-            $product->in_price_vnd = $request->price;
-            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
-            $product->in_price_usd = formatNumber($price, 2);
             if ( !empty( $request->on_sale ) ) {
                 $product->on_sale = $request->on_sale;
             }
@@ -89,18 +83,10 @@ class ProductService implements ProductInterface
             $product->usd = $request->sale_price;
             $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
             $product->vnd = formatNumber($price, 2);
-            $product->in_price_usd = $request->price;
-            $price = (float)$request->price * (float)$request->usd_to_vnd;
-            $product->in_price_vnd = formatNumber($price, 2);
-
         } else {
             $product->vnd = $request->sale_price;
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
             $product->usd = formatNumber($price, 2);
-            $product->in_price_vnd = $request->price;
-            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
-            $product->in_price_usd = formatNumber($price, 2);
-
         }
         if ( !empty( $request->on_sale ) ) {
             $product->on_sale = $request->on_sale;

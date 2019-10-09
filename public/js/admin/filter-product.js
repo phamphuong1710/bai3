@@ -124,8 +124,6 @@ $(document).ready(function(){
             store = $('#store-id').val(),
             formData = new FormData(),
             dataSorting = sort.split('-');
-        console.log(dataSorting);
-        console.log(category);
         formData.append('order', dataSorting[0]);
         formData.append('orderby', dataSorting[1]);
         formData.append('category', category);
