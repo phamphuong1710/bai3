@@ -7,6 +7,7 @@ use App\Service\ProductService;
 use App\Service\RatingService;
 use App\Service\CartService;
 use App\Service\CommentService;
+use Auth;
 
 class SingleProductController extends Controller
 {
@@ -41,7 +42,8 @@ class SingleProductController extends Controller
         if (!$rating) {
             $rating = false;
         }
-        $cart = $this->cartService->getCartByUser();
+        $userId = Auth::id();
+        $cart = $this->cartService->getCartByUser($userId);
         if ( $cart ) {
             $cart = $this->getCart($cart);
         }

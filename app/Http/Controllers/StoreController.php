@@ -76,7 +76,6 @@ class StoreController extends BaseController
         $this->storeService->createStoreAddress($store->id, $request);
 
         return redirect()->route('stores.index');
-
     }
 
     /**

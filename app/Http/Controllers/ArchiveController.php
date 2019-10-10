@@ -51,7 +51,7 @@ class ArchiveController extends Controller
         return response()->json($products);
     }
 
-    public function allStore()
+    public function allStore(Request $request)
     {
         $stores = $this->storeService->getAllStore();
         if ( $stores ) {
@@ -61,6 +61,9 @@ class ArchiveController extends Controller
                 $stores[$index]->logo = $logo;
                 $stores[$index]->address = $address;
             }
+        }
+        if ($request->ajax()) {
+            return $stores;
         }
 
         return view('layouts.stores', compact('stores'));

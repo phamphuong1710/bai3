@@ -7,12 +7,19 @@ use App\Address;
 
 class AddressService implements AddressInterface
 {
-    public function createStoreAddress($storeId, $request)
+    protected $addressModel;
+
+    public function __construct(Address $addressModel)
+    {
+        $this->addressModel = $addressModel;
+    }
+
+    public function createStoreAddress($storeId, $address, $lat, $lng)
     {
         $address = new Address();
-        $address->address = $request->address;
-        $address->lat = $request->lat;
-        $address->lng = $request->lng;
+        $address->address = $address;
+        $address->lat = $lat;
+        $address->lng = $lng;
         $address->store_id = $storeId;
         $address->active = 1;
         $address->save();
@@ -22,32 +29,32 @@ class AddressService implements AddressInterface
 
     public function getAddressByStoreID($storeId)
     {
-        $address = Address::where('store_id', $storeId)
+        $address = $this->addressModel->where('store_id', $storeId)
             ->where('active', 1)
             ->firstOrFail();
 
         return $address;
     }
 
-    public function updateStoreAddress($storeId, $request)
+    public function updateStoreAddress($storeId, $address, $lat, $lng)
     {
-        $address = Address::where('store_id', $storeId)
+        $address = $this->addressModel->where('store_id', $storeId)
             ->where('active', 1)
             ->firstOrFail();
-        $address->address = $request->address;
-        $address->lat = $request->lat;
-        $address->lng = $request->lng;
+        $address->address = $address;
+        $address->lat = $lat;
+        $address->lng = $lng;
         $address->save();
 
         return $address;
     }
 
-    public function createUserAddress($userId, $request)
+    public function createUserAddress($userId, $address, $lat, $lng)
     {
         $address = new Address();
-        $address->address = $request->address;
-        $address->lat = $request->lat;
-        $address->lng = $request->lng;
+        $address->address = $address;
+        $address->lat = $lat;
+        $address->lng = $lng;
         $address->user_id = $userId;
         $address->active = 1;
         $address->save();
@@ -55,14 +62,14 @@ class AddressService implements AddressInterface
         return $address;
     }
 
-    public function updateUserAddress($userId, $request)
+    public function updateUserAddress($userId,  $address, $lat, $lng)
     {
-        $address = Address::where('user_id', $userId)
+        $address = $this->addressModel->where('user_id', $userId)
             ->where('active', 1)
             ->firstOrFail();
-        $address->address = $request->address;
-        $address->lat = $request->lat;
-        $address->lng = $request->lng;
+        $address->address = $address;
+        $address->lat = $lat;
+        $address->lng = $lng;
         $address->save();
 
         return $address;
@@ -71,7 +78,7 @@ class AddressService implements AddressInterface
 
     public function getAddressByUserID($userId)
     {
-        $address = Address::where('user_id', $userId)
+        $address = $this->addressModel->where('user_id', $userId)
             ->where('active', 1)
             ->firstOrFail();
 

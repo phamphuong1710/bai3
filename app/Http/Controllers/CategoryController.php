@@ -50,7 +50,9 @@ class CategoryController extends BaseController
      */
     public function store(CategoryRequest $request)
     {
-        $this->categoryService->createCategory($request);
+        $name = $request->name;
+        $parentId = $request->parent_id;
+        $this->categoryService->createCategory($name, $parentId);
         $categories = $this->categoryService->allCategory();
 
         return redirect()->route('categories.index', compact('categories'));
@@ -96,7 +98,9 @@ class CategoryController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $this->categoryService->updateCategory($id, $request);
+        $name = $request->name;
+        $parentId = $request->parent_id;
+        $this->categoryService->updateCategory($id, $name, $parentId);
         $categories = $this->categoryService->allCategory();
 
         return redirect()->route('categories.index', compact('categories'));

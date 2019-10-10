@@ -10,7 +10,19 @@ use Auth;
 
 class CartService implements CartInterface
 {
-    public function createCart($request, $userId)
+    protected $cartModel;
+    protected $productModel;
+    protected $cartDetailModel;
+    protected $userModel;
+
+    public function __construct(Cart $cartModel, Product $productModel, CartDetail $cartDetailModel, User $userModel)
+    {
+        $this->cartModel = $cartModel;
+        $this->productModel = $productModel;
+        $this->cartDetailModel = $cartDetailModel;
+        $this->userModel = $userModel;
+    }
+    public function createCart($userId)
     {
         $cart = New Cart();
         $cart->user_id = $userId;
@@ -24,14 +36,13 @@ class CartService implements CartInterface
         return $cart;
     }
 
-    public function createCartDetail($cartId, $request)
+    public function createCartDetail($cartId, $productId, $quantity)
     {
         $cart = New CartDetail();
-        $productId = (int)$request->product_id;
-        $product = Product::find($productId);
+        $product = $this->productModel->find($productId);
         $cart->cart_id = $cartId;
         $cart->product_id = $productId;
-        $cart->quantity = $request->quantity;
+        $cart->quantity = $quantity;
         $discountUsd = $product->usd * ($product->on_sale )/100;
         $discountVnd = $product->vnd * ($product->on_sale )/100;
         $cart->usd = $product->usd;
@@ -45,8 +56,8 @@ class CartService implements CartInterface
 
     public function updateCart($cartId)
     {
-        $cart = Cart::find($cartId);
-        $details = CartDetail::where('cart_id', $cartId)
+        $cart = $this->cartModel->find($cartId);
+        $details = $this->cartDetailModel->where('cart_id', $cartId)
             ->get();
         $quantity = 0;
         $vnd = 0;
@@ -71,23 +82,21 @@ class CartService implements CartInterface
     }
 
     // When click add to cart button
-    public function updateCartDetail($cartId, $request)
+    public function updateCartDetail($cartId, $productId, $quantity)
     {
-        $productId = (int)$request->product_id;
-        $cartDetail = CartDetail::where( 'cart_id', $cartId )
+        $cartDetail = $this->cartDetailModel->where( 'cart_id', $cartId )
             ->where('product_id', $productId)
             ->first();
         $oldQuantity = $cartDetail->quantity;
-        $quantity = $oldQuantity + (int)$request->quantity;
+        $quantity = $oldQuantity + $quantity;
         $cartDetail->quantity = $quantity;
         $cartDetail->save();
 
         return $cartDetail;
     }
 
-    public function getCartByUser()
+    public function getCartByUser($userId)
     {
-        $userId = Auth::id();
         $cart = Cart::where('user_id', $userId)->first();
 
         return $cart;
@@ -95,9 +104,9 @@ class CartService implements CartInterface
 
     public function deleteCartDetail($id)
     {
-        $cartDetail = CartDetail::find($id);
+        $cartDetail = $this->cartDetailModel->find($id);
         $cartId = $cartDetail->cart_id;
-        $cart = Cart::find($cartId);
+        $cart = $this->cartModel->find($cartId);
         $quantity = $cartDetail->quantity;
         $usd = $quantity * $cartDetail->usd;
         $vnd = $quantity * $cartDetail->vnd;
@@ -109,7 +118,7 @@ class CartService implements CartInterface
         $cart->discount_usd = $cart->discount_usd - $discountUsd;
         $cart->discount_vnd = $cart->discount_vnd - $discountVnd;
         $cart->save();
-        CartDetail::Destroy($id);
+        $this->cartDetailModel->Destroy($id);
 
         return $cartDetail;
     }
@@ -118,7 +127,7 @@ class CartService implements CartInterface
     // When Click button update cart page
     public function updateDetail($id, $quantity)
     {
-        $cartDetail = CartDetail::find($id);
+        $cartDetail = $this->cartDetailModel->find($id);
         $cartDetail->quantity = $quantity;
         $cartDetail->save();
 
@@ -127,13 +136,13 @@ class CartService implements CartInterface
 
     public function deleteCart($cartId)
     {
-        $cartDetails = CartDetail::where('cart_id', $cartId)
+        $cartDetails = $this->cartDetailModel->where('cart_id', $cartId)
             ->get();
-        $cart = Cart::findOrFail($cartId);
+        $cart = $this->cartModel->findOrFail($cartId);
         if(!$cart) abort('404');
-        Cart::Destroy($cartId);
+        $this->cartModel->Destroy($cartId);
         foreach ($cartDetails as $detail) {
-            CartDetail::Destroy($detail->id);
+            $this->cartDetailModel->Destroy($detail->id);
         }
 
         return $cart;

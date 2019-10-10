@@ -7,13 +7,14 @@ use Carbon\Carbon;
 
 class CategoryService implements CategoryInterface
 {
-    public function createCategory($request)
+
+    public function createCategory($name, $parentId)
     {
         $category = new Category();
         $time = Carbon::now()->timestamp;
-        $category->name = $request->name;
-        $category->slug = str_slug( $request->name, '-' ) . $time;
-        $category->parent_id = $request->parent_id;
+        $category->name = $name;
+        $category->slug = str_slug( $name, '-' ) . $time;
+        $category->parent_id = $parentId;
         $category->save();
 
         return $category;
@@ -27,13 +28,13 @@ class CategoryService implements CategoryInterface
         return $category;
     }
 
-    public function updateCategory($id, $request)
+    public function updateCategory($id, $name, $parentId)
     {
         $category = Category::findOrFail($id);
         if(!$category) abort('404');
-        $category->name = $request->name;
-        $category->slug = str_slug( $request->name, '-' );
-        $category->parent_id = $request->parent_id;
+        $category->name = $name;
+        $category->slug = str_slug( $name, '-' );
+        $category->parent_id = $parentId;
         $category->save();
 
         return $category;
@@ -42,7 +43,7 @@ class CategoryService implements CategoryInterface
     public function deleteCategory($id)
     {
         $category = Category::findOrFail($id);
-        Category::where('id', $id)->delete();
+       Category::where('id', $id)->delete();
 
         return $category;
     }
@@ -68,17 +69,17 @@ class CategoryService implements CategoryInterface
         return $categories;
     }
 
-    public function searchCategory($request)
+    public function searchCategory($key)
     {
-        $category = Category::where('name', 'like', '%'.$request->category.'%')
+        $category = Category::where('name', 'like', '%' . $key . '%')
             ->get();
 
         return $category;
     }
 
-    public function filterCategory($request)
+    public function filterCategory($orderBy, $order)
     {
-        $category = Category::orderBy($request->order, $request->orderby)
+        $category = Category::orderBy($orderBy, $order)
             ->get();
 
         return $category;

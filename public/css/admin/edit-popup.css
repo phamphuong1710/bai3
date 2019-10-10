@@ -21,6 +21,10 @@
     position: relative;
 }
 
+.edit-popup-wrapper {
+    justify-content: center;
+}
+
 .edit-category,
 .edit-user {
     top: calc( ( 100% - 235px )/2 );
@@ -37,7 +41,7 @@
     display: flex;
 }
 
-.edit-store .card {
+.edit-popup-wrapper .card {
     height: 100%;
     overflow: hidden;
 }

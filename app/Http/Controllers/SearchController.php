@@ -116,14 +116,17 @@ class SearchController extends Controller
 
     public function searchCategory(Request $request)
     {
-        $categories = $this->categoryService->searchCategory($request);
+        $key = $request->category;
+        $categories = $this->categoryService->searchCategory($key);
 
         return response()->json($categories);
     }
 
     public function filterCategory(Request $request)
     {
-        $categories = $this->categoryService->filterCategory($request);
+        $orderBy = $request->order;
+        $order = $request->orderby;
+        $categories = $this->categoryService->filterCategory($orderBy, $order);
 
         return response()->json($categories);
     }

@@ -3,12 +3,15 @@ $(document).ready(function(){
     var page = 1;
     var contentHeight =$('.ajax-store-scroll').height();
     var position = $('.ajax-store-scroll').height() + $('.ajax-store-scroll').offset().top;
+    console.log( position );
     $(window).scroll(function() {
         var scroll = $(window).scrollTop();
-        if( scroll > position ) {
-            position = position + contentHeight;
+
+
+        if( scroll >= position ) {
             page++;
             loadMoreStore(page);
+            position = position + contentHeight;
         }
     });
     function addCommas(nStr) {
@@ -35,9 +38,8 @@ $(document).ready(function(){
             success: function(data) {
                 $('.ajax-store-scroll').delay(500).removeClass('loading');
                 $( '.page-loading' ).removeClass('loading');
-               var html = storeTemplate(data);
-
-                $("body .product-wrapper").append(html);
+                var html = storeTemplate(data);
+                $("body .ajax-store-scroll").append(html);
             },
         })
         .fail(function(jqXHR, ajaxOptions, thrownError)

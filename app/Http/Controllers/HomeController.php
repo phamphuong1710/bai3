@@ -42,7 +42,8 @@ class HomeController extends Controller
             $new[$index]->logo = $product->media->where('active', 1)->first();
         }
         $slider = $this->homeService->getSlider();
-        $cart = $this->cartService->getCartByUser();
+        $userId = Auth::id();
+        $cart = $this->cartService->getCartByUser($userId);
         if ( $cart ) {
             $cart = $this->getCart($cart);
         }

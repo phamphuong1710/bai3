@@ -27,8 +27,8 @@ class ProductController extends BaseController
         $this->productService = $productService;
         $this->mediaService = $mediaService;
         $this->categoryService = $categoryService;
-        $this->middleware('permission:product-list');
-        $this->middleware('permission:product-create', ['only' => ['create','store']]);
+        $this->middleware('permission:product-list', ['only' => ['index', 'getAllProduct']]);
+        $this->middleware('permission:product-create', ['only' => ['create','store', 'createProduct']]);
         $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
@@ -172,10 +172,10 @@ class ProductController extends BaseController
         );
     }
 
-    public function getAllProductByUser()
+    public function getAllProduct()
     {
         $categories = $this->categoryService->allCategory();
-        $products = $this->productService->getProductByUser();
+        $products = $this->productService->getAllProduct();
         $products->categories = $categories;
 
         return view(
