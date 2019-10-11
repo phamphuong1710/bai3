@@ -17,7 +17,7 @@ class MediaService implements MediaInterface
             $listImage = [];
             foreach($request->file('image') as $key => $file)
             {
-                $name = Carbon::now()->timestamp.$file->getClientOriginalName();
+                $name = Carbon::now()->timestamp . $file->getClientOriginalName();
                 $extension = pathinfo( $name, PATHINFO_EXTENSION );
                 $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
                 $file->move(public_path().'/files'.date("/Y/m/d/"), $name);

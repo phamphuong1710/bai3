@@ -5,19 +5,29 @@ use App\InterfaceService\CommentInterface;
 use App\Comment;
 use App\Product;
 use App\Store;
-use Auth;
 
 class CommentService implements CommentInterface
 {
-    public function createProductComment($request)
+    protected $commentModel;
+    protected $productModel;
+    protected $storeModel;
+
+    public function __construct(Comment $commentModel, Product $productModel, Store $storeModel)
+    {
+        $this->commentModel = $commentModel;
+        $this->productModel = $productModel;
+        $this->storeModel = $storeModel;
+    }
+
+    public function createProductComment($comment, $productId, $parentId, $userId)
     {
         $comment = new Comment();
-        $comment->content = $request->comment;
-        $comment->product_id = $request->product_id;
-        $comment->user_id = Auth::id();
-        $comment->parent_id = $request->parent_id;
+        $comment->content = $comment;
+        $comment->product_id = $productId;
+        $comment->user_id = $userId;
+        $comment->parent_id = $parentId;
         $comment->save();
-        $product = Product::findOrFail($comment->product_id);
+        $product = $this->productModel->findOrFail($comment->product_id);
         $product->comment_count = $product->comment_count + 1;
         $product->save();
 
@@ -26,7 +36,7 @@ class CommentService implements CommentInterface
 
     public function getCommentChild($parentId)
     {
-        $comments = Comment::where('parent_id', $parentId)
+        $comments = $this->commentModel->where('parent_id', $parentId)
             ->get();
 
         return $comments;
@@ -34,7 +44,7 @@ class CommentService implements CommentInterface
 
     public function getCommentParentProduct($productId)
     {
-        $comments = Comment::where('parent_id', 0)
+        $comments = $this->commentModel->where('parent_id', 0)
             ->where('product_id', $productId)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -44,7 +54,7 @@ class CommentService implements CommentInterface
 
     public function getCommentParentStore($storeId)
     {
-        $comments = Comment::where('parent_id', 0)
+        $comments = $this->commentModel->where('parent_id', 0)
             ->where('store_id', $storeId)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -52,13 +62,13 @@ class CommentService implements CommentInterface
         return $comments;
     }
 
-    public function createStoreComment($request)
+    public function createStoreComment($comment, $storeId, $parentId, $userId)
     {
         $comment = new Comment();
-        $comment->content = $request->comment;
-        $comment->store_id = $request->store_id;
-        $comment->user_id = Auth::id();
-        $comment->parent_id = $request->parent_id;
+        $comment->content = $comment;
+        $comment->store_id = $storeId;
+        $comment->user_id = $userId;
+        $comment->parent_id = $parentId;
         $comment->save();
         $store = Store::findOrFail($comment->store_id);
         $store->comment_count = $store->comment_count + 1;

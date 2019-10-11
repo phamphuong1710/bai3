@@ -21,7 +21,8 @@ class CartController extends Controller
     public function cart()
     {
         session()->forget('cart');
-        $cart = $this->cartService->getCartByUser();
+        $userId = Auth::id();
+        $cart = $this->cartService->getCartByUser($userId);
         if ( $cart ) {
             $cart = $this->getCart($cart);
         }
@@ -33,15 +34,17 @@ class CartController extends Controller
     {
         $request->session()->forget('cart');
         $userId = Auth::id();
-        $cart = $this->cartService->getCartByUser();
+        $cart = $this->cartService->getCartByUser($userId);
+        $productId = $request->product_id;
+        $quantity = $request->quantity;
         if ( $cart ) {
             $cart = $this->getCart($cart);
             $products = $cart['product'];
-            $productId = $request->product_id;
+
             if ( array_key_exists($productId, $products) ) {
-                $cartDetail = $this->cartService->updateCartDetail($cart['id'], $request);
+                $cartDetail = $this->cartService->updateCartDetail($cart['id'], $productId, $quantity);
             } else {
-                $cartDetail = $this->cartService->createCartDetail($cart['id'], $request);
+                $cartDetail = $this->cartService->createCartDetail($cart['id'], $productId, $quantity);
             }
             $currentCart = $this->cartService->updateCart($cart['id'], $request);
             $product = $this->getProduct($cartDetail);
@@ -72,8 +75,9 @@ class CartController extends Controller
     public function deleteCartDetail($id)
     {
         session()->forget('cart');
+        $userId = Auth::id();
         $cartDetail = $this->cartService->deleteCartDetail($id);
-        $cart = $this->cartService->getCartByUser();
+        $cart = $this->cartService->getCartByUser($userId);
 
         return response()->json($cart);
     }
@@ -124,7 +128,8 @@ class CartController extends Controller
     public function checkout()
     {
         session()->forget('cart');
-        $cart = $this->cartService->getCartByUser();
+        $userId = Auth::id();
+        $cart = $this->cartService->getCartByUser($userId);
         $stores = [];
         if ( $cart ) {
             $cart = $this->getCart($cart);

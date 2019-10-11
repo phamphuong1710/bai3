@@ -1,6 +1,6 @@
 
-<div class="row justify-content-center">
-    <div class="col-md-12">
+
+    <div class="container">
         <div class="card">
             <div class="card-header">
                 <span class="header-text">
@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label for="price" class=" col-form-label text-md-right">{{ __('messages.price') }}</label>
                         <div class="">
-                            <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price" autofocus value="{{ $product->in_price_usd }}">
+                            <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price" autofocus value="{{ $product->usd_entered }}">
                             @error('price')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -90,7 +90,7 @@
                     <div class="form-group">
                         <label for="price" class=" col-form-label text-md-right">{{ __('messages.price') }}</label>
                         <div class="">
-                            <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price" autofocus value="{{ $product->in_price_vnd }}">
+                            <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price" autofocus value="{{ $product->vnd_entered }}">
                             @error('price')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -198,5 +198,5 @@
         </div>
 
     </div>
-</div>
+
 

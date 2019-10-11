@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Service\CommentService;
 use App\Http\Requests\CommentProductRequest;
 use App\Http\Requests\CommentStoreRequest;
+use Auth;
 
 class CommentController extends Controller
 {
@@ -20,7 +21,11 @@ class CommentController extends Controller
 
     public function createProductComment(CommentProductRequest $request)
     {
-        $comment = $this->commentService->createProductComment($request);
+        $userId = Auth::id();
+        $productId = $request->product_id;
+        $parentId = $request->parent_id;
+        $comment = $request->comment;
+        $comment = $this->commentService->createProductComment($comment, $productId, $parentId, $userId);
         $comment->author = $comment->user->name;
         $comment->time = ($comment->created_at)->diffForHumans();
 
@@ -29,7 +34,11 @@ class CommentController extends Controller
 
     public function createStoreComment(CommentStoreRequest $request)
     {
-        $comment = $this->commentService->createStoreComment($request);
+        $userId = Auth::id();
+        $storeId = $request->store_id;
+        $parentId = $request->parent_id;
+        $comment = $request->comment;
+        $comment = $this->commentService->createStoreComment($comment, $storeId, $parentId, $userId);
         $comment->author = $comment->user->name;
         $comment->time = ($comment->created_at)->diffForHumans();
 

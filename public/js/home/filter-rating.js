@@ -74,7 +74,7 @@ $(document).ready(function(){
                 $( '.page-loading' ).removeClass('loading');
                var html = storeTemplate(data);
 
-                $("body .product-wrapper").append(html);
+                $("body .ajax-store-scroll").append(html);
 
             },
         })

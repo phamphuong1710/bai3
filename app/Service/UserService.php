@@ -14,16 +14,25 @@ use File;
 
 class UserService implements UserInterface
 {
+    protected $userModel;
+    protected $mediaModel;
+
+    public function __construct(User $userModel, Media $mediaModel)
+    {
+        $this->userModel = $userModel;
+        $this->mediaModel = $mediaModel;
+    }
+
     public function getAllUser()
     {
-        $users = User::orderBy('created_at','desc')->paginate(15);
+        $users = $this->userModel->orderBy('created_at','desc')->paginate(15);
 
         return $users;
     }
 
     public function getUserById($id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->userModel->findOrFail($id);
         if(!$user) abort('404');
 
         return $user;
@@ -31,7 +40,7 @@ class UserService implements UserInterface
 
     public function deleteUserById($id)
     {
-        User::where('id', $id)->delete();
+        $this->userModel->where('id', $id)->delete();
 
         return true;
     }
@@ -50,13 +59,13 @@ class UserService implements UserInterface
 
     public function updateUser($request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->userModel->findOrFail($id);
         if(!$user) abort('404');
         $user->name = $request->name;
         $user->phone = $request->phone;
         if ( $request->logo_id ) {
             $mediaId = (int)$request->logo_id;
-            $media = Media::findOrFail($mediaId);
+            $media = $this->mediaModel->findOrFail($mediaId);
             $user->avatar = $media->image_path;
         }
         DB::table('model_has_roles')->where('model_id',$id)->delete();
@@ -67,7 +76,7 @@ class UserService implements UserInterface
 
     public function searchUser($request)
     {
-        $user = User::where('name', 'like', '%'.$request->user.'%')
+        $user = $this->userModel->where('name', 'like', '%'.$request->user.'%')
             ->get();
 
         return $user;
@@ -75,7 +84,7 @@ class UserService implements UserInterface
 
     public function filterUser($request)
     {
-        $user = User::orderBy($request->order, $request->orderby)
+        $user = $this->userModel->orderBy($request->order, $request->orderby)
             ->get();
 
         return $user;

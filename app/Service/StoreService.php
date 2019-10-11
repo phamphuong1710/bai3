@@ -11,7 +11,7 @@ class StoreService implements StoreInterface
 
     public function getAllStore()
     {
-        $stores = Store::paginate(15);
+        $stores = Store::paginate(9);
 
         return $stores;
     }

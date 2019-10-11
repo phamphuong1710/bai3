@@ -33,6 +33,13 @@ class ProductService implements ProductInterface
         return $products;
     }
 
+    public function getAllProduct()
+    {
+        $products = Product::paginate(15);
+
+        return $products;
+    }
+
     public function createProduct($request)
     {
         $product = new Product();
@@ -44,20 +51,23 @@ class ProductService implements ProductInterface
         $product->user_id = $request->user_id;
         $product->store_id = $request->store_id;
         $product->quantity_stock = $request->quantity;
+        if ( !empty( $request->on_sale ) ) {
+            $product->on_sale = $request->on_sale;
+        }
         if (app()->getLocale() == 'en') {
             $product->usd = $request->sale_price;
             $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
             $product->vnd = formatNumber($price, 2);
-            if ( !empty( $request->on_sale ) ) {
-                $product->on_sale = $request->on_sale;
-            }
+            $product->usd_entered = $request->price;
+            $price = (float)$request->price * (float)$request->usd_to_vnd;
+            $product->vnd_entered = formatNumber($price, 2);
         } else {
             $product->vnd = $request->sale_price;
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
             $product->usd = formatNumber($price, 2);
-            if ( !empty( $request->on_sale ) ) {
-                $product->on_sale = $request->on_sale;
-            }
+            $product->vnd_entered = $request->price;
+            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->usd_entered = formatNumber($price, 2);
         }
         $product->save();
 
@@ -83,10 +93,16 @@ class ProductService implements ProductInterface
             $product->usd = $request->sale_price;
             $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
             $product->vnd = formatNumber($price, 2);
+            $product->usd_entered = $request->price;
+            $price = (float)$request->price * (float)$request->usd_to_vnd;
+            $product->vnd_entered = formatNumber($price, 2);
         } else {
             $product->vnd = $request->sale_price;
             $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
             $product->usd = formatNumber($price, 2);
+            $product->vnd_entered = $request->price;
+            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->usd_entered = formatNumber($price, 2);
         }
         if ( !empty( $request->on_sale ) ) {
             $product->on_sale = $request->on_sale;

@@ -1044,3 +1044,15 @@ del {
 .billing-detail-title {
     margin-bottom: 30px;
 }
+
+.btn-all-store {
+  display: block;
+  padding: 12px 30px;
+  background-color: #aa2231;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.btn-all-store:hover {
+  color: #fff;
+}
