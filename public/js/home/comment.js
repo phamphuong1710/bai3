@@ -14,6 +14,7 @@ $(document).ready(function ($) {
             url: form.attr('action'),
             data: form.serialize(),
             success: function(data) {
+                console.log(data);
                 var child = $('.list-comment-child');
                 var item = $( '.comment-list' ).find('.comment-item');
                 var first = item[0];
@@ -42,12 +43,13 @@ $(document).ready(function ($) {
                         }
                     });
                 }
+                 $('#input-comment').val('');
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
+                console.log(xhr.responseText);
             }
         });
     });
-    console.log(22);
 });
 
