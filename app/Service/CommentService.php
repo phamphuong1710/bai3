@@ -21,15 +21,19 @@ class CommentService implements CommentInterface
 
     public function createProductComment($comment, $productId, $parentId, $userId)
     {
-        $comment = new Comment();
-        $comment->content = $comment;
-        $comment->product_id = $productId;
-        $comment->user_id = $userId;
-        $comment->parent_id = $parentId;
-        $comment->save();
-        $product = $this->productModel->findOrFail($comment->product_id);
-        $product->comment_count = $product->comment_count + 1;
-        $product->save();
+        $args = [
+            'content' => $comment,
+            'product_id' => $productId,
+            'user_id' => $userId,
+            'parent_id' => $parentId,
+        ];
+        $comment = $this->commentModel->create($args);
+        $product = $this->productModel->findOrFail($productId);
+        $counter = $product->comment_count + 1;
+        $product = $this->productModel->where('id', $productId)
+            ->update(['comment_count' => $counter]);
+        $comment->author = $comment->user->name;
+        $comment->time = ($comment->created_at)->diffForHumans();
 
         return $comment;
     }
@@ -44,10 +48,11 @@ class CommentService implements CommentInterface
 
     public function getCommentParentProduct($productId)
     {
-        $comments = $this->commentModel->where('parent_id', 0)
-            ->where('product_id', $productId)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $condition = [
+            [ 'parent_id', '=', 0],
+            [ 'product_id', '=', $productId ],
+        ];
+        $comments = Comment::where($condition)->orderBy('created_at', 'desc')->get();
 
         return $comments;
     }
@@ -64,15 +69,19 @@ class CommentService implements CommentInterface
 
     public function createStoreComment($comment, $storeId, $parentId, $userId)
     {
-        $comment = new Comment();
-        $comment->content = $comment;
-        $comment->store_id = $storeId;
-        $comment->user_id = $userId;
-        $comment->parent_id = $parentId;
-        $comment->save();
-        $store = Store::findOrFail($comment->store_id);
-        $store->comment_count = $store->comment_count + 1;
-        $store->save();
+        $args = [
+            'content' => $comment,
+            'store_id' => $storeId,
+            'user_id' => $userId,
+            'parent_id' => $parentId,
+        ];
+        $comment = $this->commentModel->create($args);
+        $store = $this->storeModel->findOrFail($storeId);
+        $counter = $store->comment_count + 1;
+        $store = $this->storeModel->where('id', $storeId)
+            ->update(['comment_count' => $counter]);
+        $comment->author = $comment->user->name;
+        $comment->time = ($comment->created_at)->diffForHumans();
 
         return $comment;
     }

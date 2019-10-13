@@ -49,6 +49,7 @@ class SingleProductController extends Controller
         }
         $product->user_rating = $rating;
         $commentsParent = $this->commentService->getCommentParentProduct($product->id);
+        // dd($commentsParent);
         $commentsChild = array();
         foreach ($commentsParent as $comment) {
             $commentsChild[$comment->id] = $this->commentService->getCommentChild($comment->id);

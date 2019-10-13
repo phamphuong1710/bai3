@@ -22,12 +22,11 @@ class CommentController extends Controller
     public function createProductComment(CommentProductRequest $request)
     {
         $userId = Auth::id();
-        $productId = $request->product_id;
-        $parentId = $request->parent_id;
-        $comment = $request->comment;
-        $comment = $this->commentService->createProductComment($comment, $productId, $parentId, $userId);
-        $comment->author = $comment->user->name;
-        $comment->time = ($comment->created_at)->diffForHumans();
+        $productId = (int)$request->product_id;
+        $parentId = (int)$request->parent_id;
+        $content = $request->comment;
+        $comment = $this->commentService->createProductComment($content, $productId, $parentId, $userId);
+
 
         return response()->json($comment);
     }
