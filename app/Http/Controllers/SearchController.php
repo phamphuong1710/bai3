@@ -7,6 +7,7 @@ use App\Service\ProductService;
 use App\Service\StoreService;
 use App\Service\UserService;
 use App\Service\CategoryService;
+use Auth;
 
 class SearchController extends Controller
 {
