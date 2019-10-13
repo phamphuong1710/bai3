@@ -7,21 +7,25 @@ use DB;
 
 class PermissionService implements PermissionInterface
 {
+    protected $permissionModel;
+    protected $db;
+
+    public function __construct(Permission $permissionModel, DB $db)
+    {
+        $this->permissionModel = $permissionModel;
+        $this->db = $db;
+    }
+
     public function getAllPermission()
     {
-        $permissions = Permission::all();
+        $permissions = $this->permissionModel->all();
 
         return $permissions;
     }
 
-    public function createPermission($request)
-    {
-        # code...
-    }
-
     public function rolePermissions($roleId)
     {
-        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
+        $rolePermissions = $this->permissionModel->join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
             ->where("role_has_permissions.role_id",$roleId)
             ->get();
 
@@ -30,7 +34,7 @@ class PermissionService implements PermissionInterface
 
     public function getAllRolePermissions($roleId)
     {
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$roleId)
+        $rolePermissions = $this->db->table("role_has_permissions")->where("role_has_permissions.role_id",$roleId)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
 

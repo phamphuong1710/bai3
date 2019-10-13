@@ -69,14 +69,22 @@ class OrderController extends BaseController
     public function store(OrderRequest $request)
     {
         $userId = Auth::id();
-        $order = $this->orderService->order($request, $userId);
+        $vnd = $request->vnd;
+        $usd = $request->usd;
+        $quantity = $request->quantity;
+        $phone = $request->phone;
+        $name = $request->name;
+        $order = $this->orderService->order($vnd, $usd, $quantity, $userId);
         $orderId = $order->id;
         $listOrder = $this->orderService->orderDetail($orderId, $userId);
         $cart = $this->cartService->getCartByUser($userId);
         $this->cartService->deleteCart($cart->id);
         $request->session()->forget('cart');
-        $user = $this->orderService->updateUserInfo($userId, $request);
-        $address = $this->orderService->createUserAddress($userId, $request);
+        $user = $this->orderService->updateUserInfo($userId, $phone, $name);
+        $address = $request->address;
+        $lat = $request->lat;
+        $lng = $request->lng;
+        $address = $this->orderService->createUserAddress($userId, $address, $lat, $lng);
         $user->total_vnd = $order->vnd;
         $user->total_usd = $order->usd;
         $listStore = [];

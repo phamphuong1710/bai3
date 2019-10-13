@@ -11,13 +11,28 @@ use App\OrderDetail;
 
 class OrderService implements OrderInterface
 {
-    public function order($request, $userId)
+    protected $orderModel;
+    protected $cartModel;
+    protected $addressModel;
+    protected $productModel;
+    protected $orderDetailModel;
+
+    public function __construct(Order $orderModel, Product $productModel, Cart $cartModel, Address $addressModel, OrderDetail $orderDetailModel)
+    {
+        $this->productModel = $productModel;
+        $this->orderModel = $orderModel;
+        $this->addressModel = $addressModel;
+        $this->cartModel = $cartModel;
+        $this->orderDetailModel = $orderDetailModel;
+    }
+
+    public function order($vnd, $usd, $quantity, $userId)
     {
         $order = new Order();
         $order->user_id = $userId;
-        $order->vnd = $request->vnd;
-        $order->usd = $request->usd;
-        $order->quantity = $request->quantity;
+        $order->vnd = $vnd;
+        $order->usd = $usd;
+        $order->quantity = $quantity;
         $order->save();
 
         return $order;
@@ -25,13 +40,13 @@ class OrderService implements OrderInterface
 
     public function orderDetail($orderId, $userId)
     {
-        $cart = Cart::where('user_id', $userId)
+        $cart = $this->cartModel->where('user_id', $userId)
             ->firstOrFail();
         $cartDetails = $cart->detail;
         $orderDetails = [];
         foreach ($cartDetails as $detail) {
             $order = new OrderDetail();
-            $product = Product::findOrFail( $detail->product_id );
+            $product = $this->productModel->findOrFail( $detail->product_id );
             $order->order_id = $orderId;
             $order->product_id = $detail->product_id;
             $order->quantity = $detail->quantity;
@@ -51,7 +66,7 @@ class OrderService implements OrderInterface
     }
 
 
-    public function updateUserInfo($userId, $request)
+    public function updateUserInfo($userId, $phone, $name)
     {
         $user = User::findOrFail($userId);
         if(!$user) abort('404');
@@ -62,20 +77,20 @@ class OrderService implements OrderInterface
         return $user;
     }
 
-    public function createUserAddress($userId, $request)
+    public function createUserAddress($userId, $address, $lat, $lng)
     {
-        $address = new Address();
-        $address->user_id = $userId;
-        $address->address = $request->address;
-        $address->lat = $request->lat;
-        $address->lng = $request->lng;
-        $address->active = 1;
-        $address->save();
-        $oldAddress = Address::where('user_id', $userId)
+        $args = [
+            'user_id' => $userId,
+            'address' => $address,
+            'lat' => $lat,
+            'lng' => $lng,
+            'active' => 1,
+        ];
+        $this->addressModel->create($args);
+        $oldAddress = $this->addressModel->where('user_id', $userId)
             ->get();
         foreach ($oldAddress as $address) {
-            $addr = Address::findOrFail($address->id);
-            $addr->active = 0;
+            $addr = $this->addressModel->findOrFail($address->id)->update(['active' => 0]);
         }
 
         return $address;
@@ -83,14 +98,14 @@ class OrderService implements OrderInterface
 
     public function getOrder()
     {
-        $orders = Order::paginate(15);
+        $orders = $this->orderModel->paginate(15);
 
         return $orders;
     }
 
     public function getOrderById($id)
     {
-        $order = Order::findOrFail($id);
+        $order = $this->orderModel->findOrFail($id);
 
         return $order;
     }
@@ -108,7 +123,7 @@ class OrderService implements OrderInterface
 
     public function getListOrderDetail($listId)
     {
-        $orderDetail = OrderDetail::whereIn('id', $listId)->get();
+        $orderDetail = $this->orderDetailModel->whereIn('id', $listId)->get();
 
         return $orderDetail;
     }

@@ -3,13 +3,13 @@
 namespace App\InterfaceService;
 
 interface OrderInterface {
-    public function order($request, $userId);
+    public function order($vnd, $usd, $quantity, $userId);
 
     public function orderDetail($orderId, $userId);
 
-    public function updateUserInfo($userId, $request);
+    public function updateUserInfo($userId, $phone, $name);
 
-    public function createUserAddress($userId, $request);
+    public function createUserAddress($userId, $address, $lat, $lng);
 
     public function getOrderById($id);
 
