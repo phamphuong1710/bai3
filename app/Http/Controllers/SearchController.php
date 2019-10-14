@@ -7,6 +7,7 @@ use App\Service\ProductService;
 use App\Service\StoreService;
 use App\Service\UserService;
 use App\Service\CategoryService;
+use Auth;
 
 class SearchController extends Controller
 {
@@ -88,8 +89,11 @@ class SearchController extends Controller
     // Filter Product in category create by User
     public function filterByCategoryUser(Request $request)
     {
+        $userId = Auth::id();
+        $orderby = $request->order;
+        $order = $request->orderby;
         if ($request->category == 0) {
-            $products = $this->productService->getAllProductByUser($request);
+            $products = $this->productService->getAllProductByUser($userId, $orderby, $order);
         }
         else {
             $listCategory = getChildCategory($request->category);

@@ -9,9 +9,20 @@ use App\Slider;
 
 class HomeService implements HomeInterface
 {
+    protected $sliderModel;
+    protected $productModel;
+    protected $storeModel;
+
+    public function __construct(Slider $sliderModel, Product $productModel, Store $storeModel)
+    {
+        $this->sliderModel = $sliderModel;
+        $this->productModel = $productModel;
+        $this->storeModel = $storeModel;
+    }
+
     public function getSlider()
     {
-        $slider = Slider::orderBy('created_at', 'desc')
+        $slider = $this->sliderModel->orderBy('created_at', 'desc')
             ->paginate(3);
 
         return $slider;
@@ -19,7 +30,7 @@ class HomeService implements HomeInterface
 
     public function getTopStoreRating()
     {
-        $store = Store::orderBy( 'rating_average', 'DESC' )
+        $store = $this->storeModel->orderBy( 'rating_average', 'DESC' )
             ->paginate(6);
 
         return $store;
@@ -27,7 +38,7 @@ class HomeService implements HomeInterface
 
     public function getStoreBestSeller()
     {
-        $store = Store::orderBy( 'total_sale', 'DESC' )
+        $store = $this->storeModel->orderBy( 'total_sale', 'DESC' )
             ->paginate(6);
 
         return $store;
@@ -35,7 +46,7 @@ class HomeService implements HomeInterface
 
     public function getProductBestSeller()
     {
-        $product = Product::orderby('total_sale', 'desc')
+        $product = $this->productModel->orderby('total_sale', 'desc')
             ->paginate(9);
 
         return $product;
@@ -43,7 +54,7 @@ class HomeService implements HomeInterface
 
     public function getNewProduct()
     {
-        $product = Product::orderby('created_at', 'desc')
+        $product = $this->productModel->orderby('created_at', 'desc')
             ->paginate(9);
 
         return $product;
@@ -51,7 +62,7 @@ class HomeService implements HomeInterface
 
     public function getOnSaleProduct()
     {
-        $product = Product::orderBy('on_sale', 'desc')
+        $product = $this->productModel->orderBy('on_sale', 'desc')
             ->paginate(3);
 
         return $product;

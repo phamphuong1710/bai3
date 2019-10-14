@@ -4,29 +4,33 @@ namespace App\Service;
 use App\InterfaceService\ProductInterface;
 use App\Product; // model
 use Carbon\Carbon;
-use Auth;
 
 class ProductService implements ProductInterface
 {
+    protected $productModel;
+
+    public function __construct(Product $productModel)
+    {
+        $this->productModel = $productModel;
+    }
 
     public function getAllProductStore($storeId)
     {
-        $products = Product::where('store_id', $storeId)->paginate(15);
+        $products = $this->productModel->where('store_id', $storeId)->paginate(15);
 
         return $products;
     }
 
     public function getAllProductInStore($storeId)
     {
-        $products = Product::where('store_id', $storeId)->get();
+        $products = $this->productModel->where('store_id', $storeId)->get();
 
         return $products;
     }
 
-    public function getAllProductByUser($request)
+    public function getAllProductByUser($userId, $order, $orderby)
     {
-        $userId = Auth::id();
-        $products = Product::where('user_id', $userId)
+        $products = $this->productModel->where('user_id', $userId)
             ->orderBy($request->order, $request->orderby)
             ->get();
 
@@ -35,7 +39,7 @@ class ProductService implements ProductInterface
 
     public function getAllProduct()
     {
-        $products = Product::paginate(15);
+        $products = $this->productModel->paginate(15);
 
         return $products;
     }
@@ -76,14 +80,14 @@ class ProductService implements ProductInterface
 
     public function getProductId($id)
     {
-        $product = Product::findOrFail($id);
+        $product = $this->productModel->findOrFail($id);
 
         return $product;
     }
 
     public function updateProduct($request, $id)
     {
-        $product = Product::findOrFail($id);
+        $product = $this->productModel->findOrFail($id);
         $time = Carbon::now()->timestamp;
         $product->name = $request->name;
         $product->slug = str_slug($request->name, '-').'-'.$request->store_id.$time;
@@ -116,8 +120,8 @@ class ProductService implements ProductInterface
 
     public function deleteProduct($id)
     {
-        $product = Product::findOrFail($id);
-        Product::destroy($id);
+        $product = $this->productModel->findOrFail($id);
+        $this->productModel->destroy($id);
 
         return $product;
     }
@@ -126,7 +130,7 @@ class ProductService implements ProductInterface
     public function searchProduct($request)
     {
         $storeId = (int)$request->store;
-        $product = Product::where('store_id', $storeId)
+        $product = $this->productModel->where('store_id', $storeId)
             ->where('name', 'like', '%'.$request->product.'%')
             ->get();
 
@@ -137,7 +141,7 @@ class ProductService implements ProductInterface
     public function filterAllProductStore($request)
     {
         $storeId = (int)$request->store_id;
-        $products = Product::where('store_id', $storeId)
+        $products = $this->productModel->where('store_id', $storeId)
             ->orderBy($request->order, $request->orderby)
             ->get();
 
@@ -148,7 +152,7 @@ class ProductService implements ProductInterface
     public function filterProductByCategory($request, $listCategory)
     {
         $storeId = (int)$request->store;
-        $product = Product::whereIn('category_id', $listCategory)
+        $product = $this->productModel->whereIn('category_id', $listCategory)
             ->where('store_id', $storeId)
             ->orderBy($request->order, $request->orderby)
             ->get();
@@ -159,7 +163,7 @@ class ProductService implements ProductInterface
     public function getProductByUser()
     {
         $userId = Auth::id();
-        $products = Product::where('user_id', $userId)->paginate(15);
+        $products = $this->productModel->where('user_id', $userId)->paginate(15);
 
         return $products;
     }
@@ -168,7 +172,7 @@ class ProductService implements ProductInterface
     public function searchProductByUser($request)
     {
         $userId = Auth::id();
-        $product = Product::where('user_id', $userId)
+        $product = $this->productModel->where('user_id', $userId)
             ->where('name', 'like', '%'.$request->product.'%')
             ->orwhere('description', 'like', '%'.$request->product.'%')
             ->get();
@@ -180,7 +184,7 @@ class ProductService implements ProductInterface
     public function filterProductByUserCategory($request, $listCategory)
     {
         $userId = Auth::id();
-        $product = Product::whereIn('category_id', $listCategory)
+        $product = $this->productModel->whereIn('category_id', $listCategory)
             ->where('user_id', $userId)
             ->orderBy($request->order, $request->orderby)
             ->get();
@@ -190,14 +194,14 @@ class ProductService implements ProductInterface
 
     public function getProductBySlug($slug)
     {
-        $product = Product::where('slug', $slug)->firstOrFail();
+        $product = $this->productModel->where('slug', $slug)->firstOrFail();
 
         return $product;
     }
 
     public function getTheSameProductInCategory($categoryId, $productId)
     {
-        $products = Product::where('category_id', $categoryId)
+        $products = $this->productModel->where('category_id', $categoryId)
                     ->whereNotIn('id', [$productId])->paginate(4);
 
         return $products;
@@ -205,7 +209,7 @@ class ProductService implements ProductInterface
 
     public function getTheSameProductInStore($storeId, $productId)
     {
-        $products = Product::where('store_id', $storeId)
+        $products = $this->productModel->where('store_id', $storeId)
                     ->whereNotIn('id', [$productId])->paginate(4);
 
         return $products;
@@ -214,7 +218,7 @@ class ProductService implements ProductInterface
     // Get All Product In category
     public function getProductInCategory($listCategory)
     {
-        $product = Product::whereIn('category_id', $listCategory)
+        $product = $this->productModel->whereIn('category_id', $listCategory)
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -224,7 +228,7 @@ class ProductService implements ProductInterface
     // Get Product Discount
     public function getProductDiscount($discount)
     {
-        $product = Product::where('on_sale', '>=', $discount)
+        $product = $this->productModel->where('on_sale', '>=', $discount)
             ->where('on_sale', '<', $discount + 10)
             ->orderBy('created_at', 'desc')
             ->paginate(15);
@@ -234,7 +238,7 @@ class ProductService implements ProductInterface
 
     public function getProductByCategoryInStore($storeId, $categoryId)
     {
-        $products = Product::where('store_id', $storeId)
+        $products = $this->productModel->where('store_id', $storeId)
             ->where('category_id', $categoryId)
             ->get();
 

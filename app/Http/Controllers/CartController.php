@@ -50,8 +50,8 @@ class CartController extends Controller
             $product = $this->getProduct($cartDetail);
             $request->session()->put('cart.product.' . $productId, $product);
         } else {
-            $currentCart = $this->cartService->createCart($request, $userId);
-            $cartDetail = $this->cartService->createCartDetail($currentCart->id, $request);
+            $currentCart = $this->cartService->createCart($userId);
+            $cartDetail = $this->cartService->createCartDetail($currentCart->id, $productId, $quantity);
             $currentCart = $this->cartService->updateCart($currentCart->id);
             $product = $this->getProduct($cartDetail);
             $data = [

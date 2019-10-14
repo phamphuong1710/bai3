@@ -8,6 +8,7 @@ use App\Service\MediaService;
 use App\Service\CategoryService;
 use App\Http\Requests\ProductRequest;
 use App\Service\UserService;
+use Auth;
 
 class ProductController extends BaseController
 {
