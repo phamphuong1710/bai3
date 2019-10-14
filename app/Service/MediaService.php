@@ -13,21 +13,49 @@ class MediaService implements MediaInterface
     //Genarel
     public function createMedia($request, $storeId = null, $productId = null)
     {
+        $time = Carbon::now()->timestamp;
         if($request->hasfile('image')) {
             $listImage = [];
             foreach($request->file('image') as $key => $file)
             {
-                $name = Carbon::now()->timestamp . $file->getClientOriginalName();
+
+                $name = $time . $file->getClientOriginalName();
                 $extension = pathinfo( $name, PATHINFO_EXTENSION );
-                $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
-                $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
-                $link = public_path().'/files'.date("/Y/m/d/").$name;
+                $name = $time . '-' . str_random(5) . '.' . $extension;
+                $directory = public_path() . '/files' . date("/Y/m/d/");
+                $directorySmall = public_path() . '/files/small' . date("/Y/m/d/");
+                $directoryMedium = public_path() . '/files/medium' . date("/Y/m/d/");
+                $directoryLarge = public_path() . '/files/large' . date("/Y/m/d/");
+                // if ( ! File::isDirectory($directory) ) {
+                //     File::makeDirectory($directory);
+                // }
+                // if ( ! File::isDirectory($directorySmall) ) {
+                //     File::makeDirectory($directorySmall);
+                // }
+                // if ( ! File::isDirectory($directoryLarge) ) {
+                //     File::makeDirectory($directoryLarge);
+                // }
+                $path = $time . '-' . str_random(5) . '.' . $extension;
+                $smallThumbnail = $time . '-' . '150150-' . str_random(5) . '.' . $extension;
+                $mediumThumbnail = $time . '-' . '300_300-' . str_random(5) . '.' . $extension;
+                $largeThumbnail = $time . '-' . '600_600-' . str_random(5) . '.' . $extension;
+                $file->move(public_path() . '/files/small' . date("/Y/m/d/"), $smallThumbnail);
+                $file->move(public_path() . '/files/medium' . date("/Y/m/d/"), $mediumThumbnail);
+                $file->move(public_path() . '/files/large' . date("/Y/m/d/"), $largeThumbnail);
+                $file->move(public_path() . '/files' . date("/Y/m/d/"), $name);
+                $link = public_path() . '/files' . date("/Y/m/d/") . $name;
                 $img = Image::make($link);
-                $img->fit(600);
-                $img->resize(600, 600)->save($link);
-                $path = '/files'.date("/Y/m/d/").$name;
+                $smallLink = public_path() . '/files/small' . date("/Y/m/d/") . $smallThumbnail;
+                $this->createThumbnail($smallLink, 150, 150);
+                $mediumLink = public_path() . '/files/medium' . date("/Y/m/d/") . $mediumThumbnail;
+                $this->createThumbnail($mediumLink, 300, 300);
+                $largeLink = public_path() . '/files/large' . date("/Y/m/d/") . $largeThumbnail;
+                 $this->createThumbnail($largeLink, 600, 600);
+
+                // $img->fit(600);
+                // $img->resize(600, 600)->save($link);
                 $image = new Media();
-                $image->image_path = $path;
+                $image->image_path = $link;
                 $image->store_id = $storeId;
                 $image->user_id = Auth::id();
                 $image->save();
@@ -168,7 +196,6 @@ class MediaService implements MediaInterface
         return true;
     }
 
-
     //Product
     public function updateProductImage($id, $productId, $position)
     {
@@ -272,5 +299,13 @@ class MediaService implements MediaInterface
         $image->save();
 
         return $image;
+    }
+
+    public function createThumbnail($path, $width, $height)
+    {
+        $img = Image::make($path)->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $img->save($path);
     }
 }

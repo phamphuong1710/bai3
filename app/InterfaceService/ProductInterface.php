@@ -11,13 +11,13 @@ interface ProductInterface {
     //without Pagination
     public function getAllProductInStore($storeID);
 
-    public function getAllProductByUser($request);
+    public function getAllProductByUser($userId, $order, $orderby);
 
-    public function createProduct($request);
+    public function createProduct($name, $storeId, $categoryId, $description, $userId, $quantity, $onSale, $usdToVnd, $salePrice, $cost);
 
     public function getProductId($id);
 
-    public function updateProduct($request, $id);
+    public function updateProduct($name, $storeId, $categoryId, $description, $userId, $quantity, $onSale, $usdToVnd, $salePrice, $cost, $id);
 
     public function deleteProduct($id);
 
