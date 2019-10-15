@@ -65,7 +65,17 @@ class ProductController extends BaseController
      */
     public function store(ProductRequest $request)
     {
-        $product = $this->productService->createProduct($request);
+        $name = $request->name;
+        $storeId = $request->store_id;
+        $categoryId = $request->category_id;
+        $description = $request->description;
+        $cost = $request->price;
+        $salePrice = $request->sale_price;
+        $userId = Auth::id();
+        $quantity = $request->quantity;
+        $onSale = $request->on_sale;
+        $usdToVnd = $request->usd_to_vnd;
+        $product = $this->productService->createProduct($name, $storeId, $categoryId, $description, $userId, $quantity, $onSale, $usdToVnd, $salePrice, $cost);
         $logo = $request->logo_id;
         $this->mediaService->updateProductImage($logo, $product->id, null);
         $listImage = $request->list_image;
@@ -125,7 +135,17 @@ class ProductController extends BaseController
      */
     public function update(ProductRequest $request, $id)
     {
-        $product = $this->productService->updateProduct($request, $id);
+        $name = $request->name;
+        $storeId = $request->store_id;
+        $categoryId = $request->category_id;
+        $description = $request->description;
+        $cost = $request->price;
+        $salePrice = $request->sale_price;
+        $userId = Auth::id();
+        $quantity = $request->quantity;
+        $onSale = $request->on_sale;
+        $usdToVnd = $request->usd_to_vnd;
+        $product = $this->productService->updateProduct($name, $storeId, $categoryId, $description, $userId, $quantity, $onSale, $usdToVnd, $salePrice, $cost, $id);
         $listImage = $request->list_image;
         $logo = $request->logo_id;
         if (!empty($logo)) {

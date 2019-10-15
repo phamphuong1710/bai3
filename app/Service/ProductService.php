@@ -44,33 +44,33 @@ class ProductService implements ProductInterface
         return $products;
     }
 
-    public function createProduct($request)
+    public function createProduct($name, $storeId, $categoryId, $description, $userId, $quantity, $onSale, $usdToVnd, $salePrice, $cost)
     {
         $product = new Product();
         $time = Carbon::now()->timestamp;
-        $product->name = $request->name;
-        $product->slug = str_slug($request->name, '-').'-'.$request->store_id.$time;
-        $product->category_id = $request->category_id;
-        $product->description = $request->description;
-        $product->user_id = $request->user_id;
-        $product->store_id = $request->store_id;
-        $product->quantity_stock = $request->quantity;
-        if ( !empty( $request->on_sale ) ) {
-            $product->on_sale = $request->on_sale;
+        $product->name = $name;
+        $product->slug = str_slug($name, '-') . '-' . $storeId . $time;
+        $product->category_id = $categoryId;
+        $product->description = $description;
+        $product->user_id = $userId;
+        $product->store_id = $storeId;
+        $product->quantity_stock = $quantity;
+        if ( !empty( $onSale ) ) {
+            $product->on_sale = $onSale;
         }
         if (app()->getLocale() == 'en') {
-            $product->usd = $request->sale_price;
-            $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
+            $product->usd = $salePrice;
+            $price = (float)$salePrice * (float)$usdToVnd;
             $product->vnd = formatNumber($price, 2);
-            $product->usd_entered = $request->price;
-            $price = (float)$request->price * (float)$request->usd_to_vnd;
+            $product->usd_entered = $cost;
+            $price = (float)$cost * (float)$usdToVnd;
             $product->vnd_entered = formatNumber($price, 2);
         } else {
-            $product->vnd = $request->sale_price;
-            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->vnd = $salePrice;
+            $price = (float)$salePrice/(float)$usdToVnd;
             $product->usd = formatNumber($price, 2);
-            $product->vnd_entered = $request->price;
-            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->vnd_entered = $cost;
+            $price = (float)$salePrice/(float)$usdToVnd;
             $product->usd_entered = formatNumber($price, 2);
         }
         $product->save();
@@ -85,34 +85,34 @@ class ProductService implements ProductInterface
         return $product;
     }
 
-    public function updateProduct($request, $id)
+    public function updateProduct($name, $storeId, $categoryId, $description, $userId, $quantity, $onSale, $usdToVnd, $salePrice, $cost, $id)
     {
         $product = $this->productModel->findOrFail($id);
         $time = Carbon::now()->timestamp;
-        $product->name = $request->name;
-        $product->slug = str_slug($request->name, '-').'-'.$request->store_id.$time;
-        $product->category_id = $request->category_id;
-        $product->description = $request->description;
+        $product->name = $name;
+        $product->slug = str_slug($name, '-') . '-' . $storeId . $time;
+        $product->category_id = $categoryId;
+        $product->description = $description;
         if (app()->getLocale() == 'en') {
-            $product->usd = $request->sale_price;
-            $price = (float)$request->sale_price * (float)$request->usd_to_vnd;
+            $product->usd = $salePrice;
+            $price = (float)$salePrice * (float)$usdToVnd;
             $product->vnd = formatNumber($price, 2);
-            $product->usd_entered = $request->price;
-            $price = (float)$request->price * (float)$request->usd_to_vnd;
+            $product->usd_entered = $cost;
+            $price = (float)$cost * (float)$usdToVnd;
             $product->vnd_entered = formatNumber($price, 2);
         } else {
-            $product->vnd = $request->sale_price;
-            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->vnd = $salePrice;
+            $price = (float)$salePrice/(float)$usdToVnd;
             $product->usd = formatNumber($price, 2);
-            $product->vnd_entered = $request->price;
-            $price = (float)$request->sale_price/(float)$request->usd_to_vnd;
+            $product->vnd_entered = $cost;
+            $price = (float)$salePrice/(float)$usdToVnd;
             $product->usd_entered = formatNumber($price, 2);
         }
-        if ( !empty( $request->on_sale ) ) {
-            $product->on_sale = $request->on_sale;
+        if ( !empty( $onSale ) ) {
+            $product->on_sale = $onSale;
         }
-        $product->user_id = $request->user_id;
-        $product->quantity_stock = $request->quantity;
+        $product->user_id = $userId;
+        $product->quantity_stock = $quantity;
         $product->save();
 
         return $product;

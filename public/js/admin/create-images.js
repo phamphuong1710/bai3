@@ -58,6 +58,7 @@ $(document).ready(function(){
                 $('#listImage').val(arrayImage);
             },
             error: function (xhr, status, error) {
+                alert(xhr.responseText);
                 alert('Something wrong! Please try again later!');
             }
         });
