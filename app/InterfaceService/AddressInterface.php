@@ -13,5 +13,5 @@ interface AddressInterface {
 
     public function getAddressByUserID($userId);
 
-    public function getAddressByStoreID($storeId)
+    public function getAddressByStoreID($storeId);
 }

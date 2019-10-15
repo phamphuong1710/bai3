@@ -18,42 +18,36 @@ class MediaService implements MediaInterface
             $listImage = [];
             foreach($request->file('image') as $key => $file)
             {
-
                 $name = $time . $file->getClientOriginalName();
                 $extension = pathinfo( $name, PATHINFO_EXTENSION );
                 $name = $time . '-' . str_random(5) . '.' . $extension;
-                $directory = public_path() . '/files' . date("/Y/m/d/");
-                $directorySmall = public_path() . '/files/small' . date("/Y/m/d/");
-                $directoryMedium = public_path() . '/files/medium' . date("/Y/m/d/");
-                $directoryLarge = public_path() . '/files/large' . date("/Y/m/d/");
-                // if ( ! File::isDirectory($directory) ) {
-                //     File::makeDirectory($directory);
-                // }
-                // if ( ! File::isDirectory($directorySmall) ) {
-                //     File::makeDirectory($directorySmall);
-                // }
-                // if ( ! File::isDirectory($directoryLarge) ) {
-                //     File::makeDirectory($directoryLarge);
-                // }
                 $path = $time . '-' . str_random(5) . '.' . $extension;
-                $smallThumbnail = $time . '-' . '150150-' . str_random(5) . '.' . $extension;
-                $mediumThumbnail = $time . '-' . '300_300-' . str_random(5) . '.' . $extension;
-                $largeThumbnail = $time . '-' . '600_600-' . str_random(5) . '.' . $extension;
-                $file->move(public_path() . '/files/small' . date("/Y/m/d/"), $smallThumbnail);
-                $file->move(public_path() . '/files/medium' . date("/Y/m/d/"), $mediumThumbnail);
-                $file->move(public_path() . '/files/large' . date("/Y/m/d/"), $largeThumbnail);
-                $file->move(public_path() . '/files' . date("/Y/m/d/"), $name);
-                $link = public_path() . '/files' . date("/Y/m/d/") . $name;
-                $img = Image::make($link);
-                $smallLink = public_path() . '/files/small' . date("/Y/m/d/") . $smallThumbnail;
+                $smallThumbnail = '150_150-' . $name;
+                $mediumThumbnail = '300_300-' . $name;
+                $largeThumbnail = '600_600-' . $name;
+                // $file->move(public_path() . '/files/small' . date("/Y/m/d/"), $smallThumbnail);
+                // $file->move(public_path() . '/files/medium' . date("/Y/m/d/"), $mediumThumbnail);
+                // $file->move(public_path() . '/files/large' . date("/Y/m/d/"), $largeThumbnail);
+                // $file->move(public_path() . '/files' . date("/Y/m/d/"), $name);
+                // $link = public_path() . '/files' . date("/Y/m/d/") . $name;
+                // $smallLink = public_path() . '/files/small' . date("/Y/m/d/") . $smallThumbnail;
+                // $this->createThumbnail($smallLink, 150, 150);
+                // $mediumLink = public_path() . '/files/medium' . date("/Y/m/d/") . $mediumThumbnail;
+                // $this->createThumbnail($mediumLink, 300, 300);
+                // $largeLink = public_path() . '/files/large' . date("/Y/m/d/") . $largeThumbnail;
+                //  $this->createThumbnail($largeLink, 600, 600);
+                $file->storeAs('public/files', $name);
+                $file->storeAs('public/files/small', $smallThumbnail);
+                $file->storeAs('public/files/medium', $mediumThumbnail);
+                $file->storeAs('public/files/large', $largeThumbnail);
+                $link = public_path('storage/files' . $name);
+                $smallLink = public_path('storage/files/small' . $smallThumbnail);
                 $this->createThumbnail($smallLink, 150, 150);
-                $mediumLink = public_path() . '/files/medium' . date("/Y/m/d/") . $mediumThumbnail;
+                $mediumLink = public_path('storage/files/medium' . $mediumThumbnail);
                 $this->createThumbnail($mediumLink, 300, 300);
-                $largeLink = public_path() . '/files/large' . date("/Y/m/d/") . $largeThumbnail;
-                 $this->createThumbnail($largeLink, 600, 600);
+                $largeLink = public_path('storage/files/large' . $largeThumbnail);
+                $this->createThumbnail($largeLink, 600, 600);
 
-                // $img->fit(600);
-                // $img->resize(600, 600)->save($link);
                 $image = new Media();
                 $image->image_path = $link;
                 $image->store_id = $storeId;

@@ -70,8 +70,8 @@ class OrderService implements OrderInterface
     {
         $user = User::findOrFail($userId);
         if(!$user) abort('404');
-        $user->phone = $request->phone;
-        $user->full_name = $request->name;
+        $user->phone = $phone;
+        $user->full_name = $name;
         $user->save();
 
         return $user;
@@ -79,6 +79,11 @@ class OrderService implements OrderInterface
 
     public function createUserAddress($userId, $address, $lat, $lng)
     {
+        $oldAddress = $this->addressModel->where('user_id', $userId)
+            ->get();
+        foreach ($oldAddress as $address) {
+            $addr = $this->addressModel->findOrFail($address->id)->update(['active' => 0]);
+        }
         $args = [
             'user_id' => $userId,
             'address' => $address,
@@ -87,11 +92,7 @@ class OrderService implements OrderInterface
             'active' => 1,
         ];
         $this->addressModel->create($args);
-        $oldAddress = $this->addressModel->where('user_id', $userId)
-            ->get();
-        foreach ($oldAddress as $address) {
-            $addr = $this->addressModel->findOrFail($address->id)->update(['active' => 0]);
-        }
+
 
         return $address;
     }
