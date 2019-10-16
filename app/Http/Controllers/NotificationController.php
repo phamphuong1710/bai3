@@ -7,19 +7,22 @@ use Notification;
 use App\Notifications\OrderNotification;
 use App\Service\UserService;
 use App\Service\OrderService;
+use App\Service\AddressService;
 use Auth;
 
 class NotificationController extends BaseController
 {
     protected $orderService;
     protected $userService;
+    protected $addressService;
 
-    public function __construct(UserService $userService, OrderService $orderService )
+    public function __construct(UserService $userService, OrderService $orderService, AddressService $addressService)
     {
         $this->middleware('auth');
         parent::__construct($userService);
         $this->userService = $userService;
         $this->orderService = $orderService;
+        $this->addressService = $addressService;
     }
     /**
      * Display a listing of the resource.
@@ -76,7 +79,7 @@ class NotificationController extends BaseController
         $detail = json_encode($detail);
         $detail = json_decode($detail);
         $custommer = $this->userService->getUserById($detail->user);
-        $address = $custommer->address->where('active', 1)->first()->address;
+        $address = $this->addressService->getAddressByUserID($detail->user);
         $custommer->address = $address;
         $order = $this->orderService->getOrderById($detail->order_id);
         $orderDetail = $this->orderService->getListOrderDetail($detail->detail);
