@@ -41,7 +41,9 @@ class ImageLibraryController extends Controller
      */
     public function store(Request $request)
     {
-        $images = $this->mediaService->insertImageInLibrary($request);
+        $listPath = $request->list_path;
+        $userId = Auth::id();
+        $images = $this->mediaService->insertImageInLibrary($listPath, $userId);
 
         return response()->json($images);
     }

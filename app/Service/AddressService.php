@@ -27,7 +27,7 @@ class AddressService implements AddressInterface
         return $address;
     }
 
-    public function getAddressByStoreID($storeId)
+    public function getAddressByStoreId($storeId)
     {
         $address = $this->addressModel->where('store_id', $storeId)
             ->where('active', 1)
@@ -76,7 +76,7 @@ class AddressService implements AddressInterface
     }
 
 
-    public function getAddressByUserID($userId)
+    public function getAddressByUserId($userId)
     {
         $address = $this->addressModel->where('user_id', $userId)
             ->where('active', 1)

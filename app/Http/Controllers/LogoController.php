@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service\MediaService;
+use Auth;
 
 class LogoController extends Controller
 {
@@ -17,7 +18,9 @@ class LogoController extends Controller
 
     public function store(Request $request)
     {
-        $logo = $this->mediaService->createLogo($request, null, null);
+        $logo = $request->file('logo');
+        $userId = Auth::id();
+        $logo = $this->mediaService->createLogo($logo, $userId);
 
         return response()->json($logo);
     }
@@ -36,7 +39,9 @@ class LogoController extends Controller
 
     public function createImageSlider(Request $request)
     {
-        $image = $this->mediaService->createImageSlider($request);
+        $fileUpload = $request->file('logo');
+        $userId = Auth::id();
+        $image = $this->mediaService->createImageSlider($fileUpload, $userId);
 
         return response()->json($image);
     }

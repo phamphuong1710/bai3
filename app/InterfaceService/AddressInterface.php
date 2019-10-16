@@ -11,7 +11,7 @@ interface AddressInterface {
 
     public function updateUserAddress($userId, $address, $lat, $lng);
 
-    public function getAddressByUserID($userId);
+    public function getAddressByUserId($userId);
 
-    public function getAddressByStoreID($storeId);
+    public function getAddressByStoreId($storeId);
 }

@@ -95,7 +95,7 @@ class StoreController extends BaseController
         $listImage = implode(',', $listImage);
         $products = $this->productService->getAllProductStore($id);
         $store->products = $products;
-        $address = $this->storeService->getAddressByStoreID($id);
+        $address = $this->storeService->getAddressByStoreId($id);
         $store->list_image = $listImage;
         $products = $this->productService->getAllProductInStore($id);
         $listCategory = [];
@@ -128,7 +128,7 @@ class StoreController extends BaseController
         $store = $this->storeService->getStoreById($id);
         $image = $this->mediaService->getImageByStoreId($id);
         $logo = $this->mediaService->getLogoByStoreId($id);
-        $address = $this->storeService->getAddressByStoreID($id);
+        $address = $this->storeService->getAddressByStoreId($id);
         $store->address = $address;
         $store->media = $image;
         $store->logo = $logo->image_path;

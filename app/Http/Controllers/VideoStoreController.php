@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service\MediaService;
+use Auth;
 
 class VideoStoreController extends Controller
 {
@@ -42,7 +43,9 @@ class VideoStoreController extends Controller
      */
     public function store(Request $request)
     {
-        $uploadFile = $this->mediaService->createVideoImage($request);
+        $url = $request->image_path;
+        $userId = Auth::id();
+        $uploadFile = $this->mediaService->createVideoImage($url, $userId);
 
         return response()->json($uploadFile);
     }
