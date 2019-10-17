@@ -20,19 +20,15 @@ class MediaService implements MediaInterface
             {
                 $extension = $file->getClientOriginalExtension();
                 $name = $time . '-' . str_random(5) . '.' . $extension;
-                $smallThumbnail = config('thumbnail.small') . '-' . $name;
-                $smallSize = explode('_', $smallThumbnail);
-                $mediumThumbnail = config('thumbnail.medium') . '-' . $name;
-                $largeThumbnail = config('thumbnail.large') . '-' . $name;
-                $file->move(public_path(config('thumbnail.small_path') . date("/Y/m/d/")), $smallThumbnail);
-                // $file->move(public_path(config('thumbnail.medium_path') . date("/Y/m/d/")), $mediumThumbnail);
-                // $file->move(public_path(config('thumbnail.large_path') . date("/Y/m/d/")), $largeThumbnail);
-                // $file->move(public_path(config('thumbnail.path') . date("/Y/m/d/")), $name);
-                $link = public_path() . '/files' . date("/Y/m/d/") . $name;
-                $smallLink = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $smallThumbnail;
-                $this->createThumbnail($smallLink, $smallSize[0], $smallSize[1]);
+                $file->move(public_path(config('thumbnail.path') . date("/Y/m/d/")), $name);
+                $link = public_path() . config('thumbnail.path') . date("/Y/m/d/") . $name;
+                $contents = file_get_contents($link);
+                $this->createThumbnail($name, $contents, config('thumbnail.small'), config('thumbnail.small_path'));
+                $this->createThumbnail($name, $contents, config('thumbnail.medium'), config('thumbnail.medium_path'));
+                $this->createThumbnail($name, $contents, config('thumbnail.large'), config('thumbnail.large_path'));
+                $path = config('thumbnail.path') . date("/Y/m/d/") . $name;
                 $image = new Media();
-                $image->image_path = $link;
+                $image->image_path = $path;
                 $image->store_id = $storeId;
                 $image->user_id = $userId;
                 $image->save();
@@ -132,19 +128,15 @@ class MediaService implements MediaInterface
         $extension = pathinfo( $url, PATHINFO_EXTENSION );
         $contents = file_get_contents($url);
         $name = $time . '-' . str_random(5) . '.' . $extension;
-        $smallThumbnail = config('thumbnail.small') . '-' . $name;
-        $smallSize = explode('_', $smallThumbnail);
-        $mediumThumbnail = config('thumbnail.medium') . '-' . $name;
-        $largeThumbnail = config('thumbnail.large') . '-' . $name;
         $directory = public_path() . config('thumbnail.path') . date("/Y/m/d/");
         if ( ! File::isDirectory($directory) ) {
             File::makeDirectory($directory);
         }
         $file = public_path() . config('thumbnail.path') . date("/Y/m/d/") . $name;
         file_put_contents($file, $contents);
-        $link = public_path() . config('thumbnail.path') . date("/Y/m/d/") . $name;
-        $smallLink = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $smallThumbnail;
-        $this->createThumbnail($smallLink, $smallSize[0], $smallSize[1]);
+        $this->createThumbnail($name, $contents, config('thumbnail.small'), config('thumbnail.small_path'));
+        $this->createThumbnail($name, $contents, config('thumbnail.medium'), config('thumbnail.medium_path'));
+        $this->createThumbnail($name, $contents, config('thumbnail.large'), config('thumbnail.large_path'));
         $path = config('thumbnail.path') . date("/Y/m/d/") . $name;
         $image = new Media();
         $image->image_path = $path;
@@ -285,11 +277,19 @@ class MediaService implements MediaInterface
         return $image;
     }
 
-    public function createThumbnail($path, $width, $height)
+    public function createThumbnail($name, $contents, $size, $path)
     {
-        $img = Image::make($path)->resize($width, $height, function ($constraint) {
+        $mediumThumbnail = $size . '-' . $name;
+        $mediumSize = explode('_', $size);
+        $mediumDirectory = public_path() . $path . date("/Y/m/d/");
+        if ( ! File::isDirectory($mediumDirectory) ) {
+            File::makeDirectory($mediumDirectory,0777,true);
+        }
+        $mediumLink = $mediumDirectory . $mediumThumbnail;
+        file_put_contents($mediumLink, $contents);
+        $img = Image::make($mediumLink)->resize($mediumSize[0], $mediumSize[1], function ($constraint) {
             $constraint->aspectRatio();
         });
-        $img->save($path);
+        $img->save($mediumLink);
     }
 }
