@@ -79,8 +79,7 @@ class OrderService implements OrderInterface
 
     public function createUserAddress($userId, $address, $lat, $lng)
     {
-        $oldAddress = $this->addressModel->where('user_id', $userId)
-            ->get();
+        $oldAddress = $this->addressModel->where('user_id', $userId)->get();
         foreach ($oldAddress as $address) {
             $addr = $this->addressModel->findOrFail($address->id)->update(['active' => 0]);
         }
@@ -92,7 +91,6 @@ class OrderService implements OrderInterface
             'active' => 1,
         ];
         $this->addressModel->create($args);
-
 
         return $address;
     }

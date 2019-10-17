@@ -4,19 +4,19 @@ namespace App\InterfaceService;
 
 interface MediaInterface {
     // Store
-    public function createMedia($request, $storeId = null, $productId = null);
+    public function createMedia($fileUpload, $userId, $storeId = null, $productId = null);
 
     public function getImageByStoreId($storeId);
 
-    public function updateMedia($id, $request);
+    public function updateMedia($id, $fileUpload, $userId);
 
     public function deleteMedia($id);
 
     public function updateStoreImage($id, $storeId, $position);
 
-    public function createVideoImage($request);
+    public function createVideoImage($url, $userId);
 
-    public function createLogo($request, $storeId = null, $productId = null);
+    public function createLogo($logo, $userId, $storeId = null, $productId = null);
 
     public function getLogoByStoreId($storeId);
 
@@ -32,9 +32,9 @@ interface MediaInterface {
 
     public function getImageByUserId($userId);
 
-    public function insertImageInLibrary($request);
+    public function insertImageInLibrary($listPath, $userId);
 
-    public function createImageSlider($request, $sliderId = null);
+    public function createImageSlider($fileUpload, $userId, $sliderId = null);
 
     public function updateImageSlider($id, $sliderId);
 }

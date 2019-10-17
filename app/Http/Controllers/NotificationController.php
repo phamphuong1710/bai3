@@ -79,7 +79,7 @@ class NotificationController extends BaseController
         $detail = json_encode($detail);
         $detail = json_decode($detail);
         $custommer = $this->userService->getUserById($detail->user);
-        $address = $this->addressService->getAddressByUserID($detail->user);
+        $address = $this->addressService->getAddressByUserId($detail->user);
         $custommer->address = $address;
         $order = $this->orderService->getOrderById($detail->order_id);
         $orderDetail = $this->orderService->getListOrderDetail($detail->detail);

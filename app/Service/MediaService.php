@@ -11,47 +11,30 @@ use Auth;
 class MediaService implements MediaInterface
 {
     //Genarel
-    public function createMedia($request, $storeId = null, $productId = null)
+    public function createMedia($fileUpload, $userId, $storeId = null, $productId = null)
     {
         $time = Carbon::now()->timestamp;
-        if($request->hasfile('image')) {
+        if($fileUpload) {
             $listImage = [];
-            foreach($request->file('image') as $key => $file)
+            foreach($fileUpload as $key => $file)
             {
-                $name = $time . $file->getClientOriginalName();
-                $extension = pathinfo( $name, PATHINFO_EXTENSION );
+                $extension = $file->getClientOriginalExtension();
                 $name = $time . '-' . str_random(5) . '.' . $extension;
-                $path = $time . '-' . str_random(5) . '.' . $extension;
-                $smallThumbnail = '150_150-' . $name;
-                $mediumThumbnail = '300_300-' . $name;
-                $largeThumbnail = '600_600-' . $name;
-                // $file->move(public_path() . '/files/small' . date("/Y/m/d/"), $smallThumbnail);
-                // $file->move(public_path() . '/files/medium' . date("/Y/m/d/"), $mediumThumbnail);
-                // $file->move(public_path() . '/files/large' . date("/Y/m/d/"), $largeThumbnail);
-                // $file->move(public_path() . '/files' . date("/Y/m/d/"), $name);
-                // $link = public_path() . '/files' . date("/Y/m/d/") . $name;
-                // $smallLink = public_path() . '/files/small' . date("/Y/m/d/") . $smallThumbnail;
-                // $this->createThumbnail($smallLink, 150, 150);
-                // $mediumLink = public_path() . '/files/medium' . date("/Y/m/d/") . $mediumThumbnail;
-                // $this->createThumbnail($mediumLink, 300, 300);
-                // $largeLink = public_path() . '/files/large' . date("/Y/m/d/") . $largeThumbnail;
-                //  $this->createThumbnail($largeLink, 600, 600);
-                $file->storeAs('public/files', $name);
-                $file->storeAs('public/files/small', $smallThumbnail);
-                $file->storeAs('public/files/medium', $mediumThumbnail);
-                $file->storeAs('public/files/large', $largeThumbnail);
-                $link = public_path('storage/files' . $name);
-                $smallLink = public_path('storage/files/small' . $smallThumbnail);
-                $this->createThumbnail($smallLink, 150, 150);
-                $mediumLink = public_path('storage/files/medium' . $mediumThumbnail);
-                $this->createThumbnail($mediumLink, 300, 300);
-                $largeLink = public_path('storage/files/large' . $largeThumbnail);
-                $this->createThumbnail($largeLink, 600, 600);
-
+                $smallThumbnail = config('thumbnail.small') . '-' . $name;
+                $smallSize = explode('_', $smallThumbnail);
+                $mediumThumbnail = config('thumbnail.medium') . '-' . $name;
+                $largeThumbnail = config('thumbnail.large') . '-' . $name;
+                $file->move(public_path(config('thumbnail.small_path') . date("/Y/m/d/")), $smallThumbnail);
+                // $file->move(public_path(config('thumbnail.medium_path') . date("/Y/m/d/")), $mediumThumbnail);
+                // $file->move(public_path(config('thumbnail.large_path') . date("/Y/m/d/")), $largeThumbnail);
+                // $file->move(public_path(config('thumbnail.path') . date("/Y/m/d/")), $name);
+                $link = public_path() . '/files' . date("/Y/m/d/") . $name;
+                $smallLink = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $smallThumbnail;
+                $this->createThumbnail($smallLink, $smallSize[0], $smallSize[1]);
                 $image = new Media();
                 $image->image_path = $link;
                 $image->store_id = $storeId;
-                $image->user_id = Auth::id();
+                $image->user_id = $userId;
                 $image->save();
                 array_push($listImage, $image);
             }
@@ -60,21 +43,24 @@ class MediaService implements MediaInterface
         return $listImage;
     }
 
-    public function updateMedia($id, $request)
+    public function updateMedia($id, $fileUpload, $userId)
     {
+        $time = Carbon::now()->timestamp;
         $images = Media::findOrFail($id);
-        if($request->hasfile('image')) {
-            $file = $request->image ;
-            $name = Carbon::now()->timestamp.$file->getClientOriginalName();
-            $extension = pathinfo( $name, PATHINFO_EXTENSION );
-            $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
-            $file->move(public_path().'/files'.date("/Y/m/d/"), $name);
-            $link = public_path().'/files'.date("/Y/m/d/").$name;
-            $img->fit(600);
-            $img->resize(600, 600)->save($link);
-            $path = '/files'.date("/Y/m/d/").$name;
-            $images->image_path = $path;
-            $image->user_id = Auth::id();
+        if($fileUpload) {
+            $file = $fileUpload;
+            $extension = $file->getClientOriginalExtension();
+            $name = $time . '-' . str_random(5) . '.' . $extension;
+            $smallThumbnail = config('thumbnail.small') . '-' . $name;
+            $smallSize = explode('_', $smallThumbnail);
+            $mediumThumbnail = config('thumbnail.medium') . '-' . $name;
+            $largeThumbnail = config('thumbnail.large') . '-' . $name;
+            $file->move(public_path(config('thumbnail.small_path') . date("/Y/m/d/")), $smallThumbnail);
+            $link = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $name;
+            $smallLink = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $smallThumbnail;
+            $this->createThumbnail($smallLink, $smallSize[0], $smallSize[1]);
+            $images->image_path = $link;
+            $image->user_id = $userId;
             $images->save();
         }
 
@@ -91,24 +77,26 @@ class MediaService implements MediaInterface
         return $image;
     }
 
-    public function createLogo($request, $storeId = null, $productId = null)
+    public function createLogo($logo, $userId, $storeId = null, $productId = null)
     {
-        if($request->hasfile('logo')) {
-            $file = $request->file('logo');
-            $name = Carbon::now()->timestamp.$file->getClientOriginalName();
-            $extension = pathinfo( $name, PATHINFO_EXTENSION );
-            $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
-            $file->move(public_path().'/files/'.date("/Y/m/d/"), $name);
-            $link = public_path().'/files'.date("/Y/m/d/").$name;
-            $img = Image::make($link);
-            $img->fit(600);
-            $img->resize(600, 600)->save($link);
-            $path = '/files'.date("/Y/m/d/").$name;
+        $time = Carbon::now()->timestamp;
+        if($logo) {
+            $file = $logo;
+            $extension = $file->getClientOriginalExtension();
+            $name = $time . '-' . str_random(5) . '.' . $extension;
+            $smallThumbnail = config('thumbnail.small') . '-' . $name;
+            $smallSize = explode('_', $smallThumbnail);
+            $mediumThumbnail = config('thumbnail.medium') . '-' . $name;
+            $largeThumbnail = config('thumbnail.large') . '-' . $name;
+            $file->move(public_path(config('thumbnail.small_path') . date("/Y/m/d/")), $smallThumbnail);
+            $link = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $name;
+            $smallLink = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $smallThumbnail;
+            $this->createThumbnail($smallLink, $smallSize[0], $smallSize[1]);
             $image = new Media();
-            $image->image_path = $path;
+            $image->image_path = $link;
             $image->store_id = $storeId;
             $image->product_id = $productId;
-            $image->user_id = Auth::id();
+            $image->user_id = $userId;
             $image->active = 1;
             $image->save();
         }
@@ -137,28 +125,30 @@ class MediaService implements MediaInterface
         return $image;
     }
 
-    public function createVideoImage($request)
+    public function createVideoImage($url, $userId)
     {
-        $url = $request->image_path;
+        $time = Carbon::now()->timestamp;
         $info = pathinfo($url);
         $extension = pathinfo( $url, PATHINFO_EXTENSION );
         $contents = file_get_contents($url);
-        $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
-        $directory = public_path().'/files'.date("/Y/m/d/");
+        $name = $time . '-' . str_random(5) . '.' . $extension;
+        $smallThumbnail = config('thumbnail.small') . '-' . $name;
+        $smallSize = explode('_', $smallThumbnail);
+        $mediumThumbnail = config('thumbnail.medium') . '-' . $name;
+        $largeThumbnail = config('thumbnail.large') . '-' . $name;
+        $directory = public_path() . config('thumbnail.path') . date("/Y/m/d/");
         if ( ! File::isDirectory($directory) ) {
             File::makeDirectory($directory);
         }
-        $file = public_path().'/files'.date("/Y/m/d/").$name;
+        $file = public_path() . config('thumbnail.path') . date("/Y/m/d/") . $name;
         file_put_contents($file, $contents);
-        $link = public_path().'/files'.date("/Y/m/d/").$name;
-        $img = Image::make($file);
-        $img->fit(600);
-        $img->resize(600, 600)->save($link);
-        $path = '/files'.date("/Y/m/d/").$name;
+        $link = public_path() . config('thumbnail.path') . date("/Y/m/d/") . $name;
+        $smallLink = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $smallThumbnail;
+        $this->createThumbnail($smallLink, $smallSize[0], $smallSize[1]);
+        $path = config('thumbnail.path') . date("/Y/m/d/") . $name;
         $image = new Media();
         $image->image_path = $path;
-        $image->image_path = $path;
-        $image->user_id = Auth::id();
+        $image->user_id = $userId;
         $image->save();
 
         return $image;
@@ -248,14 +238,14 @@ class MediaService implements MediaInterface
         return $images;
     }
 
-    public function insertImageInLibrary($request)
+    public function insertImageInLibrary($listPath, $userId)
     {
         $images = [];
-        $listPath = explode(',', $request->list_path);
+        $listPath = explode(',', $listPath);
         foreach ($listPath as $path) {
             $image = new Media();
             $image->image_path = $path;
-            $image->user_id = Auth::id();
+            $image->user_id = $userId;
             $image->save();
             array_push($images, $image);
         }
@@ -263,23 +253,23 @@ class MediaService implements MediaInterface
         return $images;
     }
 
-    public function createImageSlider($request, $sliderId = null)
+    public function createImageSlider($fileUpload, $userId, $sliderId = null)
     {
-        if($request->hasfile('logo')) {
-            $file = $request->file('logo');
-            $name = Carbon::now()->timestamp.$file->getClientOriginalName();
-            $extension = pathinfo( $name, PATHINFO_EXTENSION );
-            $name = Carbon::now()->timestamp.'-'.str_random(5).'.'.$extension;
-            $file->move(public_path().'/files/slider'.date("/Y/m/d/"), $name);
-            $link = public_path().'/files/slider'.date("/Y/m/d/").$name;
+        $time = Carbon::now()->timestamp;
+        if($fileUpload) {
+            $file = $fileUpload;
+            $extension = $file->getClientOriginalExtension();
+            $name = $time . '-' . str_random(5) . '.' . $extension;
+            $file->move(public_path() . '/files/slider' . date("/Y/m/d/"), $name);
+            $link = public_path() . '/files/slider' . date("/Y/m/d/") . $name;
             $img = Image::make($link);
             $img->fit(1920, 800);
             $img->resize(1920, 800)->save($link);
-            $path = '/files/slider'.date("/Y/m/d/").$name;
+            $path = '/files/slider' . date("/Y/m/d/") . $name;
             $image = new Media();
             $image->image_path = $path;
             $image->slider_id = $sliderId;
-            $image->user_id = Auth::id();
+            $image->user_id = $userId;
             $image->save();
         }
 

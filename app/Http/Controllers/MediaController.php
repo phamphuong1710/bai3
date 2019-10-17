@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service\MediaService;
+use Auth;
 
 class MediaController extends Controller
 {
@@ -42,7 +43,9 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        $listImage = $this->mediaService->createMedia($request, null, null);
+        $fileUpload = $request->image;
+        $userId = Auth::id();
+        $listImage = $this->mediaService->createMedia($fileUpload, $userId, null, null);
 
         return response()->json(['data' => $listImage]);
     }
@@ -78,7 +81,9 @@ class MediaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $path = $this->mediaService->updateMedia($id, $request);
+        $fileUpload = $request->image;
+        $userId = Auth::id();
+        $path = $this->mediaService->updateMedia($id, $fileUpload, $userId);
 
         return response()->json([ 'data' => $path ]);
     }
