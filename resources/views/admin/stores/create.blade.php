@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('messages.store') }}</div>
+                <div class="card-header">{{ __('messages.store') }} {{ config('thumbnail.large_path') }}</div>
                 <div class="card-body">
                     <form method="POST" action="{{ url('/stores') }}">
                         @csrf

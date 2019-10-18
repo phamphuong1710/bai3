@@ -21,7 +21,7 @@ class AddressService implements AddressInterface
         $address->lat = $lat;
         $address->lng = $lng;
         $address->store_id = $storeId;
-        $address->active = 1;
+        $address->active = env('ACTIVE');
         $address->save();
 
         return $address;
@@ -30,7 +30,7 @@ class AddressService implements AddressInterface
     public function getAddressByStoreId($storeId)
     {
         $address = $this->addressModel->where('store_id', $storeId)
-            ->where('active', 1)
+            ->where('active', env('ACTIVE'))
             ->firstOrFail();
 
         return $address;
@@ -39,7 +39,7 @@ class AddressService implements AddressInterface
     public function updateStoreAddress($storeId, $address, $lat, $lng)
     {
         $address = $this->addressModel->where('store_id', $storeId)
-            ->where('active', 1)
+            ->where('active', env('ACTIVE'))
             ->firstOrFail();
         $address->address = $address;
         $address->lat = $lat;
@@ -56,7 +56,7 @@ class AddressService implements AddressInterface
         $address->lat = $lat;
         $address->lng = $lng;
         $address->user_id = $userId;
-        $address->active = 1;
+        $address->active = env('ACTIVE');
         $address->save();
 
         return $address;
@@ -64,8 +64,9 @@ class AddressService implements AddressInterface
 
     public function updateUserAddress($userId,  $address, $lat, $lng)
     {
+        $active = env('ACTIVE');
         $address = $this->addressModel->where('user_id', $userId)
-            ->where('active', 1)
+            ->where('active', $active)
             ->firstOrFail();
         $address->address = $address;
         $address->lat = $lat;
@@ -79,7 +80,7 @@ class AddressService implements AddressInterface
     public function getAddressByUserId($userId)
     {
         $address = $this->addressModel->where('user_id', $userId)
-            ->where('active', 1)
+            ->where('active', env('ACTIVE'))
             ->firstOrFail();
 
         return $address;
