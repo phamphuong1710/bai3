@@ -103,12 +103,15 @@
                                 </a>
                             </div>
                             <div class="header-search">
-                                <form action="{{ route('search') }}" method="post">
+                                <form action="{{ route('search') }}" method="get">
                                     @csrf
                                     <input name="search" type="search" placeholder="{{ __('messages.search_header') }}" required class="input-serach-header">
                                     <button type="submit" class="btn-search ion-android-search" aria-label="Left Align">
                                     </button>
                                 </form>
+                                <div class="list-store-find">
+
+                                </div>
                             </div>
                             <div class="site-header-contact">
                                 <ul class="list-contact">
@@ -354,6 +357,7 @@
         <script src="{{ asset('js/home/quantity.js') }}"></script>
         <script src="{{ asset('js/home/update-cart.js') }}"></script>
         <script src="{{ asset('js/home/profile.js') }}"></script>
+        <script src="{{ asset('js/home/search-store.js') }}"></script>
         @yield('js')
     </body>
 </html>

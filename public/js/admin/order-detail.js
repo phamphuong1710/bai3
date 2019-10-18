@@ -3,7 +3,6 @@ $(document).ready(function(){
         e.preventDefault();
         var btn = $(this),
             url = $(this).attr('href');
-            console.log(url);
 
         $.ajaxSetup({
             headers: {

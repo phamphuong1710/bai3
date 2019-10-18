@@ -18,7 +18,6 @@ $(document).ready(function ($) {
             contentType: false,
             processData: false,
             success: function (data) {
-                console.log(data);
                 var html = '';
                 var price;
                 $.each( data, function(index, value){

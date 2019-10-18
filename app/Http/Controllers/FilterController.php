@@ -23,22 +23,19 @@ class FilterController extends Controller
     // For Headers
     public function search(Request $request)
     {
-        $products = $this->searchService->searchProduct($request);
-        if ( $products ) {
-            foreach ($products as $index => $product) {
-                $logo = $product->media->where('active', 1)->first()->image_path;
-                $products[$index]->logo = $logo;
-            }
-        }
-        $stores = $this->searchService->searchStore($request);
-        if ( $stores ) {
-            foreach ($stores as $index => $store) {
-                $logo = $store->media->where('active', 1)->first()->image_path;
-                $stores[$index]->logo = $logo;
-            }
-        }
+        $keyword = $request->search;
+        $stores = $this->searchService->search($keyword);
 
-        return view('layouts.search', ['products' => $products, 'stores' => $stores]);
+        return view('layouts.search', ['products' => null, 'stores' => $stores]);
+    }
+
+    // For Headers
+    public function getStore(Request $request)
+    {
+        $keyword = $request->search;
+        $stores = $this->searchService->search($keyword);
+
+        return response()->json($stores);
     }
 
     // Search Product

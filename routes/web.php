@@ -25,7 +25,9 @@ Route::get('/archive/{slug}', 'ArchiveController@product')->name('archive');
 
 Route::get('/all-store', 'ArchiveController@allStore')->name('all-store');
 
-Route::post('/search', 'FilterController@search')->name('search');
+Route::get('/search', 'FilterController@search')->name('search');
+
+Route::get('/ajax-search', 'FilterController@getStore');
 
 Route::post('/search/product', 'FilterController@searchProduct')->name('search-product');
 
