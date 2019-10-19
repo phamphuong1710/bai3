@@ -3,15 +3,18 @@ namespace App\Service;
 
 use App\InterfaceService\ProductInterface;
 use App\Product; // model
+use App\Category;
 use Carbon\Carbon;
 
 class ProductService implements ProductInterface
 {
     protected $productModel;
+    protected $categoryModel;
 
-    public function __construct(Product $productModel)
+    public function __construct(Product $productModel, Category $categoryModel)
     {
         $this->productModel = $productModel;
+        $this->categoryModel = $categoryModel;
     }
 
     public function getAllProductStore($storeId)
@@ -31,7 +34,7 @@ class ProductService implements ProductInterface
     public function getAllProductByUser($userId, $order, $orderby)
     {
         $products = $this->productModel->where('user_id', $userId)
-            ->orderBy($request->order, $request->orderby)
+            ->orderBy($order, $orderby)
             ->get();
 
         return $products;
@@ -126,16 +129,6 @@ class ProductService implements ProductInterface
         return $product;
     }
 
-    //Seach Product In Store
-    public function searchProduct($request)
-    {
-        $storeId = (int)$request->store;
-        $product = $this->productModel->where('store_id', $storeId)
-            ->where('name', 'like', '%'.$request->product.'%')
-            ->get();
-
-        return $product;
-    }
 
     // Filter All Product In Store
     public function filterAllProductStore($request)
@@ -149,20 +142,22 @@ class ProductService implements ProductInterface
     }
 
     // Filter Product By Category In Store
-    public function filterProductByCategory($request, $listCategory)
+    public function filterProductByCategory($storeId, $order, $orderby, $categoryId)
     {
-        $storeId = (int)$request->store;
-        $product = $this->productModel->whereIn('category_id', $listCategory)
+        $listCategory = $this->getChildCategory($categoryId);
+        $products = $this->productModel->whereIn('category_id', $listCategory)
             ->where('store_id', $storeId)
-            ->orderBy($request->order, $request->orderby)
+            ->orderBy($orderby, $order)
             ->get();
+        foreach ($products as $key => $product) {
+            $products[$key]->logo = $product->media->where('active', 1)->first();
+        }
 
-        return $product;
+        return $products;
     }
 
-    public function getProductByUser()
+    public function getProductByUser($userId)
     {
-        $userId = Auth::id();
         $products = $this->productModel->where('user_id', $userId)->paginate(15);
 
         return $products;
@@ -181,9 +176,8 @@ class ProductService implements ProductInterface
     }
 
     // Filter Product By Category By User
-    public function filterProductByUserCategory($request, $listCategory)
+    public function filterProductByUserCategory($request, $listCategory, $userId)
     {
-        $userId = Auth::id();
         $product = $this->productModel->whereIn('category_id', $listCategory)
             ->where('user_id', $userId)
             ->orderBy($request->order, $request->orderby)
@@ -229,7 +223,7 @@ class ProductService implements ProductInterface
     public function getProductDiscount($discount)
     {
         $product = $this->productModel->where('on_sale', '>=', $discount)
-            ->where('on_sale', '<', $discount + 10)
+            ->where('on_sale', '<', $discount)
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -243,6 +237,19 @@ class ProductService implements ProductInterface
             ->get();
 
         return $products;
+    }
+
+    public function getChildCategory($categoryId, $listCategory=[])
+    {
+        array_push($listCategory, $categoryId);
+        $childCategory = $this->categoryModel->where('parent_id', $categoryId)->get();;
+        if ( $childCategory ) {
+            foreach ($childCategory as $category) {
+                $listCategory = getChildCategory($category->id, $listCategory);
+            }
+        }
+
+        return $listCategory;
     }
 }
 

@@ -11,16 +11,17 @@ use Carbon\Carbon;
 use DB;
 use File;
 
-
 class UserService implements UserInterface
 {
     protected $userModel;
     protected $mediaModel;
+    protected $db;
 
-    public function __construct(User $userModel, Media $mediaModel)
+    public function __construct(User $userModel, Media $mediaModel, DB $db)
     {
         $this->userModel = $userModel;
         $this->mediaModel = $mediaModel;
+        $this->db = $db;
     }
 
     public function getAllUser()
@@ -68,7 +69,7 @@ class UserService implements UserInterface
             $media = $this->mediaModel->findOrFail($mediaId);
             $user->avatar = $media->image_path;
         }
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        $this->db->table('model_has_roles')->where('model_id',$id)->delete();
         $user->save();
 
         return $user;
@@ -76,7 +77,7 @@ class UserService implements UserInterface
 
     public function searchUser($request)
     {
-        $user = $this->userModel->where('name', 'like', '%'.$request->user.'%')
+        $user = $this->userModel->where('name', 'like', '%' . $request->user . '%')
             ->get();
 
         return $user;

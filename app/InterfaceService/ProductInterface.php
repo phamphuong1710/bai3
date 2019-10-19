@@ -21,20 +21,15 @@ interface ProductInterface {
 
     public function deleteProduct($id);
 
-    //Seach Product In Store
-    public function searchProduct($request);
 
     // Filter Product By Category In Store
-    public function filterProductByCategory($request, $listCategory);
+    public function filterProductByCategory($storeId, $order, $orderby, $categoryId);
 
     //Search Product By User
     public function searchProductByUser($request);
 
     // Filter Product By Category By User
-    public function filterProductByUserCategory($request, $listCategory);
-
-    // Filter All Product In Store
-    public function filterAllProductStore($request);
+    public function filterProductByUserCategory($request, $listCategory, $userId);
 
     public function getProductBySlug($slug);
 

@@ -66,7 +66,7 @@
                 <div class="form-filter d-flex justify-content-between align-items-center">
                     <div class="form-group">
                         <select class="form-control" id="product-category" name="category">
-                            <option value="0">{{ __('messages.filter_category') }}</option>
+                            <option value="">{{ __('messages.filter_category') }}</option>
                             @foreach( $categories as $category )
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach

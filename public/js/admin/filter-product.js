@@ -65,21 +65,20 @@ $(document).ready(function(){
             formData = new FormData();
         formData.append("category", category);
         formData.append("store", store);
-        formData.append('order', dataSorting[0]);
-        formData.append('orderby', dataSorting[1]);
+        formData.append('orderby', dataSorting[0]);
+        formData.append('order', dataSorting[1]);
         $.ajaxSetup({
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             }
         });
         $.ajax({
-            url: "/search-category",
+            url: "/search-product-category",
             data: formData,
             type: 'POST',
             contentType: false,
             processData: false,
             success: function (data) {
-
                 var html = '';
                 $.each(data, function (index, value) {
                     html += '<div id="product-' + value.id +'" class="product product-admin">' +
@@ -124,8 +123,8 @@ $(document).ready(function(){
             store = $('#store-id').val(),
             formData = new FormData(),
             dataSorting = sort.split('-');
-        formData.append('order', dataSorting[0]);
-        formData.append('orderby', dataSorting[1]);
+        formData.append('orderby', dataSorting[0]);
+        formData.append('order', dataSorting[1]);
         formData.append('category', category);
         formData.append("store", store);
         $.ajaxSetup({
@@ -140,6 +139,7 @@ $(document).ready(function(){
             contentType: false,
             processData: false,
             success: function (data) {
+                console.log(data);
                 $('.ajax-search-html').html(data);
                 var product = $('.list-product .product').length;
                 $('.product-number').html(product);

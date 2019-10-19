@@ -60,5 +60,17 @@ class SearchService implements SearchInterface
 
         return $stores;
     }
+
+    public function searchProductInStore($storeId, $keyword)
+    {
+        $product = $this->productModel->where('store_id', $storeId)
+            ->where('name', 'like', '%' . $keyword . '%')
+            ->get();
+        foreach ($products as $key => $product) {
+            $products[$key]->logo = $product->media->where('active', 1)->first();
+        }
+
+        return $product;
+    }
 }
 

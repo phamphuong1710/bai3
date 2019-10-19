@@ -97,7 +97,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/search-product', 'SearchController@searchProduct');
 
-    Route::post( '/search-category', 'SearchController@filterByCategory');
+    Route::post( '/search-product-category', 'SearchController@filterByCategory');
 
     Route::post( '/search-product-user', 'SearchController@searchProductByUser');
 

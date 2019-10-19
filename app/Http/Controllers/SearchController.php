@@ -50,10 +50,9 @@ class SearchController extends Controller
     // Search Product In Store
     public function searchProduct(Request $request)
     {
-        $products = $this->productService->searchProduct($request);
-        foreach ($products as $key => $product) {
-            $products[$key]->logo = $product->media->where('active', 1)->first();
-        }
+        $storeId = (int)$request->store;
+        $keyword = $request->product;
+        $products = $this->searchService->searchProductInStore($storeId, $keyword);
 
         return response()->json($products);
     }
@@ -61,16 +60,11 @@ class SearchController extends Controller
     // Filter Product in category in Store
     public function filterByCategory(Request $request)
     {
-        if ($request->category == 0) {
-            $products = $this->productService->filterAllProductStore($request);
-        }
-        else {
-            $listCategory = getChildCategory($request->category);
-            $products = $this->productService->filterProductByCategory($request, $listCategory);
-        }
-        foreach ($products as $key => $product) {
-            $products[$key]->logo = $product->media->where('active', 1)->first();
-        }
+        $categoryId = (int)$request->category;
+        $storeId = (int)$request->store;
+        $orderby = $request->orderby;
+        $order = $request->order;
+        $products = $this->productService->filterProductByCategory($storeId, $order, $orderby, $categoryId);
 
         return response()->json($products);
     }
@@ -97,11 +91,11 @@ class SearchController extends Controller
         }
         else {
             $listCategory = getChildCategory($request->category);
-            $products = $this->productService->filterProductByUserCategory($request, $listCategory);
+            $products = $this->productService->filterProductByUserCategory($request, $listCategory, $userId);
         }
-        $html = getProductHtml($products);
 
-        return response()->json($html);
+
+        return response()->json($products);
     }
 
     public function searchUser(Request $request)
