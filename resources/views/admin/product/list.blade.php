@@ -38,7 +38,7 @@
                             <option value="name-asc">
                                 {{ __('messages.sort_name_asc') }}
                             </option>
-                            <option value="sale_price-asc">
+                            <option value="usd-asc">
                                 {{ __('messages.sort_price_asc') }}
                             </option>
                             <option value="rating_average-asc">
@@ -50,7 +50,7 @@
                             <option value="created_at-desc">
                                 {{ __('messages.sort_date_desc') }}
                             </option>
-                            <option value="sale_price-desc">
+                            <option value="usd-desc">
                                 {{ __('messages.sort_price_desc') }}
                             </option>
                             <option value="rating_average-desc">

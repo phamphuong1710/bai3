@@ -79,7 +79,7 @@
                             <option value="name-asc">
                                 {{ __('messages.sort_name_asc') }}
                             </option>
-                            <option value="sale_price-asc">
+                            <option value="usd-asc">
                                 {{ __('messages.sort_price_asc') }}
                             </option>
                             <option value="rating_average-asc">
@@ -91,7 +91,7 @@
                             <option value="created_at-desc">
                                 {{ __('messages.sort_date_desc') }}
                             </option>
-                            <option value="sale_price-desc">
+                            <option value="usd-desc">
                                 {{ __('messages.sort_price_desc') }}
                             </option>
                             <option value="rating_average-desc">
@@ -108,14 +108,14 @@
                 <div id="product-{{ $product->id }}" class="product product-admin">
                     <div class="product-content">
                         <div class="image-product-wrapper">
-                            <a href="/products/{{$product->id}}">
+                            <a href="/products/{{$product->slug}}">
                                 @foreach ( $product->media->where( 'active', 1 ) as $logo )
                                 <img src="{{ $logo->image_path }}" alt="Image Feature">
                                 @endforeach
                             </a>
                         </div>
                         <div class="product-info">
-                            <a href="/products/{{$product->id}}">
+                            <a href="/products/{{$product->slug}}">
                                 <h3 class="product-name">{{ $product->name }}</h3>
                             </a>
                             <div class="product-price">
@@ -184,5 +184,4 @@
 <script src="{{ asset('js/admin/delete-product.js') }}"></script>
 <script src="{{ asset('js/admin/currency.js') }}"></script>
 <script src="{{ asset('js/admin/filter-product.js') }}"></script>
-<script src="{{ asset('js/admin/edit-popup.js') }}"></script>
 @endsection

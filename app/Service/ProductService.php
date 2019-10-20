@@ -84,6 +84,7 @@ class ProductService implements ProductInterface
     public function getProductId($id)
     {
         $product = $this->productModel->findOrFail($id);
+        $product->logo = $product->media->where('active', env('ACTIVE'))->first();
 
         return $product;
     }
