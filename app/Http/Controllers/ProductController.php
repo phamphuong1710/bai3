@@ -95,9 +95,11 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        return view('admin.product.detail');
+        $product = $this->productService->getProductId($id);
+
+        return redirect()->route('product-single', [$product->slug]);
     }
 
     /**

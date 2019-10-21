@@ -1,5 +1,6 @@
 $(document).ready(function ($) {
     var lang = $('html').attr('lang');
+    const now = new Date();
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var directionsService = new google.maps.DirectionsService();
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -78,14 +79,13 @@ $(document).ready(function ($) {
 
         });
         map.fitBounds(bounds);
-        console.log(lat);
-
     });
 
     function showSteps(directionResult) {
         var myRoute = directionResult.routes[0].legs[0];
         console.log(myRoute);
-        var instructions = '<h3 class="distance" total-ship="' + myRoute.distance.value + '">' + myRoute.distance.text + '</h3><br>';
+        var km = numberFormat( myRoute.distance.value/1000, 1);
+        var instructions = '<h3 class="distance" total-ship="' + myRoute.distance.value + '">' + km + 'km</h3><br>';
         document.getElementById("quangduong").innerHTML += instructions;
 
     }
@@ -139,6 +139,12 @@ $(document).ready(function ($) {
         totalVnd = numberFormat( totalVnd, 1 );
         $("#total_usd").val(totalUsd);
         $("#total_vnd").val(totalVnd);
+        if ( lang == 'vn' ) {
+            $(".total-price").html( 'đ' + totalVnd);
+        } else {
+            $(".total-price").html( '$' + totalUsd);
+        }
+
         total = 0;
         sum = 0;
     });
@@ -146,7 +152,7 @@ $(document).ready(function ($) {
 
     $.ajax(
     {
-        url: "http://e.cafef.vn/rate.ashx?rd=1564503549803&fbclid=IwAR0WB-4qp7caoaCYkIybyjp7CUxEL6Kfb7PnuTqCtx36T1bfXFE5N00i0sk",
+        url: "http://e.cafef.vn/rate.ashx?rd=" + now.getTime() + "&fbclid=IwAR0WB-4qp7caoaCYkIybyjp7CUxEL6Kfb7PnuTqCtx36T1bfXFE5N00i0sk",
         type: 'GET',
 
         success: function ($data){

@@ -8,4 +8,6 @@ interface SearchInterface {
     public function searchStore($request);
 
     public function search($keyword);
+
+    public function searchProductInStore($storeId, $keyword);
 }

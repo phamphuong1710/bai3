@@ -117,7 +117,7 @@ class StoreService implements StoreInterface
         $address->lat = $request->lat;
         $address->lng = $request->lng;
         $address->store_id = $storeId;
-        $address->active = 1;
+        $address->active = env('ACTIVE');
         $address->save();
 
         return $address;
@@ -126,7 +126,7 @@ class StoreService implements StoreInterface
     public function updateStoreAddress($storeId, $request)
     {
         $address = Address::where('store_id', $storeId)
-            ->where('active', 1)
+            ->where('active', env('ACTIVE'))
             ->firstOrFail();
         $address->address = $request->address;
         $address->lat = $request->lat;
@@ -139,7 +139,7 @@ class StoreService implements StoreInterface
     public function getAddressByStoreID($storeId)
     {
         $address = Address::where('store_id', $storeId)
-            ->where('active', 1)
+            ->where('active', env('ACTIVE'))
             ->firstOrFail();
 
         return $address;

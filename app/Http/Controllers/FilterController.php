@@ -89,13 +89,9 @@ class FilterController extends Controller
     //Search Product In Store
     public function searchProductInStore(Request $request)
     {
-        $products = $this->productService->searchProduct($request);
-        if ( $products ) {
-            foreach ($products as $index => $product) {
-                $logo = $product->media->where('active', 1)->first()->image_path;
-                $products[$index]->logo = $logo;
-            }
-        }
+        $storeId = (int)$request->store;
+        $keyword = $request->product;
+        $products = $this->searchService->searchProductInStore($storeId, $keyword);
 
         return response()->json($products);
     }

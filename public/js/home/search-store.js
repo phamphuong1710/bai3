@@ -19,7 +19,7 @@ $(document).ready(function ($) {
                 $.each(data, function (index, value) {
 
                     html += '<div class="store-found-item-wrapper">' +
-                        '<div class="store-item item-pro">' +
+                        '<div class="store-item-found item-pro">' +
                             '<div class="men-thumb-item">' +
                                 '<a href="/store/' + value.slug + '">' +
                                     '<img src="' + value.logo + '" alt="' + value.name + '">' +
