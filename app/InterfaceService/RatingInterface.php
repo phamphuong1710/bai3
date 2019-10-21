@@ -3,13 +3,13 @@
 namespace App\InterfaceService;
 
 interface RatingInterface {
-    public function ratingProduct($request);
+    public function ratingProduct($productId, $userId, $star);
 
-    public function ratingStore($request);
+    public function ratingStore($storeId, $userId, $star);
 
-    public function getRatingProductByUser($productId);
+    public function getRatingProductByUser($productId, $userId);
 
-    public function getRatingStoreByUser($storeId);
+    public function getRatingStoreByUser($storeId, $userId);
 
     public function getStoreByRating($rating);
 

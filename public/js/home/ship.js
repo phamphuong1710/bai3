@@ -30,6 +30,7 @@ $(document).ready(function ($) {
         markers = [];
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
+        console.log(places);
         places.forEach(function(place) {
             if (!place.geometry) {
                 console.log("Returned place contains no geometry");
@@ -53,7 +54,7 @@ $(document).ready(function ($) {
 
             $('#lat').attr('value', lat);
             $('#lng').attr('value', lng);
-            console.log(lat);
+
             var pointA = new google.maps.LatLng(lat, lng);
             markerA = new google.maps.Marker({
                 position: pointA,
@@ -77,13 +78,14 @@ $(document).ready(function ($) {
 
             });
 
+
         });
         map.fitBounds(bounds);
     });
 
     function showSteps(directionResult) {
         var myRoute = directionResult.routes[0].legs[0];
-        console.log(myRoute);
+        // console.log(myRoute);
         var km = numberFormat( myRoute.distance.value/1000, 1);
         var instructions = '<h3 class="distance" total-ship="' + myRoute.distance.value + '">' + km + 'km</h3><br>';
         document.getElementById("quangduong").innerHTML += instructions;
@@ -144,7 +146,6 @@ $(document).ready(function ($) {
         } else {
             $(".total-price").html( '$' + totalUsd);
         }
-
         total = 0;
         sum = 0;
     });

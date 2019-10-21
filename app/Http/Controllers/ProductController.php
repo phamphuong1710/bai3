@@ -48,8 +48,7 @@ class ProductController extends BaseController
     {
         $categories = $this->categoryService->allCategory();
 
-        return view(
-            'admin.product.create',
+        return view('admin.product.create',
             [
                 'categories' => $categories,
                 'store_id' => $storeId
@@ -186,13 +185,7 @@ class ProductController extends BaseController
     {
         $categories = $this->categoryService->allCategory();
 
-        return view(
-            'admin.stores.create-product',
-            [
-                'categories' => $categories,
-                'store_id' => $storeId,
-            ]
-        );
+        return view('admin.stores.create-product', compact('categories', 'storeId'));
     }
 
     public function getAllProduct()
@@ -201,12 +194,6 @@ class ProductController extends BaseController
         $products = $this->productService->getAllProduct();
         $products->categories = $categories;
 
-        return view(
-            'admin.product.list',
-            [
-                'categories' => $categories,
-                'products' => $products,
-            ]
-        );
+        return view('admin.product.list', compact('categories', 'products'));
     }
 }

@@ -8,30 +8,38 @@ use Auth;
 
 class StoreService implements StoreInterface
 {
+    protected $addressModel;
+    protected $storeModel;
+
+    public function __construct(Store $storeModel, Address $addressModel)
+    {
+        $this->storeModel = $storeModel;
+        $this->addressModel = $addressModel;
+    }
 
     public function getAllStore()
     {
-        $stores = Store::paginate(9);
+        $stores = $this->storeModel->paginate(9);
 
         return $stores;
     }
 
     public function getStore()
     {
-        $stores = Store::orderBy('name', 'asc')
+        $stores = $this->storeModel->orderBy('name', 'asc')
             ->get();
 
         return $stores;
     }
 
-    public function createStore($request)
+    public function createStore($name, $phone, $description, $userId)
     {
         $store = new Store();
-        $store->name = $request->name;
-        $store->slug = str_slug($request->name, '-');
-        $store->phone = $request->phone;
-        $store->description = $request->description;
-        $store->user_id = $request->user_id;
+        $store->name = $name;
+        $store->slug = str_slug($name, '-');
+        $store->phone = $phone;
+        $store->description = $description;
+        $store->user_id = $userId;
         $store->save();
 
         return $store;
@@ -44,14 +52,14 @@ class StoreService implements StoreInterface
         return $store;
     }
 
-    public function updateStore($request, $id)
+    public function updateStore($name, $phone, $description, $userId, $id)
     {
-        $store = Store::findOrFail($id);
-        $store->name = $request->name;
-        $store->slug = str_slug($request->name, '-');
-        $store->phone = $request->phone;
-        $store->description = $request->description;
-        $store->user_id = $request->user_id;
+        $store = $this->storeModel->findOrFail($id);
+        $store->name = $name;
+        $store->slug = str_slug($name, '-');
+        $store->phone = $phone;
+        $store->description = $description;
+        $store->user_id = $userId;
         $store->save();
 
         return $store;
@@ -59,45 +67,52 @@ class StoreService implements StoreInterface
 
     public function deleteStore($id)
     {
-        $store = Store::findOrFail($id);
-        Store::destroy($id);
+        $store = $this->storeModel->findOrFail($id);
+        $this->storeModel->destroy($id);
 
         return $store;
     }
 
     public function getStoreByUser($userId)
     {
-        $stores = Store::all();
+        $stores = $this->storeModel->all();
 
         return $stores;
     }
 
     //Seach Store
-    public function searchStore($request)
+    public function searchStore($keyword, $userId)
     {
-        $user = Auth::id();
-        $stores = Store::where('name', 'like', '%'.$request->store.'%')
-            ->orwhere('description', 'like', '%'.$request->store.'%')
-            ->where('user_id', $user)
+        $stores = $this->storeModel->where('name', 'like', '%' . $request->store.'%')
+            ->orwhere('description', 'like', '%' . $request->store . '%')
+            ->where('user_id', $userId)
             ->get();
+        foreach ($stores as $index => $store) {
+            $stores[$index]->logo = $store->media->where('active', env('ACTIVE'))->first();
+            $stores[$index]->address = $store->address->address;
+        }
 
         return $stores;
     }
 
     // Filter Store
-    public function filterStore($request)
+    public function filterStore($userId, $orderby, $order)
     {
         $user = Auth::id();
-        $stores = Store::where('user_id', $user)
-            ->orderBy($request->order, $request->orderby)
+        $stores = $this->storeModel->where('user_id', $user)
+            ->orderBy($orderby, $order)
             ->get();
+        foreach ($stores as $index => $store) {
+            $stores[$index]->logo = $store->media->where('active', 1)->first();
+            $stores[$index]->address = $store->address->address;
+        }
 
         return $stores;
     }
 
     public function getTopDiscountStore($listStore)
     {
-        $stores = Store::whereIn('id', $listStore)
+        $stores = $this->storeModel->whereIn('id', $listStore)
             ->get();
 
         return $stores;
@@ -105,12 +120,12 @@ class StoreService implements StoreInterface
 
     public function getStoreBySlug($slug)
     {
-        $store = Store::where('slug', $slug)->first();
+        $store = $this->storeModel->where('slug', $slug)->first();
 
         return $store;
     }
 
-    public function createStoreAddress($storeId, $request)
+    public function createStoreAddress($storeId, $address, $lat, $lng)
     {
         $address = new Address();
         $address->address = $request->address;
@@ -123,9 +138,9 @@ class StoreService implements StoreInterface
         return $address;
     }
 
-    public function updateStoreAddress($storeId, $request)
+    public function updateStoreAddress($storeId, $address, $lat, $lng)
     {
-        $address = Address::where('store_id', $storeId)
+        $address = $this->addressModel->where('store_id', $storeId)
             ->where('active', env('ACTIVE'))
             ->firstOrFail();
         $address->address = $request->address;
@@ -138,7 +153,7 @@ class StoreService implements StoreInterface
 
     public function getAddressByStoreID($storeId)
     {
-        $address = Address::where('store_id', $storeId)
+        $address = $this->addressModel->where('store_id', $storeId)
             ->where('active', env('ACTIVE'))
             ->firstOrFail();
 
