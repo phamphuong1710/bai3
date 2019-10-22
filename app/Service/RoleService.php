@@ -4,14 +4,20 @@ namespace App\Service;
 use App\InterfaceService\RoleInterface;
 use Spatie\Permission\Models\Role;
 use Carbon\Carbon;
-use Auth;
 use Illuminate\Support\Str;
 
 class RoleService implements RoleInterface
 {
+    protected $roleModel;
+
+    public function __construct( Role $roleModel )
+    {
+        $this->roleModel = $roleModel;
+    }
+
     public function getAllRole()
     {
-        $roles = Role::orderBy('created_at','DESC')->paginate(10);
+        $roles = $this->roleModel->orderBy('created_at','DESC')->paginate(10);
 
         return $roles;
     }
@@ -27,14 +33,14 @@ class RoleService implements RoleInterface
 
     public function getRole($id)
     {
-        $role = Role::findOrFail($id);
+        $role = $this->roleModel->findOrFail($id);
 
         return $role;
     }
 
     public function updateRole($request, $id)
     {
-        $role = Role::findOrFail($id);
+        $role = $this->roleModel->findOrFail($id);
         $role->name = $request->name;
         $role->save();
 
@@ -43,15 +49,15 @@ class RoleService implements RoleInterface
 
     public function deleteRole($id)
     {
-        $role = Role::findOrFail($id);
-        Role::destroy($id);
+        $role = $this->roleModel->findOrFail($id);
+        $this->roleModel->destroy($id);
 
         return $role;
     }
 
     public function getListRole()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = $this->roleModel->pluck('name','name')->all();
 
         return $roles;
     }

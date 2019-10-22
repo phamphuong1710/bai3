@@ -57,15 +57,6 @@ class FilterController extends Controller
     {
         $star = (int)$request->rating;
         $stores = $this->ratingService->getStoreByRating($star);
-        if ( $stores ) {
-            foreach ($stores as $index => $store) {
-                $logo = $store->media->where('active', 1)->first()->image_path;
-                $address = $store->address->address;
-                $stores[$index]->logo = $logo;
-                $stores[$index]->address = $address;
-            }
-        }
-        $stores->star = $star;
 
         return response()->json($stores);
     }
@@ -75,13 +66,6 @@ class FilterController extends Controller
     {
         $star = (int)$request->rating;
         $products = $this->ratingService->getProductByRating($star);
-        if ( $products ) {
-            foreach ($products as $index => $product) {
-                $logo = $product->media->where('active', 1)->first()->image_path;
-                $products[$index]->logo = $logo;
-            }
-        }
-        $products->star = $star;
 
         return view('layouts.search', ['products' => $products, 'stores' => null]);
     }
