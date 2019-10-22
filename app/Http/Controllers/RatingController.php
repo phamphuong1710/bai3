@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\RatingService;
 use App\Http\Requests\RatingRequest;
+use Auth;
 
 class RatingController extends Controller
 {
@@ -17,14 +18,20 @@ class RatingController extends Controller
 
     public function product(RatingRequest $request)
     {
-        $rating = $this->ratingService->ratingProduct($request);
+        $userId = Auth::id();
+        $star = (int) $request->star;
+        $productId = $request->product_id;
+        $rating = $this->ratingService->ratingProduct($productId, $userId, $star);
 
         return response()->json($rating);
     }
 
     public function store(RatingRequest $request)
     {
-        $rating = $this->ratingService->ratingStore($request);
+        $storeId = (int)$request->store_id;
+        $star = $request->star;
+        $userId = Auth::id();
+        $rating = $this->ratingService->ratingStore($storeId, $userId, $star);
 
         return response()->json($rating);
     }

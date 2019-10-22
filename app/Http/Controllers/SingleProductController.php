@@ -26,6 +26,7 @@ class SingleProductController extends Controller
 
     public function product($slug)
     {
+        $userId = Auth::id();
         $product = $this->productService->getProductBySlug($slug);
         if (!$product) {
             abort('404');
@@ -38,11 +39,11 @@ class SingleProductController extends Controller
         $productCategory = $this->productService->getTheSameProductInCategory($product->category, $product->id);
         $product->in_store = $productStore;
         $product->in_category = $productCategory;
-        $rating = $this->ratingService->getRatingProductByUser($product->id);
+        $rating = $this->ratingService->getRatingProductByUser($product->id, $userId);
         if (!$rating) {
             $rating = false;
         }
-        $userId = Auth::id();
+
         $cart = $this->cartService->getCartByUser($userId);
         if ( $cart ) {
             $cart = $this->getCart($cart);

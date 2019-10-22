@@ -149,7 +149,7 @@
                     <div class="form-group field-new-address">
                         <label for="address" class=" col-form-label text-md-right">{{ __('messages.address') }}</label>
                         <div class="">
-                            <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" autofocus>
+                            <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" required autocomplete="address" placeholder="Enter Address">
                             @error('address')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

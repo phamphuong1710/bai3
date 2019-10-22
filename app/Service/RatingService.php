@@ -10,16 +10,26 @@ use Auth;
 
 class RatingService implements RatingInterface
 {
-    public function ratingProduct($request)
+    protected $ratingModel;
+    protected $storeModel;
+    protected $productModel;
+
+    public function __construct( Rating $ratingModel, Product $productModel, Store $storeModel )
     {
-        $productId = (int)$request->product_id;
+        $this->ratingModel = $ratingModel;
+        $this->storeModel = $storeModel;
+        $this->productModel = $productModel;
+    }
+
+    public function ratingProduct($productId, $userId, $star)
+    {
         $rating = new Rating();
-        $rating->star = $request->star;
+        $rating->star = $star;
         $rating->product_id = $productId;
-        $rating->user_id = Auth::id();
+        $rating->user_id = $userId;
         $rating->save();
-        $ratingAverage = Rating::where('product_id', $productId)->avg('star');
-        $product = Product::findOrFail($productId);
+        $ratingAverage = $this->ratingModel->where('product_id', $productId)->avg('star');
+        $product = $this->productModel->findOrFail($productId);
         $product->rating_average = $ratingAverage;
         $product->save();
         $number = $product->rating->count();
@@ -29,16 +39,15 @@ class RatingService implements RatingInterface
         return $rating;
     }
 
-    public function ratingStore($request)
+    public function ratingStore($storeId, $userId, $star)
     {
-        $storeId = (int)$request->store_id;
         $rating = new Rating();
-        $rating->star = $request->star;
+        $rating->star = $star;
         $rating->store_id = $storeId;
-        $rating->user_id = Auth::id();
+        $rating->user_id = $userId;
         $rating->save();
-        $ratingAverage = Rating::where('store_id', $storeId)->avg('star');
-        $store = Store::findOrFail($storeId);
+        $ratingAverage = $this->ratingModel->where('store_id', $storeId)->avg('star');
+        $store = $this->storeModel->findOrFail($storeId);
         $store->rating_average = $ratingAverage;
         $store->save();
         $number = $store->rating->count();
@@ -48,18 +57,18 @@ class RatingService implements RatingInterface
         return $rating;
     }
 
-    public function getRatingProductByUser($productId)
+    public function getRatingProductByUser($productId, $userId)
     {
-        $rating = Rating::where('user_id', Auth::id())
+        $rating = $this->ratingModel->where('user_id', $userId)
             ->where('product_id', $productId)
             ->first();
 
         return $rating;
     }
 
-    public function getRatingStoreByUser($storeId)
+    public function getRatingStoreByUser($storeId, $userId)
     {
-        $rating = Rating::where('user_id', Auth::id())
+        $rating = $this->ratingModel->where('user_id', $userId)
             ->where('store_id', $storeId)
             ->first();
 
@@ -69,8 +78,8 @@ class RatingService implements RatingInterface
 
     public function getStoreByRating($rating)
     {
-        $store = Store::where('rating_average', '>=', $rating)
-            ->where('rating_average', '<', $rating + 0.5)
+        $store = $this->storeModel->where('rating_average', '>=', $rating)
+            ->where('rating_average', '<', $rating )
             ->paginate(16);
 
         return $store;
@@ -78,8 +87,8 @@ class RatingService implements RatingInterface
 
     public function getProductByRating($rating)
     {
-        $product = Product::where('rating_average', '>=', $rating)
-            ->where('rating_average', '<', $rating + 0.5)
+        $product = $this->productModel->where('rating_average', '>=', $rating)
+            ->where('rating_average', '<', $rating)
             ->paginate(16);
 
         return $product;

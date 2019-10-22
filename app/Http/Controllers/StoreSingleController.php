@@ -7,6 +7,7 @@ use App\Service\StoreService;
 use App\Service\RatingService;
 use App\Service\CommentService;
 use App\Service\CategoryService;
+use Auth;
 
 class StoreSingleController extends Controller
 {
@@ -30,11 +31,12 @@ class StoreSingleController extends Controller
 
     public function store($slug)
     {
+        $userId = Auth::id();
         $store = $this->storeService->getStoreBySlug($slug);
         $categories = $this->getCategories($store);
         $products = $this->getProducts($store, $categories);
         $store->categories = $categories;
-        $rating = $this->ratingService->getRatingStoreByUser($store->id);
+        $rating = $this->ratingService->getRatingStoreByUser($store->id, $userId);
         if (!$rating) {
             $rating = false;
         }

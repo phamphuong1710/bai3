@@ -27,22 +27,19 @@ class SearchController extends Controller
 
     public function searchStore(Request $request)
     {
-        $stores = $this->storeService->searchStore($request);
-        foreach ($stores as $index => $store) {
-            $stores[$index]->logo = $store->media->where('active', 1)->first();
-            $stores[$index]->address = $store->address->address;
-        }
+        $keyword = $request->store;
+        $userId = Auth::id();
+        $stores = $this->storeService->searchStore($keyword, $userId);
 
         return response()->json($stores);
     }
 
     public function filterStore(Request $request)
     {
-        $stores = $this->storeService->filterStore($request);
-        foreach ($stores as $index => $store) {
-            $stores[$index]->logo = $store->media->where('active', 1)->first();
-            $stores[$index]->address = $store->address->address;
-        }
+        $userId = Auth::id();
+        $orderby = $request->orderby;
+        $order = $request->order;
+        $stores = $this->storeService->filterStore($userId, $orderby, $order);
 
         return response()->json($stores);
     }
@@ -93,7 +90,6 @@ class SearchController extends Controller
             $listCategory = getChildCategory($request->category);
             $products = $this->productService->filterProductByUserCategory($request, $listCategory, $userId);
         }
-
 
         return response()->json($products);
     }

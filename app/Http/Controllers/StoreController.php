@@ -65,15 +65,23 @@ class StoreController extends BaseController
      */
     public function store(StoreRequest $request)
     {
-        $store = $this->storeService->createStore($request);
+        $name = $request->name;
+        $phone = $request->phone;
+        $description = $request->description;
+        $userId = Auth::id();
+        $store = $this->storeService->createStore($name, $phone, $description, $userId);
+        $storeId = $store->id;
         $listImage = $request->list_image;
         $logo = $request->logo_id;
-        $this->mediaService->updateStoreImage($logo, $store->id, null);
+        $this->mediaService->updateStoreImage($logo, $storeId);
         $listImage = explode(',', $listImage);
         foreach ($listImage as $position => $id) {
-            $this->mediaService->updateStoreImage($id, $store->id, $position);
+            $this->mediaService->updateStoreImage($id, $storeId, $position);
         }
-        $this->storeService->createStoreAddress($store->id, $request);
+        $address = $request->address;
+        $lat = $request->lat;
+        $lng = $request->lng;
+        $this->storeService->createStoreAddress($storeId, $address, $lat, $lng);
 
         return redirect()->route('stores.index');
     }
@@ -146,7 +154,11 @@ class StoreController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $this->storeService->updateStore($request, $id);
+        $name = $request->name;
+        $phone = $request->phone;
+        $description = $request->description;
+        $userId = Auth::id();
+        $this->storeService->updateStore($name, $phone, $description, $userId, $id);
         $listImage = $request->list_image;
         $logo = $request->logo_id;
         if (!empty($logo)) {
@@ -159,7 +171,10 @@ class StoreController extends BaseController
                 $this->mediaService->updateStoreImage($idImage, $id, $position);
             }
         }
-        $this->storeService->updateStoreAddress($id, $request);
+        $address = $request->address;
+        $lat = $request->lat;
+        $lng = $request->lng;
+        $this->storeService->updateStoreAddress($id, $address, $lat, $lng);
 
         return redirect()->route('stores.index');
     }

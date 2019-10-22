@@ -62,8 +62,8 @@ $(document).ready(function(){
             formData = new FormData(),
             dataSorting = sort.split('-');
         console.log(dataSorting);
-        formData.append('order', dataSorting[0]);
-        formData.append('orderby', dataSorting[1]);
+        formData.append('orderby', dataSorting[0]);
+        formData.append('order', dataSorting[1]);
         $.ajaxSetup({
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),

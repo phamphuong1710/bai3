@@ -130,18 +130,6 @@ class ProductService implements ProductInterface
         return $product;
     }
 
-
-    // Filter All Product In Store
-    public function filterAllProductStore($request)
-    {
-        $storeId = (int)$request->store_id;
-        $products = $this->productModel->where('store_id', $storeId)
-            ->orderBy($request->order, $request->orderby)
-            ->get();
-
-        return $products;
-    }
-
     // Filter Product By Category In Store
     public function filterProductByCategory($storeId, $order, $orderby, $categoryId)
     {
