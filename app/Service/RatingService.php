@@ -6,7 +6,6 @@ use App\Rating;
 use App\Store;
 use App\Product; // model
 use Carbon\Carbon;
-use Auth;
 
 class RatingService implements RatingInterface
 {
@@ -81,6 +80,15 @@ class RatingService implements RatingInterface
         $store = $this->storeModel->where('rating_average', '>=', $rating)
             ->where('rating_average', '<', $rating )
             ->paginate(16);
+        if ( $stores ) {
+            foreach ($stores as $index => $store) {
+                $logo = $store->media->where('active', 1)->first()->image_path;
+                $address = $store->address->address;
+                $stores[$index]->logo = $logo;
+                $stores[$index]->address = $address;
+            }
+        }
+        $stores->star = $star;
 
         return $store;
     }
@@ -90,6 +98,13 @@ class RatingService implements RatingInterface
         $product = $this->productModel->where('rating_average', '>=', $rating)
             ->where('rating_average', '<', $rating)
             ->paginate(16);
+        if ( $products ) {
+            foreach ($products as $index => $product) {
+                $logo = $product->media->where('active', 1)->first()->image_path;
+                $products[$index]->logo = $logo;
+            }
+        }
+        $products->star = $star;
 
         return $product;
     }

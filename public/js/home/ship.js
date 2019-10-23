@@ -23,6 +23,7 @@ $(document).ready(function ($) {
         if (places.length == 0) {
             return;
         }
+        console.log(markers);
         // Clear out the old markers.
         markers.forEach(function(marker) {
             marker.setMap(null);
@@ -37,11 +38,12 @@ $(document).ready(function ($) {
                 return;
             }
             // Create a marker for each place.
-            markers.push(new google.maps.Marker({
-                map: map,
-                title: place.name,
-                position: place.geometry.location
-            }));
+            console.log(markers);
+            // markers.push(new google.maps.Marker({
+            //     map: map,
+            //     title: place.name,
+            //     position: place.geometry.location
+            // }));
             if (place.geometry.viewport) {
             // Only geocodes have viewport.
                 bounds.union(place.geometry.viewport);
