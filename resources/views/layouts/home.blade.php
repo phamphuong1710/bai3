@@ -7,6 +7,7 @@
 <link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
 @endsection
 @section('content')
+<example></example>
 <div class="font-page page-content">
 
     <section class="slideshow" id="slideshow">
