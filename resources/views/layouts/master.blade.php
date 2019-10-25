@@ -17,6 +17,7 @@
         <link href="{{ asset('css/home/button.css') }}" rel="stylesheet" >
         <link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
         <link href="{{ asset('css/home/mini-cart.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/chat.css') }}">
 
         @yield('style')
     </head>
@@ -53,7 +54,7 @@
                                                 <li class="user-action-item">
                                                     <form action="{{ route('logout') }}" method="POST">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-user btn-sing-out ">
+                                                        <button type="submit" class="btn-user btn-sing-out ">
                                                         <span class="ion-power"></span>
                                                         {{ __('messages.sing_out') }}</button>
                                                     </form>
@@ -353,7 +354,7 @@
             </div>
         </div>
         <span class="btn-back-to-top ion-chevron-up"></span>
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
+
         <script>
             var botmanWidget = {
                 aboutText: 'ssdsd',
@@ -361,8 +362,9 @@
             };
         </script>
 
-        <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+
         <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/botman.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/home/app.js') }}"></script>
         <script src="{{ asset('js/home/navigation.js') }}"></script>

@@ -7,7 +7,7 @@
 <link href="{{ asset('css/home/quantity.css') }}" rel="stylesheet">
 @endsection
 @section('content')
-<example-counter></example-counter>
+
 <div class="font-page page-content">
 
     <section class="slideshow" id="slideshow">
@@ -45,12 +45,13 @@
         <div class="container">
             <div class="row">
                 <div class="sidebar col-md-3">
+                    <example-counter></example-counter>
                     <div class="search-product sidebar-widget">
                         <h3 class="widget-title">{{ __('messages.search_product') }} </h3>
                         <form action="/search/product" method="post" class="form-search-sidebar">
                             @csrf
                             <input type="search" placeholder="Product name..." name="search" required class="input-search-sidebar">
-                            <button type="submit" class="btn btn-search ion-android-search" aria-label="Left Align">
+                            <button type="submit" class="btn-search ion-android-search" aria-label="Left Align">
                             </button>
                         </form>
                     </div>
