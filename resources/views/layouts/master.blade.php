@@ -41,53 +41,53 @@
                                     <li>
                                         <a href="#" data-toggle="modal" data-target="#myModal1">
                                             <span class="ion-ios-bell" aria-hidden="true"></span>Track Order</a>
+                                    </li>
+                                    @if (Route::has('login'))
+                                        @auth
+                                        <li class="user user-dropdown">
+                                            @php
+                                                $username = Auth::user()->name;
+                                            @endphp
+                                            {{ $username }}
+                                            <ul class="list-user-action">
+                                                <li class="user-action-item">
+                                                    <form action="{{ route('logout') }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-user btn-sing-out ">
+                                                        <span class="ion-power"></span>
+                                                        {{ __('messages.sing_out') }}</button>
+                                                    </form>
+                                                </li>
+                                                <li class="user-action-item">
+                                                    <span class="profile" data-user="{{ Auth::id() }}">
+                                                        {{ __('messages.profile') }}
+                                                    </span>
+                                                </li>
+                                            </ul>
                                         </li>
-                                        @if (Route::has('login'))
-                                            @auth
-                                            <li class="user user-dropdown">
-                                                @php
-                                                    $username = Auth::user()->name;
-                                                @endphp
-                                                {{ $username }}
-                                                <ul class="list-user-action">
-                                                    <li class="user-action-item">
-                                                        <form action="{{ route('logout') }}" method="POST">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-user btn-sing-out ">
-                                                            <span class="ion-power"></span>
-                                                            {{ __('messages.sing_out') }}</button>
-                                                        </form>
-                                                    </li>
-                                                    <li class="user-action-item">
-                                                        <span class="profile" data-user="{{ Auth::id() }}">
-                                                            {{ __('messages.profile') }}
-                                                        </span>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            @else
+                                        @else
+                                        <li>
+                                            <a href="{{ route('login') }}" class="user-login">
+                                                <span class="ion-person"></span>
+                                                {{ __('messages.sing_in') }}
+                                            </a>
+                                        </li>
+                                            @if (Route::has('register'))
                                             <li>
-                                                <a href="{{ route('login') }}" class="user-login">
-                                                    <span class="ion-person"></span>
-                                                    {{ __('messages.sing_in') }}
+                                                <a href="{{ route('register') }}" class="btn-register" >
+                                                    <span class="ion-android-create"></span>
+                                                    {{ __('messages.register') }}
                                                 </a>
                                             </li>
-                                                @if (Route::has('register'))
-                                                <li>
-                                                    <a href="{{ route('register') }}" class="btn-register" >
-                                                        <span class="ion-android-create"></span>
-                                                        {{ __('messages.register') }}
-                                                    </a>
-                                                </li>
-                                                @endif
+                                            @endif
                                             @endauth
                                         @endif
 
 
                                     <li><a href="{{ url('locale/en') }}">EN</a></li>
                                     <li><a href="{{ url('locale/vi') }}" >VI</a></li>
-                                    </ul>
-                                </div>
+                                </ul>
+
                             </div>
                         </div>
                     </div>
@@ -353,6 +353,15 @@
             </div>
         </div>
         <span class="btn-back-to-top ion-chevron-up"></span>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
+        <script>
+            var botmanWidget = {
+                aboutText: 'ssdsd',
+                introMessage: "✋ Hi! I'm form ItSolutionStuff.com"
+            };
+        </script>
+
+        <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/home/app.js') }}"></script>

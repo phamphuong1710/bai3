@@ -1,18 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Service\HomeService;
 use App\Service\CartService;
 use App\Service\UserService;
 use Auth;
-
 class HomeController extends Controller
 {
     protected $homeService;
     protected $cartService;
-
     public function __construct( HomeService $homeService, CartService $cartService, UserService $userService )
     {
         $this->homeService = $homeService;
@@ -24,7 +20,6 @@ class HomeController extends Controller
      *
      * @return void
      */
-
     /**
      * Show the application dashboard.
      *
@@ -55,7 +50,6 @@ class HomeController extends Controller
         foreach ($storeRating as $key => $store) {
             $storeRating[$key]->logo = $store->media->where('active', 1)->first();
         }
-
         return view(
             'layouts/home',
             [
@@ -68,7 +62,6 @@ class HomeController extends Controller
             ]
         );
     }
-
     public function getCart($cart)
     {
         session()->put('cart.id', $cart->id);
@@ -90,8 +83,6 @@ class HomeController extends Controller
             }
         }
         $cart = session()->get('cart');
-
         return $cart;
     }
-
 }

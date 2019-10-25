@@ -13,6 +13,8 @@
 
 Auth::routes();
 
+Route::match(['get', 'post'], '/botman', 'BotManController@handle');
+
 Route::resource('/', 'HomeController');
 Route::get('products/{slug}', 'SingleProductController@product')->name('product-single');
 
@@ -133,3 +135,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
