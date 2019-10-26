@@ -1,18 +1,13 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Realtime Counter</div>
 
-                    <div class="panel-body">
-                        <p class="lead text-center">Online Now</p>
-                        <h1 class="text-center">{{ this.count }}</h1>
-                    </div>
-                </div>
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p class="lead">Online Now:
+                <span class="user-counter">{{ this.count }}</span>
+            </p>
         </div>
     </div>
+
 </template>
 
 <script>

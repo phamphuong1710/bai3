@@ -17,10 +17,10 @@ class BotManController extends Controller
 
         $botman->hears('{message}', function($botman, $message) {
 
-            if ($message == 'hi') {
+            if ($message == 'Hi') {
                 $this->askName($botman);
             }else{
-                $botman->reply("write 'hi' for testing...");
+                $botman->reply("Write 'Hi' for testing...");
             }
 
         });
