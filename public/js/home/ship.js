@@ -15,7 +15,6 @@ $(document).ready(function ($) {
     map.addListener('bounds_changed', function() {
         searchBox.setBounds(map.getBounds());
     });
-    var markers = [];
     var responses = [];
 
     searchBox.addListener('places_changed', function() {
@@ -23,27 +22,16 @@ $(document).ready(function ($) {
         if (places.length == 0) {
             return;
         }
-        console.log(markers);
-        // Clear out the old markers.
-        markers.forEach(function(marker) {
-            marker.setMap(null);
-        });
-        markers = [];
+
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
-        console.log(places);
+        // console.log(places);
         places.forEach(function(place) {
             if (!place.geometry) {
                 console.log("Returned place contains no geometry");
                 return;
             }
-            // Create a marker for each place.
-            console.log(markers);
-            // markers.push(new google.maps.Marker({
-            //     map: map,
-            //     title: place.name,
-            //     position: place.geometry.location
-            // }));
+
             if (place.geometry.viewport) {
             // Only geocodes have viewport.
                 bounds.union(place.geometry.viewport);
@@ -64,10 +52,13 @@ $(document).ready(function ($) {
                 label: "Khách đặt hàng",
                 map: map
             });
+
             var point = [];
             var marker = [];
             var dataStores = $('#stores').val();
             dataStores = JSON.parse(dataStores);
+
+            $("#quangduong").html('');
             $.each(dataStores, function(i,row){
                 point[i] = new google.maps.LatLng(row.lat, row.lng);
                 marker[i] = new google.maps.Marker({
@@ -76,6 +67,7 @@ $(document).ready(function ($) {
                     label: row.name,
                     map: map
                 });
+
                 calculateAndDisplayRoute(directionsService, map, point[i], pointA);
 
             });
@@ -87,7 +79,6 @@ $(document).ready(function ($) {
 
     function showSteps(directionResult) {
         var myRoute = directionResult.routes[0].legs[0];
-        // console.log(myRoute);
         var km = numberFormat( myRoute.distance.value/1000, 1);
         var instructions = '<h3 class="distance" total-ship="' + myRoute.distance.value + '">' + km + 'km</h3><br>';
         document.getElementById("quangduong").innerHTML += instructions;
@@ -106,9 +97,11 @@ $(document).ready(function ($) {
                 var directionsDisplay = new google.maps.DirectionsRenderer({
                     map: map,
                     suppressMarkers: true,
-                    // preserveViewprot: true
                 });
+                var responses = [];
+
                 responses.push(response);
+                // console.log( response );
                 if (responses.length > 0) {
                     for (var i = 0; i < (responses.length - 1); i++) {
                         response.routes[0].bounds.union(responses[i].routes[0].bounds)

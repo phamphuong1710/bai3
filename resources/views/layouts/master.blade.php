@@ -258,8 +258,8 @@
                     @endif
                 </div>
                 <div class="mini-cart-action">
-                    <a href="{{ route('cart') }}" class="btn btn-view-cart">{{ __('messages.view_cart') }}</a>
-                    <a href="{{ route('checkout') }}" class="btn btn-view-checkout">{{ __('messages.checkout') }}</a>
+                    <a href="{{ route('cart') }}" class="btn-view-cart">{{ __('messages.view_cart') }}</a>
+                    <a href="{{ route('checkout') }}" class="btn-view-checkout">{{ __('messages.checkout') }}</a>
                 </div>
             </div>
 
