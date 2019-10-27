@@ -25,12 +25,16 @@ $(document).ready(function ($) {
 
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
-        // console.log(places);
         places.forEach(function(place) {
             if (!place.geometry) {
                 console.log("Returned place contains no geometry");
                 return;
             }
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 21.0166589, lng: 105.7818972},
+                zoom: 13
+            });
 
             if (place.geometry.viewport) {
             // Only geocodes have viewport.
@@ -59,6 +63,12 @@ $(document).ready(function ($) {
             dataStores = JSON.parse(dataStores);
 
             $("#quangduong").html('');
+
+            if(directionsDisplay != null) {
+                directionsDisplay.setMap(null);
+                directionsDisplay = null;
+            }
+
             $.each(dataStores, function(i,row){
                 point[i] = new google.maps.LatLng(row.lat, row.lng);
                 marker[i] = new google.maps.Marker({
@@ -101,7 +111,7 @@ $(document).ready(function ($) {
                 var responses = [];
 
                 responses.push(response);
-                // console.log( response );
+
                 if (responses.length > 0) {
                     for (var i = 0; i < (responses.length - 1); i++) {
                         response.routes[0].bounds.union(responses[i].routes[0].bounds)
