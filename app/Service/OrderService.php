@@ -98,6 +98,10 @@ class OrderService implements OrderInterface
     public function getOrder()
     {
         $orders = $this->orderModel->paginate(15);
+       foreach ($orders as $key => $order) {
+            $orders[$key]->detail = $order->orderDetail;
+            $orders[$key]->user = $order->user;
+        }
 
         return $orders;
     }

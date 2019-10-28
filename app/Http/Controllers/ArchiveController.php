@@ -18,7 +18,7 @@ class ArchiveController extends Controller
         ProductService $productService,
         CategoryService $categoryService,
         StoreService $storeService,
-         RatingService $ratingService
+        RatingService $ratingService
     )
     {
         $this->productService = $productService;
@@ -33,9 +33,6 @@ class ArchiveController extends Controller
         $listCategory = getChildCategory($category->id);
         $products = $this->productService->getProductInCategory($listCategory);
         $products->category = $category;
-        foreach ($products as $index => $product) {
-            $products[$index]->logo = $product->media->where('active', 1)->first();
-        }
 
         return view('layouts.archive-category', compact('products'));
     }
@@ -44,9 +41,6 @@ class ArchiveController extends Controller
     public function productDiscount($discount)
     {
         $products = $this->productService->getProductDiscount($discount);
-        foreach ($products as $index => $product) {
-            $products[$index]->logo = $product->media->where('active', 1)->first()->image_path;
-        }
 
         return response()->json($products);
     }
@@ -54,14 +48,6 @@ class ArchiveController extends Controller
     public function allStore(Request $request)
     {
         $stores = $this->storeService->getAllStore();
-        if ( $stores ) {
-            foreach ($stores as $index => $store) {
-                $logo = $store->media->where('active', 1)->first()->image_path;
-                $address = $store->address->address;
-                $stores[$index]->logo = $logo;
-                $stores[$index]->address = $address;
-            }
-        }
         if ($request->ajax()) {
             return $stores;
         }

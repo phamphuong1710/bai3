@@ -45,7 +45,7 @@ class MediaController extends Controller
     {
         $fileUpload = $request->image;
         $userId = Auth::id();
-        $listImage = $this->mediaService->createMedia($fileUpload, $userId, null, null);
+        $listImage = $this->mediaService->createMedia($fileUpload, $userId);
 
         return response()->json(['data' => $listImage]);
     }

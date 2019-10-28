@@ -26,7 +26,7 @@ class FilterController extends Controller
         $keyword = $request->search;
         $stores = $this->searchService->search($keyword);
 
-        return view('layouts.search', ['products' => null, 'stores' => $stores]);
+        return view('layouts.search-store', compact('stores'));
     }
 
     // For Headers
@@ -49,7 +49,7 @@ class FilterController extends Controller
             }
         }
 
-        return view('layouts.search', ['products' => $products, 'stores' => null]);
+        return view('layouts.search-product', compact('products'));
     }
 
     // Rating Store
@@ -67,7 +67,7 @@ class FilterController extends Controller
         $star = (int)$request->rating;
         $products = $this->ratingService->getProductByRating($star);
 
-        return view('layouts.search', ['products' => $products, 'stores' => null]);
+        return view('layouts.search-product', compact('products'));
     }
 
     //Search Product In Store

@@ -76,7 +76,7 @@ class ProductController extends BaseController
         $usdToVnd = $request->usd_to_vnd;
         $product = $this->productService->createProduct($name, $storeId, $categoryId, $description, $userId, $quantity, $onSale, $usdToVnd, $salePrice, $cost);
         $logo = $request->logo_id;
-        $this->mediaService->updateProductImage($logo, $product->id, null);
+        $this->mediaService->updateProductImage($logo, $product->id);
         $listImage = $request->list_image;
         $listImage = explode(',', $listImage);
         foreach ($listImage as $position => $id) {

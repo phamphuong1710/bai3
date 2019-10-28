@@ -9,7 +9,9 @@ class Media extends Model
 {
     use SoftDeletes;
 
-
+    protected $fillable = [
+        'user_id', 'total_price', 'total_product', 'discount'
+    ];
     /**
      * The attributes that should be mutated to dates.
      *

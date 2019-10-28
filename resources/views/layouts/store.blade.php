@@ -29,7 +29,7 @@
         <div class="wrapper store-wrapper">
 
             <div class="container store-information">
-                <div class="logo-wrapper">
+                <div class="store-logo-wrapper">
                     <img src="{{ url('/').$store->media->where('active', 1)->first()->image_path }}" alt="">
                 </div>
                 <div class="store-summary">
@@ -226,7 +226,7 @@
                         <form action="/comment-store" method="POST" class="form-comment">
                             @csrf
                             <textarea name="comment" id="input-comment" rows="5" placeholder="{{ __('messages.enter_comment') }}"></textarea>
-                            <button class="btn btn-post-comment" type="submit">
+                            <button class="btn-post-comment" type="submit">
                                 <span class="btn-main">
                                     <span class="btn-default">
                                         {{ __('messages.comment') }}

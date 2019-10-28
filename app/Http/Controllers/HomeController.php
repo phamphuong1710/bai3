@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Service\HomeService;
 use App\Service\CartService;
 use App\Service\StoreService;
 use App\Service\SliderService;

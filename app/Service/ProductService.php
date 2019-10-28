@@ -204,6 +204,9 @@ class ProductService implements ProductInterface
         $product = $this->productModel->whereIn('category_id', $listCategory)
             ->orderBy('created_at', 'desc')
             ->paginate(15);
+        foreach ($products as $index => $product) {
+            $products[$index]->logo = $product->media->where('active', 1)->first();
+        }
 
         return $product;
     }
@@ -215,6 +218,9 @@ class ProductService implements ProductInterface
             ->where('on_sale', '<', $discount)
             ->orderBy('created_at', 'desc')
             ->paginate(15);
+        foreach ($products as $index => $product) {
+            $products[$index]->logo = $product->media->where('active', 1)->first()->image_path;
+        }
 
         return $product;
     }

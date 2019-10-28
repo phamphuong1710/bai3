@@ -182,9 +182,6 @@
 
                         </div>
 
-<!--                         <a href="{{ route( 'all-store' ) }}" class="btn-all-store">
-                            {{ __('messages.all_store') }}
-                        </a> -->
                     </div>
 
                 </div>

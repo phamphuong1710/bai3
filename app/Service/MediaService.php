@@ -226,8 +226,13 @@ class MediaService implements MediaInterface
         $images = Media::where('user_id', $userId)
             ->orderBy('id', 'desc')
             ->get();
+        $listPath = [];
+        foreach ($images as $image) {
+            $listPath[$image->id] = $image->image_path;
+        }
+        $listPath = array_unique($listPath);
 
-        return $images;
+        return $listPath;
     }
 
     public function insertImageInLibrary($listPath, $userId)
