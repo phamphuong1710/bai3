@@ -85,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('shop/{storeID}/create-product', 'ProductController@createProduct')->name('createProduct');
 
-    Route::get('product', 'ProductController@getAllProduct')->name('listProduct');
+    Route::get('/product', 'ProductController@getAllProduct')->name('listProduct');
 
     Route::resource('products', 'ProductController');
 

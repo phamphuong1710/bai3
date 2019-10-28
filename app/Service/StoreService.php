@@ -4,7 +4,6 @@ namespace App\Service;
 use App\InterfaceService\StoreInterface;
 use App\Store;
 use App\Address; // model
-use Auth;
 
 class StoreService implements StoreInterface
 {
@@ -47,7 +46,7 @@ class StoreService implements StoreInterface
 
     public function getStoreById($id)
     {
-        $store = Store::findOrFail($id);
+        $store = $this->storeModel->findOrFail($id);
 
         return $store;
     }

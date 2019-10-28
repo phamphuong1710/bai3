@@ -7,8 +7,8 @@ $(document).ready(function(){
     $(window).scroll(function() {
         var scroll = $(window).scrollTop();
 
-
         if( scroll >= position ) {
+            console.log(33);
             page++;
             loadMoreStore(page);
             position = position + contentHeight;

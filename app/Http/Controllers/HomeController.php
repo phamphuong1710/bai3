@@ -3,17 +3,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\HomeService;
 use App\Service\CartService;
-use App\Service\UserService;
+use App\Service\StoreService;
+use App\Service\SliderService;
 use Auth;
+
 class HomeController extends Controller
 {
-    protected $homeService;
+    protected $slideService;
+    protected $storeService;
     protected $cartService;
-    public function __construct( HomeService $homeService, CartService $cartService, UserService $userService )
+    public function __construct( SliderService $slideService, CartService $cartService, StoreService $storeService )
     {
-        $this->homeService = $homeService;
+        $this->slideService = $slideService;
+        $this->storeService = $storeService;
         $this->cartService = $cartService;
-        $this->userService = $userService;
     }
     /**
      * Create a new controller instance.
@@ -28,37 +31,23 @@ class HomeController extends Controller
     public function index()
     {
         session()->forget('cart');
-        $bestSeller = $this->homeService->getProductBestSeller();
-        foreach ($bestSeller as $index => $product) {
-            $bestSeller[$index]->logo = $product->media->where('active', 1)->first();
-        }
-        $new = $this->homeService->getNewProduct();
-        foreach ($new as $index => $product) {
-            $new[$index]->logo = $product->media->where('active', 1)->first();
-        }
-        $slider = $this->homeService->getSlider();
+        $slider = $this->slideService->getSlider();
         $userId = Auth::id();
         $cart = $this->cartService->getCartByUser($userId);
         if ( $cart ) {
             $cart = $this->getCart($cart);
         }
-        $storeBestSeller = $this->homeService->getStoreBestSeller();
-        foreach ($storeBestSeller as $key => $store) {
-            $storeBestSeller[$key]->logo = $store->media->where('active', 1)->first();
+        $stores = $this->storeService->getAllStore();
+        foreach ($stores as $key => $store) {
+            $stores[$key]->logo = $store->media->where('active', 1)->first();
         }
-        $storeRating = $this->homeService->getTopStoreRating();
-        foreach ($storeRating as $key => $store) {
-            $storeRating[$key]->logo = $store->media->where('active', 1)->first();
-        }
+
         return view(
             'layouts/home',
             [
-                'bestSeller' => $bestSeller,
-                'new' => $new,
                 'slider' => $slider,
                 'cart' => $cart,
-                'storeSale' => $storeBestSeller,
-                'storeRating' => $storeRating,
+                'stores' => $stores,
             ]
         );
     }
