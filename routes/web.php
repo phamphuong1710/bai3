@@ -15,7 +15,14 @@ Auth::routes();
 
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 
+Route::get('/chat', 'ChatsController@index');
+
+Route::get('messages', 'ChatsController@fetchMessages');
+
+Route::post('messages', 'ChatsController@sendMessage');
+
 Route::resource('/', 'HomeController');
+
 Route::get('products/{slug}', 'SingleProductController@product')->name('product-single');
 
 Route::get('locale/{locale}', function ($locale){
@@ -124,18 +131,3 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('note', 'NotificationController');
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
