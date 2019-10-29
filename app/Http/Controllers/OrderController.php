@@ -42,10 +42,6 @@ class OrderController extends BaseController
     {
         $userId = Auth::id();
         $orders = $this->orderService->getOrder($userId);
-        foreach ($orders as $key => $order) {
-            $orders[$key]->detail = $order->orderDetail;
-            $orders[$key]->user = $order->user;
-        }
 
         return view('admin.order.order', compact('orders'));
     }

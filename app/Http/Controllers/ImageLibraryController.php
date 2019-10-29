@@ -23,12 +23,7 @@ class ImageLibraryController extends Controller
     public function index()
     {
         $user = Auth::id();
-        $images = $this->mediaService->getImageByUserId($user);
-        $listPath = [];
-        foreach ($images as $image) {
-            $listPath[$image->id] = $image->image_path;
-        }
-        $listPath = array_unique($listPath);
+        $listPath = $this->mediaService->getImageByUserId($user);
 
         return response()->json($listPath);
     }
