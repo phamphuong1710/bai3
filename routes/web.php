@@ -15,7 +15,7 @@ Auth::routes();
 
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 
-Route::get('/chat', 'ChatsController@index');
+Route::get('/chat', 'ChatController@index');
 
 Route::get('messages', 'ChatsController@fetchMessages');
 
