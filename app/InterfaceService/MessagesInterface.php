@@ -2,5 +2,6 @@
 
 namespace App\InterfaceService;
 
-interface CategoryInterface {
+interface MessagesInterface {
+
 }

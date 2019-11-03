@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Message;
+use App\Service\MessagesService;
 use Illuminate\Http\Request;
 use App\Events\MessageSent;
-use Auth;
 
 class ChatController extends Controller
 {
-    public function __construct()
+    protected $messagesService;
+
+    public function __construct(MessagesService $messagesService)
     {
         $this->middleware('auth');
+        $this->messagesService = $messagesService;
     }
 
     public function index()
@@ -26,23 +28,16 @@ class ChatController extends Controller
      */
     public function fetchMessages()
     {
-        return Message::with('user')->get();
+        $messages = $this->messagesService->getAllMessages();
+
+        return $messages;
     }
 
-    /**
-     * Persist message to database
-     *
-     * @param  Request $request
-     * @return Response
-     */
+
     public function sendMessage(Request $request)
     {
-        $user = Auth::user();
-
-        $message = $user->messages()->create([
-            'message' => $request->input('message')
-        ]);
-
+        $messages = $request->input('message');
+        $this->messagesService->createMessages($messages);
         broadcast(new MessageSent($user, $message))->toOthers();
 
         return ['status' => 'Message Sent!'];
