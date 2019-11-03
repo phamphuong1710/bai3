@@ -36,6 +36,13 @@ const app = new Vue({
 
     created() {
         this.fetchMessages();
+        Echo.private('chat')
+          .listen('MessageSent', (e) => {
+            this.messages.push({
+              message: e.message.message,
+              user: e.user
+            });
+          });
     },
 
     methods: {

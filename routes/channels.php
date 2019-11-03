@@ -17,3 +17,7 @@ Broadcast::channel('counter', function ($user) {
         'name' => $user->name,
     ];
 });
+
+Broadcast::channel('chat', function ($user) {
+  return Auth::check();
+});
