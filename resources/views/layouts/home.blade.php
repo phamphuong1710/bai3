@@ -45,7 +45,6 @@
         <div class="container">
             <div class="row">
                 <div class="sidebar col-md-3">
-                    <example-counter></example-counter>
                     <div class="search-product sidebar-widget">
                         <h3 class="widget-title">{{ __('messages.search_product') }} </h3>
                         <form action="/search/product" method="post" class="form-search-sidebar">
