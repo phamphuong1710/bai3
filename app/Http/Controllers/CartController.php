@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service\CartService;
+use App\Service\AddressService;
 use App\Http\Requests\CartRequest;
 use App\Http\Requests\OrderRequest;
 use Auth;
@@ -12,10 +13,12 @@ use Session;
 class CartController extends Controller
 {
     protected $cartService;
+    protected $addressService;
 
-    public function __construct( CartService $cartService )
+    public function __construct(CartService $cartService, AddressService $addressService)
     {
         $this->cartService = $cartService;
+        $this->addressService = $addressService;
     }
 
     public function cart()
@@ -129,6 +132,7 @@ class CartController extends Controller
     {
         session()->forget('cart');
         $userId = Auth::id();
+        $address = $this->addressService->getAddressByUserId($userId);
         $cart = $this->cartService->getCartByUser($userId);
         $stores = [];
         if ( $cart ) {
@@ -153,8 +157,18 @@ class CartController extends Controller
             'layouts.checkout',
             [
                 'cart' => $cart,
-                'stores' => $stores
+                'stores' => $stores,
+                'address' => $address,
             ]
         );
+    }
+
+    public function createBuyGroup()
+    {
+        $userId = Auth::id();
+        $cart = $this->cartService->createCart($userId, true);
+        $slug = $cart->slug;
+
+        dd( $slug );
     }
 }

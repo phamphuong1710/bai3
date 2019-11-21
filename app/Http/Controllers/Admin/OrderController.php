@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
 use App\Service\OrderService;
@@ -44,16 +45,6 @@ class OrderController extends BaseController
         $orders = $this->orderService->getOrder($userId);
 
         return view('admin.order.order', compact('orders'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
     }
 
     /**
@@ -135,7 +126,7 @@ class OrderController extends BaseController
             ];
         } else {
             $status = [
-                'accept' => 'Chấp Thuận',
+                'accept' => 'Xác Nhận',
                 'failed' => 'Thất Bại',
                 'completed' => 'Đã Hoàn Thành',
                 'processing' => 'Đang Giao',
