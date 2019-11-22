@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRequest;
 use App\Service\StoreService;
@@ -34,6 +35,9 @@ class StoreController extends BaseController
         $this->mediaService = $mediaService;
         $this->productService = $productService;
         $this->categoryService = $categoryService;
+        $this->middleware('permission:store-create', ['only' => ['create','store']]);
+        $this->middleware('permission:store-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:store-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -83,7 +87,9 @@ class StoreController extends BaseController
         $lng = $request->lng;
         $this->storeService->createStoreAddress($storeId, $address, $lat, $lng);
 
-        return redirect()->route('stores.index');
+        return redirect()
+        ->route('stores.index')
+        ->with('success_store','Store created successfully!');
     }
 
     /**
@@ -176,7 +182,9 @@ class StoreController extends BaseController
         $lng = $request->lng;
         $this->storeService->updateStoreAddress($id, $address, $lat, $lng);
 
-        return redirect()->route('stores.index');
+        return redirect()
+            ->route('stores.index')
+            ->with('update_store','Store updated successfully!');
     }
 
     /**

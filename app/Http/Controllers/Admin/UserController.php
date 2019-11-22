@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
@@ -22,6 +23,8 @@ class UserController extends BaseController
         $this->userService = $userService;
         $this->mediaService = $mediaService;
         $this->roleService = $roleService;
+        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -33,7 +36,7 @@ class UserController extends BaseController
     {
         $users = $this->userService->getAllUser();
 
-        return view( 'admin.user.list', ['users' => $users] );
+        return view( 'admin.user.list', compact('users') );
     }
 
     /**
@@ -59,7 +62,7 @@ class UserController extends BaseController
         $user = $this->userService->createUser($request);
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('admin.users.list')
+        return redirect()->route('users.index')
             ->with('success','User created successfully');
     }
 
@@ -101,9 +104,13 @@ class UserController extends BaseController
     public function update(UserEditRequest $request, $id)
     {
         $user = $this->userService->updateUser($request,$id);
-        $user->assignRole($request->input('roles'));
+        if ( $request->input('roles') ) {
+            $user->assignRole($request->input('roles'));
+        } else {
+            $user->assignRole('User');
+        }
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success','User created successfully');
     }
 
     /**

@@ -28,12 +28,13 @@ class SingleProductController extends Controller
     {
         $userId = Auth::id();
         $product = $this->productService->getProductBySlug($slug);
+        $productId = $product->id;
         if (!$product) {
             abort('404');
         }
         $productStore = $this->productService->getTheSameProductInStore($product->store_id, $product->id);
-        foreach ($productStore as $index => $product) {
-            $logo = $product->media->where('active', 1)->first()->image_path;
+        foreach ($productStore as $index => $item) {
+            $logo = $item->media->where('active', 1)->first()->image_path;
             $productStore[$index]->logo = $logo;
         }
         $productCategory = $this->productService->getTheSameProductInCategory($product->category, $product->id);
@@ -50,7 +51,7 @@ class SingleProductController extends Controller
         }
         $product->user_rating = $rating;
         $commentsParent = $this->commentService->getCommentParentProduct($product->id);
-        // dd($commentsParent);
+
         $commentsChild = array();
         foreach ($commentsParent as $comment) {
             $commentsChild[$comment->id] = $this->commentService->getCommentChild($comment->id);
