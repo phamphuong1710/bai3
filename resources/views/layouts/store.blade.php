@@ -25,7 +25,10 @@
             </div>
         </div>
     </div>
-
+        @php
+            $cart = Session::get('cart');
+            dd($cart);
+        @endphp
         <div class="wrapper store-wrapper">
 
             <div class="container store-information">
@@ -95,6 +98,20 @@
                 <div class="store-main-content">
                     <div class="row store-main--wrapper">
                         <div class="store--category col-md-4">
+                            <div class="btn-buy-group">
+                                <a href="{{ route( 'buy-group', ['id' => $store->id] ) }}" class="btn-buygroup">
+                                    {{ __( 'messages.buy_group' ) }}
+                                </a>
+                                <div class="link-buy-group-popup">
+                                    <div class="popup-wrapper">
+                                        <h4 class="title">{{ __('messages.share') }}</h4>
+                                        <div class="link-share">
+                                            <span class="text">{{ __('messages.copy') }}</span>
+                                            <input type="text" class="href">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="store-list-category">
                                 <h4 class="store-title">{{ __('messages.category') }}</h4>
                                 <ul class="list-category-wrapper">
@@ -194,11 +211,15 @@
                                                                 <input type="hidden" name="product_id" value="{{ $product->id }}" class="add-product">
                                                                 <input type="hidden" name="quantity" value="1"  class="add-quantity">
                                                                 <input type="hidden" name="usd_to_vnd" class="usd-to-vnd">
+                                                                @if ( array_key_exists( 's', $_GET ) )
+                                                                    <input type="hidden" name="slug" value="{{$_GET['s']}}">
+                                                                @endif
                                                                 @guest
                                                                 <button class="user-login">{{ __('messages.add_to_cart') }}</button>
                                                                 @else
                                                                 <button type="submit" class="button btn-add-to-cart btn-shop-add-to-cart"></button>
                                                                 @endguest
+
                                                             </fieldset>
                                                         </form>
                                                     </div>
@@ -309,4 +330,5 @@
     <script src="{{ asset('js/home/comment.js') }}"></script>
     <script src="{{ asset('js/home/reply-store.js') }}"></script>
     <script src="{{ asset('js/home/add-to-cart.js') }}"></script>
+    <script src="{{ asset('js/home/buygroup-popup.js') }}"></script>
 @endsection

@@ -104,4 +104,5 @@ return [
     'read' => 'Read',
     'unread' => 'Unread',
     'type' => 'Type',
+    'buy_group' => 'Buy Group',
 ];

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service\CartService;
 use App\Service\AddressService;
+use App\Service\StoreService;
 use App\Http\Requests\CartRequest;
 use App\Http\Requests\OrderRequest;
 use Auth;
@@ -14,11 +15,13 @@ class CartController extends Controller
 {
     protected $cartService;
     protected $addressService;
+    protected $storeService;
 
-    public function __construct(CartService $cartService, AddressService $addressService)
+    public function __construct(CartService $cartService, AddressService $addressService, StoreService $storeService)
     {
         $this->cartService = $cartService;
         $this->addressService = $addressService;
+        $this->storeService = $storeService;
     }
 
     public function cart()
@@ -40,37 +43,8 @@ class CartController extends Controller
         $cart = $this->cartService->getCartByUser($userId);
         $productId = $request->product_id;
         $quantity = $request->quantity;
-        if ( $cart ) {
-            $cart = $this->getCart($cart);
-            $products = $cart['product'];
+        $cart = $this->cartService->addToCart($cart, $productId, $quantity, $userId, $request);
 
-            if ( array_key_exists($productId, $products) ) {
-                $cartDetail = $this->cartService->updateCartDetail($cart['id'], $productId, $quantity);
-            } else {
-                $cartDetail = $this->cartService->createCartDetail($cart['id'], $productId, $quantity);
-            }
-            $currentCart = $this->cartService->updateCart($cart['id'], $request);
-            $product = $this->getProduct($cartDetail);
-            $request->session()->put('cart.product.' . $productId, $product);
-        } else {
-            $currentCart = $this->cartService->createCart($userId);
-            $cartDetail = $this->cartService->createCartDetail($currentCart->id, $productId, $quantity);
-            $currentCart = $this->cartService->updateCart($currentCart->id);
-            $product = $this->getProduct($cartDetail);
-            $data = [
-                'id' => $currentCart->id,
-                'vnd' => $currentCart->vnd,
-                'usd' => $currentCart->usd,
-                'quantity' => $currentCart->quantity,
-                'discount_vnd' => $currentCart->discount_vnd,
-                'discount_usd' => $currentCart->discount_usd,
-                'product' => [
-                    $cartDetail->id => $product,
-                ]
-            ];
-            $request->session()->put('cart', $data);
-        }
-        $cart = $request->session()->get('cart');
 
         return response()->json($cart);
     }
@@ -163,12 +137,15 @@ class CartController extends Controller
         );
     }
 
-    public function createBuyGroup()
+    public function createBuyGroup($storeId)
     {
         $userId = Auth::id();
-        $cart = $this->cartService->createCart($userId, true);
+        $cart = $this->cartService->createCart($userId, $storeId, true);
         $slug = $cart->slug;
+        $store = $this->storeService->getStoreById($storeId);
+        $baseUrl = url('/');
+        $link = url('/') . '/store/' . $store->slug . '/?s=' . $slug;
 
-        dd( $slug );
+        return response()->json($link);
     }
 }
