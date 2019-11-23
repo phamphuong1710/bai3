@@ -43,8 +43,7 @@ class CartController extends Controller
         $cart = $this->cartService->getCartByUser($userId);
         $productId = $request->product_id;
         $quantity = $request->quantity;
-        $cart = $this->cartService->addToCart($cart, $productId, $quantity, $userId, $request);
-
+        $cart = $this->cartService->addToCart($cart, $productId, $quantity, $userId);
 
         return response()->json($cart);
     }
@@ -104,6 +103,7 @@ class CartController extends Controller
 
     public function checkout()
     {
+
         session()->forget('cart');
         $userId = Auth::id();
         $address = $this->addressService->getAddressByUserId($userId);
@@ -139,13 +139,25 @@ class CartController extends Controller
 
     public function createBuyGroup($storeId)
     {
-        $userId = Auth::id();
-        $cart = $this->cartService->createCart($userId, $storeId, true);
-        $slug = $cart->slug;
-        $store = $this->storeService->getStoreById($storeId);
-        $baseUrl = url('/');
-        $link = url('/') . '/store/' . $store->slug . '/?s=' . $slug;
+        $data = [];
+        $cart = session()->get('cart');
+        if ( $cart && $cart['product'] ) {
+            $data['status'] = 'error';
+        } else {
+            if ( $cart ) {
+                $this->cartService->deleteCart($cart->id);
+                session()->forget('cart');
+            }
+            $userId = Auth::id();
+            $cart = $this->cartService->createCart($userId, $storeId, true);
+            $slug = $cart->slug;
+            $store = $this->storeService->getStoreById($storeId);
+            $baseUrl = url('/');
+            $link = url('/') . '/store/' . $store->slug . '/?s=' . $slug;
+            $data['status'] = 'success';
+            $data['link'] = $link;
+        }
 
-        return response()->json($link);
+        return response()->json($data);
     }
 }

@@ -81,7 +81,7 @@ class AddressService implements AddressInterface
     {
         $address = $this->addressModel->where('user_id', $userId)
             ->where('active', env('ACTIVE'))
-            ->firstOrFail();
+            ->get();
 
         return $address;
     }

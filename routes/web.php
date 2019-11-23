@@ -66,9 +66,9 @@ Route::put('/update-cart/{id}', 'CartController@updateCart')->name('update-cart'
 
 Route::get('/checkout', 'CartController@checkout')->name('checkout');
 
-Route::get('/user-login', 'AuthController@login')->name('user-login');
+Route::get('/user-login', 'Admin\AuthController@login')->name('user-login');
 
-Route::get('/user-register', 'AuthController@register')->name('user-register');
+Route::get('/user-register', 'Admin\AuthController@register')->name('user-register');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -76,33 +76,33 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('order','OrderController');
 
-    Route::resource('roles','RoleController');
+    Route::resource('roles','Admin\RoleController');
 
-    Route::resource('users', 'UserController');
+    Route::resource('users', 'Admin\UserController');
 
-    Route::get('/user/{id}/edit', 'UserController@getEditUserTemplate')->name('edit-user');
+    Route::get('/user/{id}/edit', 'Admin\UserController@getEditUserTemplate')->name('edit-user');
 
-    Route::resource('users', 'UserController');
+    Route::resource('users', 'Admin\UserController');
 
-    Route::resource('categories', 'CategoryController');
+    Route::resource('categories', 'Admin\CategoryController');
 
-    Route::resource('stores', 'StoreController');
+    Route::resource('stores', 'Admin\StoreController');
 
-    Route::resource('media-store', 'MediaController');
+    Route::resource('media-store', 'Admin\MediaController');
 
     Route::resource('video-store', 'VideoStoreController');
 
-    Route::get('shop/{storeID}/create-product', 'ProductController@createProduct')->name('createProduct');
+    Route::get('shop/{storeID}/create-product', 'Admin\ProductController@createProduct')->name('createProduct');
 
-    Route::get('/product', 'ProductController@getAllProduct')->name('listProduct');
+    Route::get('/product', 'Admin\ProductController@getAllProduct')->name('listProduct');
 
-    Route::resource('products', 'ProductController');
+    Route::resource('products', 'Admin\ProductController');
 
-    Route::post('/image-slider', 'LogoController@createImageSlider');
+    Route::post('/image-slider', 'Admin\LogoController@createImageSlider');
 
-    Route::resource('logo', 'LogoController');
+    Route::resource('logo', 'Admin\LogoController');
 
-    Route::resource('library', 'ImageLibraryController');
+    Route::resource('library', 'Admin\ImageLibraryController');
 
     Route::post('/search-store', 'SearchController@searchStore');
 
@@ -124,12 +124,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post( '/filter-category', 'SearchController@filterCategory');
 
-    Route::resource('slider', 'SliderController');
+    Route::resource('slider', 'Admin\SliderController');
 
     Route::post('/comment-product', 'CommentController@createProductComment');
 
     Route::post('/comment-store', 'CommentController@createStoreComment');
 
-    Route::resource('note', 'NotificationController');
+    Route::resource('note', 'Admin\NotificationController');
 });
 

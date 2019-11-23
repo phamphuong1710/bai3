@@ -25,10 +25,6 @@
             </div>
         </div>
     </div>
-<!--         @php
-            $cart = Session::get('cart');
-            dd($cart);
-        @endphp -->
         <div class="wrapper store-wrapper">
 
             <div class="container store-information">
@@ -104,11 +100,7 @@
                                 </a>
                                 <div class="link-buy-group-popup">
                                     <div class="popup-wrapper">
-                                        <h4 class="title">{{ __('messages.share') }}</h4>
-                                        <div class="link-share">
-                                            <span class="text">{{ __('messages.copy') }}</span>
-                                            <input type="text" class="href">
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
