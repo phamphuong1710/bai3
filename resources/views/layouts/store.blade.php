@@ -25,10 +25,10 @@
             </div>
         </div>
     </div>
-        @php
+<!--         @php
             $cart = Session::get('cart');
             dd($cart);
-        @endphp
+        @endphp -->
         <div class="wrapper store-wrapper">
 
             <div class="container store-information">
