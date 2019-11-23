@@ -104,4 +104,5 @@ return [
     'read' => 'Đã Đọc',
     'unread' => 'Chưa Đọc',
     'type' => 'Phân Loại',
+    'buy_group' => 'Đặt theo nhóm',
 ];

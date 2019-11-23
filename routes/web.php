@@ -58,6 +58,8 @@ Route::post('/add-to-cart', 'CartController@addToCart')->name('add-to-cart');
 
 Route::delete('/delete-cart/{id}', 'CartController@deleteCartDetail')->name('delete-cart');
 
+Route::get('/buy-group/{id}', 'CartController@createBuyGroup')->name('buy-group');
+
 Route::get('/cart', 'CartController@cart')->name('cart');
 
 Route::put('/update-cart/{id}', 'CartController@updateCart')->name('update-cart');

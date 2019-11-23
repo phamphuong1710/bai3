@@ -7,6 +7,7 @@ use App\Product;
 use App\CartDetail;
 use App\User;
 use Auth;
+use Carbon\Carbon;
 
 class CartService implements CartInterface
 {
@@ -22,8 +23,11 @@ class CartService implements CartInterface
         $this->cartDetailModel = $cartDetailModel;
         $this->userModel = $userModel;
     }
-    public function createCart($userId)
+
+    public function createCart($userId, $storeId = null, $slug = false)
     {
+        $time = Carbon::now()->timestamp;
+        $text = str_random(5);
         $cart = New Cart();
         $cart->user_id = $userId;
         $cart->usd = 0;
@@ -31,6 +35,10 @@ class CartService implements CartInterface
         $cart->discount_usd = 0;
         $cart->discount_vnd = 0;
         $cart->quantity = 0;
+        if ( $slug ) {
+            $cart->slug = $time . $text;
+            $cart->store_id = $storeId;
+        }
         $cart->save();
 
         return $cart;
@@ -144,6 +152,113 @@ class CartService implements CartInterface
         foreach ($cartDetails as $detail) {
             $this->cartDetailModel->Destroy($detail->id);
         }
+
+        return $cart;
+    }
+
+    public function addToCart($cart, $productId, $quantity, $userId, $request)
+    {
+        if ( $cart ) {
+            $cart = $this->getCart($cart);
+            $products = $cart['product'];
+
+            if ( array_key_exists($productId, $products) ) {
+                $cartDetail = $this->updateCartDetail($cart['id'], $productId, $quantity);
+            } else {
+                $cartDetail = $this->createCartDetail($cart['id'], $productId, $quantity);
+            }
+            $currentCart = $this->updateCart($cart['id'], $request);
+            $product = $this->getProduct($cartDetail);
+            $request->session()->put('cart.product.' . $productId, $product);
+        } else {
+            $currentCart = $this->createCart($userId);
+            $cartDetail = $this->createCartDetail($currentCart->id, $productId, $quantity);
+            $currentCart = $this->updateCart($currentCart->id);
+            $product = $this->getProduct($cartDetail);
+            $data = [
+                'id' => $currentCart->id,
+                'vnd' => $currentCart->vnd,
+                'usd' => $currentCart->usd,
+                'quantity' => $currentCart->quantity,
+                'discount_vnd' => $currentCart->discount_vnd,
+                'discount_usd' => $currentCart->discount_usd,
+                'product' => [
+                    $cartDetail->id => $product,
+                ]
+            ];
+            $request->session()->put('cart', $data);
+        }
+        $cart = $request->session()->get('cart');
+
+        return $cart;
+    }
+
+    public function getCart($cart)
+    {
+        session()->put('cart.id', $cart->id);
+        session()->put('cart.vnd', $cart->vnd);
+        session()->put('cart.usd', $cart->usd);
+        session()->put('cart.quantity', $cart->quantity);
+        session()->put('cart.discount_vnd', $cart->discount_vnd);
+        session()->put('cart.discount_usd', $cart->discount_usd);
+        $detail = $cart->detail;
+        session()->put('cart.product', []);
+        foreach ($detail as $item) {
+            $productId = $item->product_id;
+            $product = $this->getProduct($item);
+            if ( $product ) {
+                session()->put('cart.product.' . $productId, $product);
+            }
+        }
+        $cart = session()->get('cart');
+
+        return $cart;
+    }
+
+    public function getProduct($cartDetail)
+    {
+        $product = $cartDetail->product;
+        $logo = $product->media->where('active', 1)->first();
+        $cartDetail->logo = $logo->image_path;
+        $cartDetail->name = $product->name;
+
+        return $cartDetail;
+    }
+
+    public function addToCartGroup($cart, $productId, $quantity, $userId, $request)
+    {
+        if ( $cart ) {
+            $cart = $this->getCart($cart);
+            $products = $cart['product'];
+
+            if ( array_key_exists($productId, $products) ) {
+                $cartDetail = $this->updateCartDetail($cart['id'], $productId, $quantity);
+            } else {
+                $cartDetail = $this->createCartDetail($cart['id'], $productId, $quantity);
+            }
+            $currentCart = $this->updateCart($cart['id'], $request);
+            $product = $this->getProduct($cartDetail);
+            $request->session()->put('cart.product.' . $productId, $product);
+        } else {
+            $currentCart = $this->createCart($userId);
+            $cartDetail = $this->createCartDetail($currentCart->id, $productId, $quantity);
+            $currentCart = $this->updateCart($currentCart->id);
+            $product = $this->getProduct($cartDetail);
+            $data = [
+                'id' => $currentCart->id,
+                'vnd' => $currentCart->vnd,
+                'usd' => $currentCart->usd,
+                'quantity' => $currentCart->quantity,
+                'discount_vnd' => $currentCart->discount_vnd,
+                'discount_usd' => $currentCart->discount_usd,
+                'product' => [
+                    $cartDetail->id => $product,
+                    'user_id' => 'userId',
+                ]
+            ];
+            $request->session()->put('cart', $data);
+        }
+        $cart = $request->session()->get('cart');
 
         return $cart;
     }

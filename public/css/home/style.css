@@ -325,3 +325,18 @@
         margin-bottom: 15px;
     }
 }
+
+
+.link-buy-group-popup {
+    position: fixed;
+    width: 500px;
+    height: 200px;
+    top: calc( ( 100% - 200px )/2 );
+    left: calc( (100% - 500px)/2 );
+    z-index: 999999;
+    display: none;
+}
+
+.link-buy-group-popup.active {
+    display: block;
+}
