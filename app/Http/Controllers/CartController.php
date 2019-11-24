@@ -40,10 +40,16 @@ class CartController extends Controller
     {
         $request->session()->forget('cart');
         $userId = Auth::id();
-        $cart = $this->cartService->getCartByUser($userId);
+        $slug = $request->slug;
+        if ( $slug ) {
+            $cart = $this->cartService->getCartBySlug($slug);
+        } else {
+            $cart = $this->cartService->getCartByUser($userId);
+        }
         $productId = $request->product_id;
         $quantity = $request->quantity;
-        $cart = $this->cartService->addToCart($cart, $productId, $quantity, $userId);
+        $slug = $request->slug;
+        $cart = $this->cartService->addToCart($cart, $productId, $quantity, $userId, $slug);
 
         return response()->json($cart);
     }
@@ -69,37 +75,6 @@ class CartController extends Controller
         return response()->json($cart);
     }
 
-    public function getCart($cart)
-    {
-        session()->put('cart.id', $cart->id);
-        session()->put('cart.vnd', $cart->vnd);
-        session()->put('cart.usd', $cart->usd);
-        session()->put('cart.quantity', $cart->quantity);
-        session()->put('cart.discount_vnd', $cart->discount_vnd);
-        session()->put('cart.discount_usd', $cart->discount_usd);
-        $detail = $cart->detail;
-        session()->put('cart.product', []);
-        foreach ($detail as $item) {
-            $productId = $item->product_id;
-            $product = $this->getProduct($item);
-            if ( $product ) {
-                session()->put('cart.product.' . $productId, $product);
-            }
-        }
-        $cart = session()->get('cart');
-
-        return $cart;
-    }
-
-    public function getProduct($cartDetail)
-    {
-        $product = $cartDetail->product;
-        $logo = $product->media->where('active', 1)->first();
-        $cartDetail->logo = $logo->image_path;
-        $cartDetail->name = $product->name;
-
-        return $cartDetail;
-    }
 
     public function checkout()
     {
@@ -139,16 +114,16 @@ class CartController extends Controller
 
     public function createBuyGroup($storeId)
     {
+        $userId = Auth::id();
         $data = [];
-        $cart = session()->get('cart');
-        if ( $cart && $cart['product'] ) {
+        $cart = $this->cartService->getCartByUser($userId);
+        if ( $cart && $cart->quantity != 0 ) {
             $data['status'] = 'error';
         } else {
-            if ( $cart ) {
+            if ( $cart && $cart->quantity == 0 ) {
                 $this->cartService->deleteCart($cart->id);
                 session()->forget('cart');
             }
-            $userId = Auth::id();
             $cart = $this->cartService->createCart($userId, $storeId, true);
             $slug = $cart->slug;
             $store = $this->storeService->getStoreById($storeId);

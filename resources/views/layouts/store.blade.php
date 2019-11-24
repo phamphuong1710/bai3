@@ -8,6 +8,7 @@
 <link href="{{ asset('css/home/comment.css') }}" rel="stylesheet">
 <link href="{{ asset('css/home/mini-cart.css') }}" rel="stylesheet">
 @endsection
+
 @section('content')
 <section class="single-product">
     <div class="single-page-header">
@@ -322,5 +323,6 @@
     <script src="{{ asset('js/home/comment.js') }}"></script>
     <script src="{{ asset('js/home/reply-store.js') }}"></script>
     <script src="{{ asset('js/home/add-to-cart.js') }}"></script>
+    <script src="{{ asset('js/home/delete-cart.js') }}"></script>
     <script src="{{ asset('js/home/buygroup-popup.js') }}"></script>
 @endsection

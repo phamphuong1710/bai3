@@ -28,6 +28,7 @@ $(document).ready(function(){
                 $( '#shop-cart-sidebar' ).addClass('eloading');
             },
             success: function (data) {
+                console.log(data);
                 btn.removeClass('eloading');
                 $( '#shop-cart-sidebar' ).removeClass('eloading');
                 var html = '',

@@ -21,6 +21,9 @@
 
         @yield('style')
     </head>
+    @php
+        $cart = session()->get('cart');
+    @endphp
     <body>
         <div id="app">
             <div class="page-loading">
@@ -149,8 +152,8 @@
                             <div class="cart">
                                 <span class="ion-bag icon-cart">
                                     @if(Auth::id())
-                                        @if( Session::get('cart')['quantity'] )
-                                            <sup class="count cart-quantity">{{ Session::get('cart')['quantity'] }}</sup>
+                                        @if( $cart['quantity'] )
+                                            <sup class="count cart-quantity">{{ $cart['quantity'] }}</sup>
                                         @else
                                             <sup class="count cart-quantity">0</sup>
                                         @endif
@@ -191,8 +194,8 @@
             <div id="shop-cart-sidebar">
                 <div class="cart-sidebar-head">
                     <h4 class="cart-sidebar-title">{{ __('messages.shopping_cart') }}</h4>
-                        @if ( Session::get('cart')['quantity'] )
-                            <span class="count">{{ Session::get('cart')['quantity'] }}</span>
+                        @if ( $cart['quantity'] )
+                            <span class="count">{{ $cart['quantity'] }}</span>
                         @else
                             <span class="count">0</span>
                         @endif
@@ -201,42 +204,74 @@
                 </div>
                 <div class="cart-sidebar-content">
                     <ul class="list-product-in-cart product-item-action">
-                        @if ( Session::get('cart')['product'] )
-                            @php
-                                $cart = Session::get('cart');
-                            @endphp
+                        @if ( $cart['product'] )
+
                         <form class="update-cart" action="{{ route('update-cart', [ 'id' => $cart['id']]) }}" method="post" enctype="multipart/form-data">
 
+                            @if( ! array_key_exists( "slug", $cart ) )
+                                @foreach( $cart['product'] as $product )
+                                <li class="mini-cart-item cart-item">
+                                    <div class="product-minnicart-info">
+                                        <span class="mincart-product-name">
+                                            {{ $product->name }}
+                                        </span>
 
-                            @foreach( Session::get('cart')['product'] as $product )
-                            <li class="mini-cart-item cart-item">
-                                <div class="product-minnicart-info">
-                                    <span class="mincart-product-name">
-                                        {{ $product->name }}
-                                    </span>
 
+                                        <div class="quantity-mini-cart quantity">
+                                            <span class="modify-qty dec ion-android-remove"></span>
+                                            <input type="number" class="input-text qty text"  min="1" max="" name="quantity[{{ $product->id }}]" value="{{ $product->quantity }}">
+                                            <span class="modify-qty inc ion-android-add"></span>
+                                        </div>
 
-                                    <div class="quantity-mini-cart quantity">
-                                        <span class="modify-qty dec ion-android-remove"></span>
-                                        <input type="number" class="input-text qty text"  min="1" max="" name="quantity[{{ $product->id }}]" value="{{ $product->quantity }}">
-                                        <span class="modify-qty inc ion-android-add"></span>
                                     </div>
+                                    <span class="minicart-product-price">
+                                        @if( app()->getLocale() == 'en' )
+                                            {{ '$'.$product->usd }}
+                                        @endif
+                                        @if( app()->getLocale() == 'vi' )
+                                            {{ 'đ'.$product->vnd }}
+                                        @endif
+                                    </span>
+                                    <div class="product-minicart-logo">
+                                        <img src="{{ $product->logo }}" alt="{{ $product->name }}">
+                                    </div>
+                                    <span class="remove_from_cart_button ion-android-close delete-product" product="{{ $product->id }}"></span>
+                                </li>
+                                @endforeach
 
-                                </div>
-                                <span class="minicart-product-price">
-                                    @if( app()->getLocale() == 'en' )
-                                        {{ '$'.$product->usd }}
-                                    @endif
-                                    @if( app()->getLocale() == 'vi' )
-                                        {{ 'đ'.$product->vnd }}
-                                    @endif
-                                </span>
-                                <div class="product-minicart-logo">
-                                    <img src="{{ $product->logo }}" alt="{{ $product->name }}">
-                                </div>
-                                <span class="remove_from_cart_button ion-android-close delete-product" product="{{ $product->id }}"></span>
-                            </li>
-                            @endforeach
+                            @else
+                                @foreach( $cart['product'] as $productUser )
+                                    @foreach( $cart['product'] as $productUser )
+                                        <li class="mini-cart-item cart-item">
+                                            <div class="product-minnicart-info">
+                                                <span class="mincart-product-name">
+                                                    {{ $product->name }}
+                                                </span>
+
+
+                                                <div class="quantity-mini-cart quantity">
+                                                    <span class="modify-qty dec ion-android-remove"></span>
+                                                    <input type="number" class="input-text qty text"  min="1" max="" name="quantity[{{ $product->id }}]" value="{{ $product->quantity }}">
+                                                    <span class="modify-qty inc ion-android-add"></span>
+                                                </div>
+
+                                            </div>
+                                            <span class="minicart-product-price">
+                                                @if( app()->getLocale() == 'en' )
+                                                    {{ '$'.$product->usd }}
+                                                @endif
+                                                @if( app()->getLocale() == 'vi' )
+                                                    {{ 'đ'.$product->vnd }}
+                                                @endif
+                                            </span>
+                                            <div class="product-minicart-logo">
+                                                <img src="{{ $product->logo }}" alt="{{ $product->name }}">
+                                            </div>
+                                            <span class="remove_from_cart_button ion-android-close delete-product" product="{{ $product->id }}"></span>
+                                        </li>
+                                    @endforeach
+                                @endforeach
+                            @endif
                         </form>
                         @else
                         <h6>{{ __('messages.no_product') }}</h6>
@@ -248,12 +283,12 @@
                     <span class="label">{{ __('messages.total').':' }}</span>
                     @if( app()->getLocale() == 'en' )
                     <span class="total-price">$
-                        {{ Session::get('cart')['usd'] - Session::get('cart')['discount_usd'] }}
+                        {{ $cart['usd'] - $cart['discount_usd'] }}
                     </span>
                     @endif
                     @if( app()->getLocale() == 'vi' )
                     <span class="total-price">đ
-                        {{ Session::get('cart')['vnd'] - Session::get('cart')['discount_vnd'] }}
+                        {{ $cart['vnd'] - $cart['discount_vnd'] }}
                     </span>
                     @endif
                 </div>
