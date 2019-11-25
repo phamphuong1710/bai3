@@ -103,6 +103,7 @@
                                     <div class="popup-wrapper">
 
                                     </div>
+                                    <span class="close-popup ion-android-close"></span>
                                 </div>
                             </div>
                             <div class="store-list-category">

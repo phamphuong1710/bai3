@@ -41,6 +41,7 @@ class CartController extends Controller
         $request->session()->forget('cart');
         $userId = Auth::id();
         $slug = $request->slug;
+
         if ( $slug ) {
             $cart = $this->cartService->getCartBySlug($slug);
         } else {

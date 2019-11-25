@@ -23,7 +23,7 @@ $(document).ready(function(){
                         '<h4 class="title">Share</h4>' +
                             '<div class="link-share">' +
                             '<span class="text">Copy</span>'+
-                            '<input type="text" class="href" value="' + data.link + '">'+
+                            '<input type="text" readonly="readonly" class="href" value="' + data.link + '">'+
                         '</div>'
                     );
                 } else {
@@ -40,5 +40,15 @@ $(document).ready(function(){
                 alert(xhr.responseText);
             }
         });
-    })
+    });
+
+    $('body').on( 'click', '.close-popup', function () {
+        $('.link-buy-group-popup').removeClass('active');
+        $('#shop-overlay').removeClass('show');
+    } );
+
+    $('body').on( 'click', '#shop-overlay', function () {
+        $('.link-buy-group-popup').removeClass('active');
+        $('#shop-overlay').removeClass('show');
+    } );
 })

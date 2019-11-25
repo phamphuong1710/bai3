@@ -241,7 +241,7 @@
 
                             @else
                                 @foreach( $cart['product'] as $productUser )
-                                    @foreach( $cart['product'] as $productUser )
+                                    @foreach( $productUser as $product )
                                         <li class="mini-cart-item cart-item">
                                             <div class="product-minnicart-info">
                                                 <span class="mincart-product-name">
