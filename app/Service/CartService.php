@@ -160,8 +160,9 @@ class CartService implements CartInterface
     public function addToCart($cart, $productId, $quantity, $userId, $slug = null)
     {
         if ( $slug ) {
-            $cart = $this-
+            $cart = $this->groupAddToCart($cart, $productId, $quantity, $userId, $slug);
         } else {
+
             $cart = $this->nornalAddToCart($cart, $productId, $quantity, $userId);
         }
 
@@ -173,7 +174,6 @@ class CartService implements CartInterface
         if ( $cart ) {
             $cart = $this->getCart($cart);
             $products = $cart['product'];
-
             if ( array_key_exists($productId, $products) ) {
                 $cartDetail = $this->updateCartDetail($cart['id'], $productId, $quantity);
             } else {
@@ -181,6 +181,11 @@ class CartService implements CartInterface
             }
             $currentCart = $this->updateCart($cart['id']);
             $product = $this->getProduct($cartDetail);
+            session()->put('cart.vnd', $currentCart->vnd);
+            session()->put('cart.usd', $currentCart->usd);
+            session()->put('cart.discount_vnd', $currentCart->vnd);
+            session()->put('cart.discount_usd', $currentCart->usd);
+            session()->put('cart.quantity', $currentCart->quantity);
             session()->put('cart.product.' . $productId, $product);
         } else {
             $currentCart = $this->createCart($userId);
@@ -208,37 +213,28 @@ class CartService implements CartInterface
 
     public function groupAddToCart($cart, $productId, $quantity, $userId, $slug)
     {
-        if ( $cart ) {
             $cart = $this->getCart($cart);
             $products = $cart['product'];
 
-            if ( array_key_exists($productId, $products) ) {
-                $cartDetail = $this->updateCartDetail($cart['id'], $productId, $quantity);
+            if ( array_key_exists($userId, $products) ) {
+                $item = $products[$userId];
+                if ( array_key_exists($productId, $item) ) {
+                    $cartDetail = $this->updateCartDetail($cart['id'], $productId, $quantity);
+                } else {
+                    $cartDetail = $this->createCartDetail($cart['id'], $productId, $quantity, $userId);
+                }
             } else {
                 $cartDetail = $this->createCartDetail($cart['id'], $productId, $quantity, $userId);
             }
             $currentCart = $this->updateCart($cart['id']);
             $product = $this->getProduct($cartDetail);
-            session()->put('cart.product.' . $productId, $product);
-        } else {
-            $currentCart = $this->createCart($userId);
-            $cartDetail = $this->createCartDetail($currentCart->id, $productId, $quantity, $userId);
-            $currentCart = $this->updateCart($currentCart->id);
-            $product = $this->getProduct($cartDetail);
-            $data = [
-                'id' => $currentCart->id,
-                'vnd' => $currentCart->vnd,
-                'usd' => $currentCart->usd,
-                'user_id' => $userId,
-                'quantity' => $currentCart->quantity,
-                'discount_vnd' => $currentCart->discount_vnd,
-                'discount_usd' => $currentCart->discount_usd,
-                'product' => [
-                    $cartDetail->id => $product,
-                ]
-            ];
-            session()->put('cart', $data);
-        }
+            session()->put('cart.vnd', $currentCart->vnd);
+            session()->put('cart.usd', $currentCart->usd);
+            session()->put('cart.discount_vnd', $currentCart->vnd);
+            session()->put('cart.discount_usd', $currentCart->usd);
+            session()->put('cart.quantity', $currentCart->quantity);
+            session()->put('cart.product.' . $userId . '.' . $productId, $product);
+
         $cart = session()->get('cart');
 
         return $cart;
@@ -252,13 +248,21 @@ class CartService implements CartInterface
         session()->put('cart.quantity', $cart->quantity);
         session()->put('cart.discount_vnd', $cart->discount_vnd);
         session()->put('cart.discount_usd', $cart->discount_usd);
+        session()->put('cart.store_id', $cart->store_id);
+        session()->put('cart.slug', $cart->slug);
         $detail = $cart->detail;
         session()->put('cart.product', []);
         foreach ($detail as $item) {
             $productId = $item->product_id;
+            $userId = $item->user_id;
+            session()->put('cart.product.' . $userId, []);
             $product = $this->getProduct($item);
             if ( $product ) {
-                session()->put('cart.product.' . $productId, $product);
+                if ( $cart->slug ) {
+                    session()->put('cart.product.' . $userId . '.' . $productId, $product);
+                } else {
+                    session()->put('cart.product.' . $productId, $product);
+                }
             }
         }
         $cart = session()->get('cart');
@@ -279,9 +283,8 @@ class CartService implements CartInterface
     public function getCartBySlug($slug)
     {
         $cart = $this->cartModel->where( 'slug', $slug )->firstOrFail();
-        $cartId = $cart->id;
 
-        return $cartId;
+        return $cart;
     }
 }
 
