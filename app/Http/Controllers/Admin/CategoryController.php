@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 use App\Service\CategoryService;
 use App\Service\UserService;
+use App\Service\MediaService;
 
 class CategoryController extends BaseController
 {
     protected $categoryService;
+    protected $mediaService;
 
-    public function __construct(CategoryService $categoryService, UserService $userService)
+    public function __construct(CategoryService $categoryService, UserService $userService, MediaService $mediaService)
     {
         $this->middleware('auth');
         parent::__construct($userService);
         $this->categoryService = $categoryService;
+        $this->mediaService = $mediaService;
     }
 
     /**
@@ -53,8 +56,11 @@ class CategoryController extends BaseController
     {
         $name = $request->name;
         $parentId = $request->parent_id;
-        $this->categoryService->createCategory($name, $parentId);
+        $category = $this->categoryService->createCategory($name, $parentId);
         $categories = $this->categoryService->allCategory();
+        $logoId = (int) $request->logo_id;
+        $categoryId = $category->id;
+        $logo = $this->mediaService->updateCategoryLogo($logoId, $categoryId);
 
         return redirect()->route('categories.index', compact('categories'));
     }
@@ -101,8 +107,13 @@ class CategoryController extends BaseController
     {
         $name = $request->name;
         $parentId = $request->parent_id;
-        $this->categoryService->updateCategory($id, $name, $parentId);
+        $category = $this->categoryService->updateCategory($id, $name, $parentId);
         $categories = $this->categoryService->allCategory();
+        $logo = (int) $request->logo_id;
+        if (!empty($logo)) {
+            $this->mediaService->updateCategoryLogo($logo, $id);
+            $this->mediaService->deleteOldCategoryLogo($id, $logo);
+        }
 
         return redirect()->route('categories.index', compact('categories'));
     }

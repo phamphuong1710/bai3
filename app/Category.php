@@ -29,4 +29,9 @@ class Category extends Model
     {
         return $this->hasMany('App\Product');
     }
+
+    public function media()
+    {
+        return $this->hasMany('App\Media');
+    }
 }

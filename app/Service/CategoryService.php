@@ -23,6 +23,13 @@ class CategoryService implements CategoryInterface
     public function getCategoryById($id)
     {
         $category = Category::findOrFail($id);
+        if ( $category->media ) {
+            $media = $category->media->where( 'active', 1 )->first();
+            if ( $media ) {
+                $category->logo = $media->image_path;
+                $category->logo_id = $media->id;
+            }
+        }
         if(!$category) abort('404');
 
         return $category;
@@ -51,6 +58,15 @@ class CategoryService implements CategoryInterface
     public function allCategory()
     {
         $categories = Category::orderBy('created_at', 'desc')->paginate(10);
+        foreach ($categories as $index => $category) {
+            if ( $category->media ) {
+                $media = $category->media->where( 'active', 1 )->first();
+                if ( $media ) {
+                    $category->logo = $media->image_path;
+                    $category->logo_id = $media->id;
+                }
+            }
+        }
 
         return $categories;
     }

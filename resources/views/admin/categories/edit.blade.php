@@ -11,6 +11,26 @@
                 <form method="POST" action="/categories/{{ $category->id }}">
                     @method('PUT')
                     @csrf
+                    <div class="logo-content">
+                        <div class="logo-wrapper d-flex justify-content-center">
+                            <img src="{{ url('/') . $category->logo }}" alt="Logo Placeholder">
+                        </div>
+                        <div class="form-group">
+                            <div class="custom d-flex justify-content-center">
+                                <div class="input-file">
+                                    <label for="logo">{{ __('messages.feature_image') }}</label>
+                                    <input type="file" class="custom-file-input form-control @error('logo_id') is-invalid @enderror" id="logo" lang="in" name='logo'>
+                                    @error('logo_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                    <input type="hidden" name="logo_id" class="id-logo form-control" value="{{ $category->logo_id }}">
+                                </div>
+                                <button type="button" class="btn-delete-logo">{{ __('messages.delete') }}</button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('messages.name') }}</label>
                         <div class="col-md-6">
@@ -58,3 +78,9 @@
     </div>
 </div>
 
+@section('js')
+<script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/admin/remove.js') }}"></script>
+<script src="{{ asset('js/admin/create-logo.js') }}"></script>
+<script src="{{ asset('js/admin/delete-logo.js') }}"></script>
+@endsection

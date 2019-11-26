@@ -47,17 +47,16 @@ class MediaService implements MediaInterface
             $file = $fileUpload;
             $extension = $file->getClientOriginalExtension();
             $name = $time . '-' . str_random(5) . '.' . $extension;
-            $smallThumbnail = config('thumbnail.small') . '-' . $name;
-            $smallSize = explode('_', $smallThumbnail);
-            $mediumThumbnail = config('thumbnail.medium') . '-' . $name;
-            $largeThumbnail = config('thumbnail.large') . '-' . $name;
-            $file->move(public_path(config('thumbnail.small_path') . date("/Y/m/d/")), $smallThumbnail);
-            $link = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $name;
-            $smallLink = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $smallThumbnail;
-            $this->createThumbnail($smallLink, $smallSize[0], $smallSize[1]);
-            $images->image_path = $link;
-            $image->user_id = $userId;
-            $images->save();
+            $file->move(public_path(config('thumbnail.path') . date("/Y/m/d/")), $name);
+            $link = public_path() . config('thumbnail.path') . date("/Y/m/d/") . $name;
+            $contents = file_get_contents($link);
+            $this->createThumbnail($name, $contents, config('thumbnail.small'), config('thumbnail.small_path'));
+            $this->createThumbnail($name, $contents, config('thumbnail.medium'), config('thumbnail.medium_path'));
+            $this->createThumbnail($name, $contents, config('thumbnail.large'), config('thumbnail.large_path'));
+            $path = config('thumbnail.path') . date("/Y/m/d/") . $name;
+            $image = new Media();
+            $image->image_path = $path;
+            $image->save();
         }
 
         return $images->image_path;
@@ -73,25 +72,25 @@ class MediaService implements MediaInterface
         return $image;
     }
 
-    public function createLogo($logo, $userId, $storeId = null, $productId = null)
+    public function createLogo($logo, $userId, $storeId = null, $productId = null, $categoryId = null)
     {
         $time = Carbon::now()->timestamp;
         if($logo) {
             $file = $logo;
             $extension = $file->getClientOriginalExtension();
             $name = $time . '-' . str_random(5) . '.' . $extension;
-            $smallThumbnail = config('thumbnail.small') . '-' . $name;
-            $smallSize = explode('_', $smallThumbnail);
-            $mediumThumbnail = config('thumbnail.medium') . '-' . $name;
-            $largeThumbnail = config('thumbnail.large') . '-' . $name;
-            $file->move(public_path(config('thumbnail.small_path') . date("/Y/m/d/")), $smallThumbnail);
-            $link = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $name;
-            $smallLink = public_path() . config('thumbnail.small_path') . date("/Y/m/d/") . $smallThumbnail;
-            $this->createThumbnail($smallLink, $smallSize[0], $smallSize[1]);
+            $file->move(public_path(config('thumbnail.path') . date("/Y/m/d/")), $name);
+            $link = public_path() . config('thumbnail.path') . date("/Y/m/d/") . $name;
+            $contents = file_get_contents($link);
+            $this->createThumbnail($name, $contents, config('thumbnail.small'), config('thumbnail.small_path'));
+            $this->createThumbnail($name, $contents, config('thumbnail.medium'), config('thumbnail.medium_path'));
+            $this->createThumbnail($name, $contents, config('thumbnail.large'), config('thumbnail.large_path'));
+            $path = config('thumbnail.path') . date("/Y/m/d/") . $name;
             $image = new Media();
-            $image->image_path = $link;
+            $image->image_path = $path;
             $image->store_id = $storeId;
             $image->product_id = $productId;
+            $image->category_id = $categoryId;
             $image->user_id = $userId;
             $image->active = 1;
             $image->save();
@@ -183,6 +182,16 @@ class MediaService implements MediaInterface
         return $image;
     }
 
+    // Category
+    public function updateCategoryLogo($id, $categoryId)
+    {
+        $image = Media::findOrFail($id);
+        $image->category_id = $categoryId;
+        $image->save();
+
+        return $image;
+    }
+
     public function getImageByProductId($productId)
     {
         $images = Media::where('product_id', $productId)
@@ -208,6 +217,22 @@ class MediaService implements MediaInterface
     public function deleteOldProductLogo($productId, $id)
     {
         $logos = Media::where('product_id', $productId)
+            ->where('active', 1)
+            ->whereNotIn('id', [$id])
+            ->get();
+        if ( ! empty($logos) ) {
+            foreach ($logos as $logo) {
+                $logo->active = 0;
+                $logo->save();
+            }
+        }
+
+        return true;
+    }
+
+    public function deleteOldCategoryLogo($categoryId, $id)
+    {
+        $logos = Media::where('category_id', $categoryId)
             ->where('active', 1)
             ->whereNotIn('id', [$id])
             ->get();

@@ -43,7 +43,10 @@
                         {{ __('messages.name') }}
                         <i class="fa fa-caret-down sorting desc" data-sort="name"></i>
                     </th>
+                    <th>
+                        Logo
 
+                    </th>
 
                     <th>
                         {{ __('messages.created_at') }}
@@ -56,6 +59,11 @@
                 @foreach( $categories as $category )
                 <tr data-id="{{ $category->id }}">
                     <td><a href="/categories/{{ $category->id }}">{{ $category->name }}</a></td>
+                    <td>
+                        <a href="/categories/{{ $category->id }}">
+                            <img src="{{ url('/') . $category->logo }}" alt="Logo">
+                        </a>
+                    </td>
                     <td>{{ $category->created_at }}</td>
                     <td>
                         <a href="/categories/{{ $category->id }}/edit" class="btn-action btn-edit" data-id="{{$category->id}}" controller="categories">{{ __('messages.edit') }}</a>
@@ -88,4 +96,8 @@
 <script src="{{ asset('js/admin/delete-category.js') }}"></script>
 <script src="{{ asset('js/admin/filter-category.js') }}"></script>
 <script src="{{ asset('js/admin/edit-popup.js') }}"></script>
+<script src="{{ asset('js/admin/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/admin/remove.js') }}"></script>
+<script src="{{ asset('js/admin/create-logo.js') }}"></script>
+<script src="{{ asset('js/admin/delete-logo.js') }}"></script>
 @endsection

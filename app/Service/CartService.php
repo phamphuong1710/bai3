@@ -213,34 +213,32 @@ class CartService implements CartInterface
 
     public function groupAddToCart($cart, $productId, $quantity, $userId, $slug)
     {
-            $cart = $this->getCart($cart);
-            $products = $cart['product'];
-            $newProduct = $this->productModel->find($productId);
-            if ( $cart->store_id == $newProduct->store ) {
-                if ( array_key_exists($userId, $products) ) {
-                    $item = $products[$userId];
-                    if ( array_key_exists($productId, $item) ) {
-                        $cartDetail = $this->updateCartDetail($cart['id'], $productId, $quantity);
-                    } else {
-                        $cartDetail = $this->createCartDetail($cart['id'], $productId, $quantity, $userId);
-                    }
+        $storeId = $cart->store_id;
+        $cart = $this->getCart($cart);
+        $products = $cart['product'];
+        $newProduct = $this->productModel->findOrFail($productId);
+        if ( $storeId == $newProduct->store_id ) {
+            if ( array_key_exists($userId, $products) ) {
+                $item = $products[$userId];
+                if ( array_key_exists($productId, $item) ) {
+                    $cartDetail = $this->updateCartDetail($cart['id'], $productId, $quantity);
                 } else {
                     $cartDetail = $this->createCartDetail($cart['id'], $productId, $quantity, $userId);
                 }
-                $currentCart = $this->updateCart($cart['id']);
-                $product = $this->getProduct($cartDetail);
-                session()->put('cart.vnd', $currentCart->vnd);
-                session()->put('cart.usd', $currentCart->usd);
-                session()->put('cart.discount_vnd', $currentCart->vnd);
-                session()->put('cart.discount_usd', $currentCart->usd);
-                session()->put('cart.quantity', $currentCart->quantity);
-                session()->put('cart.product.' . $userId . '.' . $productId, $product);
             } else {
-                abort('404');
+                $cartDetail = $this->createCartDetail($cart['id'], $productId, $quantity, $userId);
             }
-
-
-
+            $currentCart = $this->updateCart($cart['id']);
+            $product = $this->getProduct($cartDetail);
+            session()->put('cart.vnd', $currentCart->vnd);
+            session()->put('cart.usd', $currentCart->usd);
+            session()->put('cart.discount_vnd', $currentCart->vnd);
+            session()->put('cart.discount_usd', $currentCart->usd);
+            session()->put('cart.quantity', $currentCart->quantity);
+            session()->put('cart.product.' . $userId . '.' . $productId, $product);
+        } else {
+            abort('404');
+        }
         $cart = session()->get('cart');
 
         return $cart;

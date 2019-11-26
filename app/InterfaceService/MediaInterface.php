@@ -16,7 +16,7 @@ interface MediaInterface {
 
     public function createVideoImage($url, $userId);
 
-    public function createLogo($logo, $userId, $storeId = null, $productId = null);
+    public function createLogo($logo, $userId, $storeId = null, $productId = null, $categoryID = null);
 
     public function getLogoByStoreId($storeId);
 
